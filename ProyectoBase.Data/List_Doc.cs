@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProyectoBase.Data
+{
+    public class List_Doc
+    {
+        ManejoDatos b = new ManejoDatos();
+        public List<Models.List_Doc> SP_ListarDocumentos(Models.List_Doc listarDoc)
+        {
+            b.ExecuteCommandSP("SP_ListarDocumentos");
+            b.AddParameter("@IdSesion", listarDoc.IdSesion, SqlDbType.VarChar);
+
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    Version = reader["Version"].ToString(),
+                    Descripcion = reader["Descripcion"].ToString(),
+                    FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
+                    //NClaA = reader["NClaA"].ToString(),
+                    //Sub = reader["Sub"].ToString(),
+
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        } 
+        public List<Models.List_Doc> SP_RegistroDelete()
+        {
+            b.ExecuteCommandSP("SP_RegistroDelete");
+
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    Nombre = reader["Documento"].ToString(),
+                    NombreUsuario = reader["Nombre"].ToString(),
+                    FechaEntradaVigor = reader["Fecha"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public List<Models.List_Doc> SP_SeleccionarPorId(Models.List_Doc list_DocID)
+        {
+            b.ExecuteCommandSP("SP_SeleccionarPorId");
+            b.AddParameter("@Id", list_DocID.Id, SqlDbType.VarChar);
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    Version = reader["Version"].ToString(),
+                    NmArchivo = reader["NmArchivo"].ToString(),
+                    Descripcion = reader["Descripcion"].ToString(),
+                    Registrado = reader["Registrado"].ToString(),
+                    FechaVigor = reader["FechaVigor"].ToString(),
+                    Estatus = reader["Estatus"].ToString(),
+                    Clasificacion = reader["Clasificacion"].ToString(),
+                    TipoDocumento = reader["TipoDocumento"].ToString(),
+                    
+                   
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+    }
+}

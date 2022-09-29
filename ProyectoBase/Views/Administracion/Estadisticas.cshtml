@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "Estadisticas";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"> <i class="fa fa-pie-chart"></i>   Estadisticas</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Estadisticas </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+
+
+            <div class="row">
+                <!-- Registro eliminacion -->
+                <div class="col-xl-7 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Registro de documentos eliminados</h5>
+
+                        </div>
+                        <div class="p-15">
+                            <div class="table-responsive">
+                                <table id="Tliminacion" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Documento</th>
+                                            <th class="text-center">Usuario</th>
+                                            <th class="text-center">Fecha de eliminación</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.listadoDelete)
+                                        {
+
+                                            <tr>
+                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                <td class="text-center">@item.NombreUsuario</td>
+                                                <td class="text-center">@item.FechaEntradaVigor</td>
+                                            </tr>
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRAFICO -->
+                <div class="col-xl-5 col-md-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Estadistica General de documentos compartidos</h4>
+                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
+                                </div>
+
+                                <canvas id="pie-chart" width="400" height="200"></canvas>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-xl-7 col-md-12">
+                    <div class="card">
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Documentos en el sistema</h4>
+                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
+                                </div>
+
+                                <canvas id="grafica"></canvas>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Page-body end -->
+    </div>
+</div>
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $('#Tliminacion').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+    });
+
+
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#estadisticas').addClass("active");
+</script>
+
+<script>
+      var data = [{
+      data: [@ViewBag.Visto ,@ViewBag.NVisto],
+
+      backgroundColor: [
+        "rgba(230,181,102,0.2)",
+        "rgba(229,112,126,0.2)"
+
+      ],
+          borderColor: [
+              'rgba(230,181,102,1)',
+              'rgba(229,112,126,1)',
+          ]
+    }];
+        var options = {
+      tooltips: {
+        enabled: true
+      },
+      plugins: {
+        datalabels: {
+          formatter: (value, ctx) => {
+
+            let sum = ctx.dataset._meta[0].total;
+            let percentage = (value * 100 / sum).toFixed(0) + "%";
+            return percentage;
+
+
+          },
+          color: '#fff',
+        }
+      }
+        };
+        var ctx = document.getElementById("pie-chart").getContext('2d');
+        var myChart = new Chart(ctx, {
+        type: 'pie',
+      data: {
+      labels: ['Vistos', 'Pendientes'],
+        datasets: data
+      },
+      options: options
+});
+</script>
+
+
+<script>
+    // Obtener una referencia al elemento canvas del DOM
+    const $grafica = document.querySelector("#grafica");
+    // Las etiquetas son las que van en el eje X. 
+    const etiquetas = ["Enero", "Febrero", "Marzo", "Abril"]
+    // Podemos tener varios conjuntos de datos. Comencemos con uno
+    const datosVentas2020 = {
+        label: "Ventas por mes",
+        data: [5000, 1500, 8000, 5102], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
+        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
+        borderWidth: 1,// Ancho del borde
+    };
+    new Chart($grafica, {
+        type: 'bar',// Tipo de gráfica
+        data: {
+            labels: etiquetas,
+            datasets: [
+                datosVentas2020,
+                // Aquí más datos...
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+            },
+        }
+    });
+</script>

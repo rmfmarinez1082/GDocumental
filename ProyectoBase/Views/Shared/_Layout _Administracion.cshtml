@@ -1,0 +1,478 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Gobierno Corporativo Documental</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
+    <meta name="author" content="codedthemes" />
+    <!-- Favicon icon -->
+    <link rel="icon" href="~/Images/icons/ico.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="~/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="~/assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/jquery.mCustomScrollbar.css">
+    <script src="~/Vendor/chart.js/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+</head>
+
+<body>
+    <!-- Pre-loader start -->
+    <div class="theme-loader">
+        <div class="loader-track">
+            <div class="preloader-wrapper">
+                <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+                <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+
+                <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Pre-loader end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+            <nav class="navbar header-navbar pcoded-header">
+                <div class="navbar-wrapper">
+                    <div class="navbar-logo">
+                        <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                            <i class="ti-menu"></i>
+                        </a>
+                        <div class="mobile-search waves-effect waves-light">
+                            <div class="header-search">
+                                <div class="main-search morphsearch-search">
+                                    <div class="input-group">
+                                        <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                        <input type="text" class="form-control" placeholder="Enter Keyword">
+                                        <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/Administracion/PrincipalA">
+                            <h5>Asae Consultores</h5>
+                            @*<img class="img-fluid" src="~/Images/icons/asaelogo.png" alt="Theme-Logo" />*@
+                        </a>
+                        <a class="mobile-options waves-effect waves-light">
+                            <i class="ti-more"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-container container-fluid">
+                        <ul class="nav-left">
+                            <li>
+                                <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a></div>
+                            </li>
+                            @*<li class="header-search">
+                                    <div class="main-search morphsearch-search">
+                                        <div class="input-group">
+                                            <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                            <input type="text" class="form-control">
+                                            <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                        </div>
+                                    </div>
+                                </li>*@
+                            <li>
+                                <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
+                                    <i class="ti-fullscreen"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav-right">
+                            <li class="header-notification">
+                                <a href="#!" class="waves-effect waves-light">
+                                    <i class="ti-bell"></i>
+                                    <span class="badge bg-c-red"></span>
+                                </a>
+
+                                @*Area Notificaciones*@
+                                <ul class="show-notification">
+                                    <li>
+                                        <h6>Notificaciones</h6>
+                                        <label class="label label-danger">Nuevas</label>
+                                    </li>
+
+                                    @*Listado Notificacion*@
+                                    @foreach (var item in ViewBag.lisnotifi)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                            <a onclick="doc(@item.IdDocumento);">
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Nuevo documento compartido</h5>
+                                                        <p class="notification-msg">@item.Documento</p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </li>
+                            <li class="user-profile header-notification">
+                                <a href="#!" class="waves-effect waves-light">
+                                    <img src="../Images/Headers/user4.png" class="img-radius" alt="User-Profile-Image">
+                                    <span> @ViewBag.Nombre</span>
+                                  
+                                    <i class="ti-angle-down"></i>
+                                </a>
+                                <ul class="show-notification profile-notification">
+                                    <li class="waves-effect waves-light">
+                                        <a href="#" onclick="CerrarSesion();">
+                                            <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="pcoded-main-container">
+                <div class="pcoded-wrapper">
+                    <nav class="pcoded-navbar">
+                        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                        <div class="pcoded-inner-navbar main-menu">
+                            <div class="">
+                                <div class="main-menu-header">
+                                    <img class="img-80 img-radius" src="../Images/Headers/user4.png" alt="User-Profile-Image">
+                                    <div class="user-details">
+                                        <span id="more-details"> @ViewBag.Nombre<i class="fa fa-caret-down"></i></span>
+                                        <span>@ViewBag.Rol</span>
+                                    </div>
+                                </div>
+
+                                <div class="main-menu-content">
+                                    <ul>
+                                        <li class="more-details">
+                                            <a href="#" onclick="CerrarSesion();"><i class="ti-layout-sidebar-left"></i>Cerrar Sesión</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="p-15 p-b-0">
+                                <form class="form-material">
+                                    <div class="form-group form-primary">
+                                        <input type="text" name="footer-email" class="form-control" required="">
+                                        <span class="form-bar"></span>
+                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li id="IdMenuDashboard">
+                                    <a href="/Administracion/PrincipalA" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+
+                                <li class="pcoded-hasmenu" id="menuDocumentos">
+                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="fa fa-file-text"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Documentos</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class=" " id="agregardoc">
+                                            <a href="/Documentos/NuevoDocumento" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar Documentos</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li class=" " id="visaulizarDocumento">
+                                            <a href="/Documentos/VisualizarDocumento" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Mis Documentos</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        <li class=" " id="DocumentoCompartido">
+                                            <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3) {
+
+                                    <li class="pcoded-hasmenu" id="IdAdministrador">
+                                        <a href="#" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="fa fa-bar-chart"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Administrador</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+
+                                        <ul class="pcoded-submenu">
+                                            <li class=" " id="estadisticas">
+                                                <a href="/Administracion/Estadisticas" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Estadisticas</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li class=" " id="registrar">
+                                                <a href="/Administracion/Registrar" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Registrar Usuarios</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                 }
+
+                                <li class="">
+                                    <a onclick="VerAyuda();">
+                                        <span class="pcoded-micon"><i class="fa fa-question-circle-o f-20" aria-hidden="true"></i></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Ayuda</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </nav>
+                    <div class="pcoded-content">
+
+
+                        @RenderBody()
+
+                    </div>
+
+
+                    <!-- Main-  end -->
+                    <div id="styleSelector">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* Modal Ayuda *@
+    <div class="modal fade" id="ModalAyuda" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Ayuda</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height:420px;">
+
+                    <div class="col-md-12">
+
+                        <div class="row">
+
+                            <div class="col-md-12" style="height:420px;">
+
+                                <!--pantalla de visualización-->
+                                <div style="width: 100%; height: 100%">
+                                    <!--documento aquí-->
+                                    <iframe id="iframepdf" src="/Documentos/ManualGD.pdf#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0"></iframe>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Warning Section Ends -->
+    <!-- Required Jquery -->
+    <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js "></script>
+    <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js "></script>
+    <script type="text/javascript" src="~/assets/pages/widget/excanvas.js "></script>
+    <!-- waves js -->
+    <script src="~/assets/pages/waves/js/waves.min.js"></script>
+    <!-- jquery slimscroll js -->
+    <script type="text/javascript" src="~/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+    <!-- modernizr js -->
+    <script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+    <script src="~/assets/js/pcoded.min.js"></script>
+    <script src="~/assets/js/vertical-layout.min.js "></script>
+    <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/vendor/sweetalert/sweetalert.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                content: function () {
+                    return $('#primary-popover-content').html();
+                }
+            });
+        });
+
+          function CerrarSesion() {
+            swal({
+              title: "Confirmación de cierre de sesión",
+              text: "Deseas cerrar tu sesión!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+
+                if (willDelete) {
+                    $.ajax({
+                        url: "@Url.Action("CerrarSesion", "Home")",
+                        type: "POST",
+                        data: '',
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: function (response) {
+                            swal({
+                                title: "Algo ocurrió !",
+                                text: "Ha ocurrido un problema, inténtalo mas tarde ",
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        },
+                        success: function (response) {
+                            if (response.IdRol != 0) {
+                                swal({
+                                    title: "Sesión terminada !",
+                                    text: response.Nombre + " " + response.Apellidos + " regresa pronto !",
+                                    icon: "success",
+                                    button: "Aceptar",
+                                })
+                                .then((value) => {
+                                    window.location.href = "@Url.Action("Index", "Home")";
+                                });
+                            }
+                        }
+                    });
+
+                }
+            });
+          }
+
+        function VerAyuda() {
+
+            $('#ModalAyuda').modal('show');
+/*            SeleccionarPorId(id);*/
+
+        }
+
+        function doc(documento) {
+            window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + documento;
+        }
+
+
+
+        /* bloqueo de pantalla*/
+
+        //const app = document.getElementById('app');
+
+        //window.onload = function () {
+        //    document.addEventListener("contextmenu", function (e) {
+        //        e.preventDefault();
+        //    }, false);
+        //}
+    </script>
+    <!-- Custom js -->
+    <script type="text/javascript" src="~/assets/js/script.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+
+
+
+</body>
+
+
+</html>

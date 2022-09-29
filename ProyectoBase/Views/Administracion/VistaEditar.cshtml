@@ -1,0 +1,870 @@
+﻿
+@{
+    ViewBag.Title = "VistaEditar";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-pencil" aria-hidden="true"></i>  Edición de documento</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalU"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Edición de documento</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Información del Documento: </h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                    <span>Edita la información del documento que deseas cambiar</span>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h3>Descripción </h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Nombre (titulo): </label>
+                                                <input id="NombreDocumento" type="text" onkeyup="countChars(this)"; class="form-control form-control" value="@ViewBag.nombredoc">
+                                                <p id="charNum"></p>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Versión: </label>
+                                                <input id="Version" type="number" class="form-control form-control" value="@ViewBag.version">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Tipo Documento </label>
+                                                <select class="form-control" id="TipoDocumento" onchange="ValidaSelect('TipoDocumento')">
+                                                    <option value="0">Seleccionar</option>
+                                                    @foreach (var item1 in ViewBag.dtTipoDocumentos)
+                                                    {
+                                                        if (ViewBag.dtTipoDocumento == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                        }
+
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Palabra Clave </label>
+                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" value="@ViewBag.PalabraClave">
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Descripcion: </label>
+                                                <textarea id="Descripcion" class="form-control">@ViewBag.Descripcion</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h3>Control</h3>
+                                    </div>
+                                </div>
+
+
+                                <div class="card-block">
+                                    @*FECHAS*@
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Fecha Revision: </label>
+                                                <input id="FechaRevision" type="date" class="form-control form-control" value="@ViewBag.FechaRevision">
+
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Fecha Publicacion	: </label>
+                                                <input id="FechaPublicacion" type="date" class="form-control form-control" value="@ViewBag.FechaPublicacion">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Fecha Entrada en vigor: </label>
+                                                <input id="FechaEntradaVigor" type="date" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Fecha Proxima Revisión: </label>
+                                                <input id="FechaProximaRevision" type="date" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Fecha Vencimiento	: </label>
+                                                <input id="FechaVencimiento" type="date" class="form-control form-control" value="@ViewBag.FechaVencimiento">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h3>Distribución</h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Tipo Archivo </label>
+                                                <select class="form-control" id="Select_TipoArchivo">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtTipoArchivo)
+                                                    {
+                                                        if (ViewBag.IdTipoArchivo == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected> @item1.Extension </option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id"> @item1.Extension </option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Almacenamiento </label>
+                                                <select class="form-control" id="Select_MedioAlmacenamiento">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtAlmacenamiento)
+                                                    {
+                                                        if (ViewBag.IdMedioAlmacenamiento == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected> @item1.Nombre </option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id"> @item1.Nombre </option>
+                                                        }
+
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h3>Clasificación de Archivo</h3>
+                                    </div>
+                                </div>
+
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        @*Clasificacion carpetas*@
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="form-group">
+
+
+                                                <label for="largeInput">Clas.Archivo</label>
+                                                <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtClasificacionArchivo)
+                                                    {
+                                                        if (ViewBag.IdClasificacionArchivo == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <br />
+                                                @*<button id="AClas" class="btn-dark" onclick="Crearclas();">Agregar Clasificación </button>*@
+                                            </div>
+                                        </div>
+
+                                        @*SubClasificacion carpetas*@
+                                        <div class="col-md-4 col-lg-4" id="subcarpeta">
+                                            <div class="form-group">
+
+
+                                                <label for="largeInput">SubClas.Archivo</label>
+                                                <select disabled class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtsubClasificacionArchivo)
+                                                    {
+                                                        if (ViewBag.IdSubclasificacionArchivo == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                        }
+
+
+                                                    }
+
+                                                </select>
+                                                <br />
+                                                @*<button id="ASclas" class="btn-dark" onclick="CrearSubclas();">Agregar Sub Clasificación</button>*@
+                                                <br /> <br />
+                                            </div>
+                                        </div>
+
+                                        @*3er carpetas*@
+                                        <div class="col-md-4 col-lg-4" id="subcarpeta3">
+                                            <div class="form-group">
+
+                                                <label for="largeInput">Subclas 3</label>
+                                                <select disabled class="form-control" id="Select3">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtsubClasificacionArchivo)
+                                                    {
+                                                        if (ViewBag.IdNombre3 == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                        }
+
+
+                                                    }
+
+                                                </select>
+                                                <br />
+                                                @*<button id="ASclas" class="btn-dark" onclick="CrearSubclas();">Agregar Sub Clasificación</button>*@
+                                                <br /> <br />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4">
+                                            <div class="form-group">
+                                                <label for="largeInput">*Clasificación </label>
+                                                <select class="form-control" id="Clasificacion">
+                                                    <option value="0">Seleccionar </option>
+                                                    @foreach (var item1 in ViewBag.dtClasificacion)
+                                                    {
+                                                        if (ViewBag.IdClasificacion == item1.Id)
+                                                        {
+                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                        }
+
+
+                                                    }
+                                                </select>
+
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-md-6 offset-md-3">
+                                            <button class="btn waves-effect waves-light btn-success" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
+                                            <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-xl-6 col-md-12">
+                            <div class="card table-card">
+                                <div class="card-header">
+                                    <h5>@ViewBag.nombredoc</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col-md-12 text-left">
+                                            <div style="width: 100%; height: 600px">
+                                                <iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function Guardar(id) {
+
+        $("#BtnGuardar").prop('disabled', true);
+
+        var obj = {};
+        obj['Id'] = id;
+        obj['Nombre'] = $("#NombreDocumento").val();
+        obj['PalabraClave'] = $("#PalabraClave").val();
+
+        obj['FechaRevision'] = $("#FechaRevision").val();
+        obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
+        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+
+        obj['Descripcion'] = $("#Descripcion").val();
+        obj['Version'] = $("#Version").val();
+
+        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+        obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
+        obj['IdSubclasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+        obj['IdNombre3'] = $("#Select3 option:selected").val();
+
+
+        var jsonObject = {
+            "Adoc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("DocumentoActualizar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                swal({
+                    title: "Documento Actualizado !",
+                    text: " ",
+                    icon: "success",
+                    button: "Aceptar",
+                }).then((value) => {
+                    window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
+                });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+
+        });
+
+        $("#BtnGuardar").prop('disabled', false);
+        };
+
+        function ConsultaSubClasificacion(Id) {
+            $('#SubClasificacionArchivo').empty();
+            $('#Select3').empty();
+            document.getElementById("SubClasificacionArchivo").disabled = false;
+
+            var obj = {};
+            obj['Id'] = Id;
+            var jsonObject = {
+                "Cat_ClasificacionArchivo": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
+                type: "POST",
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function (resultado) {
+
+                    var option = $(document.createElement('option'));
+                    option.text("Seleccionar");
+                    option.val(0);
+
+                    $("#SubClasificacionArchivo").append(option);
+                },
+                success: function (resultado) {
+
+                    var option = $(document.createElement('option'));
+
+                    option.text("Seleccionar");
+                    option.val(0);
+                 
+                    $("#SubClasificacionArchivo").append(option);
+               
+
+                    $(resultado).each(function () {
+                        var option = $(document.createElement('option'));
+                        option.text(this.Nombre);
+                        option.val(this.Id);
+
+                        $("#SubClasificacionArchivo").append(option);
+                    });
+
+                    var option = $(document.createElement('option'));
+
+                    option.text("Seleccionar");
+                    option.val(0);
+
+                    $("#Select3").append(option);
+
+                }
+            });
+        }
+
+        function Consulta3er(Id) {
+        $('#Select3').empty();
+
+         document.getElementById("Select3").disabled = false;
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = {
+            "Cat_ClasificacionArchivo": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
+            type: "POST",
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (resultado) {
+
+                var option = $(document.createElement('option'));
+                option.text("Seleccionar");
+                option.val(0);
+
+                $("#Select3").append(option);
+            },
+            success: function (resultado) {
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Select3").append(option);
+
+                $(resultado).each(function () {
+                    var option = $(document.createElement('option'));
+                    option.text(this.Nombre);
+                    option.val(this.Id);
+
+                    $("#Select3").append(option);
+                });
+            }
+        });
+    }
+
+        /*SCRIPS Validación*/
+
+        function validarFechaRevision() {
+
+            var result = false;
+
+            if ($('#FechaRevision').val() <= $('#FechaPublicacion').val()) {
+
+                if ($('#FechaRevision').val() < $('#FechaEntradaVigor').val()) {
+
+                    if ($('#FechaRevision').val() < $('#FechaVencimiento').val()) {
+
+                        var result = true;
+
+                    } else {
+
+                        swal({
+                            title: "La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.",
+                            text: '',
+                            icon: "error",
+                            button: "Aceptar",
+                        });
+
+
+
+                    }
+                } else {
+
+                    swal({
+                        title: "La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.",
+                        text: '',
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+
+                }
+            } else {
+
+                swal({
+                    title: "La FechaRevisión debe ser menor a la Fecha de Publicación.",
+                    text: '',
+                    icon: "error",
+                    button: "Aceptar",
+                });
+
+
+            }
+
+            return result;
+        }
+        function validarFechaPublicacion() {
+
+            var result = false;
+
+            if ($('#FechaPublicacion').val() >= $('#FechaRevision').val()) {
+
+                if ($('#FechaPublicacion').val() < $('#FechaEntradaVigor').val()) {
+
+                    if ($('#FechaPublicacion').val() < $('#FechaVencimiento').val()) {
+
+                        var result = true;
+                    } else {
+
+                        swal({
+                            title: "La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.",
+                            text: '',
+                            icon: "error",
+                            button: "Aceptar",
+                        });
+                    }
+                } else {
+
+                    swal({
+                        title: "La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.",
+                        text: '',
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                }
+            } else {
+
+                swal({
+                    title: "La Fecha Publicación debe ser mayor a la Fecha de Revisión.",
+                    text: '',
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            }
+
+            return result;
+        }
+        function validarFechadeentradaenvigor() {
+
+            var result = false;
+
+            if ($('#FechaEntradaVigor').val() > $('#FechaRevision').val()) {
+
+                if ($('#FechaEntradaVigor').val() > $('#FechaPublicacion').val()) {
+
+                    if ($('#FechaEntradaVigor').val() < $('#FechaVencimiento').val()) {
+
+                        var result = true;
+                    } else {
+
+                        swal({
+                            title: "La Fecha de entrada envigor debe ser menor a la FechaVencimiento.",
+                            text: '',
+                            icon: "error",
+                            button: "Aceptar",
+                        });
+                    }
+                } else {
+
+                    swal({
+                        title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.",
+                        text: '',
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                }
+            } else {
+
+                swal({
+                    title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.",
+                    text: '',
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            }
+
+            return result;
+        }
+        function validarFechaVencimiento() {
+
+            var result = false;
+
+            if ($('#FechaVencimiento').val() > $('#FechaRevision').val()) {
+
+                if ($('#FechaVencimiento').val() > $('#FechaPublicacion').val()) {
+
+                    if ($('#FechaVencimiento').val() > $('#FechaEntradaVigor').val()) {
+
+                        var result = true;
+                    } else {
+
+                        swal({
+                            title: "La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.",
+                            text: '',
+                            icon: "error",
+                            button: "Aceptar",
+                        });
+                    }
+                } else {
+
+                    swal({
+                        title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.",
+                        text: '',
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                }
+            } else {
+
+                swal({
+                    title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.",
+                    text: '',
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            }
+
+            return result;
+        }
+        function validarFechaProximaRevision() {
+
+            var result = false;
+
+            if ($('#FechaProximaRevision').val() < $('#FechaVencimiento').val()) {
+
+                if ($('#FechaProximaRevision').val() > $('#FechaPublicacion').val()) {
+
+                    var result = true;
+
+                } else {
+
+                    swal({
+                        title: "La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación",
+                        text: '',
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                }
+            } else {
+
+                swal({
+                    title: "La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.",
+                    text: '',
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            }
+
+            return result;
+        }
+
+        function validatodasfechas() {
+
+            if (validarFechaRevision()) {
+
+                if (validarFechaPublicacion()) {
+
+                    if (validarFechadeentradaenvigor()) {
+
+                        if (validarFechaVencimiento()) {
+
+                            if (validarFechaProximaRevision()) {
+
+                                Guardar(@ViewBag.Id)
+
+                            } else {
+                                $.notify({
+                                    icon: 'fa fa-paw',
+                                    message: "Completa el formulario.",
+                                }, {
+                                    type: 'warning',
+                                    allow_dismiss: false,
+                                    animate: {
+                                        enter: 'animated rollIn',
+                                        exit: 'animated rollOut'
+                                    }
+                                });
+                            }
+
+
+
+                        } else {
+
+                            $.notify({
+                                icon: 'fa fa-paw',
+                                message: "Completa el formulario.",
+                            }, {
+                                type: 'warning',
+                                allow_dismiss: false,
+                                animate: {
+                                    enter: 'animated rollIn',
+                                    exit: 'animated rollOut'
+                                }
+                            });
+                        }
+
+                    } else {
+
+                        $.notify({
+                            icon: 'fa fa-paw',
+                            message: "Completa el formulario.",
+                        }, {
+                            type: 'warning',
+                            allow_dismiss: false,
+                            animate: {
+                                enter: 'animated rollIn',
+                                exit: 'animated rollOut'
+                            }
+                        });
+                    }
+
+                } else {
+
+                    $.notify({
+                        icon: 'fa fa-paw',
+                        message: "Completa el formulario.",
+                    }, {
+                        type: 'warning',
+                        allow_dismiss: false,
+                        animate: {
+                            enter: 'animated rollIn',
+                            exit: 'animated rollOut'
+                        }
+                    });
+                }
+
+            } else {
+
+                $.notify({
+                    icon: 'fa fa-paw',
+                    message: "Completa el formulario.",
+                }, {
+                    type: 'warning',
+                    allow_dismiss: false,
+                    animate: {
+                        enter: 'animated rollIn',
+                        exit: 'animated rollOut'
+                    }
+                });
+            }
+        }
+
+        /*Conteo caracteres*/
+        function countChars(obj) {
+            var maxLength = 150;
+            var strLength = obj.value.length;
+            var charRemain = (maxLength - strLength);
+
+            if (charRemain < 0) {
+                document.getElementById("charNum").innerHTML = '<span style="color: red;">Has superado el límite de ' + maxLength + ' carácteres</span>';
+            } else {
+                document.getElementById("charNum").innerHTML = charRemain + ' Carácteres restantes';
+            }
+        }
+    </script>
+
+    <script src="~/assets/js/jquery/jquery.min.js"></script>
+    <script>
+        $('#menuDocumentos').addClass("active pcoded-trigger");
+        $('#visaulizarDocumento').addClass("active");
+    </script>

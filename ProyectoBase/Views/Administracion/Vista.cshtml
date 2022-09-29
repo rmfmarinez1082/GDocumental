@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Vista";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-search" aria-hidden="true"></i>  Vista Previa</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalU"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Vista Previa</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Información del Documento: </h5>
+                                    <label id="IdNotificacion"></label>
+                                    <label id="IdDocumento"></label>
+                                    <span>Observa la información de tu documento</span>
+                                </div>
+
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Nombre: </label>
+                                                <input type="text" class="form-control form-control" value="@ViewBag.nombredoc" disabled>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Descripcion: </label>
+                                                <textarea class="form-control" aria-label="With textarea" disabled>@ViewBag.Descripcion</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="largeInput">* Versión: </label>
+                                                <input type="text" class="form-control form-control" value="@ViewBag.version" disabled>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card table-card">
+                                <div class="card-header">
+                                    <h5>@ViewBag.nombredoc</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col-md-12 text-left">
+                                            <div style="width: 100%; height: 900px">
+                                                <!--documento aquí-->
+                                                <iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" style="pointer-events: none " scrolling="yes"></iframe>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#DocumentoCompartido').addClass("active");
+</script>

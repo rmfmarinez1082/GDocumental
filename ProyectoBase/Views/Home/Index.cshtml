@@ -1,0 +1,248 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<!-- Top content -->
+<div class="top-content">
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+                    <div class="card card-plain mt-8">
+                        <div class="card-header pb-0 text-left bg-transparent">
+                            <h1>Gobierno Corporativo Documental</h1>
+                            <br />
+                            <h3 class="font-weight-bolder text-info text-gradient"><strong>Bienvenido</strong></h3>
+                            <p class="mb-0">
+                                Iniciar sesión con tu   <strong> usuario y contraseña !</strong>
+                                <br />
+                        </div>
+                        <div class="card-body">
+                            <form role="form">
+                                <label>Email</label>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" onKeyUp="CorreofrM('EmailLogin')" placeholder="Email " id="EmailLogin" aria-label="Email" aria-describedby="email-addon">
+                                </div>
+                                <label>Password</label>
+                                <div class="mb-3">
+                                    <input class="form-control" type="password" name="Password" placeholder="Password " id="Password" aria-label="Password" aria-describedby="password-addon">
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="SesionCheck" id="primary">
+                                    <label class="form-check-label" for="primary">Recordar contraseña</label>
+                                </div>
+                                <div class="text-center">
+                                    <div id='alertBoxes'></div><span class='timer' id='timer'></span>
+                                </div>
+                                <div class="text-center">
+                                    <a id="BtnRegistrar" class="btn bg-gradient-info2 w-100 mt-4 mb-0" style="color:#FFF">Iniciar sesión </a>
+                                </div>
+
+                                <div class="text-center">
+                                    <a href="#" class="btn bg-gradient-info3 w-100 mt-4 mb-0">Registrar </a>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                            <p class="mb-4 text-sm mx-auto">
+                                ¿No recuerdas tu contraseña?,
+                                <a href="#" class="text-info text-gradient font-weight-bold"> Recuperar</a>
+                            </p>
+                            <p>
+                                Al inciar sesión estás aceptando los  <br /> <a href="#" class="text-info text-gradient font-weight-bold"><strong>Términos y condiciones de Uso </strong></a>
+
+                            </p>
+                            <br /><br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
+                        <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image: url('../Images/Headers/7.jpeg') "></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/Vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        var timeSlide = 500;
+        $('#timer').hide(0);
+        $('#timer').css('display', 'none');
+        $('#BtnRegistrar').click(function () {
+            $('.box-success,.box-error').slideUp(timeSlide);
+            setTimeout(function () {
+                if (validaLogin() == "ok") {
+                   $('#timer').fadeOut(300);
+                    $('#alertBoxes').html('<div class="box-error"></div>');
+                    $('.box-error').hide(0).html("Enviado <img src='/images/icons/loading.gif' width='20px' height='20px'/>");
+                    $('.box-error').slideDown(timeSlide);
+
+                    var Session = false;
+
+                    if ($('input:checkbox[name=SesionCheck]:checked').val()) {
+                        Session = true;
+                    }
+
+                    var obj = {};
+
+                    obj['Email'] = $('#EmailLogin').val();;
+                    obj['Password'] = $('#Password').val();
+                    obj['Ruta'] = '@ViewBag.rd';
+                    obj['RutaCompleta'] = '@ViewBag.cf';
+                    obj['RutaAcceso'] = '@ViewBag.rdv';
+                    obj['Session'] = Session;
+
+                    var jsonObject = {
+                        "Usuarios": obj
+                    };
+
+                    $.ajax({
+                        url: "@Url.Action("IniciarSesion", "Home")",
+                        type: "POST",
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        error: function (response) {
+                            $('#timer').fadeOut(300);
+                            $('#alertBoxes').html('<div class="box-error"></div>');
+                            $('.box-error').hide(0).html('');
+                            $('.box-error').slideDown(timeSlide);
+
+                            swal({
+                              title: "Algo ocurrió !",
+                              text: "Ha ocurrido un problema, inténtalo mas tarde ",
+                              icon: "warning",
+                              button: "Aceptar",
+                            });
+                        },
+                        success: function (response) {
+                            $('#timer').fadeOut(300);
+                            $('#alertBoxes').html('<div class="box-error"></div>');
+                            $('.box-error').hide(0).html('');
+                            $('.box-error').slideDown(timeSlide);
+
+                            switch (response.IdRol) {
+                                case -1:
+                                    swal({
+                                        title: "¡Tu usuario un no está activado! ",
+                                        text: "Se envió un correo a  " + $('#EmailLogin').val() + "  para activar tu usuario. \n\n ¿Deseas que volvamos a mandar un correo de confirmación de usuario?. \n\n Si no recibes el correo electrónico de verificación, \n\n  es posible que se encuentre en la carpeta Spam o correo no deseado.",
+                                        icon: "warning",
+                                        buttons: true,
+                                        dangerMode: true,
+                                        buttons: ["Cancelar", "Enviar correo"],
+                                    })
+                                        .then((willDelete) => {
+                                            if (willDelete) {
+                                                alert('metodo de envio de correo');
+                                            }
+                                        });
+                                    break;
+                                case 0:
+                                    swal({
+                                        title: "Algo ocurrió !",
+                                        text: response.Mensaje,
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+
+                                    break;
+                                case 1:
+                                    swal({
+                                        title: "Bienvenido. !",
+                                        text: response.Nombre + " " + response.Apellidos,
+                                        icon: "success",
+                                        button: "Aceptar",
+                                    }).then((value) => {
+                                        window.location.href = '' + response.RutaAcceso + '';
+
+                                    });
+                                    break;
+                                case 2:
+                                    swal({
+                                        title: "Bienvenido. !",
+                                        text: response.Nombre + " " + response.Apellidos,
+                                        icon: "success",
+                                        button: "Aceptar",
+                                    }).then((value) => {
+                                        window.location.href = '' + response.RutaAcceso + '';
+
+                                    });
+                                    break;
+                                case 3:
+                                    swal({
+                                        title: "Administrador",
+                                        text: response.Nombre + " " + response.Apellidos,
+                                        icon: "success",
+                                        button: "Aceptar",
+                                    }).then((value) => {
+                                        window.location.href = '' + response.RutaAcceso + '';
+
+                                    });
+                                    break;
+                            }
+                        }
+                    });
+                }
+                else {
+
+                    $('#timer').fadeOut(300);
+                    $('#alertBoxes').html('<div class="box-error"></div>');
+                    $('.box-error').hide(0).html(validaLogin());
+                    $('.box-error').slideDown(timeSlide);
+
+                    $.notify({
+                        icon: 'fa fa-paw',
+                        message: "Formulario incompleto ."
+                    }, {
+                        type: 'danger',
+                        allow_dismiss: false,
+                        animate: {
+                            enter: 'animated rollIn',
+                            exit: 'animated rollOut'
+                        }
+                    });
+                }
+
+            }, timeSlide);
+            return false;
+        });
+    });
+
+
+    function validaLogin() {
+        var respuesta = "";
+        $('#EmailLogin').css("border", "1px solid rgba(0,0,0,.15)");
+        $('#Password').css("border", "1px solid rgba(0,0,0,.15)");
+
+        if ($('#EmailLogin').val().length > 0) {
+            if ($('#Password').val().length > 0) {
+                if (CorreoLogin() == "ok") {
+                    respuesta = "ok";
+                } else {
+                    $('#EmailLogin').css("border", "1px solid red");
+                    respuesta = "Coloca tu email correctamente";
+                }
+            }
+            else {
+                $('#Password').css("border", "1px solid red");
+                respuesta = "Coloca tu password";
+            }
+        } else {
+            $('#EmailLogin').css("border", "1px solid red");
+            respuesta = "Coloca tu email";
+        }
+        return respuesta;
+    }
+</script>

@@ -1,0 +1,866 @@
+﻿
+@{
+    ViewBag.Title = "VisualizarDocumento";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-eye" aria-hidden="true"></i>  Visualizar Documentos</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Mis Documentos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Mis Documentos  </h5>
+                                    <span>Observa tus documentos cargados en el sistema</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre</th>
+                                                    @*<th style="color:white">Clasificación</th>*@
+
+                                                    <th class="text-center" style="color:white">Editar</th>
+                                                    <th class="text-center" style="color:white">Eliminar</th>
+                                                    <th class="text-center" style="color:white">Compartir</th>
+                                                    <th class="text-center" style="color:white">Dejar de Compartir</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+
+                                                @foreach (var item in ViewBag.dtList_Doc)
+                                                {
+
+                                                    <tr>
+
+                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                        @*<td>@item.NClaA / @item.Sub</td>*@
+
+                                                        <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                        <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
+                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                        <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- VIEW registro -->
+<div class="modal fade" id="ModalPDF" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="ModalTitulo"></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="col-md-12">
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-5">
+                            @*//TipoDocumento*@
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group form-inline">
+                                        <label for="TipoDocumento" class="col-md-3 col-form-label">T_Documento:</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <label type="text" class="form-control form-control-sm input-solid" id="TipoDocumento" name="TipoDocumento" placeholder="" required autocomplete="off"></label>
+                                            @*<input type="text" id="TipoDocumento" />*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @*//Clasificacion*@
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group form-inline">
+                                        <label for="Clasificacion" class="col-md-3 col-form-label">Clasificación:</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <label type="text" class="form-control form-control-sm input-solid" id="Clasificacion" name="Clasificacion" placeholder="" required autocomplete="off"></label>
+                                            @*<input type="text" id="Clasificacion" />*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            @*//version*@
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group form-inline">
+                                        <label for="Version" class="col-md-3 col-form-label">Versión:</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <label type="text" class="form-control form-control-sm input-solid" id="Version" name="Version" placeholder="" required autocomplete="off"></label>
+                                            @*<input type="text" id="Version" />*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            @*//Estatus*@
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="form-group form-inline">
+                                        <label for="Estatus" class="col-md-3 col-form-label">Estatus:</label>
+                                        <div class="col-md-9 col-lg-9">
+                                            <label type="text" class="form-control form-control-sm input-solid" id="Estatus" name="eVersionusuarios" placeholder="" required autocomplete="off"></label>
+                                            @*<input type="text" id="Estatus" />*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            @*//Descripcion*@
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    <div class="form-group form-inline">
+                                        <label for="Descripcion" class="col-md-4 col-form-label">Descripción:</label>
+                                        <div class="col-md-5 col-lg-5">
+                                            <textarea class="form-control form-control-sm input-solid" id="Descripcion" cols="30" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-7">
+
+                            <!--pantalla de visualización-->
+
+                            <div class="row">
+
+                                <div class="col-md-12 text-left">
+                                    <div style="width: 100%; height: 400px">
+                                        <!--documento aquí-->
+                                        <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%" &toolbar="0"></iframe>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- VIEW compartir-->
+<div class="modal fade" id="ModalCompartir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CompartirTitulo"></h5>
+                <input type="hidden" id="Idcompartir" />
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Seleciona la entidad a compartir tu documento </p>
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label for="largeInput">Entidad </label>
+                        <select class="form-control" id="Entidad" onchange="Selecionar(),mostrar1(),mostrar2(),mostrar3(),mostrar4()">
+                            <option value="0">Seleccionar </option>
+                            @foreach (var item1 in ViewBag.dtEntidad)
+                            {
+                                <option value="@item1.Id">@item1.Nombre</option>
+
+                            }
+                        </select>
+
+                    </div>
+                </div>
+
+
+                <div id="Empresahide" class="col-md-12 col-lg-12">
+                    <div>
+                        <input type="text" id="txtvalue1" style="border: none; margin: 3px;" />
+                        @*<label  id="txtvalue1"></label>*@
+                        <select class="form-control" id="empresa" onchange="(this.value, this.text)">
+                            <option value="0">Seleccionar </option>
+                            @foreach (var item1 in ViewBag.dtEmpresasListado)
+                            {
+                                <option value="@item1.Id">@item1.Nombre</option>
+
+                            }
+
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="row" id="DepartamentoHide">
+
+                        <div class="col">
+                            <label for="largeInput">Empresa </label>
+                            <select class="form-control" id="empresaDep" onchange="ConsultaDepartamento(this.value, this.text)">
+                                <option value="0">Seleccionar </option>
+                                @foreach (var item1 in ViewBag.dtEmpresasListado)
+                                {
+                                    <option value="@item1.Id">@item1.Nombre</option>
+
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <input type="text" id="txtvalue2" style="border: none; margin: 3px;" />
+                            <select class="form-control" id="Departamento">
+                                <option value="0">Seleccionar </option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12">
+                    <div class="row" id="EmpleadosHide">
+
+                        <div class="col">
+                            <label for="largeInput">Empresa </label>
+                            <select class="form-control" id="empresaEmpleado" onchange="ConsultaUsuario(this.value, this.text)" ">
+                                <option value="0">Seleccionar </option>
+                                @foreach (var item1 in ViewBag.dtEmpresasListado)
+                                {
+                                    <option value="@item1.Id">@item1.Nombre</option>
+
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <input type="text" id="txtvalue3" style="border:none;margin:3px;" />
+                            <select class="form-control" id="Empleado">
+                                <option value="0">Seleccionar </option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12" id="Provedorhide">
+
+                    <div>
+                        <input type="text" id="txtvalue4" style="border: none; margin: 3px;" />
+                        <select class="form-control" id="proveedor" onchange="(this.value, this.text)">
+                            <option value="0">Seleccionar </option>
+                            @foreach (var item1 in ViewBag.dtprovedorListados)
+                            {
+                                <option value="@item1.Id">@item1.Nombre</option>
+
+                            }
+
+                        </select>
+                    </div>
+
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="GuardarCompartido()">Compartir</button>
+                    <button type="button" id="Btnclosecomparto" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $('#Notificacion').DataTable({
+        pageLength: 5,
+        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            },
+        });
+
+
+        $("#DepartamentoHide").hide();
+        $("#EmpleadosHide").hide();
+        $("#Empresahide").hide();
+        $("#Provedorhide").hide();
+
+    function Ver(documento) {
+
+        window.location.href = '@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
+    }
+    //Inicio Para compartir
+    function Compartir(id) {
+
+        $('#ModalCompartir').modal('show');
+    ListarCompartirPorId(id);
+    }
+
+    function NCompartir(id) {
+       
+        swal({
+            title: "Dejar de Compartir",
+            text: "¿Dejar de compartir este Documento?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        NoCompartir(id);
+                        break;
+                }
+            });
+    }
+
+
+    function NoCompartir(id) {
+   
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "NCompartir": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Ncompartir", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Dejar de Compartir",
+                        text: "Se dejo de compartir el documento",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
+
+
+    function Eliminar(id) {
+        swal({
+            title: "Eliminación de Archivos",
+            text: "¿Está seguro de querer eliminar este archivo?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí, eliminar",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        SeguroEliminarArchivo(id);
+                        break;
+
+                    default:
+                        swal("Se cancelo la eliminación del documento");
+                }
+            });
+    }
+
+    function SeguroEliminarArchivo(id) {
+
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "documento": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("QuitarArchivo", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Documento Eliminado !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    }).then((value) => {
+                        location.reload();
+                    });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
+
+
+
+    function ListarCompartirPorId(id) {
+    var obj = {};
+    obj['Id'] = id;
+
+    var jsonObject = {
+        "list_Doc": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+
+        success: function (resultado) {
+            //console.log(resultado);
+            //alert(resultado[0].Id);
+            $('#Idcompartir').val(resultado[0].Id);
+            $('#CompartirTitulo').text('Compartir Documento: ' + resultado[0].Nombre);
+        },
+        error: function (resultado) {
+            alert("Error funcion listar compartir por ID ");
+        }
+    });
+}
+
+    function GuardarCompartido() {
+        if (validacompartir()) {
+
+            var obj = {};
+            obj['IdDocumento'] = $("#Idcompartir").val();
+            obj['IdEntidad'] = $("#Entidad option:selected").val();
+
+            var entidad = $("#Entidad option:selected").text();
+
+
+            if (entidad == "Empresas") {
+                obj['IdAsignacion'] = $("#empresa option:selected").val();
+            }
+            else if (entidad == "Departamentos") {
+                obj['IdAsignacion'] = $("#Departamento option:selected").val();
+            } else if (entidad == "Empleados") {
+                obj['IdAsignacion'] = $("#Empleado option:selected").val();
+            } else if (entidad == "Provedores") {
+                obj['IdAsignacion'] = $("#proveedor option:selected").val();
+            }
+
+            var jsonObject = {
+                "NCompartir": obj
+            };
+            //console.log(jsonObject);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Compartir", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#Btnclosecomparto").trigger("click");
+                    console.log(data)
+                    $("#Btnclosecomparto").trigger("click");
+
+
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Documento Compartido. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "El Documento que intentas compartir ya esta Compartido.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
+                }
+            });
+        }
+    }
+
+    function validacompartir() {
+        var result = false;
+
+        $('#Entidad').css("border", "1px solid #ff0049");
+        $('#empresa').css("border", "1px solid #ff0049");
+        $('#empresaDep').css("border", "1px solid #ff0049");
+        $('#Departamento').css("border", "1px solid #ff0049");
+        $('#empresaEmpleado').css("border", "1px solid #ff0049");
+        $('#Empleado').css("border", "1px solid #ff0049");
+        $('#proveedor').css("border", "1px solid #ff0049");
+
+        if ($("#Entidad option:selected").val() > 0) {
+            $('#Entidad').css("border", "1px solid #cccccc");
+        }
+        if ($("#empresa option:selected").val() > 0) {
+            $('#empresa').css("border", "1px solid #cccccc");
+        }
+        if ($("#empresaDep option:selected").val() > 0) {
+            $('#empresaDep').css("border", "1px solid #cccccc");
+        }
+        if ($("#Departamento option:selected").val() > 0) {
+            $('#Departamento').css("border", "1px solid #cccccc");
+        }
+        if ($("#empresaEmpleado option:selected").val() > 0) {
+            $('#empresaEmpleado').css("border", "1px solid #cccccc");
+        }
+        if ($("#Empleado option:selected").val() > 0) {
+            $('#Empleado').css("border", "1px solid #cccccc");
+        }
+        if ($("#proveedor option:selected").val() > 0) {
+            $('#proveedor').css("border", "1px solid #cccccc");
+        }
+
+
+        if ($("#Entidad option:selected").val() == 0) {
+            if ($("#Entidad option:selected").val() > 0) {
+                result = true;
+            }
+        } if ($("#Entidad option:selected").val() == 1) {
+            if ($("#empresa option:selected").val() > 0) {
+                result = true;
+            }
+        } if ($("#Entidad option:selected").val() == 2) {
+            if ($("#empresaDep option:selected").val() > 0) {
+                if ($("#Departamento option:selected").val() > 0) {
+                    result = true;
+                }
+            }
+        } if ($("#Entidad option:selected").val() == 3) {
+            if ($("#empresaEmpleado option:selected").val() > 0) {
+                if ($("#Empleado option:selected").val() > 0) {
+                    result = true;
+                }
+            }
+        } if ($("#Entidad option:selected").val() == 1002) {
+            if ($("#proveedor option:selected").val() > 0) {
+                result = true;
+            }
+        }
+
+        return result;
+
+    }
+    //Fin Para compartir
+
+
+
+    function Selecionar() {
+        var d = document.getElementById("Entidad");
+        var display = d.options[d.selectedIndex].text
+        $("#txtvalue1").text('hola');
+        document.getElementById("txtvalue1").value = display;
+        document.getElementById("txtvalue2").value = display;
+        document.getElementById("txtvalue3").value = display;
+        document.getElementById("txtvalue4").value = display;
+
+    $("#empresa").val("0");
+    $("#empresaDep").val("0");
+    $("#Departamento").val("0");
+    $("#empresaEmpleado").val("0");
+    $("#Empleado").val("0");
+    $("#proveedor").val("0");
+    }
+
+    function mostrar1() {
+
+    let txtvalue = document.getElementById("txtvalue1").value;
+
+    if (txtvalue === "Empresas") {
+            $("#Empresahide").show();
+        } else {
+            $("#Empresahide").hide();
+        }
+    }
+
+    function mostrar2() {
+
+        let txtvalue = document.getElementById("txtvalue2").value;
+
+        if (txtvalue === "Departamentos") {
+            $("#DepartamentoHide").show();
+        } else {
+            $("#DepartamentoHide").hide();
+        }
+    }
+
+    function mostrar3() {
+
+        let txtvalue = document.getElementById("txtvalue3").value;
+
+        if (txtvalue === "Empleados") {
+            $("#EmpleadosHide").show();
+        } else {
+            $("#EmpleadosHide").hide();
+        }
+}
+
+    function mostrar4() {
+
+    let txtvalue = document.getElementById("txtvalue4").value;
+
+    if (txtvalue === "Provedores") {
+            $("#Provedorhide").show();
+        } else {
+            $("#Provedorhide").hide();
+    }
+    }
+
+    function VerRegistro(id) {
+
+    $('#ModalPDF').modal('show');
+        SeleccionarPorId(id);
+
+}
+
+    function SeleccionarPorId(id) {
+
+    var obj = {};
+    obj['Id'] = id;
+
+    var jsonObject = {
+        "list_Doc": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+
+        success: function (resultado) {
+            console.log(resultado);
+            //alert(resultado[0].Id);
+            $('#IdRegistro').val(resultado[0].Id);
+            $('#ModalTitulo').text('Editar documento: ' + resultado[0].Nombre);
+            $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+            $('#Descripcion').text(resultado[0].Descripcion);
+            $('#FechaRegistro').text(resultado[0].FechaVigor);
+            $('#Version').text(resultado[0].Version);
+            $('#Registrado').text(resultado[0].Registrado);
+
+            $('#Estatus').text(resultado[0].Estatus);
+            $('#Clasificacion').text(resultado[0].Clasificacion);
+            $('#TipoDocumento').text(resultado[0].TipoDocumento)
+
+        },
+        error: function (resultado) {
+            console.log(resultado);
+            alert("Eroor funcion seleccionar por id ");
+        }
+    });
+}
+
+    function ConsultaDepartamento (Id){
+
+    $('#Departamento').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "Cat_ListadoDepartamentos": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Departamento_Listar", "Documentos")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Departamento").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Departamento").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Departamento").append(option);
+
+                });
+
+        }
+    });
+}
+
+    function ConsultaUsuario (Id){
+
+        $('#Empleado').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "LisUser": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("User_Listar", "Documentos")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Empleado").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Empleado").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Empleado").append(option);
+
+                });
+
+        }
+    });
+}
+</script>
+
+<script>
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#visaulizarDocumento').addClass("active");
+</script>
+
