@@ -77,6 +77,9 @@
     <Compile Include="Usuarios.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="app.config" />
     <None Include="Connected Services\WSCorreo\Correo.wsdl" />
     <None Include="Connected Services\WSCorreo\ProyectoBase.Application.WSCorreo.CorreoAsaeCRM_AgendaEventoResponse.datasource">

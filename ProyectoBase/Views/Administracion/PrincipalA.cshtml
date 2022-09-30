@@ -329,11 +329,14 @@
       data: [@ViewBag.Visto ,@ViewBag.NVisto],
 
             backgroundColor: [
-                "rgb(75,192,192)",
-                "rgb(255,205,86)"
+                "rgba(75,192,192,0.2)",
+                "rgba(255,205,86,0.2)"
 
             ],
-            borderColor: "RGB(217,217,217)"
+            borderColor: [
+                "rgba(75,192,192,1)",
+                "rgba(255,205,86,1)"
+            ]
         }];
         var options = {
       tooltips: {
@@ -349,7 +352,7 @@
 
 
           },
-          color: '#fff',
+              color: '#000000',
         }
       }
         };
