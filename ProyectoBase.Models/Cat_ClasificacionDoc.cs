@@ -10,5 +10,11 @@ namespace ProyectoBase.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        public string Publica { get; set; }
+        public string Interno { get; set; }
+        public string Restringida { get; set; }
+        public string Confidencial { get; set; }
+
+
     }
 }

@@ -115,6 +115,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                //VISTA PROCEDIMIENTOS
+
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     int Id = 0;
@@ -135,9 +137,9 @@ namespace ProyectoBase.Controllers
 
                     return View();
             }
-            else { return RedirectToAction("PrincipalA", "Administracion"); }
+                else { return RedirectToAction("PrincipalA", "Administracion"); }
 
-        }
+            }
             else
             {
                 return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url)
@@ -260,7 +262,7 @@ namespace ProyectoBase.Controllers
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
-            Application.List_Doc list_Doc)
+            Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -286,7 +288,9 @@ namespace ProyectoBase.Controllers
 
                 Models.Notification notificationNV = Anotification.SP_DocNoVisto2();
                 ViewBag.NVisto = notificationNV.Ids;
-                
+
+                Models.Cat_ClasificacionDoc conteoclas = Acat_ClasificacionDoc.SP_ConteoClasificacion();
+                ViewBag.Conteoclas = conteoclas;
 
                 return View();
 

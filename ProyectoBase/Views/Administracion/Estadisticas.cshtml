@@ -135,46 +135,48 @@
 </script>
 
 <script>
-      var data = [{
-      data: [@ViewBag.Visto ,@ViewBag.NVisto],
+    var data = [{
+       data: [@ViewBag.Visto ,@ViewBag.NVisto],
 
-      backgroundColor: [
+        backgroundColor: [
         "rgba(230,181,102,0.2)",
         "rgba(229,112,126,0.2)"
 
-      ],
-          borderColor: [
-              'rgba(230,181,102,1)',
-              'rgba(229,112,126,1)',
-          ]
+        ],
+        borderColor: [
+            'rgba(230,181,102,1)',
+            'rgba(229,112,126,1)',
+        ]
     }];
-        var options = {
-      tooltips: {
-        enabled: true
-      },
-      plugins: {
-        datalabels: {
-          formatter: (value, ctx) => {
 
-            let sum = ctx.dataset._meta[0].total;
-            let percentage = (value * 100 / sum).toFixed(0) + "%";
-            return percentage;
+    var options = {
+    tooltips: {
+    enabled: true
+    },
+    plugins: {
+    datalabels: {
+        formatter: (value, ctx) => {
+
+        let sum = ctx.dataset._meta[0].total;
+        let percentage = (value * 100 / sum).toFixed(0) + "%";
+        return percentage;
 
 
-          },
-              color: '#000000',
-        }
-      }
-        };
-        var ctx = document.getElementById("pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        },
+            color: '#000000',
+    }
+    }
+    };
+    var ctx = document.getElementById("pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+
         type: 'pie',
-      data: {
-      labels: ['Vistos', 'Pendientes'],
+        data: {
+        labels: ['Vistos', 'Pendientes'],
         datasets: data
-      },
-      options: options
-});
+        },
+        options: options
+    });
 </script>
 
 
@@ -182,28 +184,31 @@
     // Obtener una referencia al elemento canvas del DOM
     const $grafica = document.querySelector("#grafica");
     // Las etiquetas son las que van en el eje X. 
-    const etiquetas = ["Enero", "Febrero", "Marzo", "Abril"]
+    const etiquetas = ["Publico", "Interno", "Restringido", "Confidencial"]
     // Podemos tener varios conjuntos de datos. Comencemos con uno
-    const datosVentas2020 = {
-        label: "Ventas por mes",
-        data: [5000, 1500, 8000, 5102], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
-        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
-        borderWidth: 1,// Ancho del borde
+    const datos = {
+        data: [@ViewBag.Conteoclas.Publica,@ViewBag.Conteoclas.Interno,@ViewBag.Conteoclas.Restringida,@ViewBag.Conteoclas.Confidencial], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(29, 248, 17, 0.2)', 'rgba(230,181,102,0.2)', 'rgba(229,112,126,0.2)'],// Color de fondo
+        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(29, 248, 17, 1)','rgba(230,181,102,1)', 'rgba(229,112,126,1)'], // Color del borde
+        borderWidth: 1.5,// Ancho del borde
     };
     new Chart($grafica, {
         type: 'bar',// Tipo de gráfica
         data: {
             labels: etiquetas,
             datasets: [
-                datosVentas2020,
+                datos,
                 // Aquí más datos...
             ]
         },
         options: {
+            legend: { display: false },
+            
             scales: {
+           
                 yAxes: [{
                     ticks: {
+                        stepSize:1,
                         beginAtZero: true
                     }
                 }],

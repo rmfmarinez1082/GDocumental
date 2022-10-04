@@ -13,6 +13,10 @@ namespace ProyectoBase.Application
         {
             return _cat_ClasificacionDoc.Cat_ClasificacionDoc_Listar();
         }
-        
+
+        public Models.Cat_ClasificacionDoc SP_ConteoClasificacion()
+        {
+            return _cat_ClasificacionDoc.SP_ConteoClasificacion();
+        }
     }
 }
