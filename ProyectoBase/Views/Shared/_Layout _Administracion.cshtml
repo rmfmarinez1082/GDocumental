@@ -228,7 +228,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">MENÚ</div>
 
                             <ul class="pcoded-item pcoded-left-item">
                                 <li id="IdMenuDashboard">
@@ -398,7 +398,7 @@
             });
         });
 
-          function CerrarSesion() {
+        function CerrarSesion() {
             swal({
               title: "Confirmación de cierre de sesión",
               text: "Deseas cerrar tu sesión!",
@@ -450,7 +450,10 @@
         }
 
         function doc(documento) {
-            window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + documento;
+            @*var win = window.open('@Url.Action("Vista", "Administracion")?Id=' + documento);
+            win.focus();*@
+           window.location.href='@Url.Action("Vista", "Administracion")?Id=' + documento;
+
         }
 
 

@@ -33,8 +33,6 @@
     <div class="page-wrapper">
         <!-- Page-body start -->
         <div class="page-body">
-
-
             <div class="row">
                 <!-- Registro eliminacion -->
                 <div class="col-xl-7 col-md-12">
@@ -73,45 +71,72 @@
 
                 <!-- GRAFICO -->
                 <div class="col-xl-5 col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Estadistica General de documentos compartidos</h4>
-                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
-                                </div>
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Estadistica General de documentos compartidos</h5>
+                        </div>
+                        <div class="p-15">
 
-                                <canvas id="pie-chart" width="400" height="200"></canvas>
+                            <canvas id="pie-chart" width="400" height="200"></canvas>
 
-                            </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
 
-            <div class="row">
-
-                <div class="col-xl-7 col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Documentos en el sistema</h4>
-                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
-                                </div>
-
-                                <canvas id="grafica"></canvas>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
-        <!-- Page-body end -->
+
+        <div class="row">
+            <div class="col-xl-7 col-md-12">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h5>Documentos activos en el sistema por clasificación</h5>
+                    </div>
+                    <div class="p-15">
+                        <canvas id="grafica"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-md-6">
+                <a href="#">
+                    <div class="card" onclick="VDocVencido();" style="cursor:pointer">
+                        <div class="card-block">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4 class="text-c-red">
+                                        @*@foreach (var item1 in ViewBag.ConteoVe)
+                                        {
+                                            @item1.TotalDocVencido
+                                        }*@
+                                        35
+                                    </h4>
+                                    <h6 class="text-muted m-b-0">Usuarios Registrados</h6>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <i class="fa fa-hand-o-down f-28"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-c-blue">
+                            <div class="row align-items-center">
+                                <div class="col-9">
+                                    <p class="text-white m-b-0"></p>
+                                </div>
+                                <div class="col-3 text-right">
+                                    <i class="fa fa-line-chart text-white f-16"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
+        </div>
+
     </div>
+    <!-- Page-body end -->
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
@@ -183,7 +208,7 @@
 <script>
     // Obtener una referencia al elemento canvas del DOM
     const $grafica = document.querySelector("#grafica");
-    // Las etiquetas son las que van en el eje X. 
+    // Las etiquetas son las que van en el eje X.
     const etiquetas = ["Publico", "Interno", "Restringido", "Confidencial"]
     // Podemos tener varios conjuntos de datos. Comencemos con uno
     const datos = {
@@ -203,9 +228,9 @@
         },
         options: {
             legend: { display: false },
-            
+
             scales: {
-           
+
                 yAxes: [{
                     ticks: {
                         stepSize:1,

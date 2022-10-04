@@ -378,7 +378,8 @@
 
                                         <div class="col-md-12 text-left">
                                             <div style="width: 100%; height: 600px">
-                                                <iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                                @*<iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
+                                                <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id= @Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                                             </div>
                                         </div>
 

@@ -1,4 +1,6 @@
-﻿using ProyectoBase.Models;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -119,21 +121,27 @@ namespace ProyectoBase.Controllers
 
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
-                    int Id = 0;
+                    //DATOS DEL DOCUMENTO
+                        int Id = 0;
                         Id = Convert.ToInt32(Request.QueryString["Id"]);
                         Models.Documento doc = new Documento();
                         doc.Id = Id;
+                         
 
                         Models.Documento documento = documentos.SP_DocumentoInfo(doc);
                         ViewBag.nombredoc = documento.Nombre;
                         ViewBag.Descripcion = documento.Descripcion;
                         ViewBag.version = documento.Version;
-                        ViewBag.codigo = documento.NmArchivo;
+                        ViewBag.NArchivo = documento.NmArchivo;
+                        ViewBag.Ruta = "DocumentosTemporales";
+                        
 
 
+                    //CONTROL DE NOTIFICACIONES 
                     Dnotificacion.IdUsuario = Usuario.Id;
                     Dnotificacion.IdDocumento = Id;
                     Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
 
                     return View();
             }
@@ -234,8 +242,6 @@ namespace ProyectoBase.Controllers
 
         }
 
-
-
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -262,7 +268,7 @@ namespace ProyectoBase.Controllers
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
-            Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc)
+        Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;

@@ -14,5 +14,9 @@ namespace ProyectoBase.Application
         {
             return _cat_RutaAlmacenamiento.Cat_RutaAlmacenamiento_Seleccionar();
         }
+        public Models.Cat_RutaAlmacenamiento Cat_RutaAlmacenamiento_temporal()
+        {
+            return _cat_RutaAlmacenamiento.Cat_RutaAlmacenamiento_temporal();
+        }
     }
 }

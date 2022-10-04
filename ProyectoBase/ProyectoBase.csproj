@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.9\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -136,6 +142,7 @@
     <Compile Include="Controllers\DocumentosController.cs" />
     <Compile Include="Controllers\FileAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PDFController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -319,6 +326,11 @@
     <Content Include="Images\icons\asaelogo.png" />
     <Content Include="Images\icons\ico.ico" />
     <Content Include="Images\icons\loading.gif" />
+    <Content Include="Images\PDF\152596.png" />
+    <Content Include="Images\PDF\3917090.png" />
+    <Content Include="Images\PDF\AsaeLogo_Colores.png" />
+    <Content Include="Images\PDF\FOOTER.png" />
+    <Content Include="Images\PDF\Headerpdf.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
@@ -449,6 +461,9 @@
     <Content Include="assets\images\Thumbs.db" />
     <Content Include="Documentos\ManualGD.pdf" />
     <Content Include="Documentos\Restringido.pdf" />
+    <Content Include="Images\PDF\Portada.pdf" />
+    <Content Include="Images\PDF\Portada2.pdf" />
+    <Content Include="Images\PDF\Portada3.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -571,6 +586,7 @@
     <Content Include="Views\Administracion\VistaEditar.cshtml" />
     <Content Include="Views\Administracion\Registrar.cshtml" />
     <Content Include="Views\Administracion\Estadisticas.cshtml" />
+    <Content Include="Views\PDF\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

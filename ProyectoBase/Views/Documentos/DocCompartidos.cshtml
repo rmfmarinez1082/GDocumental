@@ -151,17 +151,19 @@
             },
         });
 
-    function VerRegistro(id) {
+    function VerRegistro(documento) {
 
         $('#ModalPDF').modal('show');
-          SeleccionarPorId(id);
+        $('#iframepdf').attr('src', '@Url.Action("Vista", "Administracion")?Id=' + documento + '#toolbar=0');
+
+        SeleccionarPorId(documento);
 
     }
 
-    function SeleccionarPorId(id) {
+    function SeleccionarPorId(documento) {
 
         var obj = {};
-        obj['Id'] = id;
+        obj['Id'] = documento;
 
         var jsonObject = {
             "list_Doc": obj
@@ -177,7 +179,7 @@
             success: function (resultado) {
                 $('#IdRegistro').val(resultado[0].Id);
                 $('#ModalTitulo').text('Datos del documento ' + resultado[0].Nombre);
-                $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+/*                $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');*/
                 $('#eDescripcion').text(resultado[0].Descripcion);
 
             },
@@ -206,14 +208,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-
-                    swal({
-                        title: "redirigiendo a documento.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-                    window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + documento;
+                    window.location.href='@Url.Action("Vista", "Administracion")?Id=' + documento;
+                    
                 }
             });
 
