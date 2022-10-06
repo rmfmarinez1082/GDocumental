@@ -80,8 +80,42 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        }  
+        
+        public List<Models.Usuarios> SP_ConteoUsuarios()
+        {
+            b.ExecuteCommandSP("SP_ConteoUsuarios");
+            List<Models.Usuarios> resultado = new List<Models.Usuarios>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Usuarios item = new Models.Usuarios()
+                {
+                    Nombre = reader["Nombre"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        } 
+        public List<Models.Usuarios> SP_ConteoUsuariosActivos()
+        {
+            b.ExecuteCommandSP("SP_ConteoUsuariosActivos");
+            List<Models.Usuarios> resultado = new List<Models.Usuarios>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Usuarios item = new Models.Usuarios()
+                {
+                    Nombre = reader["Nombre"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
         }
 
-        /////// 
     }
 }

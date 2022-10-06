@@ -268,7 +268,7 @@ namespace ProyectoBase.Controllers
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
-        Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc)
+        Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -297,6 +297,12 @@ namespace ProyectoBase.Controllers
 
                 Models.Cat_ClasificacionDoc conteoclas = Acat_ClasificacionDoc.SP_ConteoClasificacion();
                 ViewBag.Conteoclas = conteoclas;
+
+                List<Models.Usuarios> Cusuarios = Ausuarios.SP_ConteoUsuarios();
+                ViewBag.Conteouser = Cusuarios;
+
+                List<Models.Usuarios> CusuariosA = Ausuarios.SP_ConteoUsuariosActivos();
+                ViewBag.ConteouserA = CusuariosA;
 
                 return View();
 

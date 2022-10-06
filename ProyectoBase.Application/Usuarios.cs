@@ -21,5 +21,14 @@ namespace ProyectoBase.Application
             Models.Usuarios usuario = _Usuario.coo_Session_Seleccionar(clave);
             return usuario;
         }
+
+        public List<Models.Usuarios> SP_ConteoUsuarios()
+        {
+            return _Usuario.SP_ConteoUsuarios();
+        }
+        public List<Models.Usuarios> SP_ConteoUsuariosActivos()
+        {
+            return _Usuario.SP_ConteoUsuariosActivos();
+        }
     }
 }
