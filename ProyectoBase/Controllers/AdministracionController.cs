@@ -242,7 +242,8 @@ namespace ProyectoBase.Controllers
 
         }
 
-        public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification)
+        public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
+            Application.EmpresasListado AempresasListado)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -259,8 +260,10 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                List<Models.EmpresasListado> empresasListados = AempresasListado.SP_EmpresasListado();
+                ViewBag.empresaLis = empresasListados;
                 return View();
-
+                 
             }
             else
             {
@@ -330,6 +333,18 @@ namespace ProyectoBase.Controllers
 
             return Json(Ndocumento);
         }
+
+        public JsonResult Departamento_Listar(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos, Application.Cat_ListadoDepartamentos APcat_ListadoDepartamentos)
+        {
+            List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_LisDep(cat_ListadoDepartamentos);
+            return Json(cat_ListadoDepartamentoss);
+        }
+        public JsonResult Puesto_Listar(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos, Application.Cat_ListadoDepartamentos APcat_ListadoDepartamentos)
+        {
+            List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
+            return Json(cat_ListadoDepartamentoss);
+        }
+
 
     }
 

@@ -32,5 +32,25 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public List<Models.Cat_ListadoDepartamentos> SP_CatEmpresaPuestos(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos)
+        {
+            b.ExecuteCommandSP("SP_CatEmpresaPuestos");
+            b.AddParameter("@Id", cat_ListadoDepartamentos.Id, SqlDbType.VarChar);
+
+            List<Models.Cat_ListadoDepartamentos> resultado = new List<Models.Cat_ListadoDepartamentos>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ListadoDepartamentos item = new Models.Cat_ListadoDepartamentos()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

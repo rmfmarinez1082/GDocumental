@@ -37,11 +37,110 @@
                 <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>Documentos activos en el sistema por clasificación</h5>
+                            <h5>Registro</h5>
+                            <span>Completa los campos marcados *</span>
                         </div>
+
                         <div class="p-15">
 
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Nombre </label>
+                                        <input type="text" name="nombre" class="form-control form-control input-number" id="Nombre">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Apellido paterno </label>
+                                        <input type="text" name="apellidoP" class="form-control form-control input-number" id="Nombre">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Apellido materno </label>
+                                        <input type="text" name="ApellidoM" class="form-control form-control input-number" id="Nombre">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Correo </label>
+                                        <input type="text" name="correo" class="form-control form-control input-number" id="correo">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Contraseña </label>
+                                        <input type="password" name="contraseña" class="form-control form-control input-number" id="contraseña">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Empresa</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="AEmpresa" onclick="CrearEmpresa();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Empresa"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Select-Empresa" onchange="ConsultaDepartamento(this.value)">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.empresaLis)
+                                                    {
+                                                        <option value="@item1.Id">@item1.Nombre</option>
+                                                    }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Departamento</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="ADepartamento" onclick="CrearDepartamento();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Departamento"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Departamento" onchange="ConsultaPuesto(this.value)">
+                                                <option value="0">Seleccionar </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Puesto</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="APuesto" onclick="CrearPuesto();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Puesto"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Select-Puesto" @*onchange="ConsultaSubClasificacion(this.value),Selecionar()"*@>
+                                                <option value="0">Seleccionar </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 offset-md-4">
+                                    <button class="btn waves-effect waves-light btn-success" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
+                                    @*<a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>*@
+                                </div>
+
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -59,4 +158,113 @@
 <script>
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#registrar').addClass("active");
+
+    function ConsultaDepartamento (Id){
+
+        $('#Departamento').empty();
+        $('#Select-Puesto').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "Cat_ListadoDepartamentos": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Departamento_Listar", "Administracion")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Departamento").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Departamento").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Departamento").append(option);
+
+                });
+
+            var option = $(document.createElement('option'));
+
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Select-Puesto").append(option);
+
+        }
+    });
+    }
+
+    function ConsultaPuesto(Id) {
+
+    $('#Select-Puesto').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "Cat_ListadoDepartamentos": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Puesto_Listar", "Administracion")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Select-Puesto").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Select-Puesto").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Select-Puesto").append(option);
+
+                });
+
+
+        }
+    });
+}
 </script>
