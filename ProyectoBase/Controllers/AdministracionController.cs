@@ -344,6 +344,14 @@ namespace ProyectoBase.Controllers
             List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
             return Json(cat_ListadoDepartamentoss);
         }
+        
+        [HttpPost]
+        public JsonResult Usuario_Registrar(Models.Usuarios NuevoUsuario, Application.Usuarios Ausuarios)
+        {
+            Models.Usuarios Nusuario = Ausuarios.SP_RegistrarUser(NuevoUsuario);
+
+            return Json(Nusuario);
+        }
 
 
     }

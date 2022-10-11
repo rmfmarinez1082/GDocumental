@@ -54,14 +54,14 @@
                                 <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="largeInput">* Apellido paterno </label>
-                                        <input type="text" name="apellidoP" class="form-control form-control input-number" id="Nombre">
+                                        <input type="text" name="apellidoP" class="form-control form-control input-number" id="apellidoP">
 
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="largeInput">* Apellido materno </label>
-                                        <input type="text" name="ApellidoM" class="form-control form-control input-number" id="Nombre">
+                                        <input type="text" name="ApellidoM" class="form-control form-control input-number" id="ApellidoM">
 
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                 <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="largeInput">* Contraseña </label>
-                                        <input type="password" name="contraseña" class="form-control form-control input-number" id="contraseña">
+                                        <input type="password" name="contraseña" class="form-control form-control input-number" id="contrasenia">
 
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
                                 </div>
                                 
                                 <div class="col-md-4 offset-md-4">
-                                    <button class="btn waves-effect waves-light btn-success" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
+                                    <button class="btn waves-effect waves-light btn-success" onclick="Registrar()" id="registar">Registrar</button>
                                     @*<a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>*@
                                 </div>
 
@@ -156,8 +156,78 @@
 
 
 <script>
-    $('#IdAdministrador').addClass("active pcoded-trigger");
-    $('#registrar').addClass("active");
+    function Registrar () {
+       
+        $("#registar").prop('disabled', true);
+
+        var obj = {};
+        obj['Nombre'] = $("#Nombre").val();
+        obj['Apellidos'] = $("#apellidoP").val();
+        obj['ApellidoM'] = $("#ApellidoM").val();
+        obj['Email'] = $("#correo").val();
+        obj['Password'] = $("#contrasenia").val();
+        obj['IdPuesto'] = $("#Select-Puesto option:selected").val();
+
+
+        var jsonObject = {
+            "NuevoUsuario": obj
+        };
+
+        console.log(obj);
+
+        $.ajax({
+        type: "POST",
+        url: "@Url.Action("Usuario_Registrar", "Administracion")",
+        async: false,
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            switch (data.Id) {
+                case -1:
+
+                    swal({
+                        title: "El Usuario que intentas agregar ya se encuentra registrado .",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+
+
+                    break;
+                case 0:
+                    swal({
+                        title: "Algo ocurrió Usuario no registrado !",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                    break;
+
+                default:
+                // code block
+            }
+            if (data.Id > 0) {
+                swal({
+                    title: "Usuario registrado !!",
+                    text: "Usuario disponible para iniciar sesión",
+                    icon: "success",
+                    button: "Aceptar",
+                }).then((value) => {
+                    location.reload();
+                });
+            }
+        },
+            error: function () {
+                alert("error");
+            }
+    });
+
+        $("#registar").prop('disabled', false);
+
+
+    }
+
 
     function ConsultaDepartamento (Id){
 
@@ -266,5 +336,8 @@
 
         }
     });
-}
+    }
+
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#registrar').addClass("active");
 </script>

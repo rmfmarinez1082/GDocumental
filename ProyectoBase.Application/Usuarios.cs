@@ -30,5 +30,10 @@ namespace ProyectoBase.Application
         {
             return _Usuario.SP_ConteoUsuariosActivos();
         }
+
+        public Models.Usuarios SP_RegistrarUser(Models.Usuarios Nusuario)
+        { 
+            return _Usuario.SP_RegistrarUser(Nusuario);
+        }
     }
 }
