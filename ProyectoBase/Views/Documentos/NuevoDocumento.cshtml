@@ -1384,7 +1384,6 @@
 
                                     $("#BtnPublicar").prop('disabled', true);
 
-                                    /*alert("Se desabilita el boton")*/
                                     var obj = {};
                                     obj['Nombre'] = $("#NombreDocumento").val();
                                     obj['Version'] = $("#Version").val();
@@ -1422,9 +1421,6 @@
                                     var jsonObject = {
                                         "NuevoDocumento": obj
                                     };
-
-
-                                    /*console.log(jsonObject);*/
 
                                     $.ajax({
                                         type: "POST",
@@ -1674,17 +1670,7 @@
                 //PintaGaleria(Contenido);
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+                alert("error")
             }
         });
     }

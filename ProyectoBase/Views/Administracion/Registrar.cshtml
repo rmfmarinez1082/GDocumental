@@ -72,7 +72,7 @@
                                 <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="largeInput">* Correo </label>
-                                        <input type="text" name="correo" class="form-control form-control input-number" id="correo">
+                                        <input type="email" name="correo" class="form-control" id="correo" onblur="validateEmail()">
 
                                     </div>
                                 </div>
@@ -102,7 +102,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <div class="row">
                                 <div class="col-md-4 col-lg-4">
@@ -154,80 +153,148 @@
 
 
 
-
 <script>
-    function Registrar () {
-       
-        $("#registar").prop('disabled', true);
+    function Registrar() {
+        if (Valida()) {
 
-        var obj = {};
-        obj['Nombre'] = $("#Nombre").val();
-        obj['Apellidos'] = $("#apellidoP").val();
-        obj['ApellidoM'] = $("#ApellidoM").val();
-        obj['Email'] = $("#correo").val();
-        obj['Password'] = $("#contrasenia").val();
-        obj['IdPuesto'] = $("#Select-Puesto option:selected").val();
+            $("#registar").prop('disabled', true);
+
+            var obj = {};
+            obj['Nombre'] = $("#Nombre").val();
+            obj['Apellidos'] = $("#apellidoP").val();
+            obj['ApellidoM'] = $("#ApellidoM").val();
+            obj['Email'] = $("#correo").val();
+            obj['Password'] = $("#contrasenia").val();
+            obj['IdPuesto'] = $("#Select-Puesto option:selected").val();
+
+            var jsonObject = {
+                "NuevoUsuario": obj
+            };
+
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("Usuario_Registrar", "Administracion")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                switch (data.Id) {
+                    case -1:
+
+                        swal({
+                            title: "El Usuario que intentas agregar ya se encuentra registrado .",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
 
 
-        var jsonObject = {
-            "NuevoUsuario": obj
-        };
+                        break;
+                    case 0:
+                        swal({
+                            title: "Algo ocurrió Usuario no registrado !",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                        break;
 
-        console.log(obj);
-
-        $.ajax({
-        type: "POST",
-        url: "@Url.Action("Usuario_Registrar", "Administracion")",
-        async: false,
-        data: JSON.stringify(jsonObject),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            switch (data.Id) {
-                case -1:
-
+                    default:
+                    // code block
+                }
+                if (data.Id > 0) {
                     swal({
-                        title: "El Usuario que intentas agregar ya se encuentra registrado .",
-                        text: '',
-                        icon: "warning",
+                        title: "Usuario registrado !!",
+                        text: "Usuario disponible para iniciar sesión",
+                        icon: "success",
                         button: "Aceptar",
+                    }).then((value) => {
+                        location.reload();
                     });
+                }
+            },
+                error: function () {
+                    alert("error");
+                }
+        });
 
+                $("#registar").prop('disabled', false);
+        } else {
 
-                    break;
-                case 0:
-                    swal({
-                        title: "Algo ocurrió Usuario no registrado !",
-                        text: '',
-                        icon: "warning",
-                        button: "Aceptar",
-                    });
-                    break;
+            swal({
+                title: "INFORMACIÓN INCOMPLETA.",
+                text: 'Proporciona los datos marcados en rojo',
+                icon: "warning",
+                button: "Aceptar",
+            });
 
-                default:
-                // code block
-            }
-            if (data.Id > 0) {
-                swal({
-                    title: "Usuario registrado !!",
-                    text: "Usuario disponible para iniciar sesión",
-                    icon: "success",
-                    button: "Aceptar",
-                }).then((value) => {
-                    location.reload();
-                });
-            }
-        },
-            error: function () {
-                alert("error");
-            }
-    });
-
-        $("#registar").prop('disabled', false);
-
-
+        }
     }
 
+    function Valida() {
+
+        var result = false;
+
+
+        $('#Nombre').css("border", "1px solid #ff0049");
+        $('#apellidoP').css("border", "1px solid #ff0049");
+        $('#ApellidoM').css("border", "1px solid #ff0049");
+        $('#correo').css("border", "1px solid #ff0049");
+        $('#contrasenia').css("border", "1px solid #ff0049");
+        $('#Select-Puesto').css("border", "1px solid #ff0049");
+        $('#Select-Empresa').css("border", "1px solid #ff0049");
+        $('#Departamento').css("border", "1px solid #ff0049");
+
+
+        if ($('#Nombre').val().length > 0) {
+            $('#Nombre').css("border", "1px solid #cccccc");
+        }
+        if ($('#apellidoP').val().length > 0) {
+            $('#apellidoP').css("border", "1px solid #cccccc");
+        }
+        if ($('#ApellidoM').val().length > 0) {
+            $('#ApellidoM').css("border", "1px solid #cccccc");
+        }
+        if ($('#correo').val().length > 0) {
+            $('#correo').css("border", "1px solid #cccccc");
+        }
+        if ($('#contrasenia').val().length > 0) {
+            $('#contrasenia').css("border", "1px solid #cccccc");
+        }
+        if ($("#Select-Puesto option:selected").val() > 0) {
+            $('#Select-Puesto').css("border", "1px solid #cccccc");
+        }
+        if ($("#Select-Empresa option:selected").val() > 0) {
+            $('#Select-Empresa').css("border", "1px solid #cccccc");
+        }
+        if ($("#Departamento option:selected").val() > 0) {
+            $('#Departamento').css("border", "1px solid #cccccc");
+        }
+
+
+
+        if ($("#Select-Empresa option:selected").val() > 0) {
+            if ($("#Departamento option:selected").val() > 0) {
+                if ($("#Select-Puesto option:selected").val() > 0) {
+                    if ($('#contrasenia').val().length > 0) {
+                        if ($('#correo').val().length > 0) {
+                            if ($('#ApellidoM').val().length > 0) {
+                                if ($('#Apellidos').val().length > 0) {
+                                    if ($('#Nombre').val().length > 0) {
+                                        result = true;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
 
     function ConsultaDepartamento (Id){
 
@@ -338,6 +405,22 @@
     });
     }
 
+     function validateEmail(){
+
+          var validEmail =  /^\w+([.-_+]?\w+)*@@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+
+         if (validEmail.test(jQuery('#correo').val() ) ){
+                    return true;
+         } else {
+             swal({
+                 title: "Correo no valido !!",
+                 text: 'Inserta un correo valido.',
+                 icon: "warning",
+                 button: "Aceptar",
+             });
+                    return false;
+         }
+     }
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#registrar').addClass("active");
 </script>
