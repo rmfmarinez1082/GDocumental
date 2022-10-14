@@ -242,6 +242,27 @@ namespace ProyectoBase.Controllers
 
         }
 
+        public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification)
+        {
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+            }
+            else { return RedirectToAction("Index", "Home"); }
+
+            return View();
+        }
+
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
             Application.EmpresasListado AempresasListado)
         {
@@ -351,6 +372,16 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Nusuario = Ausuarios.SP_RegistrarUser(NuevoUsuario);
 
             return Json(Nusuario);
+        }
+        [HttpPost]
+        public JsonResult Usuario_Actualizar(Models.Usuarios UpdateUsuario, Application.Usuarios Ausuarios)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            UpdateUsuario.Id = Usuario.Id;
+            Models.Usuarios updatesuarios = Ausuarios.SP_ActualizarUsuario(UpdateUsuario);
+
+            return Json(updatesuarios);
         }
 
 

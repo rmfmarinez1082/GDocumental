@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Micuenta";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-refresh" aria-hidden="true"></i>Actualizar Contraseña </h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Actualizar Contraseña</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-0 vh-100 row justify-content-center align-items-center" >
+    <div class="main-body">
+        <div class="page-wrapper">
+            <!-- Page-body start -->
+            <div class="page-body">
+                <div class="row">
+
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <h5>Actualizar mis datos</h5>
+                                <span>Completa los campos marcados *</span>
+                            </div>
+
+                            <div class="p-15">
+                                <!-- Mensajes de Verificación -->
+                                <div id="error" class="alert alert-danger" role="alert" style="display:none">
+                                    Las Contraseñas no coinciden, vuelve a intentar !
+                                </div>
+                                <div id="mensaje" class="alert alert-info" role="alert">
+                                   Recuerda tu contraseña para acceder al sistema.
+                                </div>
+
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="largeInput">*Nueva Contraseña </label>
+                                            <input type="password" class="form-control" id="contrasenia">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Confirma Contraseña </label>
+                                            <input type="password" class="form-control" id="contrasenia2" onblur="validatepass()">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 offset-md-4">
+                                        <button class="btn waves-effect waves-light btn-success" onclick="Registrar()" id="registar">Actualizar</button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script>
+    function Registrar() {
+        if (Valida()) {
+            if (validatepass()) {
+
+                    $("#registar").prop('disabled', true);
+
+                    var obj = {};
+
+                    obj['Password'] = $("#contrasenia").val();
+
+
+                    var jsonObject = {
+                        "UpdateUsuario": obj
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Usuario_Actualizar", "Administracion")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                                swal({
+                                    title: "Información actualizada !!",
+                                    text: "La proxima vez inicia sesión con esta contraseña",
+                                    icon: "success",
+                                    button: "Aceptar",
+                                }).then((value) => {
+                                     window.location.href = '@Url.Action("PrincipalA", "Administracion")';
+                                });
+
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+
+                    $("#registar").prop('disabled', false);
+
+            } else {
+                swal({
+                    title: "Error Contraseña.",
+                    text: 'Verifica que tu contraseña sea la misma',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+            }
+        }else {
+            swal({
+                title: "INFORMACIÓN INCOMPLETA.",
+                text: 'Proporciona los datos marcados en rojo',
+                icon: "warning",
+                button: "Aceptar",
+            });
+        }
+    }
+    function validatepass() {
+        pass1 = document.getElementById('contrasenia');
+        pass2 = document.getElementById('contrasenia2');
+
+        if (pass1.value != pass2.value) {
+            $("#error").css("display", "block");
+            $("#mensaje").css("display", "none");
+            return false;
+        } else {
+            $("#error").css("display", "none");
+            return true;
+        }
+    }
+    function Valida() {
+
+        var result = false;
+
+
+        $('#contrasenia').css("border", "1px solid #ff0049");
+        $('#contrasenia2').css("border", "1px solid #ff0049");
+
+        if ($('#contrasenia').val().length > 0) {
+            $('#contrasenia').css("border", "1px solid #cccccc");
+        }
+        if ($('#contrasenia2').val().length > 0) {
+            $('#contrasenia2').css("border", "1px solid #cccccc");
+        }
+
+
+        if ($('#contrasenia').val().length > 0) {
+            if ($('#contrasenia2').val().length > 0) {
+                                result = true;
+            }
+        }
+
+        return result;
+    }
+    $('#IdMenuCuenta').addClass("active pcoded-trigger");
+ /*   $('#registrar').addClass("active");*/
+</script>

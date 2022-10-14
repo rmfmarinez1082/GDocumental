@@ -135,6 +135,21 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        } 
+        public Models.Usuarios SP_ActualizarUsuario(Models.Usuarios usuario)
+        {
+            b.ExecuteCommandSP("SP_ActualizarUsuario");
+            b.AddParameter("@Id", usuario.Id, SqlDbType.Int);
+            b.AddParameter("@Contraseña", usuario.Password, SqlDbType.NVarChar);
+            Models.Usuarios resultado = new Models.Usuarios();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
         }
     }
 }

@@ -587,6 +587,7 @@
     <Content Include="Views\Administracion\Registrar.cshtml" />
     <Content Include="Views\Administracion\Estadisticas.cshtml" />
     <Content Include="Views\PDF\Index.cshtml" />
+    <Content Include="Views\Administracion\Micuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

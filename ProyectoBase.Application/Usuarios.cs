@@ -35,5 +35,9 @@ namespace ProyectoBase.Application
         { 
             return _Usuario.SP_RegistrarUser(Nusuario);
         }
+        public Models.Usuarios SP_ActualizarUsuario(Models.Usuarios usuario)
+        {
+            return _Usuario.SP_ActualizarUsuario(usuario);
+        }
     }
 }
