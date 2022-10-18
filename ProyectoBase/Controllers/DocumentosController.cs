@@ -422,8 +422,6 @@ namespace ProyectoBase.Controllers
             Models.CCompartir NoCompartir = ApNCompartir.FCompartir(NCompartir);
             return Json(NoCompartir);
         }
-
-
         public FileResult descargar()
         {
             if (!String.IsNullOrEmpty(Request.QueryString["doc"])) {

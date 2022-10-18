@@ -10,10 +10,16 @@ namespace ProyectoBase.Models
     {
         public int Id { get; set; }
         public int IdAdmin { get; set; }
+
+
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
+        public string ApellidoM { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public int IdPuesto { get; set; }
+
+
         public int IdRol { get; set; }
         public string NombreRol { get; set; }
         public string RutaAcceso { get; set; }

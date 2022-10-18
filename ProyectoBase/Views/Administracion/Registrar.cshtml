@@ -28,14 +28,447 @@
     </div>
 </div>
 
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
 
+                <div class="col-xl-12 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Registro</h5>
+                            <span>Completa los campos marcados *</span>
+                        </div>
 
+                        <div class="p-15">
+                            <!-- Mensajes de Verificación -->
+                            <div id="error" class="alert alert-danger" role="alert" style="display:none">
+                                Las Contraseñas no coinciden, vuelve a intentar !
+                            </div>
 
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Nombre </label>
+                                        <input type="text" name="nombre" class="form-control form-control input-number" id="Nombre">
 
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Apellido paterno </label>
+                                        <input type="text" name="apellidoP" class="form-control form-control input-number" id="apellidoP">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Apellido materno </label>
+                                        <input type="text" name="ApellidoM" class="form-control form-control input-number" id="ApellidoM">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Correo </label>
+                                        <input type="email" name="correo" class="form-control" id="correo" onblur="validateEmail()">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Contraseña </label>
+                                        <input type="password" class="form-control" id="contrasenia">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Confirma Contraseña </label>
+                                        <input type="password" class="form-control" id="contrasenia2" onblur="validatepass()">
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Empresa</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="AEmpresa" onclick="CrearEmpresa();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Empresa"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Select-Empresa" onchange="ConsultaDepartamento(this.value)">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.empresaLis)
+                                                {
+                                                    <option value="@item1.Id">@item1.Nombre</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Departamento</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="ADepartamento" onclick="CrearDepartamento();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Departamento"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Departamento" onchange="ConsultaPuesto(this.value)">
+                                                <option value="0">Seleccionar </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Puesto</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="APuesto" onclick="CrearPuesto();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Puesto"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Select-Puesto" @*onchange="ConsultaSubClasificacion(this.value),Selecionar()"*@>
+                                                <option value="0">Seleccionar </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 offset-md-4">
+                                    <button class="btn waves-effect waves-light btn-success" onclick="Registrar()" id="registar">Registrar</button>
+                                    @*<a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>*@
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
+
+
 <script>
+    function Registrar() {
+        if (Valida()) {
+            if (validatepass()) { 
+                if (validateEmail()) {
+                    $("#registar").prop('disabled', true);
+
+                    var obj = {};
+                    obj['Nombre'] = $("#Nombre").val();
+                    obj['Apellidos'] = $("#apellidoP").val();
+                    obj['ApellidoM'] = $("#ApellidoM").val();
+                    obj['Email'] = $("#correo").val();
+                    obj['Password'] = $("#contrasenia").val();
+                    obj['IdPuesto'] = $("#Select-Puesto option:selected").val();
+
+                    var jsonObject = {
+                        "NuevoUsuario": obj
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Usuario_Registrar", "Administracion")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            switch (data.Id) {
+                                case -1:
+
+                                    swal({
+                                        title: "El Usuario que intentas agregar ya se encuentra registrado .",
+                                        text: '',
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+
+
+                                    break;
+                                case 0:
+                                    swal({
+                                        title: "Algo ocurrió Usuario no registrado !",
+                                        text: '',
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+                                    break;
+
+                                default:
+                                // code block
+                            }
+                            if (data.Id > 0) {
+                                swal({
+                                    title: "Usuario registrado !!",
+                                    text: "Usuario disponible para iniciar sesión",
+                                    icon: "success",
+                                    button: "Aceptar",
+                                }).then((value) => {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function () {
+                            alert("error");
+                        }
+                    });
+
+                    $("#registar").prop('disabled', false);
+                } else {
+                    swal({
+                        title: "Error Correo.",
+                        text: 'Inserta un Correo valido',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                }
+            } else {
+                swal({
+                    title: "Error Contraseña.",
+                    text: 'Verifica que tu contraseña sea la misma',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+            }
+        }else {
+            swal({
+                title: "INFORMACIÓN INCOMPLETA.",
+                text: 'Proporciona los datos marcados en rojo',
+                icon: "warning",
+                button: "Aceptar",
+            });
+        }
+    }
+
+    function Valida() {
+
+        var result = false;
+
+
+        $('#Nombre').css("border", "1px solid #ff0049");
+        $('#apellidoP').css("border", "1px solid #ff0049");
+        $('#ApellidoM').css("border", "1px solid #ff0049");
+        $('#correo').css("border", "1px solid #ff0049");
+        $('#contrasenia').css("border", "1px solid #ff0049");
+        $('#contrasenia2').css("border", "1px solid #ff0049");
+        $('#Select-Puesto').css("border", "1px solid #ff0049");
+        $('#Select-Empresa').css("border", "1px solid #ff0049");
+        $('#Departamento').css("border", "1px solid #ff0049");
+
+
+        if ($('#Nombre').val().length > 0) {
+            $('#Nombre').css("border", "1px solid #cccccc");
+        }
+        if ($('#apellidoP').val().length > 0) {
+            $('#apellidoP').css("border", "1px solid #cccccc");
+        }
+        if ($('#ApellidoM').val().length > 0) {
+            $('#ApellidoM').css("border", "1px solid #cccccc");
+        }
+        if ($('#correo').val().length > 0) {
+            $('#correo').css("border", "1px solid #cccccc");
+        }
+        if ($('#contrasenia').val().length > 0) {
+            $('#contrasenia').css("border", "1px solid #cccccc");
+        }
+        if ($('#contrasenia2').val().length > 0) {
+            $('#contrasenia2').css("border", "1px solid #cccccc");
+        }
+        if ($("#Select-Puesto option:selected").val() > 0) {
+            $('#Select-Puesto').css("border", "1px solid #cccccc");
+        }
+        if ($("#Select-Empresa option:selected").val() > 0) {
+            $('#Select-Empresa').css("border", "1px solid #cccccc");
+        }
+        if ($("#Departamento option:selected").val() > 0) {
+            $('#Departamento').css("border", "1px solid #cccccc");
+        }
+
+
+
+        if ($("#Select-Empresa option:selected").val() > 0) {
+            if ($("#Departamento option:selected").val() > 0) {
+                if ($("#Select-Puesto option:selected").val() > 0) {
+                    if ($('#contrasenia').val().length > 0) {
+                        if ($('#contrasenia2').val().length > 0) {
+                            if ($('#correo').val().length > 0) {
+                                if ($('#ApellidoM').val().length > 0) {
+                                    if ($('#apellidoP').val().length > 0) {
+                                        if ($('#Nombre').val().length > 0) {
+                                            result = true;
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }    
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    function validatepass() {
+        pass1 = document.getElementById('contrasenia');
+        pass2 = document.getElementById('contrasenia2');
+
+        if (pass1.value != pass2.value) {
+            $("#error").css("display", "block");
+            return false;
+        } else {
+            $("#error").css("display", "none");
+            return true;
+        }
+    }
+
+    function ConsultaDepartamento (Id){
+
+        $('#Departamento').empty();
+        $('#Select-Puesto').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "Cat_ListadoDepartamentos": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Departamento_Listar", "Administracion")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Departamento").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Departamento").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Departamento").append(option);
+
+                });
+
+            var option = $(document.createElement('option'));
+
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Select-Puesto").append(option);
+
+        }
+    });
+    }
+
+    function ConsultaPuesto(Id) {
+
+    $('#Select-Puesto').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "Cat_ListadoDepartamentos": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Puesto_Listar", "Administracion")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#Select-Puesto").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Select-Puesto").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Select-Puesto").append(option);
+
+                });
+
+
+        }
+    });
+    }
+
+    function validateEmail(){
+
+          var validEmail =  /^\w+([.-_+]?\w+)*@@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+
+         if (validEmail.test(jQuery('#correo').val() ) ){
+                    return true;
+         } else {
+             swal({
+                 title: "Correo no valido !!",
+                 text: 'Inserta un correo valido.',
+                 icon: "warning",
+                 button: "Aceptar",
+             });
+                    return false;
+         }
+     }
+
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#registrar').addClass("active");
 </script>

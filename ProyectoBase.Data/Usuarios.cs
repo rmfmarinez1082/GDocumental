@@ -117,5 +117,39 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+        public Models.Usuarios SP_RegistrarUser(Models.Usuarios Nusuario)
+        {
+            b.ExecuteCommandSP("SP_RegistrarUser");
+            b.AddParameter("@Puesto", Nusuario.IdPuesto, SqlDbType.Int);
+            b.AddParameter("@Nombre", Nusuario.Nombre, SqlDbType.NVarChar);
+            b.AddParameter("@ApellidoP", Nusuario.Apellidos, SqlDbType.NVarChar);
+            b.AddParameter("@ApellidoM", Nusuario.ApellidoM, SqlDbType.NVarChar);
+            b.AddParameter("@Correo", Nusuario.Email, SqlDbType.NVarChar);
+            b.AddParameter("@Contraseña", Nusuario.Password, SqlDbType.NVarChar);
+            Models.Usuarios resultado = new Models.Usuarios();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        } 
+        public Models.Usuarios SP_ActualizarUsuario(Models.Usuarios usuario)
+        {
+            b.ExecuteCommandSP("SP_ActualizarUsuario");
+            b.AddParameter("@Id", usuario.Id, SqlDbType.Int);
+            b.AddParameter("@Contraseña", usuario.Password, SqlDbType.NVarChar);
+            Models.Usuarios resultado = new Models.Usuarios();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

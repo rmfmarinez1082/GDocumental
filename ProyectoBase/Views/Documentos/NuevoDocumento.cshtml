@@ -483,7 +483,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Nombre (titulo) </label>
-                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento" onchange="ValidaInput('NombreArticulo')" onpaste="return false">
+                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento" onchange="ValidaInput('NombreArticulo')">
                                                                 <p id="charNum"></p>
                                                             </div>
                                                         </div>
@@ -491,7 +491,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Versión </label>
-                                                                <input type="number" class="form-control form-control input-number" id="Version" onchange="ValidaInput('SKU')" onpaste="return false">
+                                                                <input type="number" class="form-control form-control input-number" id="Version" onchange="ValidaInput('SKU')">
                                                             </div>
                                                         </div>
 
@@ -513,7 +513,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Palabra Clave </label>
-                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" onchange="ValidaInput('NombreArticulo')" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" onchange="ValidaInput('NombreArticulo')">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8 col-lg-8">
@@ -544,35 +544,35 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onchange="ValidaInput('Largo')" onkeypress="return soloNum(event)" oonpaste="return false">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onchange="ValidaInput('Largo')" onkeypress="return soloNum(event)" >
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onchange="ValidaInput('Altura')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onchange="ValidaInput('Altura')" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
-                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onchange="ValidaInput('Ancho')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onchange="ValidaInput('Ancho')" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                          <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
@@ -712,7 +712,7 @@
                                                         @*3erNivel*@
                                                         <div id="Modulo3er" class="col-md-4 col-lg-4" @*style="display:none"*@>
                                                             <div class="form-group">
-                                                                <label for="largeInput">* 3er Nivel</label>
+                                                                <label for="largeInput">* Sección</label>
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                         <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
@@ -861,8 +861,12 @@
 
                                                             <h4><strong class="TextoColor">CLASIFICACIÓN </strong> </h4>
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
-                                                            <p><strong>Clasificación Archivo</strong> <br /> <span id="SP_Select_ClasificacionArchivo"></span></p>
-                                                            <p><strong>SubClasificación Archivo</strong> <br /> <span id="SP_Select_SubClasificacionArchivo"></span></p>
+
+
+                                                            <p><strong>Clasificación Archivo</strong> <br />
+                                                            <span class="label label-info" id="SP_Select_ClasificacionArchivo"></span>/
+                                                            <span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
+                                                            <span class="label label-danger" id="SP_Select_Seccion"></span></p>
 
                                                         </div>
                                                     </div>
@@ -1384,7 +1388,6 @@
 
                                     $("#BtnPublicar").prop('disabled', true);
 
-                                    /*alert("Se desabilita el boton")*/
                                     var obj = {};
                                     obj['Nombre'] = $("#NombreDocumento").val();
                                     obj['Version'] = $("#Version").val();
@@ -1422,9 +1425,6 @@
                                     var jsonObject = {
                                         "NuevoDocumento": obj
                                     };
-
-
-                                    /*console.log(jsonObject);*/
 
                                     $.ajax({
                                         type: "POST",
@@ -1674,17 +1674,7 @@
                 //PintaGaleria(Contenido);
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+                alert("error")
             }
         });
     }
@@ -2637,6 +2627,7 @@
         $('#SP_Select_Clasificacion').text($("#Clasificacion option:selected").html());
         $('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
         $('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
+        $('#SP_Select_Seccion').text($("#Select3 option:selected").html());
 
         //if ($('#checkboxPromocion').prop('checked')) {
         //    $('#SP_PromocionArticulo').text(" $" +$("#NewPrecioPromocion").val());

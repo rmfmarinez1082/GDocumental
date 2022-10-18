@@ -242,7 +242,29 @@ namespace ProyectoBase.Controllers
 
         }
 
-        public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification)
+        public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification)
+        {
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+            }
+            else { return RedirectToAction("Index", "Home"); }
+
+            return View();
+        }
+
+        public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
+            Application.EmpresasListado AempresasListado)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -259,8 +281,10 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                List<Models.EmpresasListado> empresasListados = AempresasListado.SP_EmpresasListado();
+                ViewBag.empresaLis = empresasListados;
                 return View();
-
+                 
             }
             else
             {
@@ -330,6 +354,36 @@ namespace ProyectoBase.Controllers
 
             return Json(Ndocumento);
         }
+
+        public JsonResult Departamento_Listar(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos, Application.Cat_ListadoDepartamentos APcat_ListadoDepartamentos)
+        {
+            List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_LisDep(cat_ListadoDepartamentos);
+            return Json(cat_ListadoDepartamentoss);
+        }
+        public JsonResult Puesto_Listar(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos, Application.Cat_ListadoDepartamentos APcat_ListadoDepartamentos)
+        {
+            List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
+            return Json(cat_ListadoDepartamentoss);
+        }
+        
+        [HttpPost]
+        public JsonResult Usuario_Registrar(Models.Usuarios NuevoUsuario, Application.Usuarios Ausuarios)
+        {
+            Models.Usuarios Nusuario = Ausuarios.SP_RegistrarUser(NuevoUsuario);
+
+            return Json(Nusuario);
+        }
+        [HttpPost]
+        public JsonResult Usuario_Actualizar(Models.Usuarios UpdateUsuario, Application.Usuarios Ausuarios)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            UpdateUsuario.Id = Usuario.Id;
+            Models.Usuarios updatesuarios = Ausuarios.SP_ActualizarUsuario(UpdateUsuario);
+
+            return Json(updatesuarios);
+        }
+
 
     }
 

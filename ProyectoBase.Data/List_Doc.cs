@@ -56,7 +56,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
         public List<Models.List_Doc> SP_SeleccionarPorId(Models.List_Doc list_DocID)
         {
             b.ExecuteCommandSP("SP_SeleccionarPorId");
@@ -86,7 +85,28 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public List<Models.List_Doc> DetalleDocCompartido(Models.List_Doc listarDoc)
+        {
+            b.ExecuteCommandSP("DetalleDocCompartido");
+            b.AddParameter("@IdAdmin", listarDoc.IdSesion, SqlDbType.VarChar);
+            b.AddParameter("@IdDoc", listarDoc.Id, SqlDbType.VarChar);
 
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    FechaEntradaVigor = reader["FechaCompartido"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
 
     }
 }

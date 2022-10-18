@@ -13,5 +13,9 @@ namespace ProyectoBase.Application
         {
             return _Cat_ListadoDepartamentos.SP_LisDep(cat_ListadoDepartamentos);
         }
+        public List<Models.Cat_ListadoDepartamentos> SP_CatEmpresaPuestos(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos)
+        {
+            return _Cat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
+        }
     }
 }
