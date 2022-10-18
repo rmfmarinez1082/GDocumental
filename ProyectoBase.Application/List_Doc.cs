@@ -23,5 +23,10 @@ namespace ProyectoBase.Application
         {
             return _list_Doc.SP_RegistroDelete();
         }
+
+        public List<Models.List_Doc> DetalleDocCompartido(Models.List_Doc listarDoc)
+        {
+            return _list_Doc.DetalleDocCompartido(listarDoc);
+        }
     }
 }

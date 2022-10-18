@@ -53,8 +53,7 @@
                                                 <tr>
 
                                                     <th style="color:white">Nombre</th>
-                                                    @*<th style="color:white">Clasificación</th>*@
-
+                                                    <th style="color:white">Detalle</th>
                                                     <th class="text-center" style="color:white">Editar</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
@@ -63,23 +62,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
-
                                                 @foreach (var item in ViewBag.dtList_Doc)
-                                                {
+                                                 {
 
                                                     <tr>
-
                                                         <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
-                                                        @*<td>@item.NClaA / @item.Sub</td>*@
-
+                                                        <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
-
                                                     </tr>
-
-                                                }
+                                                 }
                                             </tbody>
                                         </table>
                                     </div>
@@ -96,7 +90,7 @@
 
 
 <!-- VIEW registro -->
-<div class="modal fade" id="ModalPDF" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalDetalle" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -105,19 +99,43 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="height:420px;">
-
+            <div class="modal-body" style="height:50%;">
+                <span>Este documento esta actualmente compartido con los siguientes usuarios</span>
+                <br />
                 <div class="col-md-12">
 
                     <div class="row">
 
-                        <div class="col-md-12" style="height:420px;">
+                        <div class="col-md-12" style="height: 50%;">
 
-                            <!--pantalla de visualización-->
-                            <div style="width: 100%; height: 100%">
-                                <!--documento aquí-->
-                                <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0" onload="disableContextMenu();"></iframe>
+                            <div class="table-responsive">
+                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                    <thead style="background-color: #0d6efd">
+                                        <tr>
+
+                                            <th style="color:white">Nombre</th>
+                                            <th style="color:white">Fecha Compartido</th>
+                                            <th class="text-center" style="color:white">Dejar de Compartir</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        @*@foreach (var item in ViewBag.dtList_Doc)
+                                        {
+
+                                            <tr>
+                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
+                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
+                                                <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+                                            </tr>
+                                        }*@
+                                    </tbody>
+                                </table>
                             </div>
+
 
                         </div>
 
@@ -265,13 +283,63 @@
             "language": {
                 "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             },
-        });
+    });
 
+    $('#Detalle').DataTable({
+        pageLength: 5,
+        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            "language": {
+                "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            },
+    });
 
         $("#DepartamentoHide").hide();
         $("#EmpleadosHide").hide();
         $("#Empresahide").hide();
         $("#Provedorhide").hide();
+    //Funcion detalles del documento
+
+    function VerDetalle(Id) {
+
+                    window.location.href='@Url.Action("Vista", "Administracion")?Id=' + Id;
+    }
+
+    function SeleccionarPorId(id) {
+
+    var obj = {};
+    obj['Id'] = id;
+
+    var jsonObject = {
+        "list_Doc": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+
+        success: function (resultado) {
+
+
+            $('#IdRegistro').val(resultado[0].Id);
+            $('#ModalTitulo').text('Documento: ' + resultado[0].Nombre);
+            $('#Descripcion').text(resultado[0].Descripcion);
+            $('#FechaRegistro').text(resultado[0].FechaVigor);
+            $('#Version').text(resultado[0].Version);
+            $('#Registrado').text(resultado[0].Registrado);
+            $('#Estatus').text(resultado[0].Estatus);
+            $('#Clasificacion').text(resultado[0].Clasificacion);
+            $('#TipoDocumento').text(resultado[0].TipoDocumento)
+
+        },
+        error: function (resultado) {
+            console.log(resultado);
+            alert("Eroor funcion seleccionar por id ");
+        }
+    });
+    }
 
     function Ver(documento) {
         window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
@@ -310,7 +378,6 @@
             });
     }
 
-
     function NoCompartir(id) {
 
         var obj = {};
@@ -336,12 +403,11 @@
                     })
             },
             error: function (resultado) {
-                console.log(resultado);
+
                 alert("Error funcion ");
             }
         });
     }
-
 
     function Eliminar(id) {
         swal({
@@ -405,8 +471,6 @@
         });
     }
 
-
-
     function ListarCompartirPorId(id) {
     var obj = {};
     obj['Id'] = id;
@@ -423,8 +487,6 @@
         dataType: "json",
 
         success: function (resultado) {
-            //console.log(resultado);
-            //alert(resultado[0].Id);
             $('#Idcompartir').val(resultado[0].Id);
             $('#CompartirTitulo').text('Compartir Documento: ' + resultado[0].Nombre);
         },
@@ -624,51 +686,7 @@
     }
     }
 
-    function VerRegistro(documento) {
 
-        $('#ModalPDF').modal('show');
-        $('#iframepdf').attr('src', '@Url.Action("Index", "PDF")?Id=' + documento + '#toolbar=0');
-        SeleccionarPorId(documento);
-    }
-
-    function SeleccionarPorId(id) {
-
-    var obj = {};
-    obj['Id'] = id;
-
-    var jsonObject = {
-        "list_Doc": obj
-    };
-
-    $.ajax({
-        url: "@Url.Action("SeleccionarPorId", "Documentos")",
-        data: JSON.stringify(jsonObject),
-        type: "POST",
-        contentType: "application/json",
-        dataType: "json",
-
-        success: function (resultado) {
-            console.log(resultado);
-            //alert(resultado[0].Id);
-            $('#IdRegistro').val(resultado[0].Id);
-            $('#ModalTitulo').text('Documento: ' + resultado[0].Nombre);
-/*            $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');*/
-            $('#Descripcion').text(resultado[0].Descripcion);
-            $('#FechaRegistro').text(resultado[0].FechaVigor);
-            $('#Version').text(resultado[0].Version);
-            $('#Registrado').text(resultado[0].Registrado);
-
-            $('#Estatus').text(resultado[0].Estatus);
-            $('#Clasificacion').text(resultado[0].Clasificacion);
-            $('#TipoDocumento').text(resultado[0].TipoDocumento)
-
-        },
-        error: function (resultado) {
-            console.log(resultado);
-            alert("Eroor funcion seleccionar por id ");
-        }
-    });
-}
 
     function ConsultaDepartamento (Id){
 
