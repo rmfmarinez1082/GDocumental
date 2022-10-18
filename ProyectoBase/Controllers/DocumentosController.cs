@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBase.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace ProyectoBase.Controllers
             Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
              Models.Notification _notification, Application.Notification Anotification)
         {
-            
-                Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
                 List<Models.Cat_Tipo_Documento> dtTipoDocumentos = cat_Tipo_Documento.Cat_Tipo_Documento_Listar();
@@ -48,7 +49,7 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
-            return View();
+                return View();
             }
             else { return RedirectToAction("Index", "Home"); }
 
@@ -59,7 +60,7 @@ namespace ProyectoBase.Controllers
             Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
             Application.ProvedorListado provedoresListado, Models.Notification _notification, Application.Notification Anotification)
         {
-            
+
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
@@ -72,7 +73,7 @@ namespace ProyectoBase.Controllers
 
                 List<Models.ProvedorListado> dtprovedorListados = provedoresListado.SP_ProvedoresListado();
                 ViewBag.dtprovedorListados = dtprovedorListados;
-                    
+
                 List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
                 ViewBag.dtEmpresasListado = dtEmpresasListado;
 
@@ -85,7 +86,7 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
-                
+
                 return View();
             }
             else { return RedirectToAction("Index", "Home"); }
@@ -94,7 +95,7 @@ namespace ProyectoBase.Controllers
         public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
             , Models.Notification _notification, Application.Notification Anotification)
         {
-                Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
@@ -116,10 +117,69 @@ namespace ProyectoBase.Controllers
         }
 
 
+        public ActionResult VistaDetalle(Models.Notification _notification, Application.Notification Anotification,
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
+            Application.List_Doc ADetails)
+        {
+
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                 ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                //VISTA PROCEDIMIENTOS
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    //DATOS DEL DOCUMENTO
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                    ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.Descripcion = documento.Descripcion;
+                    ViewBag.version = documento.Version;
+                    ViewBag.NArchivo = documento.NmArchivo;
+                    ViewBag.Ruta = "DocumentosTemporales";
+
+                    Models.List_Doc info = new List_Doc();
+                    info.Id = Id;
+                    info.IdSesion = Usuario.Id;
+                    List < Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
+                    ViewBag.DetailsDoc = DetailsDoc;
+
+
+                    //CONTROL DE NOTIFICACIONES 
+                    Dnotificacion.IdUsuario = Usuario.Id;
+                    Dnotificacion.IdDocumento = Id;
+                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+
+                    return View();
+                    }
+                    else { return RedirectToAction("Index", "Home"); }
+                }
+            else { return RedirectToAction("PrincipalA", "Administracion"); }
+        }
         [HttpPost]
         public JsonResult QuitarArchivo(Models.Documento documento, Application.Documentos AppDoc)
         {
-            
+
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             documento.IdUsuario = Usuario.Id;
             Models.Documento Ddocument = AppDoc.SP_QuitarArchivo(documento);
@@ -138,7 +198,7 @@ namespace ProyectoBase.Controllers
         public JsonResult ClasificacionArchivo_Listar(Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
             List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-           
+
             return Json(dtClasificacionArchivo);
         }
 
@@ -205,7 +265,7 @@ namespace ProyectoBase.Controllers
             {
                 ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
                 ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
-            
+
 
                 nuevoDocumento.NmArchivo = ListaDocumentos[0].NmArchivo;
                 nuevoDocumento.NmArchivoword = ListaDocumentoword[0].NmArchivoword;
@@ -217,9 +277,12 @@ namespace ProyectoBase.Controllers
 
                 Models.Cat_ClasificacionArchivo NewCat_ClasificacionArchivo = new Models.Cat_ClasificacionArchivo();
 
-                if (nuevoDocumento.IdClasificacionArchivo > 0) {
-                    if (nuevoDocumento.IdSubClasificacionArchivo > 0) {
-                        if (nuevoDocumento.IdNombre3 > 0) {
+                if (nuevoDocumento.IdClasificacionArchivo > 0)
+                {
+                    if (nuevoDocumento.IdSubClasificacionArchivo > 0)
+                    {
+                        if (nuevoDocumento.IdNombre3 > 0)
+                        {
                             NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdNombre3;
                         }
                         else
@@ -385,16 +448,17 @@ namespace ProyectoBase.Controllers
 
         [HttpPost]
         public JsonResult Compartir(Models.CCompartir NCompartir, Application.CCompartir ApNCompartir,
-            Application.Documentos Apdocumentos,Application.LisUser APlisUser,Application.Correo correo,
-            Application.Notification notificacion,Models.Notification notificationId)
+            Application.Documentos Apdocumentos, Application.LisUser APlisUser, Application.Correo correo,
+            Application.Notification notificacion, Models.Notification notificationId)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            
+
 
             Models.CCompartir NCompartirr = ApNCompartir.SP_Compartir(NCompartir);
-            if(NCompartirr.Id == 1) { 
+            if (NCompartirr.Id == 1)
+            {
 
-                 // consultar eldocumento
+                // consultar eldocumento
                 Models.Documento documento1 = new Models.Documento();
                 documento1.Id = NCompartir.IdDocumento;
                 Models.Documento documento = Apdocumentos.SP_ListarDocumento(documento1);
@@ -409,7 +473,7 @@ namespace ProyectoBase.Controllers
                 foreach (var dtUsuario in lisUser)
                 {
                     correo.EnvioCorreoDocumentoCompartir(documento, dtUsuario);
-                    notificacion.SP_Notification(documento,dtUsuario, notificationId);
+                    notificacion.SP_Notification(documento, dtUsuario, notificationId);
 
                 }
             }
@@ -424,16 +488,18 @@ namespace ProyectoBase.Controllers
         }
         public FileResult descargar()
         {
-            if (!String.IsNullOrEmpty(Request.QueryString["doc"])) {
+            if (!String.IsNullOrEmpty(Request.QueryString["doc"]))
+            {
                 string path = Server.MapPath("~/DocumentosTemporales");
                 string filename = Request.QueryString["doc"];
                 string fullpath = Path.Combine(path, filename);
                 string nombre = Request.QueryString["nom"];
-                return File(fullpath, "application/docx", nombre+".docx");
-            
-            }else
+                return File(fullpath, "application/docx", nombre + ".docx");
+
+            }
+            else
             {
-                return File("~/Documentos/Restringido.pdf", "application/pdf",  "Sin_Acceso.pdf");
+                return File("~/Documentos/Restringido.pdf", "application/pdf", "Sin_Acceso.pdf");
             }
         }
     }

@@ -53,7 +53,7 @@
                                                 <tr>
 
                                                     <th style="color:white">Nombre</th>
-                                                    <th style="color:white">Detalle</th>
+                                                    <th class="text-center" style="color:white">Detalle</th>
                                                     <th class="text-center" style="color:white">Editar</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
@@ -301,7 +301,7 @@
 
     function VerDetalle(Id) {
 
-                    window.location.href='@Url.Action("Vista", "Administracion")?Id=' + Id;
+                    window.location.href='@Url.Action("VistaDetalle", "Documentos")?Id=' + Id;
     }
 
     function SeleccionarPorId(id) {
