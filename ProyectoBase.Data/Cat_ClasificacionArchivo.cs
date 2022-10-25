@@ -29,7 +29,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
         public List<Models.Cat_ClasificacionArchivo> SP_Subclas()
         {
             b.ExecuteCommandSP("SP_Subclas");
@@ -69,6 +68,8 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+
+
         public Models.Cat_ClasificacionArchivo Cat_ClasificacionArchivo_Seleccionar(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
             b.ExecuteCommandSP("Cat_ClasificacionArchivo_Seleccionar");
@@ -86,7 +87,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
 
         public List<Models.Cat_ClasificacionArchivo> SP_AgregarClasArch(Models.Cat_ClasificacionArchivo nuevaclas)
         {
@@ -128,6 +128,7 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
 
     }
 }

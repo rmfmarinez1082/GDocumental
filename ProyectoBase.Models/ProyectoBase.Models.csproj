@@ -71,6 +71,7 @@
     <Compile Include="ListarCompartir.cs" />
     <Compile Include="ProvedorListado.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Usuarios.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

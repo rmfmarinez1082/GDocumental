@@ -14,7 +14,7 @@ namespace ProyectoBase.Controllers
     {
 
         // GET: Administracion
-        public ActionResult Index(Application.Menu menu)
+        public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -22,12 +22,21 @@ namespace ProyectoBase.Controllers
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
-            if (menu.ValidacionPagina(Usuario, url))
+            //if (menu.ValidacionPagina(Usuario, url))
+            //{
+            if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Id = Usuario.Id;
                 ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+                ViewBag.dtClasificacionArchivo = dtClasificacionArchivo;
 
                 return View();
             }
@@ -35,7 +44,12 @@ namespace ProyectoBase.Controllers
             {
                 return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
             }
-        }
+                //}
+                //else
+                //{
+                //    return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+                //}
+            }
 
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
             Models.Documento_Versiones _documento_Versiones,
