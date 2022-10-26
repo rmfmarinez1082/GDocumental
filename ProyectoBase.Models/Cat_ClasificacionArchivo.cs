@@ -10,6 +10,7 @@ namespace ProyectoBase.Models
     {
         public int Id { get; set; }
         public int Idhijo { get; set; }
+        public int IdTres { get; set; }
         public string Nombre { get; set; }
 
         public string NombreClasificacion { get; set; }
