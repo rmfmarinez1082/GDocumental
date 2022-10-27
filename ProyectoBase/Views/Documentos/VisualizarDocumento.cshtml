@@ -53,7 +53,7 @@
                                                 <tr>
 
                                                     <th style="color:white">Nombre</th>
-                                                    <th style="color:white">Detalle</th>
+                                                    <th class="text-center" style="color:white">Detalle</th>
                                                     <th class="text-center" style="color:white">Editar</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
@@ -89,68 +89,8 @@
 </div>
 
 
-<!-- VIEW registro -->
-<div class="modal fade" id="ModalDetalle" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="ModalTitulo"></h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="height:50%;">
-                <span>Este documento esta actualmente compartido con los siguientes usuarios</span>
-                <br />
-                <div class="col-md-12">
-
-                    <div class="row">
-
-                        <div class="col-md-12" style="height: 50%;">
-
-                            <div class="table-responsive">
-                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                    <thead style="background-color: #0d6efd">
-                                        <tr>
-
-                                            <th style="color:white">Nombre</th>
-                                            <th style="color:white">Fecha Compartido</th>
-                                            <th class="text-center" style="color:white">Dejar de Compartir</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        @*@foreach (var item in ViewBag.dtList_Doc)
-                                        {
-
-                                            <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
-                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
-                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
-                                                <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
-                                                <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-                                                <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
-                                            </tr>
-                                        }*@
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
 <!-- VIEW compartir-->
-<div class="modal fade" id="ModalCompartir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade " id="ModalCompartir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -301,7 +241,7 @@
 
     function VerDetalle(Id) {
 
-                    window.location.href='@Url.Action("Vista", "Administracion")?Id=' + Id;
+                    window.location.href='@Url.Action("VistaDetalle", "Documentos")?Id=' + Id;
     }
 
     function SeleccionarPorId(id) {

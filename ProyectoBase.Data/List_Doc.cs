@@ -99,7 +99,8 @@ namespace ProyectoBase.Data
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
                     Nombre = reader["Nombre"].ToString(),
-                    FechaEntradaVigor = reader["FechaCompartido"].ToString()
+                    FechaEntradaVigor = reader["FechaCompartido"].ToString(),
+                    Estatus = reader["Estatus"].ToString()
                 };
                 resultado.Add(item);
             }

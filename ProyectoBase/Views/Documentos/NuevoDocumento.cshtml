@@ -544,35 +544,35 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onchange="ValidaInput('Largo')" onkeypress="return soloNum(event)" >
+                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision"  onkeypress="return soloNum(event)" >
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onchange="ValidaInput('Altura')" onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion"  onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
-                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onchange="ValidaInput('Ancho')" onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor"  onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                          <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision"  onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento"  onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
@@ -673,19 +673,22 @@
                                                                 <label for="largeInput"> Clasificación Archivo</label>
 
                                                                 <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="AClas" onclick="Crearclas();"  style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Clasificación"><i class="fa fa-plus"></i></button>
+                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                                    {
+                                                                        <div class="input-group-prepend">
+                                                                            <button class="btn btn-default waves-effect" type="button" id="AClas" onclick="Crearclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Clasificación"><i class="fa fa-plus"></i></button>
+                                                                        </div>
+                                                                    }
+
+                                                                        <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
+                                                                            <option value="0">Seleccionar </option>
+                                                                            @foreach (var item1 in ViewBag.dtClasificacionArchivo)
+                                                                            {
+                                                                                <option value="@item1.Id">@item1.Nombre</option>
+                                                                            }
+                                                                        </select>
                                                                     </div>
-                                                                    <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
-                                                                        <option value="0">Seleccionar </option>
-                                                                        @foreach (var item1 in ViewBag.dtClasificacionArchivo)
-                                                                        {
-                                                                            <option value="@item1.Id">@item1.Nombre</option>
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                                @*<br />
-                                                                <button id="AClas" class="btn-dark" onclick="Crearclas();">Agregar Clasificación </button>*@
+
                                                             </div>
                                                         </div>
 
@@ -694,18 +697,18 @@
                                                             <div class="form-group">
                                                                 <label for="largeInput">SubClasificación Archivo</label>
                                                                 <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="ASclas" onclick="CrearSubclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Sub Clasificación"><i class="fa fa-plus"></i></button>
-                                                                    </div>
-                                                                    <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
-                                                                        <option value="0">Seleccionar </option>
+                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                                    {
+                                                                        <div class="input-group-prepend">
+                                                                            <button class="btn btn-default waves-effect" type="button" id="ASclas" onclick="CrearSubclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Sub Clasificación"><i class="fa fa-plus"></i></button>
+                                                                        </div>
+                                                                    }
+                                                                        <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
+                                                                            <option value="0">Seleccionar </option>
 
-                                                                    </select>
-                                                                    @*<br />
-                                                                    <button id="ASclas" class="btn-dark" onclick="CrearSubclas();">Agregar Sub Clasificación</button>
-                                                                    <br /> <br />*@
-                                                                    @*<button id="NNivel" class="btn-dark" onclick="Nuevo();">Agregar nuevo nivel</button>*@
-                                                                </div>
+                                                                        </select>
+
+                                                                    </div>
                                                             </div>
                                                         </div>
 
@@ -714,17 +717,18 @@
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Sección</label>
                                                                 <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
-                                                                    </div>
-                                                                    <select class="form-control" id="Select3" onchange="">
-                                                                        <option value="0">Seleccionar </option>
+                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                                    {
+                                                                        <div class="input-group-prepend">
+                                                                            <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
+                                                                        </div>
+                                                                    }
+                                                                        <select class="form-control" id="Select3" onchange="">
+                                                                            <option value="0">Seleccionar </option>
 
-                                                                    </select>
-                                                                    @*<br />
-                                                                    <button id="A3er" class="btn-dark" onclick="Crear3er();">Agregar 3er Nivel</button>*@
-                                                                    @*<button id="3ercancel" class="btn-danger" onclick="Cancel3er();">Cancelar</button>*@
-                                                                </div>
+                                                                        </select>
+
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                         
