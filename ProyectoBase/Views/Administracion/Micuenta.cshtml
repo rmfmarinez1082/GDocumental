@@ -4,14 +4,14 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 <style>
-    .progress-bar-danger{
-        background-color:#e90f10;
+    .progress-bar-danger {
+        background-color: #ff5252;
     }
-    .progress-bar-warning{
-        background-color:#ffad00;
+    .progress-bar-warning {
+        background-color: #ffe100;
     }
-    .progress-bar-success{
-        background-color:#02b502;
+    .progress-bar-success {
+        background-color: #11c15b;
     }
     .fa-eye{
         color:#022255;
@@ -72,7 +72,7 @@
                                 <div id="error" class="alert alert-danger" role="alert" style="display:none">
                                     Las Contraseñas no coinciden, vuelve a intentar !
                                 </div>
-                                <div id="mensaje" class="alert alert-info" role="alert">
+                                <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
                                    Recuerda tu contraseña para acceder al sistema.
                                 </div>
 
@@ -84,8 +84,8 @@
                                         <div class="form-group">
                                             <label for="largeInput">*Nueva Contraseña </label>
                                             <input type="password" class="form-control" id="contrasenia" placeholder="Inserta tu nueva contraseña">
-                                            <span class="show-pass" onclick="toggle()" style="position:absolute;top:18.5%;right:8%" >
-                                            <i class="fa fa-eye" onclick="mostrar(this)"></i>
+                                            <span class="show-pass" onclick="toggle()" style="position:absolute;top:14%;right:8%">
+                                                <i class="fa fa-eye" onclick="mostrar(this)"></i>
                                             </span>
                                             <br />
                                             <div id="popover-pass">
@@ -98,6 +98,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                       
+                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                <span id="estado1"><strong>Favor de ingresar la nueva contraseña</strong></span>
+                                                <span style="margin-top:5px" id="estado2" class="label label-danger m-t--10"><strong>Seguridad: Débil</strong></span>
+                                                <span style="margin-top:5px" id="estado3" class="label label-warning"><strong>Seguridad: Buena</strong></span>
+                                                <span style="margin-top:5px" id="estado4" class="label label-success"><strong>Seguridad: Fuerte</strong></span>
+                                            </div>
+                                         
+                                            <hr />
                                             <ul class="list-unstyled">
                                                 <li>
                                                     <span class="low-upper-case">
@@ -116,7 +125,7 @@
                                                         <i class="fa fa-circle" aria-hidden="true"></i>
                                                         Caracteres especiales(!@@#$^&*)
                                                     </span>
-                                                </li> 
+                                                </li>
                                                 <li>
                                                     <span class="eight-character">
                                                         <i class="fa fa-circle" aria-hidden="true"></i>
@@ -279,6 +288,8 @@
     })
 
     function checkStrength(password) {
+
+
         let stregth = 0;
 
         if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
@@ -321,23 +332,47 @@
 
         if (stregth == 0) {
             passwordStrenght.style = 'with:0%';
+
+            $("#estado1").css("display", "none");
+            $("#estado2").css("display", "none");
+            $("#estado3").css("display", "none");
+            $("#estado4").css("display", "none");
         } else if (stregth == 2) {
             passwordStrenght.classList.remove('progress-bar-warning');
             passwordStrenght.classList.remove('progress-bar-success');
             passwordStrenght.classList.add('progress-bar-danger');
             passwordStrenght.style = 'width:10%';
+
+            $("#estado1").css("display", "none");
+            $("#estado2").css("display", "block");
+            $("#estado3").css("display", "none");
+            $("#estado4").css("display", "none");
         } else if (stregth == 3) {
             passwordStrenght.classList.add('progress-bar-warning');
             passwordStrenght.classList.remove('progress-bar-success');
             passwordStrenght.classList.remove('progress-bar-danger');
             passwordStrenght.style = 'width:60%';
+
+            $("#estado1").css("display", "none");
+            $("#estado2").css("display", "none");
+            $("#estado3").css("display", "block");
+            $("#estado4").css("display", "none");
         } else if (stregth == 4) {
             passwordStrenght.classList.remove('progress-bar-warning');
             passwordStrenght.classList.add('progress-bar-success');
             passwordStrenght.classList.remove('progress-bar-danger');
             passwordStrenght.style = 'width:100%';
+
+            $("#estado1").css("display", "none");
+            $("#estado2").css("display", "none");
+            $("#estado3").css("display", "none");
+            $("#estado4").css("display", "block");
         }
 
     }
 
+    $("#estado1").css("display", "block");
+    $("#estado2").css("display", "none");
+    $("#estado3").css("display", "none");
+    $("#estado4").css("display", "none");
 </script>
