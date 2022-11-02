@@ -247,9 +247,23 @@ namespace ProyectoBase.Controllers
             if (Session["NuevoDocumento"] != null)
             {
                 ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
+
             }
 
             return Json(ListaDocumentos);
+        } 
+        [HttpPost]
+        public JsonResult ConsultaDocumentosSesionWord()
+        {
+            List<Models.Documento> ListaDocumentoword = new List<Models.Documento>();
+
+            if (Session["NuevoDocumentoword"] != null)
+            {
+                ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
+
+            }
+
+            return Json(ListaDocumentoword);
         }
 
         [HttpPost]

@@ -1390,93 +1390,108 @@
                             if (Validaclasificacion()) {
                                 if (ValidaDocumento()) {
 
-                                    $("#BtnPublicar").prop('disabled', true);
+                                    if ($("#TipoDocumento option:selected").val() == 6) {
+                                        swal({
+                                            title: "Debes registrar un documento word",
+                                            text: '',
+                                            icon: "warning",
+                                            button: "Aceptar",
+                                        });
 
-                                    var obj = {};
-                                    obj['Nombre'] = $("#NombreDocumento").val();
-                                    obj['Version'] = $("#Version").val();
-                                    obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-                                    obj['PalabraClave'] = $("#PalabraClave").val();
-                                    obj['Descripcion'] = $("#Descripcion").val();
+                                        $("#myBtn").trigger("click");
+                                        $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                        $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                        $('[href="#menu4"]').tab('show');
+                                    } else { 
 
-                                    obj['FechaRevision'] = $("#FechaRevision").val();
-                                    obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
-                                    obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-                                    obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-                                    obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+                                        $("#BtnPublicar").prop('disabled', true);
 
-                                    obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-                                    obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+                                        var obj = {};
+                                        obj['Nombre'] = $("#NombreDocumento").val();
+                                        obj['Version'] = $("#Version").val();
+                                        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                        obj['PalabraClave'] = $("#PalabraClave").val();
+                                        obj['Descripcion'] = $("#Descripcion").val();
 
-                                    if ($('#checkboxBD').prop('checked')) {
-                                        obj['checkboxBD'] = 1;
-                                    } else {
-                                        obj['checkboxBD'] = 0;
-                                    }
+                                        obj['FechaRevision'] = $("#FechaRevision").val();
+                                        obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
 
-                                    if ($('#checkboxCorreo').prop('checked')) {
-                                        obj['checkboxCorreo'] = 1;
-                                    } else {
-                                        obj['checkboxCorreo'] = 0;
-                                    }
+                                        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
 
-                                    obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                    obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                    obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                    obj['IdNombre3'] = $("#Select3 option:selected").val();
+                                        if ($('#checkboxBD').prop('checked')) {
+                                            obj['checkboxBD'] = 1;
+                                        } else {
+                                            obj['checkboxBD'] = 0;
+                                        }
+
+                                        if ($('#checkboxCorreo').prop('checked')) {
+                                            obj['checkboxCorreo'] = 1;
+                                        } else {
+                                            obj['checkboxCorreo'] = 0;
+                                        }
+
+                                        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                        obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
+                                        obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                        obj['IdNombre3'] = $("#Select3 option:selected").val();
 
 
-                                    var jsonObject = {
-                                        "NuevoDocumento": obj
-                                    };
+                                        var jsonObject = {
+                                            "NuevoDocumento": obj
+                                        };
 
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "@Url.Action("Documentos_Registrar", "Documentos")",
-                                        async: false,
-                                        data: JSON.stringify(jsonObject),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-                                            switch (data.Id) {
-                                                case -1:
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+                                                switch (data.Id) {
+                                                    case -1:
 
+                                                        swal({
+                                                            title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+
+
+                                                        break;
+                                                    case 0:
+                                                        swal({
+                                                            title: "Algo ocurrió documento no registrado !",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+                                                        break;
+
+                                                    default:
+                                                    // code block
+                                                }
+                                                if (data.Id > 0) {
                                                     swal({
-                                                        title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                                        text: '',
-                                                        icon: "warning",
+                                                        title: "Documento registrado. !",
+                                                        text: " ",
+                                                        icon: "success",
                                                         button: "Aceptar",
+                                                    }).then((value) => {
+                                                        location.reload();
                                                     });
+                                                }
+                                            },
+                                            error: errores
+                                        });
 
-
-                                                    break;
-                                                case 0:
-                                                    swal({
-                                                        title: "Algo ocurrió documento no registrado !",
-                                                        text: '',
-                                                        icon: "warning",
-                                                        button: "Aceptar",
-                                                    });
-                                                    break;
-
-                                                default:
-                                                // code block
-                                            }
-                                            if (data.Id > 0) {
-                                                swal({
-                                                    title: "Documento registrado. !",
-                                                    text: " ",
-                                                    icon: "success",
-                                                    button: "Aceptar",
-                                                }).then((value) => {
-                                                    location.reload();
-                                                });
-                                            }
-                                        },
-                                        error: errores
-                                    });
-
-                                    $("#BtnPublicar").prop('disabled', false);
+                                        $("#BtnPublicar").prop('disabled', false);
+                                    }
 
                                 } else {
                                     swal({
@@ -1828,6 +1843,29 @@
             }
         });
     }
+     function ValidaDocumentoWord() {
+        var result = false;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ConsultaDocumentosSesionWord", "Documentos")",
+            async: false,
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                if (respuesta.length > 0) {
+                    result = true;
+                }
+            },
+            error: function () {
+                Error();
+            }
+        });
+
+        return result;
+    }
+
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
     {

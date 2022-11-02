@@ -13,7 +13,7 @@ namespace ProyectoBase.Application
         {
             bool validacion = false;
             WSCorreo.CorreoSoapClient correo1 = new WSCorreo.CorreoSoapClient();
-            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Asae Gobierno Corporativo Documental", "Notificacion Nuevo Documento Compartido", FormatoHTMLDocumentoCompartir(documento, user)) == "Correo enviado")
+            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Nuevo Documento Compartido", FormatoHTMLDocumentoCompartir(documento, user)) == "Correo enviado")
             {
                 validacion = true;
             }
