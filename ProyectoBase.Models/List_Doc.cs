@@ -16,6 +16,7 @@ namespace ProyectoBase.Models
         public string Nombre { get; set; }
         public string Version { get; set; }
         public string Descripcion { get; set; }
+        public string PalabrasClave { get; set; }
         public string FechaEntradaVigor { get; set; } 
         public string FechaRegistro { get; set; } 
         public string FechaRevision { get; set; }

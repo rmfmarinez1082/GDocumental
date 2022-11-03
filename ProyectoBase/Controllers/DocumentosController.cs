@@ -447,7 +447,7 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult RegistrarClas(Models.Cat_ClasificacionArchivo nuevaClas, Application.Cat_ClasificacionArchivo ApnuevaClas)
         {
-            List<Models.Cat_ClasificacionArchivo> nuevaClass = ApnuevaClas.SP_AgregarClasArch(nuevaClas);
+            Models.Cat_ClasificacionArchivo nuevaClass = ApnuevaClas.SP_AgregarClasArch(nuevaClas);
 
             return Json(nuevaClass);
         }
@@ -455,7 +455,7 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult RegistrarSubClas(Models.Cat_ClasificacionArchivo nuevasubClas, Application.Cat_ClasificacionArchivo ApnuevasubClas)
         {
-            List<Models.Cat_ClasificacionArchivo> nuevasubClass = ApnuevasubClas.SP_AgregarSubClasArch(nuevasubClas);
+            Models.Cat_ClasificacionArchivo nuevasubClass = ApnuevasubClas.SP_AgregarSubClasArch(nuevasubClas);
 
             return Json(nuevasubClass);
         }

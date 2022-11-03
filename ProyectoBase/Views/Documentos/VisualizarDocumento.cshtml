@@ -55,6 +55,7 @@
                                                     <th style="color:white">Nombre</th>
                                                     <th class="text-center" style="color:white">Detalle</th>
                                                     <th class="text-center" style="color:white">Editar</th>
+                                                    <th style="display:none;" class="text-center">palabras cable</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
                                                     <th class="text-center" style="color:white">Dejar de Compartir</th>
@@ -69,6 +70,7 @@
                                                         <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
                                                         <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                        <td style="display:none;"><a>@item.PalabrasClave</a></td>
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>

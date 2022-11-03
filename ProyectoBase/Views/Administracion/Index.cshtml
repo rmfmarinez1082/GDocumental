@@ -37,7 +37,6 @@
         <!-- Page-body start -->
         <div class="page-body">
             <div class="row">
-
                 <div class="col-xl-12 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
@@ -72,7 +71,7 @@
 
                                             <div id="@colapso" class="collapse" aria-labelledby="@encabezado" data-parent="#accordion">
                                                 <div class="card-body">
-                                                    <!--INICIO Documentos Carpeta Padre-->
+                                                    <!--INICIO Documentos Padre-->
                                                     @{
                                                         List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
 
@@ -103,7 +102,7 @@
                                                             <span class="">No se han agregado documentos.</span>
                                                         }
                                                     }
-                                                    <!--FIN Documentos Carpeta Padre-->
+                                                    <!--FIN Documentos Padre-->
 
                                                     @foreach (var itemss in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(item1))
                                                     {

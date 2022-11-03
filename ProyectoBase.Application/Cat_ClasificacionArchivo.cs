@@ -28,12 +28,12 @@ namespace ProyectoBase.Application
             return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Seleccionar(cat_ClasificacionArchivo);
         }
 
-        public List<Models.Cat_ClasificacionArchivo> SP_AgregarClasArch(Models.Cat_ClasificacionArchivo nuevaclas)
+        public Models.Cat_ClasificacionArchivo SP_AgregarClasArch(Models.Cat_ClasificacionArchivo nuevaclas)
         {
             return _cat_ClasificacionArchivo.SP_AgregarClasArch(nuevaclas);
         }
 
-        public List<Models.Cat_ClasificacionArchivo> SP_AgregarSubClasArch(Models.Cat_ClasificacionArchivo nuevasubclas)
+        public Models.Cat_ClasificacionArchivo SP_AgregarSubClasArch(Models.Cat_ClasificacionArchivo nuevasubclas)
         {
             return _cat_ClasificacionArchivo.SP_AgregarSubClasArch(nuevasubclas);
         }

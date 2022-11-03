@@ -25,7 +25,8 @@ namespace ProyectoBase.Data
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     FechaVencimiento = reader["FechaVencimiento"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
-                    NombreWord = reader["NmArchivoword"].ToString()
+                    NombreWord = reader["NmArchivoword"].ToString(),
+                    PalabrasClave = reader["PalabrasClave"].ToString() 
                 };
                 resultado.Add(item);
             }

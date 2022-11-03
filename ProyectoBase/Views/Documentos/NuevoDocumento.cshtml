@@ -544,35 +544,35 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision"  onkeypress="return soloNum(event)" >
+                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion"  onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
-                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor"  onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                         <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision"  onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento"  onkeypress="return soloNum(event)">
+                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
@@ -680,14 +680,14 @@
                                                                         </div>
                                                                     }
 
-                                                                        <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
-                                                                            <option value="0">Seleccionar </option>
-                                                                            @foreach (var item1 in ViewBag.dtClasificacionArchivo)
-                                                                            {
-                                                                                <option value="@item1.Id">@item1.Nombre</option>
-                                                                            }
-                                                                        </select>
-                                                                    </div>
+                                                                    <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
+                                                                        <option value="0">Seleccionar </option>
+                                                                        @foreach (var item1 in ViewBag.dtClasificacionArchivo)
+                                                                        {
+                                                                            <option value="@item1.Id"> @item1.Nombre </option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
 
                                                             </div>
                                                         </div>
@@ -703,12 +703,12 @@
                                                                             <button class="btn btn-default waves-effect" type="button" id="ASclas" onclick="CrearSubclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Sub Clasificación"><i class="fa fa-plus"></i></button>
                                                                         </div>
                                                                     }
-                                                                        <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
-                                                                            <option value="0">Seleccionar </option>
+                                                                    <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
+                                                                        <option value="0">Seleccionar </option>
 
-                                                                        </select>
+                                                                    </select>
 
-                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -723,15 +723,15 @@
                                                                             <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
                                                                         </div>
                                                                     }
-                                                                        <select class="form-control" id="Select3" onchange="">
-                                                                            <option value="0">Seleccionar </option>
+                                                                    <select class="form-control" id="Select3" onchange="">
+                                                                        <option value="0">Seleccionar </option>
 
-                                                                        </select>
+                                                                    </select>
 
-                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Clasificación </label>
@@ -756,45 +756,46 @@
                                                         </div>
                                                     </div>
                                                     <br /><br />
-                                                          <div class="row">
+                                                    <div class="row">
 
-                                                              @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                              <div class="col-md-3">
-                                                                  <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                      <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                          <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
-                                                                      </div>
-                                                                  </div>
-                                                              </div>
-                                                              @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
-                                                              <div class="col-md-3">
-                                                                  <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                      <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                          <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable 
-                                                                          <div class="row">
-                                                                          <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                              @*&nbsp;
-                                                                          <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>*@
-                                                                          </div>
-                                                                          </button>
-                                                                      </div>
-                                                                  </div>
-                                                              </div>
+                                                        @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
+                                                        <div class="col-md-3">
+                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                    <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
+                                                        <div class="col-md-3">
+                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                    <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable
+                                                                        <div class="row">
+                                                                            <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                            @*&nbsp;
+                                                                                <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>*@
+                                                                        </div>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                                                              @*DESCRIPCIONES*@
-                                                              @*<div class="col-md-3">
-                                                                  <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
-                                                                  <p><strong>Descripción</strong></p>
-                                                                  <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
-                                                              </div>*@
+                                                        @*DESCRIPCIONES*@
+                                                        @*<div class="col-md-3">
+                                                                <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
+                                                                <p><strong>Descripción</strong></p>
+                                                                <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
+                                                            </div>*@
 
 
 
-                                                              @*IFRAME*@
-                                                              <div class="col-md-6">
-                                                                  <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
-                                                              </div>
-                                                          </div>
+                                                        @*IFRAME*@
+                                                        <div class="col-md-6">
+                                                            <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
+                                                        </div>
+                                                    </div>
 
 
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
@@ -867,10 +868,12 @@
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
 
 
-                                                            <p><strong>Clasificación Archivo</strong> <br />
-                                                            <span class="label label-info" id="SP_Select_ClasificacionArchivo"></span>/
-                                                            <span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
-                                                            <span class="label label-danger" id="SP_Select_Seccion"></span></p>
+                                                            <p>
+                                                                <strong>Clasificación Archivo</strong> <br />
+                                                                <span class="label label-info" id="SP_Select_ClasificacionArchivo"></span>/
+                                                                <span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
+                                                                <span class="label label-danger" id="SP_Select_Seccion"></span>
+                                                            </p>
 
                                                         </div>
                                                     </div>
@@ -914,7 +917,7 @@
 
                 <div class="col-md-12 col-lg-12">
                     <label for="largeInput"> Nombre de la Clasificación </label>
-                    <input id="NombreClas" type="text" class="form-control form-control input-number" />
+                    <input id="NombreClas" type="text" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
                 </div>
             </div>
             <div class="modal-footer">
@@ -940,7 +943,7 @@
 
                     <br />
                     <label for="largeInput"> Nombre de la SubClasificación </label>
-                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" />
+                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"/>
                 </div>
             </div>
             <div class="modal-footer">
@@ -965,7 +968,7 @@
 
                     <br />
                     <label for="largeInput"> Nombre del 3er nivel </label>
-                    <input type="text" id="Nombre3er" class="form-control form-control input-number" />
+                    <input type="text" id="Nombre3er" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"/>
                 </div>
             </div>
             <div class="modal-footer">
@@ -975,7 +978,7 @@
         </div>
     </div>
 </div>
-    
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
 
@@ -1048,8 +1051,6 @@
                 "nuevaClas": obj
             };
 
-            /* console.log(jsonObject);*/
-
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("RegistrarClas", "Documentos")",
@@ -1061,12 +1062,24 @@
 
                     $("#BtnClasificacion").trigger("click");
 
-                    swal({
-                        title: "Clasificación Agregada.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
+
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Clasificacion Agregada. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Esta clasificación ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
 
                     // llenar select clasificacion -
                     $.ajax({
@@ -1145,8 +1158,6 @@
                 "nuevasubClas": obj
             };
 
-            console.log(jsonObject);
-
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("RegistrarSubClas", "Documentos")",
@@ -1158,12 +1169,23 @@
 
                     $("#BtnSubclas").trigger("click");
 
-                    swal({
-                        title: "Sub Clasificación Agregada.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
+                    if (data.Id == 1) {
+                        swal({
+                            title: "SubClasificacion Agregada. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Esta Subclasificación ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
 
                     // llenar select Subclasificacion -
 
@@ -1173,7 +1195,6 @@
                         "Cat_ClasificacionArchivo": obj
                     };
 
-                    console.log(jsonObject);
 
                     $.ajax({
                         type: "POST",
@@ -1292,12 +1313,23 @@
 
                     $("#Btn3er").trigger("click");
 
-                    swal({
-                        title: "3er nivel Agregado.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
+                    if (data.Id == 1) {
+                        swal({
+                            title: "3er nivel Agregado. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Este nivel ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
 
                     // llenar select Subclasificacion -
 
@@ -1402,7 +1434,7 @@
                                         $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
                                         $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
                                         $('[href="#menu4"]').tab('show');
-                                    } else { 
+                                    } else {
 
                                         $("#BtnPublicar").prop('disabled', true);
 
