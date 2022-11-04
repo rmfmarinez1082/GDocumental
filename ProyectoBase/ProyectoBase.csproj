@@ -158,6 +158,18 @@
     <Content Include="assets\css\jquery.mCustomScrollbar.css" />
     <Content Include="assets\css\morris.js\css\morris.css" />
     <Content Include="assets\css\style.css" />
+    <Content Include="assets\dist\jstree.js" />
+    <Content Include="assets\dist\jstree.min.js" />
+    <Content Include="assets\dist\themes\default-dark\32px.png" />
+    <Content Include="assets\dist\themes\default-dark\40px.png" />
+    <Content Include="assets\dist\themes\default-dark\style.css" />
+    <Content Include="assets\dist\themes\default-dark\style.min.css" />
+    <Content Include="assets\dist\themes\default-dark\throbber.gif" />
+    <Content Include="assets\dist\themes\default\32px.png" />
+    <Content Include="assets\dist\themes\default\40px.png" />
+    <Content Include="assets\dist\themes\default\style.css" />
+    <Content Include="assets\dist\themes\default\style.min.css" />
+    <Content Include="assets\dist\themes\default\throbber.gif" />
     <Content Include="assets\icon\font-awesome\css\font-awesome.css" />
     <Content Include="assets\icon\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\icon\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -587,9 +599,9 @@
     <Content Include="Views\Administracion\Registrar.cshtml" />
     <Content Include="Views\Administracion\Estadisticas.cshtml" />
     <Content Include="Views\PDF\Index.cshtml" />
-    <Content Include="Views\Administracion\Micuenta.cshtml" />
     <Content Include="Views\Documentos\VistaDetalle.cshtml" />
     <Content Include="Views\Administracion\Index.cshtml" />
+    <Content Include="Views\Administracion\Micuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

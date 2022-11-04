@@ -72,8 +72,8 @@
                                 <div id="error" class="alert alert-danger" role="alert" style="display:none">
                                     Las Contraseñas no coinciden, vuelve a intentar !
                                 </div>
-                                <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
-                                   Recuerda tu contraseña para acceder al sistema.
+                                <div id="mensaje" class="alert alert-info" role="alert" style="display:block">
+                                   Usa la nueva contraseña para iniciar sesión la proxima vez.
                                 </div>
 
 
@@ -240,6 +240,7 @@
             return false;
         } else {
             $("#error").css("display", "none");
+            $("#mensaje").css("display", "block");
             return true;
         }
     }

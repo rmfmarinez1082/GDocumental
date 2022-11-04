@@ -22,7 +22,7 @@ namespace ProyectoBase.Models
                 Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
                 {
                     Nombre = reader["Nombre"].ToString(),
-                    //Id = Convert.ToInt32(reader["Id"].ToString())
+                    Id = Convert.ToInt32(reader["Id"].ToString())
                 };
                 resultado.Add(item);
             }
@@ -44,7 +44,7 @@ namespace ProyectoBase.Models
                 Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
                 {
                     Nombre = reader["Nombre"].ToString(),
-                    //Id = Convert.ToInt32(reader["Id"].ToString())
+                    Id = Convert.ToInt32(reader["Id"].ToString())
                 };
                 resultado.Add(item);
             }
@@ -67,7 +67,7 @@ namespace ProyectoBase.Models
                 Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
                 {
                     Nombre = reader["Nombre"].ToString(),
-                    //Id = Convert.ToInt32(reader["Id"].ToString())
+                    Id = Convert.ToInt32(reader["Id"].ToString())
                 };
                 resultado.Add(item);
             }
