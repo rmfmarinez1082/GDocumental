@@ -86,7 +86,7 @@
                                                                                     {
                                                                                         foreach (var datos in Listres)
                                                                                         {
-                                                                                            <li data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                                                            <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
                                                                                         }
                                                                                     }
                                                                                 }
@@ -110,7 +110,7 @@
                                                                         {
                                                                             foreach (var datos in Listhijo)
                                                                             {
-                                                                                <li data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
                                                                             }
                                                                         }
                                                                     }
@@ -131,7 +131,7 @@
                                                         {
                                                             foreach (var datos in List)
                                                             {
-                                                                <li data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
                                                             }
                                                         }
                                                     }
