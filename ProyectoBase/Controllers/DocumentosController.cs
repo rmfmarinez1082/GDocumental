@@ -516,5 +516,13 @@ namespace ProyectoBase.Controllers
                 return File("~/Documentos/Restringido.pdf", "application/pdf", "Sin_Acceso.pdf");
             }
         }
+
+        [HttpPost]
+        public JsonResult Dobligatorio(Models.Cat_Tipo_Documento NDocumento, Application.Cat_Tipo_Documento ANDocumento)
+        {
+            Models.Cat_Tipo_Documento NTDocumento = ANDocumento.SP_Dobligatorio(NDocumento);
+
+            return Json(NTDocumento);
+        }
     }
 }

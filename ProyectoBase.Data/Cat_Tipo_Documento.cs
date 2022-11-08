@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,23 @@ namespace ProyectoBase.Data
                     Id = Convert.ToInt32(reader["Id"].ToString())
                 };
                 resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public Models.Cat_Tipo_Documento SP_Dobligatorio(Models.Cat_Tipo_Documento Tdocumento)
+        {
+            b.ExecuteCommandSP("SP_Dobligatorio");
+            b.AddParameter("@Id", Tdocumento.Id, SqlDbType.Int);
+
+            Models.Cat_Tipo_Documento resultado = new Models.Cat_Tipo_Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
             }
             reader = null;
             b.ConnectionCloseToTransaction();

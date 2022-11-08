@@ -38,11 +38,12 @@
         <!-- Page-body start -->
         <div class="page-body">
             <div class="row">
-                <div class="col-xl-6 col-md-12" id="Directorio">
+                <div class="col-xl-4 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Directorio</h5>
                         </div>
+
 
                         <div class="card-body">
                             <div id="jstree">
@@ -92,7 +93,7 @@
                                                                                 }
                                                                             </ul>
                                                                         </li>
-                                                                    }
+                                                                                    }
 
 
 
@@ -118,12 +119,12 @@
 
                                                                 </ul>
                                                             </li>
-                                                        }
-                                                        else
-                                                        {
+                                                                        }
+                                                                        else
+                                                                        {
                                                             <li data-jstree='{"icon":"fa fa-folder f-20 #6f42c1"}'>@itemss.Nombre</li>
-                                                        }
-                                                    }
+                                                                            }
+                                                                        }
 
                                                     @{ List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
 
@@ -138,12 +139,12 @@
                                                 </ul>
                                             </li>
 
-                                        }
-                                        else
-                                        {
-                                            List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
-                                            if (List.Count() > 0)
-                                            {
+                                                        }
+                                                        else
+                                                        {
+                                                            List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
+                                                            if (List.Count() > 0)
+                                                            {
                                                 <li data-jstree='{"icon":"fa fa-folder f-20 text-warning "}'>
                                                     @item1.Nombre
                                                     <ul>
@@ -154,14 +155,14 @@
                                                     </ul>
                                                 </li>
 
-                                            }
-                                            else
-                                            {
-                                                //FOLDER 1 vacio
+                                                            }
+                                                            else
+                                                            {
+                                                                //FOLDER 1 vacio
                                                 <li data-jstree='{"icon":"fa fa-folder f-20 text-warning"}'>@item1.Nombre</li>
-                                            }
-                                        }
-                                    }
+                                                                }
+                                                            }
+                                                        }
 
                                 </ul>
 
@@ -172,7 +173,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 col-md-12" id="Directorio">
+                <div class="col-xl-4 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Visualizar</h5>
@@ -183,6 +184,23 @@
                             <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Visualizar</h5>
+                        </div>
+
+                        @{ 
+                            foreach (var itemnvl in ViewBag.NvlClasificacion)
+                            {
+                                string[] Niveles = itemnvl.ruta.Split("->");
+
+                                
+                            }
+                        }
                     </div>
                 </div>
 
@@ -203,7 +221,6 @@
     $(function () {
         $('#jstree').jstree();
         $('#jstree').on("changed.jstree", function (e, data) {
-            console.log(data.selected);
         });
 
         $('button').on('click', function () {
@@ -214,7 +231,7 @@
     });
 
     function SeleccionarPorId(documento) {
-        alert(documento);
+       
         var obj = {};
         obj['Id'] = documento;
 

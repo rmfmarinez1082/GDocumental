@@ -121,6 +121,27 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+        public List<Models.Cat_ClasificacionArchivo> RUTA()
+        {
+            b.ExecuteCommandSP("RUTA");
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    nivel = Convert.ToInt32(reader["Nivel"].ToString()),
+                    ruta = reader["RUTA"].ToString(),
+                    Idpadre = Convert.ToInt32(reader["Idpadre"].ToString())
 
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

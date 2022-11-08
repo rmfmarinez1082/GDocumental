@@ -13,6 +13,10 @@ namespace ProyectoBase.Application
         {
             return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
         }
+        public List<Models.Cat_ClasificacionArchivo> RUTA()
+        {
+            return _cat_ClasificacionArchivo.RUTA();
+        }
 
         public List<Models.Cat_ClasificacionArchivo> SP_Subclas()
         {

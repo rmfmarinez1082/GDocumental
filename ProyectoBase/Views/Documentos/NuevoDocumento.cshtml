@@ -483,7 +483,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Nombre (titulo) </label>
-                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento" onchange="ValidaInput('NombreArticulo')">
+                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento">
                                                                 <p id="charNum"></p>
                                                             </div>
                                                         </div>
@@ -491,7 +491,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Versión </label>
-                                                                <input type="number" class="form-control form-control input-number" id="Version" onchange="ValidaInput('SKU')">
+                                                                <input type="number" class="form-control form-control input-number" id="Version">
                                                             </div>
                                                         </div>
 
@@ -513,7 +513,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Palabra Clave </label>
-                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" onchange="ValidaInput('NombreArticulo')">
+                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8 col-lg-8">
@@ -943,7 +943,7 @@
 
                     <br />
                     <label for="largeInput"> Nombre de la SubClasificación </label>
-                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"/>
+                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
                 </div>
             </div>
             <div class="modal-footer">
@@ -968,7 +968,7 @@
 
                     <br />
                     <label for="largeInput"> Nombre del 3er nivel </label>
-                    <input type="text" id="Nombre3er" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()"/>
+                    <input type="text" id="Nombre3er" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
                 </div>
             </div>
             <div class="modal-footer">
@@ -1071,7 +1071,7 @@
 
                     }
                     else {
-                   
+
                         swal({
                             title: "Esta clasificación ya existe.",
                             text: '',
@@ -1116,7 +1116,7 @@
         }
     }
     function validaClasificacionArchivo() {
-       
+
         var result = false;
 
         $('#NombreClas').css("border", "1px solid #ff0049");
@@ -1420,21 +1420,110 @@
 
                             if (Validaclasificacion()) {
                                 if (ValidaDocumento()) {
+                                    if (validarSolicitudWord()) {
 
-                                    if ($("#TipoDocumento option:selected").val() == 6) {
-                                        swal({
-                                            title: "Debes registrar un documento word",
-                                            text: '',
-                                            icon: "warning",
-                                            button: "Aceptar",
-                                        });
+                                        if (ValidaDocumentoWord()) {
+                                            $("#BtnPublicar").prop('disabled', true);
 
-                                        $("#myBtn").trigger("click");
-                                        $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                                        $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
-                                        $('[href="#menu4"]').tab('show');
+                                            var obj = {};
+                                            obj['Nombre'] = $("#NombreDocumento").val();
+                                            obj['Version'] = $("#Version").val();
+                                            obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                            obj['PalabraClave'] = $("#PalabraClave").val();
+                                            obj['Descripcion'] = $("#Descripcion").val();
+
+                                            obj['FechaRevision'] = $("#FechaRevision").val();
+                                            obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                            obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                            obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                            obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+
+                                            obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                            obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+
+                                            if ($('#checkboxBD').prop('checked')) {
+                                                obj['checkboxBD'] = 1;
+                                            } else {
+                                                obj['checkboxBD'] = 0;
+                                            }
+
+                                            if ($('#checkboxCorreo').prop('checked')) {
+                                                obj['checkboxCorreo'] = 1;
+                                            } else {
+                                                obj['checkboxCorreo'] = 0;
+                                            }
+
+                                            obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                            obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
+                                            obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                            obj['IdNombre3'] = $("#Select3 option:selected").val();
+
+
+                                            var jsonObject = {
+                                                "NuevoDocumento": obj
+                                            };
+
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                                async: false,
+                                                data: JSON.stringify(jsonObject),
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    switch (data.Id) {
+                                                        case -1:
+
+                                                            swal({
+                                                                title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+
+
+                                                            break;
+                                                        case 0:
+                                                            swal({
+                                                                title: "Algo ocurrió documento no registrado !",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+                                                            break;
+
+                                                        default:
+                                                        // code block
+                                                    }
+                                                    if (data.Id > 0) {
+                                                        swal({
+                                                            title: "Documento registrado. !",
+                                                            text: " ",
+                                                            icon: "success",
+                                                            button: "Aceptar",
+                                                        }).then((value) => {
+                                                            location.reload();
+                                                        });
+                                                    }
+                                                },
+                                                error: errores
+                                            });
+
+                                            $("#BtnPublicar").prop('disabled', false);
+                                            } else {
+                                                swal({
+                                                    title: "Debes registrar un documento word",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+
+                                                $("#myBtn").trigger("click");
+                                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                                $('[href="#menu4"]').tab('show');
+                                            }
                                     } else {
-
                                         $("#BtnPublicar").prop('disabled', true);
 
                                         var obj = {};
@@ -1874,7 +1963,7 @@
             }
         });
     }
-     function ValidaDocumentoWord() {
+    function ValidaDocumentoWord() {
         var result = false;
 
         $.ajax({
@@ -1897,6 +1986,18 @@
         return result;
     }
 
+    function validarSolicitudWord() {
+
+        var result = true;
+
+        if ($("#TipoDocumento option:selected").val() == 5) {
+            //if (ValidaDocumentoWord()){
+                result = false;
+            //}
+            
+        }
+        return result;
+    }
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
     {
@@ -2660,7 +2761,7 @@
 
     /*CARGAR RESUMEN*/
     function CargaResumen(){
-        var Galeria = 0;
+        @*var Galeria = 0;
         $.ajax({
             type: "POST",
              url: "@Url.Action("ConsultaImagenes", "Articulos")",
@@ -2674,7 +2775,7 @@
             error: function () {
                 Error();
             }
-        });
+        });*@
 
         //$('#SP_CategoriaArticulo').text($("#Select_Categoria option:selected").html());
         //$('#SP_SubcategoriaArticulo').text($("#Select_SubCategoria option:selected").html());
