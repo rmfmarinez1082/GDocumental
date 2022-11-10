@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
+
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -37,98 +38,66 @@
         <!-- Page-body start -->
         <div class="page-body">
             <div class="row">
-
-                <div class="col-xl-12 col-md-12" id="Directorio">
+                <div class="col-xl-4 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Directorio</h5>
                         </div>
 
+
                         <div class="card-body">
-
-
-                            <div class="tab-pane fade active show" id="v-pills-home-icons" role="tabpanel" aria-labelledby="v-pills-home-tab-icons" style="width: 90%">
-                                <div class="accordion accordion-secondary">
-
+                            <div id="jstree">
+                                <ul>
                                     @foreach (var item1 in ViewBag.dtClasificacionArchivo)
                                     {
+                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> List1 = ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(item1);
 
-                                        var encabezado = "heading" + item1.Id;
-                                        var colapso = "colapso" + item1.Id;
-                                        var gcolapso = "#colapso" + item1.Id;
-
-                                        <div class="card">
-                                            @*INICIO CARPETAS PADRE*@
-                                            <div class="card-header collapsed" id="@encabezado" data-toggle="collapse" data-target="@gcolapso" aria-expanded="false" aria-controls="@colapso" role="button">
-                                                <div class="span-icon">
-                                                    <div class="fa fa-folder"></div>
-                                                </div>
-                                                <div class="span-title text-dark fw-bold">
-                                                    @item1.Nombre
-                                                </div>
-                                                <div class="span-mode text-dark"></div>
-                                            </div>
-                                            @*FIN CARPETAS PADRE*@
-
-                                            <div id="@colapso" class="collapse" aria-labelledby="@encabezado" data-parent="#accordion">
-                                                <div class="card-body">
-                                                    <!--INICIO Documentos Carpeta Padre-->
-                                                    @{
-                                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
-
-                                                        if (List.Count() > 0)
-                                                        {
-
-                                                            <table id="Tclasificacion" class="table table-striped table-hover table-bordered table-head-bg-warning table-responsive-lg" width="100%">
-                                                                <thead class="table-active">
-                                                                    <tr>
-                                                                        <th>Nombre</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-
-                                                                    @foreach (var datos in List)
-                                                                    {
-                                                                        <tr>
-                                                                            <td><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;@datos.Nombre</td>
-                                                                        </tr>
-
-                                                                    }
-                                                                </tbody>
-                                                            </table>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="">No se han agregado documentos.</span>
-                                                        }
-                                                    }
-                                                    <!--FIN Documentos Carpeta Padre-->
-
+                                        if (List1.Count() > 0)
+                                        {   //FOLDER 1
+                                            <li data-jstree='{"icon":"fa fa-folder f-20 text-warning"}'>
+                                                @item1.Nombre
+                                                <ul>
                                                     @foreach (var itemss in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(item1))
                                                     {
-                                                        var encabezadoo = "headingg" + itemss.Id;
-                                                        var colapsoo = "colapsoo" + itemss.Id;
-                                                        var gcolapsoo = "#colapsoo" + itemss.Id;
-                                                        <div class="card">
-                                                            @*INICIO CARPETAS Hijo*@
-                                                            <div class="card-header collapsed" id="@encabezadoo" data-toggle="collapse" data-target="@gcolapsoo" aria-expanded="false" aria-controls="@colapsoo" role="button">
-                                                                <div class="span-icon">
-                                                                    <div class="fa fa-folder"></div>
-                                                                </div>
-                                                                <div class="span-title text-dark">
-                                                                    @itemss.Nombre
-                                                                </div>
-                                                                <div class="span-mode text-dark"></div>
-                                                            </div>
-                                                            @*FIN CARPETAS Hijo*@
+                                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> List2 = ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(itemss);
+                                                        if (List2.Count() > 0)
+                                                        {
+                                                            //FOLDER 2
+                                                            <li data-jstree='{"icon":"fa fa-folder f-20 #6f42c1"}'>
+                                                                @itemss.Nombre
+                                                                <ul>
+                                                                    @*FOLDER 3*@
+                                                                    @foreach (var tercer in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(itemss))
+                                                                    {
+                                                                        <li data-jstree='{"icon":"fa fa-folder f-20 text-success"}'>
+                                                                            @tercer.Nombre
+                                                                            <ul>
+                                                                                @*DOCUMENTOS FOLDER 3*@
+                                                                                @{
+                                                                                    var tres = new ProyectoBase.Models.Cat_ClasificacionArchivo();
 
-                                                            <div id="@colapsoo" class="collapse" aria-labelledby="@encabezadoo" data-parent="#accordion">
-                                                                <div class="card-body" >
+                                                                                    tres.Id = item1.Id;
+                                                                                    tres.Idhijo = itemss.Id;
+                                                                                    tres.IdTres = tercer.Id;
+
+                                                                                    List<ProyectoBase.Models.Cat_ClasificacionArchivo> Listres = ProyectoBase.Models.Test.SP_tres(tres);
 
 
-                                                                    <!--INICIO Documentos Hijo-->
+                                                                                    if (Listres.Count() > 0)
+                                                                                    {
+                                                                                        foreach (var datos in Listres)
+                                                                                        {
+                                                                                            <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            </ul>
+                                                                        </li>
+                                                                                    }
 
+
+
+                                                                    @*DOCUMENTOS FOLDER2*@
                                                                     @{
                                                                         var valores = new ProyectoBase.Models.Cat_ClasificacionArchivo();
 
@@ -137,121 +106,101 @@
 
                                                                         List<ProyectoBase.Models.Cat_ClasificacionArchivo> Listhijo = ProyectoBase.Models.Test.SP_DocHijo(valores);
 
+
                                                                         if (Listhijo.Count() > 0)
                                                                         {
-                                                                            <table id="TSubClasificacion" class="table table-striped table-hover table-bordered table-head-bg-primary table-responsive-lg">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>Nombre</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @foreach (var datoss in Listhijo)
-                                                                                    {
-                                                                                        <tr>
-                                                                                            <td><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;@datoss.Nombre</td>
-                                                                                        </tr>
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
+                                                                            foreach (var datos in Listhijo)
+                                                                            {
+                                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                                            }
+                                                                        }
+                                                                    }
+
+
+                                                                </ul>
+                                                            </li>
                                                                         }
                                                                         else
                                                                         {
-                                                                            <span class="">No se han agregado documentos.</span>
+                                                            <li data-jstree='{"icon":"fa fa-folder f-20 #6f42c1"}'>@itemss.Nombre</li>
+                                                                            }
                                                                         }
-                                                                    }
 
-                                                                    <!--Fin Documentos Hijo-->
-                                                                    @foreach (var tercer in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(itemss))
-                                                                    {
-                                                                        var encabezadooo = "headingg" + tercer.Id;
-                                                                        var colapsooo = "colapsoo" + tercer.Id;
-                                                                        var gcolapsooo = "#colapsoo" + tercer.Id;
-                                                                        <div class="card">
-                                                                            @*INICIO CARPETAS 3erNivel*@
-                                                                            <div class="card-header collapsed" id="@encabezadooo" data-toggle="collapse" data-target="@gcolapsooo" aria-expanded="false" aria-controls="@colapsooo" role="button">
-                                                                                <div class="span-icon">
-                                                                                    <div class="fa fa-folder"></div>
-                                                                                </div>
-                                                                                <div class="span-title text-dark">
-                                                                                    @tercer.Nombre
-                                                                                </div>
-                                                                                <div class="span-mode text-dark"></div>
-                                                                            </div>
-                                                                            @*FIN CARPETAS 3erNivel*@
+                                                    @{ List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
 
-                                                                            <div id="@colapsooo" class="collapse" aria-labelledby="@encabezadoo" data-parent="#accordion">
-                                                                                <div class="card-body">
-
-
-                                                                                    <!--INICIO Documentos 3erNivel-->
-
-                                                                                    @{
-                                                                                        var tres = new ProyectoBase.Models.Cat_ClasificacionArchivo();
-
-                                                                                        tres.Id = item1.Id;
-                                                                                        tres.Idhijo = itemss.Id;
-                                                                                        tres.IdTres = tercer.Id;
-
-                                                                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> Listres = ProyectoBase.Models.Test.SP_tres(tres);
-
-                                                                                        if (Listres.Count() > 0)
-                                                                                        {
-                                                                                            <table id="TSubClasificacion" class="table table-striped table-hover table-bordered table-head-bg-primary table-responsive-lg">
-                                                                                                <thead>
-                                                                                                    <tr>
-                                                                                                        <th>Nombre</th>
-                                                                                                    </tr>
-                                                                                                </thead>
-                                                                                                <tbody>
-                                                                                                    @foreach (var datosT in Listres)
-                                                                                                    {
-                                                                                                        <tr>
-                                                                                                            <td><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;@datosT.Nombre</td>
-                                                                                                        </tr>
-                                                                                                    }
-                                                                                                </tbody>
-                                                                                            </table>
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            <span class="">No se han agregado documentos.</span>
-                                                                                        }
-                                                                                    }
-
-                                                                                    <!--Fin Documentos 3erNivel-->
-
-                                                                                </div>
-
-                                                                            </div>
-
-                                                                        </div>
-                                                                    }
-
-                                                                </div>
-
-                                                            </div>
-
-
-                                                        </div>
-
+                                                        if (List.Count() > 0)
+                                                        {
+                                                            foreach (var datos in List)
+                                                            {
+                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                            }
+                                                        }
                                                     }
+                                                </ul>
+                                            </li>
 
+                                                        }
+                                                        else
+                                                        {
+                                                            List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
+                                                            if (List.Count() > 0)
+                                                            {
+                                                <li data-jstree='{"icon":"fa fa-folder f-20 text-warning "}'>
+                                                    @item1.Nombre
+                                                    <ul>
+                                                        @foreach (var datos in List)
+                                                        {
+                                                            <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
+                                                        }
+                                                    </ul>
+                                                </li>
 
-                                                </div>
-                                            </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                //FOLDER 1 vacio
+                                                <li data-jstree='{"icon":"fa fa-folder f-20 text-warning"}'>@item1.Nombre</li>
+                                                                }
+                                                            }
+                                                        }
 
+                                </ul>
 
-                                        </div>
-
-
-                                    }
-                                
-                                </div>
                             </div>
 
                         </div>
 
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Visualizar</h5>
+                        </div>
+
+                        <div style="width: 100%; height: 70vh">
+                            <!--documento aquí-->
+                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Visualizar</h5>
+                        </div>
+
+                        @{ 
+                            foreach (var itemnvl in ViewBag.NvlClasificacion)
+                            {
+                                string[] Niveles = itemnvl.ruta.Split("->");
+
+                                
+                            }
+                        }
                     </div>
                 </div>
 
@@ -268,15 +217,45 @@
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Directorio').addClass("active");
 
-    //$(document).ready(function () {
-    //    $('#TDirectorio').DataTable({
 
-    //        pageLength: 5,
-    //        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-    //        language: {
-    //            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-    //        }
-    //    });
+    $(function () {
+        $('#jstree').jstree();
+        $('#jstree').on("changed.jstree", function (e, data) {
+        });
 
-    //});
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
+
+    function SeleccionarPorId(documento) {
+       
+        var obj = {};
+        obj['Id'] = documento;
+
+        var jsonObject = {
+            "list_Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SeleccionarPorId", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function (resultado) {
+//                $('#IdRegistro').val(resultado[0].Id);
+//                $('#ModalTitulo').text('Datos del documento ' + resultado[0].Nombre);
+                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+//                $('#eDescripcion').text(resultado[0].Descripcion);
+
+            },
+            error: function (resultado) {
+                alert("Error de ejecucion ");
+            }
+        });
+    }
 </script>

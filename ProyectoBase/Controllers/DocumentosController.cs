@@ -247,9 +247,23 @@ namespace ProyectoBase.Controllers
             if (Session["NuevoDocumento"] != null)
             {
                 ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
+
             }
 
             return Json(ListaDocumentos);
+        } 
+        [HttpPost]
+        public JsonResult ConsultaDocumentosSesionWord()
+        {
+            List<Models.Documento> ListaDocumentoword = new List<Models.Documento>();
+
+            if (Session["NuevoDocumentoword"] != null)
+            {
+                ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
+
+            }
+
+            return Json(ListaDocumentoword);
         }
 
         [HttpPost]
@@ -433,7 +447,7 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult RegistrarClas(Models.Cat_ClasificacionArchivo nuevaClas, Application.Cat_ClasificacionArchivo ApnuevaClas)
         {
-            List<Models.Cat_ClasificacionArchivo> nuevaClass = ApnuevaClas.SP_AgregarClasArch(nuevaClas);
+            Models.Cat_ClasificacionArchivo nuevaClass = ApnuevaClas.SP_AgregarClasArch(nuevaClas);
 
             return Json(nuevaClass);
         }
@@ -441,7 +455,7 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult RegistrarSubClas(Models.Cat_ClasificacionArchivo nuevasubClas, Application.Cat_ClasificacionArchivo ApnuevasubClas)
         {
-            List<Models.Cat_ClasificacionArchivo> nuevasubClass = ApnuevasubClas.SP_AgregarSubClasArch(nuevasubClas);
+            Models.Cat_ClasificacionArchivo nuevasubClass = ApnuevasubClas.SP_AgregarSubClasArch(nuevasubClas);
 
             return Json(nuevasubClass);
         }
@@ -501,6 +515,14 @@ namespace ProyectoBase.Controllers
             {
                 return File("~/Documentos/Restringido.pdf", "application/pdf", "Sin_Acceso.pdf");
             }
+        }
+
+        [HttpPost]
+        public JsonResult Dobligatorio(Models.Cat_Tipo_Documento NDocumento, Application.Cat_Tipo_Documento ANDocumento)
+        {
+            Models.Cat_Tipo_Documento NTDocumento = ANDocumento.SP_Dobligatorio(NDocumento);
+
+            return Json(NTDocumento);
         }
     }
 }

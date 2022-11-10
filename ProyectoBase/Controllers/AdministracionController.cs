@@ -38,6 +38,9 @@ namespace ProyectoBase.Controllers
                 List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
                 ViewBag.dtClasificacionArchivo = dtClasificacionArchivo;
 
+                List<Models.Cat_ClasificacionArchivo> NvlClasificacion = cat_ClasificacionArchivo.RUTA();
+                ViewBag.NvlClasificacion = NvlClasificacion;
+
                 return View();
             }
             else

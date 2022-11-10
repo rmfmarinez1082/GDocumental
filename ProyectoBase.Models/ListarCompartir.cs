@@ -11,7 +11,8 @@ namespace ProyectoBase.Models
         public int Id { get; set; }
         public int IdUsuario { get; set; }
         
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } 
+        public string PalabrasClave { get; set; }
         public string NombreWord { get; set; }
         public string FechaEntradaVigor { get; set; }
         public string FechaVencimiento { get; set; }

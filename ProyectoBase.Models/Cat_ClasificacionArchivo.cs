@@ -15,7 +15,12 @@ namespace ProyectoBase.Models
 
         public string NombreClasificacion { get; set; }
         public string NombreSubcalsificacion { get; set; }
-        public string Nombre3 { get; set; }
+        public string Nombre3 { get; set; } 
+        
+        public string ruta { get; set; }
+        public int nivel { get; set; }
+        public int Idpadre { get; set; }
+
 
     }
 }

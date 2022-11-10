@@ -192,31 +192,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
-                            switch (data.Id) {
-                                case -1:
-
-                                    swal({
-                                        title: "El Usuario que intentas agregar ya se encuentra registrado .",
-                                        text: '',
-                                        icon: "warning",
-                                        button: "Aceptar",
-                                    });
-
-
-                                    break;
-                                case 0:
-                                    swal({
-                                        title: "Algo ocurrió Usuario no registrado !",
-                                        text: '',
-                                        icon: "warning",
-                                        button: "Aceptar",
-                                    });
-                                    break;
-
-                                default:
-                                // code block
-                            }
-                            if (data.Id > 0) {
+                            if (data.Id == 1) {
                                 swal({
                                     title: "Usuario registrado !!",
                                     text: "Usuario disponible para iniciar sesión",
@@ -225,7 +201,17 @@
                                 }).then((value) => {
                                     location.reload();
                                 });
+
                             }
+                            else {
+                                swal({
+                                    title: "Este correo ya esta relacionado con un usuario",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+                            } 
+                            
                         },
                         error: function () {
                             alert("error");

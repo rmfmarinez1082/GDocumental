@@ -72,8 +72,8 @@
                                 <div id="error" class="alert alert-danger" role="alert" style="display:none">
                                     Las Contraseñas no coinciden, vuelve a intentar !
                                 </div>
-                                <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
-                                   Recuerda tu contraseña para acceder al sistema.
+                                <div id="mensaje" class="alert alert-info" role="alert" style="display:block">
+                                   Usa la nueva contraseña para iniciar sesión la proxima vez.
                                 </div>
 
 
@@ -167,6 +167,7 @@
     function Registrar() {
         if (Valida()) {
             if (validatepass()) {
+                if (passecure()) {
 
                     $("#registar").prop('disabled', true);
 
@@ -188,14 +189,14 @@
                         dataType: "json",
                         success: function (data) {
 
-                                swal({
-                                    title: "Información actualizada !!",
-                                    text: "La proxima vez inicia sesión con esta contraseña",
-                                    icon: "success",
-                                    button: "Aceptar",
-                                }).then((value) => {
-                                     window.location.href = '@Url.Action("PrincipalA", "Administracion")';
-                                });
+                            swal({
+                                title: "Información actualizada !!",
+                                text: "La proxima vez inicia sesión con esta contraseña",
+                                icon: "success",
+                                button: "Aceptar",
+                            }).then((value) => {
+                                window.location.href = '@Url.Action("PrincipalA", "Administracion")';
+                            });
 
                         },
                         error: function () {
@@ -204,7 +205,14 @@
                     });
 
                     $("#registar").prop('disabled', false);
-
+                } else {
+                    swal({
+                        title: "Error Contraseña.",
+                        text: 'Verifica que tu contraseña sea segura',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                }
             } else {
                 swal({
                     title: "Error Contraseña.",
@@ -232,6 +240,7 @@
             return false;
         } else {
             $("#error").css("display", "none");
+            $("#mensaje").css("display", "block");
             return true;
         }
     }
@@ -259,6 +268,7 @@
 
         return result;
     }
+
     $('#IdMenuCuenta').addClass("active pcoded-trigger");
 
     let state = false;
@@ -357,7 +367,8 @@
             $("#estado2").css("display", "none");
             $("#estado3").css("display", "block");
             $("#estado4").css("display", "none");
-        } else if (stregth == 4) {
+        }
+        else if (stregth == 4) {
             passwordStrenght.classList.remove('progress-bar-warning');
             passwordStrenght.classList.add('progress-bar-success');
             passwordStrenght.classList.remove('progress-bar-danger');
@@ -371,6 +382,60 @@
 
     }
 
+
+
+    function passecure() {
+        var result = false;
+
+        let password = passwor.value;
+        let stregth = 0;
+
+        if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+            stregth += 1;
+            lowerUperCase.classList.remove('fa-circle');
+            lowerUperCase.classList.add('fa-check');
+        }
+        else {
+            lowerUperCase.classList.add('fa-circle');
+            lowerUperCase.classList.remove('fa-check');
+        }
+
+        if (password.match(/([0-9])/)) {
+            stregth += 1;
+            number.classList.remove('fa-circle');
+            number.classList.add('fa-check');
+        }
+        else {
+            number.classList.add('fa-circle');
+            number.classList.remove('fa-check');
+        }
+        if (password.match(/[`!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/)) {
+            stregth += 1;
+            specialChar.classList.remove('fa-circle');
+            specialChar.classList.add('fa-check');
+        }
+        else {
+            specialChar.classList.add('fa-circle');
+            specialChar.classList.remove('fa-check');
+        }
+        if (password.length > 7) {
+            stregth += 1;
+            eightChar.classList.remove('fa-circle');
+            eightChar.classList.add('fa-check');
+        }
+        else {
+            eightChar.classList.add('fa-circle');
+            eightChar.classList.remove('fa-check');
+        }
+
+
+        if (stregth == 4) {
+            result = true;
+        }
+       
+        return result;
+
+    }
     $("#estado1").css("display", "block");
     $("#estado2").css("display", "none");
     $("#estado3").css("display", "none");
