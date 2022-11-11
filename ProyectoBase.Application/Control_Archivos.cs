@@ -56,16 +56,17 @@ namespace ProyectoBase.Application
                 Directory.CreateDirectory(DirectorioUsuario);
             }
 
-            if (".docx".Contains(FileExtension) ^ ".docx".Contains(FileExtension) ^ ".docx".Contains(FileExtension))
+            if (".docx".Contains(FileExtension) ^ ".pptx".Contains(FileExtension) ^ ".xlsx".Contains(FileExtension))
             {
 
                 Models.Control_Archivos NuevoArchivo = Control_Archivos_Id();
                 string NombreArchivo =NuevoArchivo.Clave + NuevoArchivo.Id.ToString().PadLeft(12, '0');
 
-                Archivo.SaveAs(DirectorioUsuario + NombreArchivo + ".docx");
+                //Archivo.SaveAs(DirectorioUsuario + NombreArchivo + ".docx");
+                Archivo.SaveAs(DirectorioUsuario + NombreArchivo + FileExtension);
 
                 //_Documento.IdArchivo = NuevoArchivo.Id;
-                _Documento.NmArchivoword = NombreArchivo + ".docx";
+                _Documento.NmArchivoword = NombreArchivo + FileExtension;
                 //_Documento.NmOriginal = Archivo.FileName;
                 //_Documento.DocumentoURL = DirectorioURL + NombreArchivo + ".docx";
 
