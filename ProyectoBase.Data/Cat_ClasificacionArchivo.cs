@@ -143,5 +143,28 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+        public List<Models.Cat_ClasificacionArchivo> SP_DocPadre(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+       
+
+            b.ExecuteCommandSP("SP_DocPadre");
+            b.AddParameter("@Id", cat_ClasificacionArchivo.Id, SqlDbType.VarChar);
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    IdDoc = Convert.ToInt32(reader["IdDoc"].ToString())
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

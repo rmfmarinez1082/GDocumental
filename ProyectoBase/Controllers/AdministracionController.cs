@@ -35,11 +35,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
-                List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-                ViewBag.dtClasificacionArchivo = dtClasificacionArchivo;
-
-                List<Models.Cat_ClasificacionArchivo> NvlClasificacion = cat_ClasificacionArchivo.RUTA();
-                ViewBag.NvlClasificacion = NvlClasificacion;
+                string Carpetas = getParents();
+                ViewBag.carpetas = Carpetas;
 
                 return View();
             }
@@ -47,12 +44,83 @@ namespace ProyectoBase.Controllers
             {
                 return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
             }
-                //}
-                //else
-                //{
-                //    return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
-                //}
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+            //}
+        }
+
+
+        public string getParents()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach(var dt in dtClasificacionArchivo)
+                {
+                    resulCarpetas += "<li> " + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
             }
+
+            return resulCarpetas;
+        }
+        public string getChildren(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li> " + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+        public string getDocument(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocPadre(cat_ClasificacionDoc);
+
+            string resulDoc = "";
+
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulDoc += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulDoc += "<li onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
+                    resulDoc += "</li>";
+
+                }
+                resulDoc += "</ul>";
+            }
+
+            return resulDoc;
+        }
+
+
 
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
             Models.Documento_Versiones _documento_Versiones,
@@ -89,8 +157,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.lisvigente = vigentes;
 
                 List<Models.listadoVigencia> vencidos = AlistadoVigencia.SP_listadoVencido(_listadoVigencia);
-                ViewBag.lisvencido = vencidos;    
-                
+                ViewBag.lisvencido = vencidos;
+
                 List<Models.listadoVigencia> Proxvenc = AlistadoVigencia.SP_LisProxVence(_listadoVigencia);
                 ViewBag.lisProx = Proxvenc;
 
@@ -139,19 +207,19 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     //DATOS DEL DOCUMENTO
-                        int Id = 0;
-                        Id = Convert.ToInt32(Request.QueryString["Id"]);
-                        Models.Documento doc = new Documento();
-                        doc.Id = Id;
-                         
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
 
-                        Models.Documento documento = documentos.SP_DocumentoInfo(doc);
-                        ViewBag.nombredoc = documento.Nombre;
-                        ViewBag.Descripcion = documento.Descripcion;
-                        ViewBag.version = documento.Version;
-                        ViewBag.NArchivo = documento.NmArchivo;
-                        ViewBag.Ruta = "DocumentosTemporales";
-                        
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                    ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.Descripcion = documento.Descripcion;
+                    ViewBag.version = documento.Version;
+                    ViewBag.NArchivo = documento.NmArchivo;
+                    ViewBag.Ruta = "DocumentosTemporales";
+
 
 
                     //CONTROL DE NOTIFICACIONES 
@@ -161,14 +229,14 @@ namespace ProyectoBase.Controllers
 
 
                     return View();
-            }
+                }
                 else { return RedirectToAction("PrincipalA", "Administracion"); }
 
             }
             else
             {
                 return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url)
-                ,@cf = Application.UrlCifrardo.Encrypt(cadenaCompleta)
+                , @cf = Application.UrlCifrardo.Encrypt(cadenaCompleta)
                 });
             }
 
@@ -244,7 +312,7 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdClasificacionArchivo = documento.IdClasificacionArchivo;
                     ViewBag.IdSubclasificacionArchivo = documento.IdSubclasificacionArchivo;
                     ViewBag.IdNombre3 = documento.IdNombre3;
-                
+
 
                     return View();
                 }
@@ -301,7 +369,7 @@ namespace ProyectoBase.Controllers
                 List<Models.EmpresasListado> empresasListados = AempresasListado.SP_EmpresasListado();
                 ViewBag.empresaLis = empresasListados;
                 return View();
-                 
+
             }
             else
             {
@@ -309,7 +377,7 @@ namespace ProyectoBase.Controllers
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
-        Application.List_Doc list_Doc,Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios)
+        Application.List_Doc list_Doc, Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -382,7 +450,7 @@ namespace ProyectoBase.Controllers
             List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
             return Json(cat_ListadoDepartamentoss);
         }
-        
+
         [HttpPost]
         public JsonResult Usuario_Registrar(Models.Usuarios NuevoUsuario, Application.Usuarios Ausuarios)
         {
@@ -399,6 +467,25 @@ namespace ProyectoBase.Controllers
             Models.Usuarios updatesuarios = Ausuarios.SP_ActualizarUsuario(UpdateUsuario);
 
             return Json(updatesuarios);
+        }
+        public JsonResult SubClasificacionArchivo_Listar(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Cat_ClasificacionArchivo APcat_ClasificacionArchivo)
+        {
+            List<Models.Cat_ClasificacionArchivo> clasificacionArchivos = APcat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionArchivo);
+            return Json(clasificacionArchivos);
+        }
+
+        public ActionResult obtenerPadre(Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo) {
+
+            List<Models.Cat_ClasificacionArchivo> lista = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            if (lista.Count > 0)
+            {
+                foreach (var dato in lista)
+                {
+                    //dato.Id;
+                }
+            }
+
+            return View();
         }
 
 

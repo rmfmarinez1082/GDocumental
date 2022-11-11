@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
-
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -31,14 +30,12 @@
     </div>
 </div>
 
-
-
 <div class="main-body">
     <div class="page-wrapper">
         <!-- Page-body start -->
         <div class="page-body">
             <div class="row">
-                <div class="col-xl-4 col-md-12" id="Directorio">
+                <div class="col-xl-6 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Directorio</h5>
@@ -47,125 +44,7 @@
 
                         <div class="card-body">
                             <div id="jstree">
-                                <ul>
-                                    @foreach (var item1 in ViewBag.dtClasificacionArchivo)
-                                    {
-                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> List1 = ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(item1);
-
-                                        if (List1.Count() > 0)
-                                        {   //FOLDER 1
-                                            <li data-jstree='{"icon":"fa fa-folder f-20 text-warning"}'>
-                                                @item1.Nombre
-                                                <ul>
-                                                    @foreach (var itemss in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(item1))
-                                                    {
-                                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> List2 = ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(itemss);
-                                                        if (List2.Count() > 0)
-                                                        {
-                                                            //FOLDER 2
-                                                            <li data-jstree='{"icon":"fa fa-folder f-20 #6f42c1"}'>
-                                                                @itemss.Nombre
-                                                                <ul>
-                                                                    @*FOLDER 3*@
-                                                                    @foreach (var tercer in ProyectoBase.Models.Test.Cat_SubClasificacionArchivo_listar(itemss))
-                                                                    {
-                                                                        <li data-jstree='{"icon":"fa fa-folder f-20 text-success"}'>
-                                                                            @tercer.Nombre
-                                                                            <ul>
-                                                                                @*DOCUMENTOS FOLDER 3*@
-                                                                                @{
-                                                                                    var tres = new ProyectoBase.Models.Cat_ClasificacionArchivo();
-
-                                                                                    tres.Id = item1.Id;
-                                                                                    tres.Idhijo = itemss.Id;
-                                                                                    tres.IdTres = tercer.Id;
-
-                                                                                    List<ProyectoBase.Models.Cat_ClasificacionArchivo> Listres = ProyectoBase.Models.Test.SP_tres(tres);
-
-
-                                                                                    if (Listres.Count() > 0)
-                                                                                    {
-                                                                                        foreach (var datos in Listres)
-                                                                                        {
-                                                                                            <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            </ul>
-                                                                        </li>
-                                                                                    }
-
-
-
-                                                                    @*DOCUMENTOS FOLDER2*@
-                                                                    @{
-                                                                        var valores = new ProyectoBase.Models.Cat_ClasificacionArchivo();
-
-                                                                        valores.Id = item1.Id;
-                                                                        valores.Idhijo = itemss.Id;
-
-                                                                        List<ProyectoBase.Models.Cat_ClasificacionArchivo> Listhijo = ProyectoBase.Models.Test.SP_DocHijo(valores);
-
-
-                                                                        if (Listhijo.Count() > 0)
-                                                                        {
-                                                                            foreach (var datos in Listhijo)
-                                                                            {
-                                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
-                                                                            }
-                                                                        }
-                                                                    }
-
-
-                                                                </ul>
-                                                            </li>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                            <li data-jstree='{"icon":"fa fa-folder f-20 #6f42c1"}'>@itemss.Nombre</li>
-                                                                            }
-                                                                        }
-
-                                                    @{ List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
-
-                                                        if (List.Count() > 0)
-                                                        {
-                                                            foreach (var datos in List)
-                                                            {
-                                                                <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
-                                                            }
-                                                        }
-                                                    }
-                                                </ul>
-                                            </li>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            List<ProyectoBase.Models.Cat_ClasificacionArchivo> List = ProyectoBase.Models.Test.SP_DocPadre(item1);
-                                                            if (List.Count() > 0)
-                                                            {
-                                                <li data-jstree='{"icon":"fa fa-folder f-20 text-warning "}'>
-                                                    @item1.Nombre
-                                                    <ul>
-                                                        @foreach (var datos in List)
-                                                        {
-                                                            <li onclick="SeleccionarPorId(@datos.Id)" data-jstree='{"icon":"fa fa-file-text-o f-20 text-primary"}'>@datos.Nombre</li>
-                                                        }
-                                                    </ul>
-                                                </li>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                //FOLDER 1 vacio
-                                                <li data-jstree='{"icon":"fa fa-folder f-20 text-warning"}'>@item1.Nombre</li>
-                                                                }
-                                                            }
-                                                        }
-
-                                </ul>
-
+                                @Html.Raw(ViewBag.carpetas);
                             </div>
 
                         </div>
@@ -173,37 +52,20 @@
                     </div>
                 </div>
 
-                <div class="col-xl-4 col-md-12" id="Directorio">
+                <div class="col-xl-6 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Visualizar</h5>
                         </div>
 
                         <div style="width: 100%; height: 70vh">
-                            <!--documento aquí-->
+
                             <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                         </div>
 
                     </div>
                 </div>
-
-                <div class="col-xl-4 col-md-12" id="Directorio">
-                    <div class="card table-card">
-                        <div class="card-header">
-                            <h5>Visualizar</h5>
-                        </div>
-
-                        @{ 
-                            foreach (var itemnvl in ViewBag.NvlClasificacion)
-                            {
-                                string[] Niveles = itemnvl.ruta.Split("->");
-
-                                
-                            }
-                        }
-                    </div>
-                </div>
-
+         
             </div>
         </div>
     </div>
@@ -213,10 +75,9 @@
 
 
 <script>
-
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Directorio').addClass("active");
-
+    /*   $('.doc').addClass("fa fa-file-text-o");*/
 
     $(function () {
         $('#jstree').jstree();
@@ -231,7 +92,7 @@
     });
 
     function SeleccionarPorId(documento) {
-       
+        alert(documento);
         var obj = {};
         obj['Id'] = documento;
 
