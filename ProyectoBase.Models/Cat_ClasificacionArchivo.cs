@@ -9,6 +9,7 @@ namespace ProyectoBase.Models
     public class Cat_ClasificacionArchivo
     {
         public int Id { get; set; }
+        public int IdDoc { get; set; }
         public int Idhijo { get; set; }
         public int IdTres { get; set; }
         public string Nombre { get; set; }

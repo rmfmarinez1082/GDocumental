@@ -42,6 +42,12 @@ namespace ProyectoBase.Application
             return _cat_ClasificacionArchivo.SP_AgregarSubClasArch(nuevasubclas);
         }
 
+        public List<Models.Cat_ClasificacionArchivo> SP_DocPadre(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+            return _cat_ClasificacionArchivo.SP_DocPadre(cat_ClasificacionArchivo);
+        }
+
+
     }
 
 

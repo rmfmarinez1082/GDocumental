@@ -39,7 +39,6 @@ namespace ProyectoBase.Controllers
                 ViewBag.dtClasificacion = dtClasificacion;
 
                 List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-
                 ViewBag.dtClasificacionArchivo = dtClasificacionArchivo;
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
