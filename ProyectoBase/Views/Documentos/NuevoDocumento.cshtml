@@ -646,7 +646,67 @@
 
 
                                                     </div>
+                                                    <br />
+                                                    @*AGREGADO DE DOCUMENTOS*@
+                                                    <div class="row">
+                                                        <div class="col text-center">
+                                                            <h5 style="margin-left:50%">Previsualización</h5>
+                                                        </div>
+                                                    </div>
+                                                    <br /><br />
+                                                    <div class="row">
 
+                                                        @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
+                                                        <div class="col-md-3">
+                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                    <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
+                                                        <div class="col-md-3">
+                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                    <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable
+                                                                        <div class="row">
+                                                                            <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                            <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                            <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                        </div>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        @*DESCRIPCIONES*@
+                                                        @*<div class="col-md-3">
+                <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
+                <p><strong>Descripción</strong></p>
+                <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
+            </div>*@
+
+
+
+                                                        @*IFRAME*@
+                                                        <div class="col-md-6">
+                                                            <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
+                                                        </div>
+                                                    </div>
+
+
+                                                    @*BARRA DE PROGRESO Y EL input de documento*@
+                                                    <div class="row">
+                                                        <input id="fileInput2" type="file" multiple style="visibility:hidden">
+                                                        <input id="fileInputword" type="file" multiple style="visibility:hidden">
+
+                                                        <div class="col-md-12">
+                                                            <progress id="fileProgress" style="display: none; width:100%"></progress>
+                                                        </div>
+                                                    </div>
+
+                                                    @*FIN AGREGADO DE DOCUMENTOS*@
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
@@ -748,72 +808,33 @@
                                                         </div>
 
                                                     </div>
+                                                    <div class="row">
+                                                        <div class="col-xl-6 col-md-12" id="Directorio">
+                                                            <div class="card table-card">
+                                                                <div class="card-header">
+                                                                    <h5>Directorio</h5>
+                                                                </div>
+
+
+                                                                <div class="card-body">
+                                                                    <div id="jstree">
+                                                                        @Html.Raw(ViewBag.carpetas);
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <br />
-
-                                                    <div class="row">
-                                                        <div class="col text-center">
-                                                            <h5 style="margin-left:50%">Previsualización</h5>
-                                                        </div>
-                                                    </div>
-                                                    <br /><br />
-                                                    <div class="row">
-
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                        <div class="col-md-3">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
-                                                        <div class="col-md-3">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable
-                                                                        <div class="row">
-                                                                            <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                            <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                            <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                        </div>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        @*DESCRIPCIONES*@
-                                                        @*<div class="col-md-3">
-                                                                <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
-                                                                <p><strong>Descripción</strong></p>
-                                                                <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
-                                                            </div>*@
-
-
-
-                                                        @*IFRAME*@
-                                                        <div class="col-md-6">
-                                                            <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
-                                                        </div>
-                                                    </div>
-
-
-                                                    @*BARRA DE PROGRESO Y EL input de documento*@
-                                                    <div class="row">
-                                                        <input id="fileInput2" type="file" multiple style="visibility:hidden">
-                                                        <input id="fileInputword" type="file" multiple style="visibility:hidden">
-
-                                                        <div class="col-md-12">
-                                                            <progress id="fileProgress" style="display: none; width:100%"></progress>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
                                                             <button class="btn waves-effect waves-light btn-primary col-md-2" onclick="clasificacion(),CargaResumen()">  Siguiente   <i class="fa fa-chevron-right"></i></button>
                                                         </div>
                                                     </div>
+
                                                 </div>
 
                                                 <div id="menu5" class="tab-pane fade text">
@@ -887,6 +908,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -983,6 +1006,17 @@
 <script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
 
 <script>
+    $(function () {
+        $('#jstree').jstree();
+        $('#jstree').on("changed.jstree", function (e, data) {
+        });
+
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
     //////////////////////////
     function Nuevo() {
         $("#Modulo3er").css("display", "block");
@@ -1994,7 +2028,7 @@
             //if (ValidaDocumentoWord()){
                 result = false;
             //}
-            
+
         }
         return result;
     }

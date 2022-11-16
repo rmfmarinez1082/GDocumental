@@ -48,10 +48,56 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                string Carpetas = getParents();
+                ViewBag.carpetas = Carpetas;
+
                 return View();
             }
             else { return RedirectToAction("Index", "Home"); }
 
+        }
+        public string getParents()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+                    resulCarpetas += "<li> " + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+        public string getChildren(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li> " + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
         }
 
         //VISTAS USUARIO PRINCIPAL
@@ -507,7 +553,9 @@ namespace ProyectoBase.Controllers
                 string filename = Request.QueryString["doc"];
                 string fullpath = Path.Combine(path, filename);
                 string nombre = Request.QueryString["nom"];
-                return File(fullpath, "application/docx", nombre + ".docx");
+                String FileExtension = Path.GetExtension((Request.QueryString["doc"]).ToLower());
+
+                return File(fullpath, "application/docx", nombre + FileExtension);
 
             }
             else

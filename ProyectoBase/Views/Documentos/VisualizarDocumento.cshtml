@@ -58,7 +58,7 @@
                                                     <th style="display:none;" class="text-center">palabras cable</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
-                                                    <th class="text-center" style="color:white">Dejar de Compartir</th>
+                                                    @*<th class="text-center" style="color:white">Dejar de Compartir</th>*@
 
                                                 </tr>
                                             </thead>
@@ -73,7 +73,7 @@
                                                         <td style="display:none;"><a>@item.PalabrasClave</a></td>
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-                                                        <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+                                                        @*<td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>*@
                                                     </tr>
                                                  }
                                             </tbody>
