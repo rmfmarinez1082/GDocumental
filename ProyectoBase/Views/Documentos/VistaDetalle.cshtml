@@ -187,4 +187,63 @@
             "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
         },
     });
+
+    function NCompartir(id) {
+
+        swal({
+            title: "Dejar de Compartir",
+            text: "¿Dejar de compartir este Documento?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        NoCompartir(id);
+                        break;
+                }
+            });
+    }
+
+    function NoCompartir(id) {
+
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "NCompartir": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Ncompartir", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Dejar de Compartir",
+                        text: "Se dejo de compartir el documento",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+                location.reload();
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
 </script>

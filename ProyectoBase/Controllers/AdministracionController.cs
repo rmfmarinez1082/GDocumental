@@ -64,7 +64,8 @@ namespace ProyectoBase.Controllers
 
                 foreach(var dt in dtClasificacionArchivo)
                 {
-                    resulCarpetas += "<li> " + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -110,7 +111,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulDoc += "<li onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
                     resulDoc += "</li>";
 
                 }

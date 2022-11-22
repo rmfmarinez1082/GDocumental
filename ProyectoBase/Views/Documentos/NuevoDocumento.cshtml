@@ -1512,10 +1512,10 @@
                                             $("#BtnPublicar").prop('disabled', false);
                                             } else {
                                                 swal({
-                                                    title: "Debes registrar un documento word",
-                                                    text: '',
+                                                    title: "Documento faltante",
+                                                    text: 'El tipo de documento que has seleccionado requiere de un documento editable',
                                                     icon: "warning",
-                                                    button: "Aceptar",
+                                                    button: "Aceptar"
                                                 });
 
                                                 $("#myBtn").trigger("click");
@@ -1777,7 +1777,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de imágenes permitidos: .pdf ",
+                    text: "Formato de Documentos permitidos: .pdf ",
                     icon: "warning",
                     button: "Aceptar",
                 });
@@ -1994,7 +1994,7 @@
             //if (ValidaDocumentoWord()){
                 result = false;
             //}
-            
+
         }
         return result;
     }
