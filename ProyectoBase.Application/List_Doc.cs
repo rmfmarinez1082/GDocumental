@@ -28,5 +28,10 @@ namespace ProyectoBase.Application
         {
             return _list_Doc.DetalleDocCompartido(listarDoc);
         }
+
+        public List<Models.List_Doc> SP_ListarDocAdmin()
+        {
+            return _list_Doc.SP_ListarDocAdmin();
+        }
     }
 }

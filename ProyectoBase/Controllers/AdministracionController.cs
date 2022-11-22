@@ -14,7 +14,8 @@ namespace ProyectoBase.Controllers
     {
 
         // GET: Administracion
-        public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
+            Application.List_Doc listadoAdmin)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -34,6 +35,9 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+
+                List<Models.List_Doc> Adoc = listadoAdmin.SP_ListarDocAdmin();
+                ViewBag.AdminDoc = Adoc;
 
                 string Carpetas = getParents();
                 ViewBag.carpetas = Carpetas;
@@ -474,20 +478,6 @@ namespace ProyectoBase.Controllers
         {
             List<Models.Cat_ClasificacionArchivo> clasificacionArchivos = APcat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionArchivo);
             return Json(clasificacionArchivos);
-        }
-
-        public ActionResult obtenerPadre(Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo) {
-
-            List<Models.Cat_ClasificacionArchivo> lista = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-            if (lista.Count > 0)
-            {
-                foreach (var dato in lista)
-                {
-                    //dato.Id;
-                }
-            }
-
-            return View();
         }
 
 
