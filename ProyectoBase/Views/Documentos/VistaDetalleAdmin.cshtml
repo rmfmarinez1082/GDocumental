@@ -96,7 +96,6 @@
                                                     <th style="color:white">Nombre</th>
                                                     <th class="text-center" style="color:white">Fecha Compartido</th>
                                                     <th class="text-center" style="color:white">Estado</th>
-                                                    <th class="text-center" style="color:white">Dejar de Compartir</th>
 
 
                                                 </tr>
@@ -117,7 +116,6 @@
                                                         {
                                                             <td class="text-center"><span class="label label-danger">No visto</span></td>
                                                         }
-                                                        <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
 
                                                     </tr>
                                                 }
@@ -177,9 +175,6 @@
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
 
-
-
-
 <script type="text/javascript">
 
     $('#Detalle').DataTable({
@@ -190,66 +185,7 @@
         },
     });
 
-    function NCompartir(id) {
-
-        swal({
-            title: "Dejar de Compartir",
-            text: "¿Dejar de compartir este Documento?",
-            icon: "error",
-            buttons: {
-                Si: {
-                    text: "Sí",
-                    value: "si"
-
-                },
-                cancel: "Cancelar"
-            },
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-
-                switch (willDelete) {
-
-                    case "si":
-                        NoCompartir(id);
-                        break;
-                }
-            });
-    }
-
-    function NoCompartir(id) {
-
-        var obj = {};
-        obj['Id'] = id;
-
-        var jsonObject = {
-            "NCompartir": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("Ncompartir", "Documentos")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
-                    swal({
-                        title: "Dejar de Compartir",
-                        text: "Se dejo de compartir el documento",
-                        icon: "success",
-                        button: "Aceptar",
-                    })
-                location.reload();
-            },
-            error: function (resultado) {
-
-                alert("Error funcion ");
-            }
-        });
-    }
-    $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#visaulizarDocumento').addClass("active");
-
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#Directorio').addClass("active");
 </script>
 
