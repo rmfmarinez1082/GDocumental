@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
+    <Compile Include="a_attr.cs" />
     <Compile Include="Cat_Almacenamiento_Documento.cs" />
     <Compile Include="Cat_ClasificacionArchivo.cs" />
     <Compile Include="Cat_ClasificacionDoc.cs" />
@@ -54,14 +55,17 @@
     <Compile Include="CCompartir.cs" />
     <Compile Include="ConteoDocCompartidos.cs" />
     <Compile Include="Control_Archivos.cs" />
+    <Compile Include="data.cs" />
     <Compile Include="Documento.cs" />
     <Compile Include="Documento_Versiones.cs" />
     <Compile Include="Cat_Entidades.cs" />
     <Compile Include="EmpresasListado.cs" />
+    <Compile Include="jstree.cs" />
     <Compile Include="listadoVigencia.cs" />
     <Compile Include="ListarDocumento.cs" />
     <Compile Include="List_Doc.cs" />
     <Compile Include="LisUser.cs" />
+    <Compile Include="li_attr.cs" />
     <Compile Include="Mensaje.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NuevoDocumento.cs" />
@@ -70,8 +74,10 @@
     <Compile Include="ClasificacionDoc.cs" />
     <Compile Include="ListarCompartir.cs" />
     <Compile Include="ProvedorListado.cs" />
+    <Compile Include="state.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Test.cs" />
+    <Compile Include="Treeview.cs" />
     <Compile Include="Usuarios.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
