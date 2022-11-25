@@ -68,7 +68,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    resulCarpetas += "<li> " + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -90,7 +91,7 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li> " + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -219,6 +220,65 @@ namespace ProyectoBase.Controllers
                     }
                     else { return RedirectToAction("Index", "Home"); }
                 }
+            else { return RedirectToAction("PrincipalA", "Administracion"); }
+        }
+        public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
+            Application.List_Doc ADetails)
+        {
+
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                //VISTA PROCEDIMIENTOS
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    //DATOS DEL DOCUMENTO
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                    ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.Descripcion = documento.Descripcion;
+                    ViewBag.version = documento.Version;
+                    ViewBag.NArchivo = documento.NmArchivo;
+                    ViewBag.Ruta = "DocumentosTemporales";
+
+                    Models.List_Doc info = new List_Doc();
+                    info.Id = Id;
+                    info.IdSesion = Usuario.Id;
+                    List<Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
+                    ViewBag.DetailsDoc = DetailsDoc;
+
+
+                    //CONTROL DE NOTIFICACIONES 
+                    Dnotificacion.IdUsuario = Usuario.Id;
+                    Dnotificacion.IdDocumento = Id;
+                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+
+                    return View();
+                }
+                else { return RedirectToAction("Index", "Home"); }
+            }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
         [HttpPost]

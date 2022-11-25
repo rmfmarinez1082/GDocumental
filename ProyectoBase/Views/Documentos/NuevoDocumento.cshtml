@@ -392,9 +392,6 @@
     }
 </style>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
 
 
 <div class="@*pcoded-content*@">
@@ -663,111 +660,34 @@
                                                             <h3>Clasificación y Carga de Archivo</h3>
                                                         </div>
                                                     </div>
-                                                    <br />
-
-                                                    <div class="row">
-
-                                                        @*Clasificacion carpetas*@
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput"> Clasificación Archivo</label>
-
-                                                                <div class="input-group">
-                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
-                                                                    {
-                                                                        <div class="input-group-prepend">
-                                                                            <button class="btn btn-default waves-effect" type="button" id="AClas" onclick="Crearclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Clasificación"><i class="fa fa-plus"></i></button>
-                                                                        </div>
-                                                                    }
-
-                                                                    <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
-                                                                        <option value="0">Seleccionar </option>
-                                                                        @foreach (var item1 in ViewBag.dtClasificacionArchivo)
-                                                                        {
-                                                                            <option value="@item1.Id"> @item1.Nombre </option>
-                                                                        }
-                                                                    </select>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                        @*SubClasificacion carpetas*@
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">SubClasificación Archivo</label>
-                                                                <div class="input-group">
-                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
-                                                                    {
-                                                                        <div class="input-group-prepend">
-                                                                            <button class="btn btn-default waves-effect" type="button" id="ASclas" onclick="CrearSubclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Sub Clasificación"><i class="fa fa-plus"></i></button>
-                                                                        </div>
-                                                                    }
-                                                                    <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
-                                                                        <option value="0">Seleccionar </option>
-
-                                                                    </select>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        @*3erNivel*@
-                                                        <div id="Modulo3er" class="col-md-4 col-lg-4" @*style="display:none"*@>
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* Sección</label>
-                                                                <div class="input-group">
-                                                                    @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
-                                                                    {
-                                                                        <div class="input-group-prepend">
-                                                                            <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
-                                                                        </div>
-                                                                    }
-                                                                    <select class="form-control" id="Select3" onchange="">
-                                                                        <option value="0">Seleccionar </option>
-
-                                                                    </select>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* Clasificación </label>
-                                                                <select class="form-control" id="Clasificacion">
-                                                                    <option value="0">Seleccionar </option>
-                                                                    @foreach (var item1 in ViewBag.dtClasificacion)
-                                                                    {
-                                                                        <option value="@item1.Id">@item1.Nombre</option>
-                                                                    }
-                                                                </select>
-
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <br />
-
                                                     <div class="row">
                                                         <div class="col text-center">
-                                                            <h5 style="margin-left:50%">Previsualización</h5>
+                                                            <h5 style="margin-left:63%">Previsualización</h5>
                                                         </div>
                                                     </div>
                                                     <br /><br />
                                                     <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="card-body">
+                                                                <div id="jstree">
+                                                                    @Html.Raw(ViewBag.carpetas);
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
 
                                                         @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                        <div class="col-md-3">
+                                                        <div class="col-2">
                                                             <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                 <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                                     <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
-                                                        <div class="col-md-3">
+
+                                                        @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                        <div class="col-2">
                                                             <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                 <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                                     <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
@@ -782,22 +702,38 @@
                                                             </div>
                                                         </div>
 
-                                                        @*DESCRIPCIONES*@
-                                                        @*<div class="col-md-3">
-                                                                <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
-                                                                <p><strong>Descripción</strong></p>
-                                                                <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
-                                                            </div>*@
-
-
 
                                                         @*IFRAME*@
-                                                        <div class="col-md-6">
+                                                        <div class="col-4">
                                                             <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <br />
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <div class="form-group">
+                                                                <label for="largeInput">* Clasificación </label>
+                                                                <select class="form-control" id="Clasificacion">
+                                                                    <option value="0">Seleccionar </option>
+                                                                    @foreach (var item1 in ViewBag.dtClasificacion)
+                                                                    {
+                                                                        <option value="@item1.Id">@item1.Nombre</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-lg-12">
+                                                            <button class="btn waves-effect waves-light btn-primary col-md-12" onclick="guardarArbol()">Guardar Carpetas  <i class="fa fa-floppy-o"></i></button>
                                                         </div>
                                                     </div>
 
 
+                                                    <br />
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
                                                     <div class="row">
                                                         <input id="fileInput2" type="file" multiple style="visibility:hidden">
@@ -980,9 +916,324 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
 
 <script>
+    $(function () {
+
+        $('#jstree').jstree({
+            //Permite cambios en el doom
+            'core': {
+                'check_callback': true
+            },
+            //habilitar plugins
+            'plugins': ['contextmenu', 'dnd', 'state'],
+
+            'contextmenu': {
+                'items': function (n) {
+                    
+                    var tmp = $.jstree.defaults.contextmenu.items();
+                    tmp.ccp = false;
+                    tmp.create.label = 'Crear Carpeta';
+                    tmp.rename.label = 'Renombrar Carpeta';
+                    tmp.remove.label = 'Eliminar Carpeta';
+                    return tmp;
+                }
+            }
+               
+        });
+
+        $('#jstree').on('create_node.jstree', function (e, data) {
+            console.log('hi', data);
+        });
+    });
+
+    function guardarArbol() {
+        var v = $('#jstree').jstree(true).get_json('#', { flat: true })
+        var mytext = JSON.stringify(v);
+        var serial = JSON.parse(mytext);
+        console.log(serial);
+    }
+
+        //Funcion para publicar el archivo
+    function Publicar() {
+
+                if (ValidaDescripcion()) {
+
+                    if (ValidaControl()) {
+
+                        if (ValidaDistribucion()) {
+
+                            if (Validaclasificacion()) {
+                                if (ValidaDocumento()) {
+                                    if (validarSolicitudWord()) {
+
+                                        if (ValidaDocumentoWord()) {
+                                            $("#BtnPublicar").prop('disabled', true);
+
+                                            var obj = {};
+                                            obj['Nombre'] = $("#NombreDocumento").val();
+                                            obj['Version'] = $("#Version").val();
+                                            obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                            obj['PalabraClave'] = $("#PalabraClave").val();
+                                            obj['Descripcion'] = $("#Descripcion").val();
+
+                                            obj['FechaRevision'] = $("#FechaRevision").val();
+                                            obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                            obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                            obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                            obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+
+                                            obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                            obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+
+                                            if ($('#checkboxBD').prop('checked')) {
+                                                obj['checkboxBD'] = 1;
+                                            } else {
+                                                obj['checkboxBD'] = 0;
+                                            }
+
+                                            if ($('#checkboxCorreo').prop('checked')) {
+                                                obj['checkboxCorreo'] = 1;
+                                            } else {
+                                                obj['checkboxCorreo'] = 0;
+                                            }
+
+                                            obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                            obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
+                                            obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                            obj['IdNombre3'] = $("#Select3 option:selected").val();
+
+
+                                            var jsonObject = {
+                                                "NuevoDocumento": obj
+                                            };
+
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                                async: false,
+                                                data: JSON.stringify(jsonObject),
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    switch (data.Id) {
+                                                        case -1:
+
+                                                            swal({
+                                                                title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+
+
+                                                            break;
+                                                        case 0:
+                                                            swal({
+                                                                title: "Algo ocurrió documento no registrado !",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+                                                            break;
+
+                                                        default:
+                                                        // code block
+                                                    }
+                                                    if (data.Id > 0) {
+                                                        swal({
+                                                            title: "Documento registrado. !",
+                                                            text: " ",
+                                                            icon: "success",
+                                                            button: "Aceptar",
+                                                        }).then((value) => {
+                                                            location.reload();
+                                                        });
+                                                    }
+                                                },
+                                                error: errores
+                                            });
+
+                                            $("#BtnPublicar").prop('disabled', false);
+                                            } else {
+                                                swal({
+                                                    title: "Documento faltante",
+                                                    text: 'El tipo de documento que has seleccionado requiere de un documento editable',
+                                                    icon: "warning",
+                                                    button: "Aceptar"
+                                                });
+
+                                                $("#myBtn").trigger("click");
+                                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                                $('[href="#menu4"]').tab('show');
+                                            }
+                                    } else {
+                                        $("#BtnPublicar").prop('disabled', true);
+
+                                        var obj = {};
+                                        obj['Nombre'] = $("#NombreDocumento").val();
+                                        obj['Version'] = $("#Version").val();
+                                        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                        obj['PalabraClave'] = $("#PalabraClave").val();
+                                        obj['Descripcion'] = $("#Descripcion").val();
+
+                                        obj['FechaRevision'] = $("#FechaRevision").val();
+                                        obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+
+                                        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+
+                                        if ($('#checkboxBD').prop('checked')) {
+                                            obj['checkboxBD'] = 1;
+                                        } else {
+                                            obj['checkboxBD'] = 0;
+                                        }
+
+                                        if ($('#checkboxCorreo').prop('checked')) {
+                                            obj['checkboxCorreo'] = 1;
+                                        } else {
+                                            obj['checkboxCorreo'] = 0;
+                                        }
+
+                                        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                        obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
+                                        obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                        obj['IdNombre3'] = $("#Select3 option:selected").val();
+
+
+                                        var jsonObject = {
+                                            "NuevoDocumento": obj
+                                        };
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+                                                switch (data.Id) {
+                                                    case -1:
+
+                                                        swal({
+                                                            title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+
+
+                                                        break;
+                                                    case 0:
+                                                        swal({
+                                                            title: "Algo ocurrió documento no registrado !",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+                                                        break;
+
+                                                    default:
+                                                    // code block
+                                                }
+                                                if (data.Id > 0) {
+                                                    swal({
+                                                        title: "Documento registrado. !",
+                                                        text: " ",
+                                                        icon: "success",
+                                                        button: "Aceptar",
+                                                    }).then((value) => {
+                                                        location.reload();
+                                                    });
+                                                }
+                                            },
+                                            error: errores
+                                        });
+
+                                        $("#BtnPublicar").prop('disabled', false);
+                                    }
+
+                                } else {
+                                    swal({
+                                        title: "Debes registrar un documento",
+                                        text: '',
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+
+                                    $("#myBtn").trigger("click");
+                                    $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                    $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                    $('[href="#menu4"]').tab('show');
+                                }
+                            } else {
+                                swal({
+                                    title: "Debes completar el formulario de información.",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+
+                                $("#myBtn").trigger("click");
+                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                $('[href="#menu4"]').tab('show');
+                            }
+                        }
+                        else {
+                            swal({
+                                title: "Debes completar el formulario de información.",
+                                text: '',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+
+                            $("#myBtn").trigger("click");
+                            $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                            $('[href="#menu3"]').addClass('btn-info').removeClass('btn-default');
+                            $('[href="#menu3"]').tab('show');
+                        }
+                    } else {
+                        swal({
+                            title: "Debes completar el formulario de información.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+
+
+                        $("#myBtn").trigger("click");
+                        $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                        $('[href="#menu2"]').addClass('btn-info').removeClass('btn-default');
+                        $('[href="#menu2"]').tab('show');
+                    }
+                }
+                else {
+
+                    swal({
+                        title: "Debes completar el formulario de información.",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+
+                    $("#myBtn").trigger("click");
+                    $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                    $('[href="#menu1"]').addClass('btn-info').removeClass('btn-default');
+                    $('[href="#menu1"]').tab('show');
+                }
+    };
+
+    $('#agregardoc').addClass("active");
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#IdMenuProductos').addClass("active pcoded-trigger");
+    $('#IdSubMenuNuevo').addClass("active");
+
     //////////////////////////
     function Nuevo() {
         $("#Modulo3er").css("display", "block");
@@ -1409,282 +1660,6 @@
     }
 
 
-    //Funcion para publicar el archivo
-    function Publicar() {
-
-                if (ValidaDescripcion()) {
-
-                    if (ValidaControl()) {
-
-                        if (ValidaDistribucion()) {
-
-                            if (Validaclasificacion()) {
-                                if (ValidaDocumento()) {
-                                    if (validarSolicitudWord()) {
-
-                                        if (ValidaDocumentoWord()) {
-                                            $("#BtnPublicar").prop('disabled', true);
-
-                                            var obj = {};
-                                            obj['Nombre'] = $("#NombreDocumento").val();
-                                            obj['Version'] = $("#Version").val();
-                                            obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-                                            obj['PalabraClave'] = $("#PalabraClave").val();
-                                            obj['Descripcion'] = $("#Descripcion").val();
-
-                                            obj['FechaRevision'] = $("#FechaRevision").val();
-                                            obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
-                                            obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-                                            obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-                                            obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
-
-                                            obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-                                            obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
-
-                                            if ($('#checkboxBD').prop('checked')) {
-                                                obj['checkboxBD'] = 1;
-                                            } else {
-                                                obj['checkboxBD'] = 0;
-                                            }
-
-                                            if ($('#checkboxCorreo').prop('checked')) {
-                                                obj['checkboxCorreo'] = 1;
-                                            } else {
-                                                obj['checkboxCorreo'] = 0;
-                                            }
-
-                                            obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                            obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                            obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                            obj['IdNombre3'] = $("#Select3 option:selected").val();
-
-
-                                            var jsonObject = {
-                                                "NuevoDocumento": obj
-                                            };
-
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "@Url.Action("Documentos_Registrar", "Documentos")",
-                                                async: false,
-                                                data: JSON.stringify(jsonObject),
-                                                contentType: "application/json; charset=utf-8",
-                                                dataType: "json",
-                                                success: function (data) {
-                                                    switch (data.Id) {
-                                                        case -1:
-
-                                                            swal({
-                                                                title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                                                text: '',
-                                                                icon: "warning",
-                                                                button: "Aceptar",
-                                                            });
-
-
-                                                            break;
-                                                        case 0:
-                                                            swal({
-                                                                title: "Algo ocurrió documento no registrado !",
-                                                                text: '',
-                                                                icon: "warning",
-                                                                button: "Aceptar",
-                                                            });
-                                                            break;
-
-                                                        default:
-                                                        // code block
-                                                    }
-                                                    if (data.Id > 0) {
-                                                        swal({
-                                                            title: "Documento registrado. !",
-                                                            text: " ",
-                                                            icon: "success",
-                                                            button: "Aceptar",
-                                                        }).then((value) => {
-                                                            location.reload();
-                                                        });
-                                                    }
-                                                },
-                                                error: errores
-                                            });
-
-                                            $("#BtnPublicar").prop('disabled', false);
-                                            } else {
-                                                swal({
-                                                    title: "Documento faltante",
-                                                    text: 'El tipo de documento que has seleccionado requiere de un documento editable',
-                                                    icon: "warning",
-                                                    button: "Aceptar"
-                                                });
-
-                                                $("#myBtn").trigger("click");
-                                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
-                                                $('[href="#menu4"]').tab('show');
-                                            }
-                                    } else {
-                                        $("#BtnPublicar").prop('disabled', true);
-
-                                        var obj = {};
-                                        obj['Nombre'] = $("#NombreDocumento").val();
-                                        obj['Version'] = $("#Version").val();
-                                        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-                                        obj['PalabraClave'] = $("#PalabraClave").val();
-                                        obj['Descripcion'] = $("#Descripcion").val();
-
-                                        obj['FechaRevision'] = $("#FechaRevision").val();
-                                        obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
-                                        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-                                        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-                                        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
-
-                                        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-                                        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
-
-                                        if ($('#checkboxBD').prop('checked')) {
-                                            obj['checkboxBD'] = 1;
-                                        } else {
-                                            obj['checkboxBD'] = 0;
-                                        }
-
-                                        if ($('#checkboxCorreo').prop('checked')) {
-                                            obj['checkboxCorreo'] = 1;
-                                        } else {
-                                            obj['checkboxCorreo'] = 0;
-                                        }
-
-                                        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                        obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                        obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                        obj['IdNombre3'] = $("#Select3 option:selected").val();
-
-
-                                        var jsonObject = {
-                                            "NuevoDocumento": obj
-                                        };
-
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "@Url.Action("Documentos_Registrar", "Documentos")",
-                                            async: false,
-                                            data: JSON.stringify(jsonObject),
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (data) {
-                                                switch (data.Id) {
-                                                    case -1:
-
-                                                        swal({
-                                                            title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                                            text: '',
-                                                            icon: "warning",
-                                                            button: "Aceptar",
-                                                        });
-
-
-                                                        break;
-                                                    case 0:
-                                                        swal({
-                                                            title: "Algo ocurrió documento no registrado !",
-                                                            text: '',
-                                                            icon: "warning",
-                                                            button: "Aceptar",
-                                                        });
-                                                        break;
-
-                                                    default:
-                                                    // code block
-                                                }
-                                                if (data.Id > 0) {
-                                                    swal({
-                                                        title: "Documento registrado. !",
-                                                        text: " ",
-                                                        icon: "success",
-                                                        button: "Aceptar",
-                                                    }).then((value) => {
-                                                        location.reload();
-                                                    });
-                                                }
-                                            },
-                                            error: errores
-                                        });
-
-                                        $("#BtnPublicar").prop('disabled', false);
-                                    }
-
-                                } else {
-                                    swal({
-                                        title: "Debes registrar un documento",
-                                        text: '',
-                                        icon: "warning",
-                                        button: "Aceptar",
-                                    });
-
-                                    $("#myBtn").trigger("click");
-                                    $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                                    $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
-                                    $('[href="#menu4"]').tab('show');
-                                }
-                            } else {
-                                swal({
-                                    title: "Debes completar el formulario de información.",
-                                    text: '',
-                                    icon: "warning",
-                                    button: "Aceptar",
-                                });
-
-                                $("#myBtn").trigger("click");
-                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
-                                $('[href="#menu4"]').tab('show');
-                            }
-                        }
-                        else {
-                            swal({
-                                title: "Debes completar el formulario de información.",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
-
-                            $("#myBtn").trigger("click");
-                            $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                            $('[href="#menu3"]').addClass('btn-info').removeClass('btn-default');
-                            $('[href="#menu3"]').tab('show');
-                        }
-                    } else {
-                        swal({
-                            title: "Debes completar el formulario de información.",
-                            text: '',
-                            icon: "warning",
-                            button: "Aceptar",
-                        });
-
-
-                        $("#myBtn").trigger("click");
-                        $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                        $('[href="#menu2"]').addClass('btn-info').removeClass('btn-default');
-                        $('[href="#menu2"]').tab('show');
-                    }
-                }
-                else {
-
-                    swal({
-                        title: "Debes completar el formulario de información.",
-                        text: '',
-                        icon: "warning",
-                        button: "Aceptar",
-                    });
-
-                    $("#myBtn").trigger("click");
-                    $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                    $('[href="#menu1"]').addClass('btn-info').removeClass('btn-default');
-                    $('[href="#menu1"]').tab('show');
-                }
-    };
-
-
     //Funcion para cargar documento
     function BtnCargarPDF() {
         $("#fileInput2").click();
@@ -1777,7 +1752,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de Documentos permitidos: .pdf ",
+                    text: "Formato de archivos permitidos: .pdf ",
                     icon: "warning",
                     button: "Aceptar",
                 });
@@ -1910,7 +1885,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de Documentos permitidos: .docx, .pptx, .xlsx ",
+                    text: "Formato de documentos permitidos: .docx, .pptx, .xlsx ",
                     icon: "warning",
                     button: "Aceptar",
                 });
@@ -2001,7 +1976,7 @@
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
     {
-        var mail = "https://" + Contenido[0].DocumentoURL;
+        var mail = "https://" + Contenido[0].DocumentoURL + "#toolbar=0";
 
         $('#iframepdf').attr('src', mail);
 
@@ -2835,25 +2810,6 @@
     }
 
 
-    //////////////////////////
-
-
-    function ValidaInput(name) {
-        if ($('#' + name).val().length > 0) {
-            $('#' + name).css("border", "1px solid rgb(222 222 222)");
-        } else {
-            $('#' + name).css("border", "1px solid #ff0049");
-        }
-    }
-
-    function ValidaSelect(name) {
-        if ($('#' + name + ' option:selected').val() > 0) {
-            $('#' + name).css("border", "1px solid rgb(222 222 222)");
-        } else {
-            $('#' + name).css("border", "1px solid #ff0049");
-        }
-    }
-
     $(document).ready(function () {
         $('.btn-circle').on('click', function () {
             $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
@@ -2864,26 +2820,7 @@
 
     });
 
-    function errores() {
-        $.notify({
-            message: "Inténtelo mas tarde."
-        }, {
-            type: 'danger',
-            allow_dismiss: false,
-            animate: {
-                enter: 'animated rollIn',
-                exit: 'animated rollOut'
-            }
-        });
-    }
 
-</script>
-
-<script>
-    $('#agregardoc').addClass("active");
-    $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#IdMenuProductos').addClass("active pcoded-trigger");
-    $('#IdSubMenuNuevo').addClass("active");
 
 </script>
 
