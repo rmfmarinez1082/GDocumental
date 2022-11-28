@@ -11,6 +11,20 @@ namespace ProyectoBase.Data
     {
         ManejoDatos b = new ManejoDatos();
 
+        public Models.Cat_ClasificacionArchivo SP_RESSET()
+        {
+            b.ExecuteCommandSP("SP_RESSET");
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
         public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_Listar()
         {
             b.ExecuteCommandSP("Cat_ClasificacionArchivo_Listar");
@@ -105,10 +119,13 @@ namespace ProyectoBase.Data
         }
 
         public Models.Cat_ClasificacionArchivo SP_AgregarSubClasArch(Models.Cat_ClasificacionArchivo nuevasubclas)
+        
         {
             b.ExecuteCommandSP("SP_AgregarSubClasArch");
             b.AddParameter("@Nombre", nuevasubclas.Nombre, SqlDbType.VarChar);
-            b.AddParameter("@IdPadre", nuevasubclas.Id, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", nuevasubclas.Idpadre, SqlDbType.VarChar); 
+            b.AddParameter("@Id", nuevasubclas.Idtemporal, SqlDbType.VarChar);
+
             Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
             var reader = b.ExecuteReader();
             while (reader.Read())

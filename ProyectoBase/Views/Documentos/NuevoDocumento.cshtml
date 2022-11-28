@@ -667,7 +667,7 @@
                                                     </div>
                                                     <br /><br />
                                                     <div class="row">
-                                                        <div class="col-4">
+                                                        <div class="col-md-4">
                                                             <div class="card-body">
                                                                 <div id="jstree">
                                                                     @Html.Raw(ViewBag.carpetas);
@@ -678,7 +678,7 @@
                                                         </div>
 
                                                         @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                        <div class="col-2">
+                                                        <div class="col-md-2">
                                                             <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                 <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                                     <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
@@ -687,7 +687,7 @@
                                                         </div>
 
                                                         @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                        <div class="col-2">
+                                                        <div class="col-md-2">
                                                             <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                 <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                                     <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
@@ -918,34 +918,90 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script>
+
     $(function () {
 
         $('#jstree').jstree({
-            //Permite cambios en el doom
+
             'core': {
                 'check_callback': true
             },
-            //habilitar plugins
+
             'plugins': ['contextmenu', 'dnd', 'state'],
 
-            'contextmenu': {
-                'items': function (n) {
-                    
-                    var tmp = $.jstree.defaults.contextmenu.items();
-                    tmp.ccp = false;
-                    tmp.create.label = 'Crear Carpeta';
-                    tmp.rename.label = 'Renombrar Carpeta';
-                    tmp.remove.label = 'Eliminar Carpeta';
-                    return tmp;
+            "contextmenu": {
+                items: {
+                    "ccp": false,
+                    "create": {
+                        "label": "Crear carpeta",
+                        "action":
+                            function node_create() {
+                                var ref = $("#jstree").jstree(true);
+                                var sel = ref.get_selected();
+
+                                if (!sel.length) {
+                                    alert("Seleccione primero un nodo");
+                                    return;
+                                }
+                                sel = sel[0];
+
+                                sel = ref.create_node(sel);
+                                if (sel) {
+                                    ref.edit(sel);
+
+
+                                }
+                            }
+                    },
+                    "renombrar": {
+                        "label": "Renombrar Carpeta",
+                        "action": function node_rename() {
+
+                            var ref = $("#jstree").jstree(true);
+                            var sel = ref.get_selected();
+                            if (!sel.length) {
+                                alert("Seleccione primero un nodo");
+                                return;
+                            }
+                            sel = sel[0];
+                            ref.edit(sel);
+                        }
+                    },
+                    "eliminar": {
+                        "label": "Eliminar Carpeta",
+                        "action": function node_delete() {
+                            var ref = $("#jstree").jstree(true);
+                            var sel = ref.get_selected();
+                            if (!sel.length) {
+                                alert("Seleccione primero un nodo");
+                                return;
+                            }
+                            sel = sel[0];
+                            if (ref.get_node(sel).parent == '#') {
+                                swal({
+                                    title: "Esta Subclasificación ya existe.",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+                                return;
+                            }
+                            ref.delete_node(sel);
+                        }
+                    }
                 }
             }
-               
+
         });
 
-        $('#jstree').on('create_node.jstree', function (e, data) {
-            console.log('hi', data);
+        $('#jstree').on('rename_node.jstree', function (e, data) {
+            Guardar_CR(data)
+            let Id = data.node.id, Nombre = data.node.text, IdPadre = data.node.parent;
         });
     });
+
+
+
 
     function guardarArbol() {
         var v = $('#jstree').jstree(true).get_json('#', { flat: true })
@@ -954,6 +1010,48 @@
         console.log(serial);
     }
 
+    //FUNCION CREAR Y RENOMBRAR
+    function Guardar_CR(data) {
+         
+        var obj = { "Nombre": data.node.text, "IdPadre": data.node.parent, "Idtemporal": data.node.id };
+            //        alert(data.node.text), alert(data.node.parent), alert(data.node.id);
+            var jsonObject = {
+                "nuevasubClas": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#BtnSubclas").trigger("click");
+
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Carpeta Agregada. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Esta Carpeta ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
+                }
+
+            });
+    }
         //Funcion para publicar el archivo
     function Publicar() {
 
@@ -1292,17 +1390,14 @@
 
         $('#ModalClasificacion').modal('show');
     }
-    function GuardarClas() {
+    function GuardarClas(data) {
+        console.log(data);
+        var obj = { "Nombre": data.node.text, "Id": 0 };
 
-        if (validaClasificacionArchivo()) {
-
-          var obj = { "Nombre": $("#NombreClas").val(), "Id": 0 };
-
-            var jsonObject = {
-                "nuevaClas": obj
-            };
-
-            $.ajax({
+        var jsonObject = {
+            "nuevaClas": obj
+        };
+                    $.ajax({
                 type: "POST",
                 url: "@Url.Action("RegistrarClas", "Documentos")",
                 async: false,
@@ -1330,41 +1425,10 @@
                             button: "Aceptar",
                         });
                     }
-                    // llenar select clasificacion -
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("ClasificacionArchivo_Listar", "Documentos")",
-                        async: false,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            $("#ClasificacionArchivo").empty();
-
-                            var option = $(document.createElement('option'));
-                            option.text("Seleccionar");
-                            option.val(0);
-
-                            $("#ClasificacionArchivo").append(option);
-
-                            $(data).each(function () {
-                                var option = $(document.createElement('option'));
-
-                                option.text(this.Nombre);
-                                option.val(this.Id);
-
-                                $("#ClasificacionArchivo").append(option);
-                            });
-
-                        }
-                    });
-
 
                 }
             });
-        } else {
 
-        }
     }
     function validaClasificacionArchivo() {
 
@@ -1397,92 +1461,7 @@
 
         }
     }
-    function GuardarSubclas() {
-        if (validaSubClasificacionArchivo()) {
 
-            var obj = {};
-            obj['Id'] = $("#ClasificacionArchivo option:selected").val();
-            obj['Nombre'] = $("#NombreSubClas").val();
-
-            var jsonObject = {
-                "nuevasubClas": obj
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("RegistrarSubClas", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-                    $("#BtnSubclas").trigger("click");
-
-                    if (data.Id == 1) {
-                        swal({
-                            title: "SubClasificacion Agregada. !",
-                            text: " ",
-                            icon: "success",
-                            button: "Aceptar",
-                        });
-
-                    }
-                    else {
-                        swal({
-                            title: "Esta Subclasificación ya existe.",
-                            text: '',
-                            icon: "warning",
-                            button: "Aceptar",
-                        });
-                    }
-
-                    // llenar select Subclasificacion -
-
-                    var obj = {};
-                    obj['Id'] = $("#ClasificacionArchivo option:selected").val();
-                    var jsonObject = {
-                        "Cat_ClasificacionArchivo": obj
-                    };
-
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
-                        async: false,
-                        data: JSON.stringify(jsonObject),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            $("#SubClasificacionArchivo").empty();
-
-
-
-                            var option = $(document.createElement('option'));
-                            option.text("Seleccionar");
-                            option.val(0);
-
-                            $("#SubClasificacionArchivo").append(option);
-
-
-                            $(data).each(function () {
-                                var option = $(document.createElement('option'));
-
-                                option.text(this.Nombre);
-                                option.val(this.Id);
-
-                                $("#SubClasificacionArchivo").append(option);
-                            });
-
-                        }
-                    });
-                }
-
-            });
-
-        } else {}
-    }
     function validaSubClasificacionArchivo() {
         var result = false;
 
@@ -1499,6 +1478,7 @@
 
         return result;
     }
+
 
     function validaseleccionclas() {
         var result = false;
@@ -2819,8 +2799,5 @@
         $('[href="#menu1"]').tab('show');
 
     });
-
-
-
 </script>
 

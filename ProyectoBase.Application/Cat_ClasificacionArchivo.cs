@@ -9,6 +9,11 @@ namespace ProyectoBase.Application
     public class Cat_ClasificacionArchivo
     {
         Data.Cat_ClasificacionArchivo _cat_ClasificacionArchivo = new Data.Cat_ClasificacionArchivo();
+
+        public Models.Cat_ClasificacionArchivo SP_RESSET()
+        {
+            return _cat_ClasificacionArchivo.SP_RESSET();
+        }
         public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_Listar()
         {
             return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();

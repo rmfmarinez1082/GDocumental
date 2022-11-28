@@ -21,6 +21,9 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
+                Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
+
+
                 List<Models.Cat_Tipo_Documento> dtTipoDocumentos = cat_Tipo_Documento.Cat_Tipo_Documento_Listar();
 
                 ViewBag.dtTipoDocumentos = dtTipoDocumentos;

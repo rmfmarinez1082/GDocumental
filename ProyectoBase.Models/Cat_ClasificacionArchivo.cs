@@ -13,6 +13,7 @@ namespace ProyectoBase.Models
         public int Idhijo { get; set; }
         public int IdTres { get; set; }
         public string Nombre { get; set; }
+        public string Idtemporal { get; set; }
 
         public string NombreClasificacion { get; set; }
         public string NombreSubcalsificacion { get; set; }
