@@ -949,6 +949,9 @@
                                 if (sel) {
                                     ref.edit(sel);
 
+                                $('#jstree').on('rename_node.jstree', function (e, data) {
+                                 Guardar_CR(data)
+                                });
 
                                 }
                             }
@@ -965,6 +968,48 @@
                             }
                             sel = sel[0];
                             ref.edit(sel);
+
+                            $('#jstree').on('rename_node.jstree', function (e, data) {
+                                        var obj = { "Nombre": data.node.text, "Id": data.node.id,"IdPadre": data.node.parent };
+                                        var jsonObject = {
+                                            "carpeta": obj
+                                        };
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("Renombrar", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                $("#BtnSubclas").trigger("click");
+
+                                                if (data.Id == 1) {
+                                                    swal({
+                                                        title: "Cambios Realizados. !",
+                                                        text: " ",
+                                                        icon: "success",
+                                                        button: "Aceptar",
+                                                    });
+
+                                                }
+                                                else {
+                                                    swal({
+                                                        title: "El nombre de esta carpeta ya esta en uso renombrela.",
+                                                        text: '',
+                                                        icon: "warning",
+                                                        button: "Aceptar",
+                                                    });
+                                                    //usar otro tipo de alerta notify
+                                                    /*ref.edit(sel);*/
+                                                }
+
+                                            }
+
+                                        });
+                            });
                         }
                     },
                     "eliminar": {
@@ -1014,7 +1059,7 @@
 
                             });
 
-                        
+
 
                         }
                     }
@@ -1023,10 +1068,7 @@
 
         });
 
-        $('#jstree').on('rename_node.jstree', function (e, data) {
-            Guardar_CR(data)
-            let Id = data.node.id, Nombre = data.node.text, IdPadre = data.node.parent;
-        });
+
     });
 
 
@@ -1039,11 +1081,10 @@
         console.log(serial);
     }
 
-    //FUNCION CREAR Y RENOMBRAR
+    //FUNCION CREAR
     function Guardar_CR(data) {
-         
+
         var obj = { "Nombre": data.node.text, "IdPadre": data.node.parent, "Idtemporal": data.node.id };
-            //        alert(data.node.text), alert(data.node.parent), alert(data.node.id);
             var jsonObject = {
                 "nuevasubClas": obj
             };
@@ -1081,6 +1122,7 @@
 
             });
     }
+
         //Funcion para publicar el archivo
     function Publicar() {
 

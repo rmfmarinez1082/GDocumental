@@ -49,6 +49,10 @@ namespace ProyectoBase.Application
         public Models.Cat_ClasificacionArchivo SP_DelClas(Models.Cat_ClasificacionArchivo carpeta)
         {
             return _cat_ClasificacionArchivo.SP_DelClas(carpeta);
+        } 
+        public Models.Cat_ClasificacionArchivo SP_Renombrar(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.SP_Renombrar(carpeta);
         }
 
         public List<Models.Cat_ClasificacionArchivo> SP_DocPadre(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)

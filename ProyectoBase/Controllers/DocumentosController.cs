@@ -573,6 +573,13 @@ namespace ProyectoBase.Controllers
             Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DelClas(carpeta);
 
             return Json(carpetaD);
+        } 
+        [HttpPost]
+        public JsonResult Renombrar(Models.Cat_ClasificacionArchivo carpeta, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_Renombrar(carpeta);
+
+            return Json(carpetaD);
         }
 
         [HttpPost]
