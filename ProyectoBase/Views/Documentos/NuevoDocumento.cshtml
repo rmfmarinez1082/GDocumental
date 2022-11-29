@@ -972,21 +972,50 @@
                         "action": function node_delete() {
                             var ref = $("#jstree").jstree(true);
                             var sel = ref.get_selected();
-                            if (!sel.length) {
-                                alert("Seleccione primero un nodo");
-                                return;
-                            }
-                            sel = sel[0];
-                            if (ref.get_node(sel).parent == '#') {
-                                swal({
-                                    title: "Esta Subclasificación ya existe.",
-                                    text: '',
-                                    icon: "warning",
-                                    button: "Aceptar",
-                                });
-                                return;
-                            }
-                            ref.delete_node(sel);
+
+                            var obj = { "Id": sel[0] };
+                            var jsonObject = {
+                                "carpeta": obj
+                            };
+                            console.log(obj);
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                async: false,
+                                data: JSON.stringify(jsonObject),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+
+
+                                    if (data.Id == 1) {
+                                        sel = sel[0];
+
+                                        ref.delete_node(sel);
+
+                                        swal({
+                                            title: "Carpeta eliminada!",
+                                            text: " ",
+                                            icon: "success",
+                                            button: "Aceptar",
+                                        });
+
+                                    }
+                                    else {
+                                        swal({
+                                            title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                            text: '',
+                                            icon: "warning",
+                                            button: "Aceptar",
+                                        });
+                                    }
+
+                                }
+
+                            });
+
+                        
+
                         }
                     }
                 }

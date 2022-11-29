@@ -137,6 +137,24 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public Models.Cat_ClasificacionArchivo SP_DelClas(Models.Cat_ClasificacionArchivo carpeta)
+        
+        {
+            b.ExecuteCommandSP("SP_DelClas");
+
+            b.AddParameter("@Id", carpeta.Id, SqlDbType.VarChar);
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
 
         public List<Models.Cat_ClasificacionArchivo> RUTA()
         {

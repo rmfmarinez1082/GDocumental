@@ -566,6 +566,13 @@ namespace ProyectoBase.Controllers
             Models.Cat_ClasificacionArchivo nuevasubClass = ApnuevasubClas.SP_AgregarSubClasArch(nuevasubClas);
 
             return Json(nuevasubClass);
+        } 
+        [HttpPost]
+        public JsonResult EliminarCarpeta(Models.Cat_ClasificacionArchivo carpeta, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DelClas(carpeta);
+
+            return Json(carpetaD);
         }
 
         [HttpPost]
