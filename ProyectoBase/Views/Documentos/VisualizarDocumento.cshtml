@@ -290,7 +290,7 @@
     function Compartir(id) {
 
         $('#ModalCompartir').modal('show');
-    ListarCompartirPorId(id);
+        ListarCompartirPorId(id);
     }
 
     function NCompartir(id) {
@@ -346,68 +346,6 @@
             },
             error: function (resultado) {
 
-                alert("Error funcion ");
-            }
-        });
-    }
-
-    function Eliminar(id) {
-        swal({
-            title: "Eliminación de Archivos",
-            text: "¿Está seguro de querer eliminar este archivo?",
-            icon: "error",
-            buttons: {
-                Si: {
-                    text: "Sí, eliminar",
-                    value: "si"
-
-                },
-                cancel: "Cancelar"
-            },
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-
-                switch (willDelete) {
-
-                    case "si":
-                        SeguroEliminarArchivo(id);
-                        break;
-
-                    default:
-                        swal("Se cancelo la eliminación del documento");
-                }
-            });
-    }
-
-    function SeguroEliminarArchivo(id) {
-
-        var obj = {};
-        obj['Id'] = id;
-
-        var jsonObject = {
-            "documento": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("QuitarArchivo", "Documentos")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
-                    swal({
-                        title: "Documento Eliminado !",
-                        text: " ",
-                        icon: "success",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        location.reload();
-                    });
-            },
-            error: function (resultado) {
-                console.log(resultado);
                 alert("Error funcion ");
             }
         });
@@ -566,6 +504,67 @@
     //Fin Para compartir
 
 
+    function Eliminar(id) {
+        swal({
+            title: "Eliminación de Archivos",
+            text: "¿Está seguro de querer eliminar este archivo?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí, eliminar",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        SeguroEliminarArchivo(id);
+                        break;
+
+                    default:
+                        swal("Se cancelo la eliminación del documento");
+                }
+            });
+    }
+
+    function SeguroEliminarArchivo(id) {
+
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "documento": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("QuitarArchivo", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Documento Eliminado !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    }).then((value) => {
+                        location.reload();
+                    });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
 
     function Selecionar() {
         var d = document.getElementById("Entidad");

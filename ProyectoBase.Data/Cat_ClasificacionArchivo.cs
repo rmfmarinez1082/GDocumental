@@ -94,8 +94,8 @@ namespace ProyectoBase.Data
             while (reader.Read())
             {
                 resultado.NombreClasificacion = reader["Clasificacion"].ToString();
-                resultado.NombreSubcalsificacion = reader["Subclasificacion"].ToString();
-                resultado.Nombre3 = reader["Clasificacion3"].ToString();
+                //resultado.NombreSubcalsificacion = reader["Subclasificacion"].ToString();
+                //resultado.Nombre3 = reader["Clasificacion3"].ToString();
             }
             reader = null;
             b.ConnectionCloseToTransaction();
@@ -124,7 +124,7 @@ namespace ProyectoBase.Data
             b.ExecuteCommandSP("SP_AgregarSubClasArch");
             b.AddParameter("@Nombre", nuevasubclas.Nombre, SqlDbType.VarChar);
             b.AddParameter("@IdPadre", nuevasubclas.Idpadre, SqlDbType.VarChar); 
-            b.AddParameter("@Id", nuevasubclas.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@Idtemporal", nuevasubclas.Idtemporal, SqlDbType.VarChar);
 
             Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
             var reader = b.ExecuteReader();

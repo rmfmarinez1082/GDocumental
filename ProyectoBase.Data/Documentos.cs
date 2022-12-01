@@ -34,8 +34,8 @@ namespace ProyectoBase.Data
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
             b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
+            //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
 
             b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
             b.AddParameter("@NmArchivoword", nuevoDocumento.NmArchivoword, SqlDbType.NVarChar);
@@ -78,8 +78,8 @@ namespace ProyectoBase.Data
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
             b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
+            //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
 
             b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
             b.AddParameter("@NmOriginal", nuevoDocumento.NmOriginal, SqlDbType.NVarChar);
@@ -173,9 +173,9 @@ namespace ProyectoBase.Data
                 resultado.IdTipoArchivo = Convert.ToInt32(reader["IdTipoArchivo"].ToString());
                 resultado.IdMedioAlmacenamiento = Convert.ToInt32(reader["IdMedioAlmacenamiento"].ToString());
                 resultado.IdClasificacion = Convert.ToInt32(reader["IdClasificacion"].ToString());
-                resultado.IdClasificacionArchivo = Convert.ToInt32(reader["IdClasificacionArchivo"].ToString());
-                resultado.IdSubclasificacionArchivo = Convert.ToInt32(reader["IdSubClasificacionArchivo"].ToString());
-                resultado.IdNombre3 = Convert.ToInt32(reader["IdNombre3"].ToString());
+                //resultado.IdClasificacionArchivo = Convert.ToInt32(reader["IdClasificacionArchivo"].ToString());
+                //resultado.IdSubclasificacionArchivo = Convert.ToInt32(reader["IdSubClasificacionArchivo"].ToString());
+                //resultado.IdNombre3 = Convert.ToInt32(reader["IdNombre3"].ToString());
             }
             reader = null;
             b.ConnectionCloseToTransaction();

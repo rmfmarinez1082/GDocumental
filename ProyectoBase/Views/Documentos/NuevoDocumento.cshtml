@@ -470,7 +470,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Descripción </h3>
-                                                            @*<p>Clasificación de la información, como encontraran el artículo. Completa los campos marcados * </p>*@
+                                                      
                                                         </div>
                                                     </div>
                                                     <br />
@@ -495,7 +495,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Documento </label>
-                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaSelect('TipoDocumento')">
+                                                                <select class="form-control" id="TipoDocumento" @*onchange="ValidaSelect('TipoDocumento')"*@>
                                                                     <option value="0">Seleccionar</option>
                                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                                     {
@@ -598,7 +598,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Archivo </label>
-                                                                <select class="form-control" id="Select_TipoArchivo" onchange="ValidaSelect('Select_Moneda')">
+                                                                <select class="form-control" id="Select_TipoArchivo">
                                                                     <option value="0">Seleccionar </option>
                                                                     @foreach (var item1 in ViewBag.dtTipoArchivo)
                                                                     {
@@ -610,7 +610,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Medio de Almacenamiento </label>
-                                                                <select class="form-control" id="Select_MedioAlmacenamiento" onchange="ValidaSelect('Select_Moneda')">
+                                                                <select class="form-control" id="Select_MedioAlmacenamiento">
                                                                     <option value="0">Seleccionar </option>
                                                                     @foreach (var item1 in ViewBag.dtAlmacenamiento)
                                                                     {
@@ -658,6 +658,7 @@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Clasificación y Carga de Archivo</h3>
+                                                            <p>Selecciona la carpeta en la cual guardaras tu documento. Completa los campos marcados * </p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -726,11 +727,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
+                                                    @*<div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-primary col-md-12" onclick="guardarArbol()">Guardar Carpetas  <i class="fa fa-floppy-o"></i></button>
                                                         </div>
-                                                    </div>
+                                                    </div>*@
 
 
                                                     <br />
@@ -804,12 +805,12 @@
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
 
 
-                                                            <p>
-                                                                <strong>Clasificación Archivo</strong> <br />
-                                                                <span class="label label-info" id="SP_Select_ClasificacionArchivo"></span>/
-                                                                <span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
-                                                                <span class="label label-danger" id="SP_Select_Seccion"></span>
-                                                            </p>
+                                                            <!--<p>
+                                                                <strong>Clasificación Archivo</strong> <br />-->
+                                                                @*<span class="label label-info"></span>*@
+                                                                @*<span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
+                                                                <span class="label label-danger" id="SP_Select_Seccion"></span>*@
+                                                            <!--</p>-->
 
                                                         </div>
                                                     </div>
@@ -927,7 +928,7 @@
                 'check_callback': true
             },
 
-            'plugins': ['contextmenu', 'dnd', 'state'],
+            'plugins': ['contextmenu', 'dnd', 'state', 'wholerow'],
 
             "contextmenu": {
                 items: {
@@ -948,12 +949,52 @@
                                 sel = ref.create_node(sel);
                                 if (sel) {
                                     ref.edit(sel);
-
-                                $('#jstree').on('rename_node.jstree', function (e, data) {
-                                 Guardar_CR(data)
-                                });
-
                                 }
+                                var nuevo = $("#jstree").jstree(true).get_node(sel);
+                                
+
+                                var obj = {
+                                    "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id };
+
+                              
+                                var jsonObject = {
+                                    "nuevasubClas": obj
+                                    };
+
+                               
+                                 $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                    async: false,
+                                    data: JSON.stringify(jsonObject),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        console.log(data);
+
+                                        $("#BtnSubclas").trigger("click");
+
+                                        if (data.Id == 1) {
+                                            swal({
+                                            title: "Carpeta Agregada. !",
+                                            text: " ",
+                                            icon: "success",
+                                            button: "Aceptar",
+                                            });
+                                        }
+                                        else {
+                                             swal({
+                                                  title: "El nombre de la carpeta no esta disponible",
+                                                  text: '',
+                                                  icon: "warning",
+                                                  button: "Aceptar",
+                                             });
+                                         ref.delete_node(sel);
+                                        }
+
+                                    }
+
+                                });
                             }
                     },
                     "renombrar": {
@@ -968,48 +1009,56 @@
                             }
                             sel = sel[0];
                             ref.edit(sel);
+                          
 
-                            $('#jstree').on('rename_node.jstree', function (e, data) {
-                                        var obj = { "Nombre": data.node.text, "Id": data.node.id,"IdPadre": data.node.parent };
-                                        var jsonObject = {
-                                            "carpeta": obj
-                                        };
+                            var renombre = $("#jstree").jstree(true).get_node(sel);
+                            console.log(renombre);
+                            console.log(renombre.text);
 
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "@Url.Action("Renombrar", "Documentos")",
-                                            async: false,
-                                            data: JSON.stringify(jsonObject),
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (data) {
+                            //var texto = $("#jstree").jstree(true).get_node(sel).text;
 
-                                                $("#BtnSubclas").trigger("click");
 
-                                                if (data.Id == 1) {
-                                                    swal({
-                                                        title: "Cambios Realizados. !",
-                                                        text: " ",
-                                                        icon: "success",
-                                                        button: "Aceptar",
-                                                    });
+                            //var obj = { "Nombre": texto, "Id": renombre.id, "IdPadre": renombre.parent};
+                            //console.log(obj);
+                            //var jsonObject = {
+                            //    "carpeta": obj
+                            //};
 
-                                                }
-                                                else {
-                                                    swal({
-                                                        title: "El nombre de esta carpeta ya esta en uso renombrela.",
-                                                        text: '',
-                                                        icon: "warning",
-                                                        button: "Aceptar",
-                                                    });
-                                                    //usar otro tipo de alerta notify
-                                                    /*ref.edit(sel);*/
-                                                }
+                            @*$.ajax({
+                                type: "POST",
+                                url: "@Url.Action("Renombrar", "Documentos")",
+                                async: false,
+                                data: JSON.stringify(jsonObject),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
 
-                                            }
+                                    $("#BtnSubclas").trigger("click");
 
+                                    if (data.Id == 1) {
+                                        swal({
+                                            title: "Cambios Realizados. !",
+                                            text: " ",
+                                            icon: "success",
+                                            button: "Aceptar",
                                         });
-                            });
+
+                                    }
+                                    else {
+                                        swal({
+                                            title: "El nombre de esta carpeta ya esta en uso reenombrela.",
+                                            text: '',
+                                            icon: "warning",
+                                            button: "Aceptar",
+                                        });
+                                        //usar otro tipo de alerta notify
+                                        /*ref.edit(sel);*/
+                                    }
+
+                                }
+
+                            });*@
+                           
                         }
                     },
                     "eliminar": {
@@ -1022,7 +1071,7 @@
                             var jsonObject = {
                                 "carpeta": obj
                             };
-                            console.log(obj);
+                         
                             $.ajax({
                                 type: "POST",
                                 url: "@Url.Action("EliminarCarpeta", "Documentos")",
@@ -1072,56 +1121,12 @@
     });
 
 
-
-
-    function guardarArbol() {
-        var v = $('#jstree').jstree(true).get_json('#', { flat: true })
-        var mytext = JSON.stringify(v);
-        var serial = JSON.parse(mytext);
-        console.log(serial);
-    }
-
-    //FUNCION CREAR
-    function Guardar_CR(data) {
-
-        var obj = { "Nombre": data.node.text, "IdPadre": data.node.parent, "Idtemporal": data.node.id };
-            var jsonObject = {
-                "nuevasubClas": obj
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("RegistrarSubClas", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-                    $("#BtnSubclas").trigger("click");
-
-                    if (data.Id == 1) {
-                        swal({
-                            title: "Carpeta Agregada. !",
-                            text: " ",
-                            icon: "success",
-                            button: "Aceptar",
-                        });
-
-                    }
-                    else {
-                        swal({
-                            title: "Esta Carpeta ya existe.",
-                            text: '',
-                            icon: "warning",
-                            button: "Aceptar",
-                        });
-                    }
-
-                }
-
-            });
-    }
+    //function guardarArbol() {
+    //    var v = $('#jstree').jstree(true).get_json('#', { flat: true })
+    //    var mytext = JSON.stringify(v);
+    //    var serial = JSON.parse(mytext);
+    //    console.log(serial);
+    //}
 
         //Funcion para publicar el archivo
     function Publicar() {
@@ -1167,10 +1172,11 @@
                                                 obj['checkboxCorreo'] = 0;
                                             }
 
+                                            var node = $('#jstree').jstree().get_selected("id");
                                             obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                            obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                            obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                            obj['IdNombre3'] = $("#Select3 option:selected").val();
+                                            obj['IdClasificacionArchivo'] = node[0].id;
+                                            //obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                            //obj['IdNombre3'] = $("#Select3 option:selected").val();
 
 
                                             var jsonObject = {
@@ -1219,8 +1225,7 @@
                                                             location.reload();
                                                         });
                                                     }
-                                                },
-                                                error: errores
+                                                }
                                             });
 
                                             $("#BtnPublicar").prop('disabled', false);
@@ -1268,10 +1273,11 @@
                                             obj['checkboxCorreo'] = 0;
                                         }
 
+                                        var node = $('#jstree').jstree().get_selected("id");
                                         obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                        obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                        obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                        obj['IdNombre3'] = $("#Select3 option:selected").val();
+                                        obj['IdClasificacionArchivo'] = node[0].id;
+                                        //obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
+                                        //obj['IdNombre3'] = $("#Select3 option:selected").val();
 
 
                                         var jsonObject = {
@@ -1320,8 +1326,8 @@
                                                         location.reload();
                                                     });
                                                 }
-                                            },
-                                            error: errores
+                                            }
+                                           
                                         });
 
                                         $("#BtnPublicar").prop('disabled', false);
@@ -1423,7 +1429,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+               /* console.log(data);*/
                 $("#Select3").empty();
 
                 var option = $(document.createElement('option'));
@@ -1462,7 +1468,7 @@
         $('#ModalClasificacion').modal('show');
     }
     function GuardarClas(data) {
-        console.log(data);
+       /* console.log(data);*/
         var obj = { "Nombre": data.node.text, "Id": 0 };
 
         var jsonObject = {
@@ -1650,7 +1656,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (data) {
-                            console.log(data);
+                            /*console.log(data);*/
                             $("#Select3").empty();
 
 
@@ -2232,26 +2238,34 @@
     function Validaclasificacion() {
             var result = false;
 
+            var node = $('#jstree').jstree().get_selected("id");
             $('#Clasificacion').css("border", "1px solid #ff0049");
-            $('#ClasificacionArchivo').css("border", "1px solid #ff0049");
-            //$('#SubClasificacionArchivo').css("border", "1px solid #ff0049");
-
 
             if ($("#Clasificacion option:selected").val() > 0) {
                 $('#Clasificacion').css("border", "1px solid #cccccc");
             }
-            if ($("#ClasificacionArchivo option:selected").val() > 0) {
-                $('#ClasificacionArchivo').css("border", "1px solid #cccccc");
-            }
-            //if ($("#SubClasificacionArchivo option:selected").val() > 0) {
-            //    $('#SubClasificacionArchivo').css("border", "1px solid #cccccc");
-            //}
-
+            if (node == "") {
+                swal({
+                    title: "Selecciona la carpeta donde guardaras tu documento.",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });      
+            } 
+            
 
             if ($("#Clasificacion option:selected").val() > 0) {
-                    if ($("#ClasificacionArchivo option:selected").val() > 0) {
-                            result = true;
-                    }
+                if (!node == "") {
+               
+                    swal({
+                        title: "El documento se guardara en la carpeta: " + node[0].text,
+                        text: '',
+                        icon: "success",
+                        button: "Aceptar",
+                    });   
+                    result = true;
+                } 
+ 
             }
 
 
@@ -2825,18 +2839,12 @@
         $('#SP_Select_MedioAlmacenamiento').text($("#Select_MedioAlmacenamiento option:selected").html());
 
         $('#SP_Select_Clasificacion').text($("#Clasificacion option:selected").html());
-        $('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
-        $('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
-        $('#SP_Select_Seccion').text($("#Select3 option:selected").html());
-
-        //if ($('#checkboxPromocion').prop('checked')) {
-        //    $('#SP_PromocionArticulo').text(" $" +$("#NewPrecioPromocion").val());
-        //}
-        //else {
-        //    $('#SP_PromocionArticulo').text("Sin promoción");
-        //}
-
-
+    
+        
+        //$('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
+        //$('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
+        //$('#SP_Select_Seccion').text($("#Select3 option:selected").html());
+        
     }
 
     /*Botones siguiente y atras*/
