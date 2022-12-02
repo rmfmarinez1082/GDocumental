@@ -33,7 +33,9 @@ namespace ProyectoBase.Data
             b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
-            b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
+            b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
+
             //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
             //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
 
@@ -77,7 +79,9 @@ namespace ProyectoBase.Data
             b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
-            b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
+            b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
+
+            //b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
             //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
             //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
 

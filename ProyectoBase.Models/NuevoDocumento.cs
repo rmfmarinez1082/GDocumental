@@ -30,6 +30,8 @@ namespace ProyectoBase.Models
         public int IdClasificacion { get; set; }
         public int IdClasificacionArchivo { get; set; }
         public int IdSubClasificacionArchivo { get; set; }
+        public string Idtemporal { get; set; }
+
         public int IdNombre3 { get; set; }
 
         public string NmArchivo { get; set; }

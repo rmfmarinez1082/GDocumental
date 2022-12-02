@@ -21,7 +21,7 @@ namespace ProyectoBase.Models
         
         public string ruta { get; set; }
         public int nivel { get; set; }
-        public int Idpadre { get; set; }
+        public string Idpadre { get; set; }
 
 
     }

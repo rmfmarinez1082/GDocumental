@@ -930,7 +930,7 @@
 
             'plugins': ['contextmenu', 'dnd', 'state', 'wholerow'],
 
-            "contextmenu": {
+             "contextmenu": {
                 items: {
                     "ccp": false,
                     "create": {
@@ -945,23 +945,19 @@
                                     return;
                                 }
                                 sel = sel[0];
-
                                 sel = ref.create_node(sel);
-                                if (sel) {
-                                    ref.edit(sel);
-                                }
+
                                 var nuevo = $("#jstree").jstree(true).get_node(sel);
-                                
 
                                 var obj = {
-                                    "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id };
+                                    "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
+                                };
 
-                              
                                 var jsonObject = {
                                     "nuevasubClas": obj
-                                    };
+                                };
 
-                               
+
                                  $.ajax({
                                     type: "POST",
                                     url: "@Url.Action("RegistrarSubClas", "Documentos")",
@@ -970,31 +966,28 @@
                                     contentType: "application/json; charset=utf-8",
                                     dataType: "json",
                                     success: function (data) {
-                                        console.log(data);
 
                                         $("#BtnSubclas").trigger("click");
 
                                         if (data.Id == 1) {
-                                            swal({
-                                            title: "Carpeta Agregada. !",
-                                            text: " ",
-                                            icon: "success",
-                                            button: "Aceptar",
-                                            });
+
+
+                                            if (sel) {
+                                                ref.edit(sel);
+                                            }
                                         }
                                         else {
-                                             swal({
-                                                  title: "El nombre de la carpeta no esta disponible",
-                                                  text: '',
-                                                  icon: "warning",
-                                                  button: "Aceptar",
-                                             });
+
+                                         alert("error al insertar en la base")
+
                                          ref.delete_node(sel);
                                         }
 
                                     }
 
-                                });
+                                 });
+
+
                             }
                     },
                     "renombrar": {
@@ -1009,56 +1002,6 @@
                             }
                             sel = sel[0];
                             ref.edit(sel);
-                          
-
-                            var renombre = $("#jstree").jstree(true).get_node(sel);
-                            console.log(renombre);
-                            console.log(renombre.text);
-
-                            //var texto = $("#jstree").jstree(true).get_node(sel).text;
-
-
-                            //var obj = { "Nombre": texto, "Id": renombre.id, "IdPadre": renombre.parent};
-                            //console.log(obj);
-                            //var jsonObject = {
-                            //    "carpeta": obj
-                            //};
-
-                            @*$.ajax({
-                                type: "POST",
-                                url: "@Url.Action("Renombrar", "Documentos")",
-                                async: false,
-                                data: JSON.stringify(jsonObject),
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (data) {
-
-                                    $("#BtnSubclas").trigger("click");
-
-                                    if (data.Id == 1) {
-                                        swal({
-                                            title: "Cambios Realizados. !",
-                                            text: " ",
-                                            icon: "success",
-                                            button: "Aceptar",
-                                        });
-
-                                    }
-                                    else {
-                                        swal({
-                                            title: "El nombre de esta carpeta ya esta en uso reenombrela.",
-                                            text: '',
-                                            icon: "warning",
-                                            button: "Aceptar",
-                                        });
-                                        //usar otro tipo de alerta notify
-                                        /*ref.edit(sel);*/
-                                    }
-
-                                }
-
-                            });*@
-                           
                         }
                     },
                     "eliminar": {
@@ -1067,11 +1010,11 @@
                             var ref = $("#jstree").jstree(true);
                             var sel = ref.get_selected();
 
-                            var obj = { "Id": sel[0] };
+                            var obj = { "Idtemporal": sel[0] };
                             var jsonObject = {
                                 "carpeta": obj
                             };
-                         
+
                             $.ajax({
                                 type: "POST",
                                 url: "@Url.Action("EliminarCarpeta", "Documentos")",
@@ -1111,22 +1054,102 @@
 
 
                         }
-                    }
-                }
-            }
+                     },
+                    "carpetaRoot": {
+                         "label": "Crear carpeta principal",
+                         "action": function () {
+                             $("#jstree").jstree("create_node", null, null, "last", function (node) {
 
+                                 var obj = {
+                                     "Nombre": node.text, "Idtemporal": node.id
+                                 };
+
+                                 var jsonObject = {
+                                     "nuevaClas": obj
+                                 };
+                                 $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("RegistrarClas", "Documentos")",
+                                    async: false,
+                                    data: JSON.stringify(jsonObject),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (data) {
+
+                                        if (data.Id == 1) {
+
+
+                                        }
+                                        else {
+
+                                            swal({
+                                                title: "Esta carpeta ya existe.",
+                                                text: '',
+                                                icon: "warning",
+                                                button: "Aceptar",
+                                            });
+                                        }
+
+                                    }
+                                 });
+
+                                 this.edit(node);
+
+                             });
+                         }
+                     }
+                }
+             },
+
+        });
+
+        $('#jstree').on('rename_node.jstree', function (e, data) {
+
+            var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+            var jsonObject = {
+                "carpeta": obj
+            };
+
+
+             $.ajax({
+                type: "POST",
+                url: "@Url.Action("Renombrar", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#BtnSubclas").trigger("click");
+
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Cambios Realizados. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "El nombre de esta carpeta ya esta en uso renombrela.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                        //usar otro tipo de alerta notify
+                        /*ref.edit(sel);*/
+                    }
+
+                }
+
+            });
         });
 
 
     });
 
-
-    //function guardarArbol() {
-    //    var v = $('#jstree').jstree(true).get_json('#', { flat: true })
-    //    var mytext = JSON.stringify(v);
-    //    var serial = JSON.parse(mytext);
-    //    console.log(serial);
-    //}
 
         //Funcion para publicar el archivo
     function Publicar() {
@@ -1174,10 +1197,7 @@
 
                                             var node = $('#jstree').jstree().get_selected("id");
                                             obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                            obj['IdClasificacionArchivo'] = node[0].id;
-                                            //obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                            //obj['IdNombre3'] = $("#Select3 option:selected").val();
-
+                                            obj['Idtemporal'] = node[0].id;
 
                                             var jsonObject = {
                                                 "NuevoDocumento": obj
@@ -1275,15 +1295,13 @@
 
                                         var node = $('#jstree').jstree().get_selected("id");
                                         obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                        obj['IdClasificacionArchivo'] = node[0].id;
-                                        //obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                        //obj['IdNombre3'] = $("#Select3 option:selected").val();
+                                        obj['Idtemporal'] = node[0].id;
+                                       
 
 
                                         var jsonObject = {
                                             "NuevoDocumento": obj
                                         };
-
                                         $.ajax({
                                             type: "POST",
                                             url: "@Url.Action("Documentos_Registrar", "Documentos")",
@@ -1327,7 +1345,7 @@
                                                     });
                                                 }
                                             }
-                                           
+
                                         });
 
                                         $("#BtnPublicar").prop('disabled', false);
@@ -2250,22 +2268,22 @@
                     text: '',
                     icon: "warning",
                     button: "Aceptar",
-                });      
-            } 
-            
+                });
+            }
+
 
             if ($("#Clasificacion option:selected").val() > 0) {
                 if (!node == "") {
-               
+
                     swal({
                         title: "El documento se guardara en la carpeta: " + node[0].text,
                         text: '',
                         icon: "success",
                         button: "Aceptar",
-                    });   
+                    });
                     result = true;
-                } 
- 
+                }
+
             }
 
 
@@ -2839,12 +2857,12 @@
         $('#SP_Select_MedioAlmacenamiento').text($("#Select_MedioAlmacenamiento option:selected").html());
 
         $('#SP_Select_Clasificacion').text($("#Clasificacion option:selected").html());
-    
-        
+
+
         //$('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
         //$('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
         //$('#SP_Select_Seccion').text($("#Select3 option:selected").html());
-        
+
     }
 
     /*Botones siguiente y atras*/

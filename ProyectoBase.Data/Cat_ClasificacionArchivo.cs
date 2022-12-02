@@ -106,6 +106,8 @@ namespace ProyectoBase.Data
         {
             b.ExecuteCommandSP("SP_AgregarClasArch");
             b.AddParameter("@Nombre", nuevaclas.Nombre, SqlDbType.VarChar);
+            b.AddParameter("@Idtemporal", nuevaclas.Idtemporal, SqlDbType.VarChar);
+
             Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
             var reader = b.ExecuteReader();
             while (reader.Read())
@@ -142,7 +144,7 @@ namespace ProyectoBase.Data
         {
             b.ExecuteCommandSP("SP_DelClas");
 
-            b.AddParameter("@Id", carpeta.Id, SqlDbType.VarChar);
+            b.AddParameter("@Id", carpeta.Idtemporal, SqlDbType.VarChar);
 
             Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
             var reader = b.ExecuteReader();
@@ -160,7 +162,7 @@ namespace ProyectoBase.Data
         {
             b.ExecuteCommandSP("SP_Renombrar");
 
-            b.AddParameter("@Id", carpeta.Id, SqlDbType.VarChar);
+            b.AddParameter("@Id", carpeta.Idtemporal, SqlDbType.VarChar);
             b.AddParameter("@Nombre", carpeta.Nombre, SqlDbType.VarChar);
             b.AddParameter("@IdPadre", carpeta.Idpadre, SqlDbType.VarChar);
       
@@ -190,7 +192,7 @@ namespace ProyectoBase.Data
                     Id = Convert.ToInt32(reader["Id"].ToString()),
                     nivel = Convert.ToInt32(reader["Nivel"].ToString()),
                     ruta = reader["RUTA"].ToString(),
-                    Idpadre = Convert.ToInt32(reader["Idpadre"].ToString())
+                    //Idpadre = Convert.ToInt32(reader["Idpadre"].ToString())
 
                 };
                 resultado.Add(item);
