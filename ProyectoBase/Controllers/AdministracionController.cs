@@ -315,9 +315,9 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdTipoArchivo = documento.IdTipoArchivo;
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
-                    ViewBag.IdClasificacionArchivo = documento.IdClasificacionArchivo;
-                    ViewBag.IdSubclasificacionArchivo = documento.IdSubclasificacionArchivo;
-                    ViewBag.IdNombre3 = documento.IdNombre3;
+                    //ViewBag.IdClasificacionArchivo = documento.IdClasificacionArchivo;
+                    //ViewBag.IdSubclasificacionArchivo = documento.IdSubclasificacionArchivo;
+                    //ViewBag.IdNombre3 = documento.IdNombre3;
 
 
                     return View();

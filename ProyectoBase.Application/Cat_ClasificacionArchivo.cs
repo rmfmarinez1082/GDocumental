@@ -9,6 +9,11 @@ namespace ProyectoBase.Application
     public class Cat_ClasificacionArchivo
     {
         Data.Cat_ClasificacionArchivo _cat_ClasificacionArchivo = new Data.Cat_ClasificacionArchivo();
+
+        public Models.Cat_ClasificacionArchivo SP_RESSET()
+        {
+            return _cat_ClasificacionArchivo.SP_RESSET();
+        }
         public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_Listar()
         {
             return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
@@ -40,6 +45,14 @@ namespace ProyectoBase.Application
         public Models.Cat_ClasificacionArchivo SP_AgregarSubClasArch(Models.Cat_ClasificacionArchivo nuevasubclas)
         {
             return _cat_ClasificacionArchivo.SP_AgregarSubClasArch(nuevasubclas);
+        }
+        public Models.Cat_ClasificacionArchivo SP_DelClas(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.SP_DelClas(carpeta);
+        } 
+        public Models.Cat_ClasificacionArchivo SP_Renombrar(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.SP_Renombrar(carpeta);
         }
 
         public List<Models.Cat_ClasificacionArchivo> SP_DocPadre(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
