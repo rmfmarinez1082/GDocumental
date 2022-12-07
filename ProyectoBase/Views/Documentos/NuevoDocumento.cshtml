@@ -43,7 +43,7 @@
         position: relative
     }
 
-        .process-step p {
+    .process-step p {
             margin-top: 4px
         }
 
@@ -63,12 +63,12 @@
         color: #555 !important;
     }
 
-    @@media (min-width: 768px) {
+   /* @@media (min-width: 768px) {
         .modal-dialog {
             width: 600px;
             margin: 150px auto;
         }
-    }
+    }*/
 
     .close:not(:disabled):not(.disabled) {
         cursor: pointer;
@@ -379,13 +379,9 @@
         border-radius: 2px;
     }
 
-        select.form-control:not([size]):not([multiple]) {
+     select.form-control:not([size]):not([multiple]) {
             height: 36px;
         }
-
-    /*.table td, .table th {
-        padding: -1.75rem 0.75rem;
-    }*/
 
     .table td, .table th {
         padding: 0.25rem 0.75rem;
@@ -662,9 +658,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col text-center">
-                                                            <h5 style="margin-left:63%">Previsualización</h5>
+                                                        <div>
+                                                                <button  style="margin-left: 8%"  title="Para poder modificar el directorio de documentos haz clic derecho sobre alguna carpeta y selecciona la opción que desees." class="fa fa-question-circle btn waves-effect waves-light btn-primary">&nbsp;INFORMACIÓN</button>
                                                         </div>
+                                                        <div class="col text-center">
+                                                            <h5 style="margin-left:43%">Previsualización</h5>
+                                                        </div>
+
                                                     </div>
                                                     <br /><br />
                                                     <div class="row">
@@ -677,35 +677,38 @@
 
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-4">
+                                                            @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
+                                                            <div class="col-md-6">
+                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                    <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                        <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br />
+                                                                            <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                        <div class="col-md-2">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                                            @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                            <div class="col-md-6">
+                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                                    <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                        <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
+                                                                            <div class="row">
+                                                                                <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                                @*<i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>*@
+                                                                            </div>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                        <div class="col-md-2">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable
-                                                                        <div class="row">
-                                                                            <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                            <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                            <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                        </div>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
 
                                                         @*IFRAME*@
-                                                        <div class="col-4">
+                                                        <div class="col-md-4">
                                                             <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
                                                         </div>
 
@@ -726,13 +729,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    @*<div class="row">
-                                                            <div class="col-md-12 col-lg-12">
-                                                                <button class="btn waves-effect waves-light btn-primary col-md-12" onclick="guardarArbol()">Guardar Carpetas  <i class="fa fa-floppy-o"></i></button>
-                                                            </div>
-                                                        </div>*@
-
 
                                                     <br />
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
@@ -803,15 +799,6 @@
 
                                                             <h4><strong class="TextoColor">CLASIFICACIÓN </strong> </h4>
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
-
-
-                                                            <!--<p>
-                                                                <strong>Clasificación Archivo</strong> <br />-->
-                                                            @*<span class="label label-info"></span>*@
-                                                            @*<span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
-                                                                <span class="label label-danger" id="SP_Select_Seccion"></span>*@
-                                                            <!--</p>-->
-
                                                         </div>
                                                     </div>
 
@@ -850,21 +837,26 @@
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <p>Proporciona los datos necesarios para agregar la clasificación </p>
+                <div class="col-md-12">
 
-                <div class="col-md-12 col-lg-12">
-                    <label for="largeInput"> Nombre de la Clasificación </label>
-                    <input id="NombreClas" type="text" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
+                    <div class="row">
+
+                        <div class="col-md-12" style="height: 65vh; width:100vh;">
+                                <iframe id="iframepdf" src="/Documentos/ManualGD.pdf#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0"></iframe> 
+                        </div>
+
+                    </div>
                 </div>
+
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarClas()" id="BtnGuardarCLas">Guardar</button>
                 <button id="BtnClasificacion" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="ModalSUbClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+@*<div class="modal fade" id="ModalSUbClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -914,9 +906,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
     function Publicar() {
@@ -1248,7 +1240,7 @@
         $("#Select3").append(option);
     }
     //Funcion Crearclasificacion
-    function Crearclas() {
+    function MostrarInfo() {
 
         $('#ModalClasificacion').modal('show');
     }
@@ -1766,17 +1758,8 @@
                 })
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+
+                $.notify("Completa el formulario.", "error");
             }
         });
     }
@@ -1832,51 +1815,19 @@
             Next();
         } else {
 
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function Control() {
         if (ValidaControl()) {
             Next();
-        } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
-        }
+        } else { }
     }
     function Distribucion() {
         if (ValidaDistribucion()) {
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function clasificacion() {
@@ -1884,17 +1835,7 @@
 
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
 
@@ -2041,13 +1982,8 @@
 
             if ($("#Clasificacion option:selected").val() > 0) {
                 if (!node == "") {
+                    $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
 
-                    swal({
-                        title: "El documento se guardara en la carpeta: " + node[0].text,
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
                     result = true;
                 }
 
@@ -2095,34 +2031,17 @@
 
                 } else {
 
-                    swal({
-                        title: "La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-
-
-
+                    $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+    
+                $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
 
             }
         } else {
 
-            swal({
-                title: "La FechaRevisión debe ser menor a la Fecha de Publicación.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+       
+            $.notify("La FechaRevisión debe ser menor a la Fecha de Publicación.", "warn");
 
 
         }
@@ -2142,30 +2061,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha Publicación debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha Publicación debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2183,30 +2087,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de entrada envigor debe ser menor a la FechaVencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de entrada envigor debe ser menor a la FechaVencimiento.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2224,30 +2113,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2264,21 +2138,11 @@
 
             } else {
 
-                swal({
-                    title: "La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.", "warn");
         }
 
         return result;
@@ -2299,79 +2163,29 @@
 
 
                         } else {
-                            $.notify({
-                                icon: 'fa fa-paw',
-                                message: "Completa el formulario.",
-                            }, {
-                                type: 'warning',
-                                allow_dismiss: false,
-                                animate: {
-                                    enter: 'animated rollIn',
-                                    exit: 'animated rollOut'
-                                }
-                            });
+                            $.notify("Completa el formulario.", "error");
                         }
 
 
 
                     } else {
 
-                        $.notify({
-                            icon: 'fa fa-paw',
-                            message: "Completa el formulario.",
-                        }, {
-                            type: 'warning',
-                            allow_dismiss: false,
-                            animate: {
-                                enter: 'animated rollIn',
-                                exit: 'animated rollOut'
-                            }
-                        });
+                        $.notify("Completa el formulario.", "error");
                     }
 
                 } else {
 
-                    $.notify({
-                        icon: 'fa fa-paw',
-                        message: "Completa el formulario.",
-                    }, {
-                        type: 'warning',
-                        allow_dismiss: false,
-                        animate: {
-                            enter: 'animated rollIn',
-                            exit: 'animated rollOut'
-                        }
-                    });
+                    $.notify("Completa el formulario.", "error");
                 }
 
             } else {
 
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+                $.notify("Completa el formulario.", "error");
             }
 
         } else {
 
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
 
@@ -2727,8 +2541,6 @@
                                             }
                                             else {
 
-                                             alert("error al insertar en la base")
-
                                              ref.delete_node(sel);
                                             }
 
@@ -2778,14 +2590,7 @@
                                             sel = sel[0];
 
                                             ref.delete_node(sel);
-
-                                            swal({
-                                                title: "Carpeta eliminada!",
-                                                text: " ",
-                                                icon: "success",
-                                                button: "Aceptar",
-                                            });
-
+                                            $.notify("Carpeta eliminada!", "success");
                                         }
                                         else {
                                             swal({
@@ -2831,12 +2636,7 @@
                                             }
                                             else {
 
-                                                swal({
-                                                    title: "Esta carpeta ya existe.",
-                                                    text: '',
-                                                    icon: "warning",
-                                                    button: "Aceptar",
-                                                });
+                                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
                                             }
 
                                         }
@@ -2872,23 +2672,13 @@
                         $("#BtnSubclas").trigger("click");
 
                         if (data.Id == 1) {
-                            swal({
-                                title: "Cambios Realizados. !",
-                                text: " ",
-                                icon: "success",
-                                button: "Aceptar",
-                            });
-
+                  
+                            $.notify("Cambios Realizados.", "success");
                         }
                         else {
-                            swal({
-                                title: "El nombre de esta carpeta ya esta en uso renombrela.",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
-                            //usar otro tipo de alerta notify
-                            /*ref.edit(sel);*/
+                         
+                            $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                            ref.edit(sel);
                         }
 
                     }

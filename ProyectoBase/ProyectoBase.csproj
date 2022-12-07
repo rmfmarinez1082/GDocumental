@@ -494,6 +494,7 @@
     <Content Include="Vendor\animsition\js\animsition.js" />
     <Content Include="Vendor\animsition\js\animsition.min.js" />
     <Content Include="Vendor\bootstrap-notify\bootstrap-notify.min.js" />
+    <Content Include="Vendor\bootstrap-notify\notify.min.js" />
     <Content Include="Vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Vendor\bootstrap\css\bootstrap-reboot.css" />
