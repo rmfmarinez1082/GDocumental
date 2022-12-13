@@ -636,6 +636,16 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <div class="form-material col-md-2 col-lg-2">
+                                                            <br />
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <input name="checkboxCaracteristasEnvio" class="form-check-input" id="checkboxCustodia" type="checkbox" value="">
+                                                                    <span class="form-check-sign" title="Si el documento esta en tu custodia palomea esta opción">Custodia del documento</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
 
 
                                                     </div>
@@ -651,34 +661,30 @@
 
                                                 <div id="menu4" class="tab-pane fade">
                                                     <br />
+                                                    @*TITULO PRINCIPAL*@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Clasificación y Carga de Archivo</h3>
                                                             <p>Selecciona la carpeta en la cual guardaras tu documento. Completa los campos marcados * </p>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div>
-                                                                <button  style="margin-left: 8%"  title="Para poder modificar el directorio de documentos haz clic derecho sobre alguna carpeta y selecciona la opción que desees." class="fa fa-question-circle btn waves-effect waves-light btn-primary">&nbsp;INFORMACIÓN</button>
-                                                        </div>
-                                                        <div class="col text-center">
-                                                            <h5 style="margin-left:43%">Previsualización</h5>
-                                                        </div>
+                                        
+                                                    @*ELEMENTOS PRINCIPALES*@
+                                                <div class="row">
 
-                                                    </div>
-                                                    <br /><br />
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="card-body">
-                                                                <div id="jstree">
-                                                                    @Html.Raw(ViewBag.carpetas);
-                                                                </div>
-
-
+                                                    <div class="col-md-4" style="overflow:auto;">
+                                                        <div class="card-body">
+                                                            <div id="jstree">
+                                                                @Html.Raw(ViewBag.carpetas);
                                                             </div>
+
+
                                                         </div>
-                                                        <div class="col-md-4">
-                                                            @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
+                                                    </div>
+
+                                                    <div class="container col-md-4">
+                                                        <br />
+                                                        <div class="m-0 vh-100 row justify-content-center align-items-center">
                                                             <div class="col-md-6">
                                                                 <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                     <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
@@ -698,38 +704,43 @@
                                                                             <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
                                                                             <div class="row">
                                                                                 <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                                @*<i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>*@
+                                                                                <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
                                                                             </div>
                                                                         </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        @*IFRAME*@
-                                                        <div class="col-md-4">
-                                                            <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <br />
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* Clasificación </label>
-                                                                <select class="form-control" id="Clasificacion">
-                                                                    <option value="0">Seleccionar </option>
-                                                                    @foreach (var item1 in ViewBag.dtClasificacion)
-                                                                    {
-                                                                        <option value="@item1.Id">@item1.Nombre</option>
-                                                                    }
-                                                                </select>
+                                                        @*SELECT*@
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="largeInput">* Clasificación </label>
+                                                                    <select class="form-control" id="Clasificacion">
+                                                                        <option value="0">Seleccionar </option>
+                                                                        @foreach (var item1 in ViewBag.dtClasificacion)
+                                                                        {
+                                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
+
+                                                        <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+
                                                     </div>
 
+                                                    @*IFRAME*@
+                                                    <div class="col-md-4 container text-center">
+                                                        <h5>PREVISUALIZACIÓN</h5>
+                                                        <iframe id="iframepdf" width="90%" height="90%" frameborder="0"></iframe>
+                                                    </div>
+
+                                                </div>
+
+                                                    <br />
                                                     <br />
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
                                                     <div class="row">
@@ -740,7 +751,7 @@
                                                             <progress id="fileProgress" style="display: none; width:100%"></progress>
                                                         </div>
                                                     </div>
-
+                                                    @*BOTONES*@
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
@@ -828,85 +839,7 @@
 </div>
 
 
-<!-- MODAL AGREGARCLASIFICACION -->
-<div class="modal fade" id="ModalClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <div class="col-md-12">
 
-                    <div class="row">
-
-                        <div class="col-md-12" style="height: 65vh; width:100vh;">
-                                <iframe id="iframepdf" src="/Documentos/ManualGD.pdf#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0"></iframe> 
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="modal-footer">
-                <button id="BtnClasificacion" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-@*<div class="modal fade" id="ModalSUbClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación a: </h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Selecciona la clasificación a la cual quieres agregar una subclasificación </p>
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre de la SubClasificación </label>
-                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarSubclas()">Guardar</button>
-                <button id="BtnSubclas" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="Modal3er" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar 3er nivel a:</h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue3er" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre del 3er nivel </label>
-                    <input type="text" id="Nombre3er" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="Guardar3er()">Guardar</button>
-                <button id="Btn3er" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>*@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -1940,22 +1873,20 @@
             $('#Select_TipoArchivo').css("border", "1px solid #ff0049");
             $('#Select_MedioAlmacenamiento').css("border", "1px solid #ff0049");
 
-
-
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 $('#Select_TipoArchivo').css("border", "1px solid #cccccc");
             }
+
 
             if ($("#Select_MedioAlmacenamiento option:selected").val() > 0) {
                 $('#Select_MedioAlmacenamiento').css("border", "1px solid #cccccc");
             }
 
-
+            
 
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 if ($("#Select_MedioAlmacenamiento option:selected").val()  > 0) {
-
-                        result = true;
+                        result = true;  
                 }
             }
 
