@@ -25,6 +25,7 @@ namespace ProyectoBase.Models
         public int IdMedioAlmacenamiento { get; set; }
         public int checkboxBD { get; set; }
         public int checkboxCorreo { get; set; }
+        public int checkboxCustodia { get; set; }
 
 
         public int IdClasificacion { get; set; }

@@ -604,6 +604,9 @@
     <Content Include="Views\Administracion\Index.cshtml" />
     <Content Include="Views\Administracion\Micuenta.cshtml" />
     <Content Include="Views\Documentos\VistaDetalleAdmin.cshtml" />
+    <Content Include="Views\Documentos\DCustodia.cshtml" />
+    <Content Include="Views\Documentos\EditarCustodia.cshtml" />
+    <Content Include="Views\Documentos\DirectorioFDC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

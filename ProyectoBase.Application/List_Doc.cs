@@ -13,6 +13,10 @@ namespace ProyectoBase.Application
         {
             return _list_Doc.SP_ListarDocumentos(list_Doc);
         }
+        public List<Models.List_Doc> SP_ListarDocumentosCustodia(Models.List_Doc list_Doc)
+        {
+            return _list_Doc.SP_ListarDocumentosCustodia(list_Doc);
+        }
 
         public List<Models.List_Doc> SP_SeleccionarPorId(Models.List_Doc list_DocID)
         {

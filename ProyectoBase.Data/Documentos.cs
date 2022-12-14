@@ -31,13 +31,12 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
             b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
             b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
+            b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
-            //b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
             b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
 
-            //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
-            //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
+          
 
             b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
             b.AddParameter("@NmArchivoword", nuevoDocumento.NmArchivoword, SqlDbType.NVarChar);
@@ -77,13 +76,11 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
             b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
             b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
+            b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
             b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
-
-            //b.AddParameter("@IdClasificacionArchivo", nuevoDocumento.IdClasificacionArchivo, SqlDbType.Int);
-            //b.AddParameter("@IdSubClasificacionArchivo", nuevoDocumento.IdSubClasificacionArchivo, SqlDbType.Int);
-            //b.AddParameter("@IdNombre3", nuevoDocumento.IdNombre3, SqlDbType.Int);
 
             b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
             b.AddParameter("@NmOriginal", nuevoDocumento.NmOriginal, SqlDbType.NVarChar);
@@ -234,6 +231,24 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        }
+        
+        public Models.Documento Documento_custodiaA(Models.NuevoDocumento nuevoDocumento)
+        {
+            b.ExecuteCommandSP("SP_Documento_custodiaA");
+            b.AddParameter("@IdTemporal", nuevoDocumento.Idtemporal, SqlDbType.Int);
+            b.AddParameter("@IdDoc", nuevoDocumento.Id, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+
         }
     }
 }

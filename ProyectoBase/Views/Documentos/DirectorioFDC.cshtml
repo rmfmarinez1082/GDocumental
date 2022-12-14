@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "DirectorioFDC";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"> DIRECTORIO FÍSICO DE DOCUMENTOS EN CUSTODIA</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Inicio</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-6 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>DIRECTORIO FISICO</h5>
+                            <p>Selecciona la carpeta en la cual esta resguardado el documento seleccionado</p>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div id="jstree">
+                                @Html.Raw(ViewBag.carpetas);
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>@ViewBag.nombredoc</h5>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+
+                                <div class="col-xl-6 col-md-12" id="Directorio">
+                                    <div class="card table-card">
+                                        <div class="card-header">
+                                            <h5 id="Titulo"></h5>
+                                        </div>
+
+                                        <div style="width: 100%; height: 71vh">
+
+                                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+
+
+<script>
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#DFDC').addClass("active");
+
+    $(function () {
+        $('#jstree').jstree();
+        $('#jstree').on("changed.jstree", function (e, data) {
+        });
+
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
+
+     function SeleccionarPorId(documento) {
+        var obj = {};
+        obj['Id'] = documento;
+
+        var jsonObject = {
+            "list_Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SeleccionarPorId", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function (resultado) {
+//                $('#IdRegistro').val(resultado[0].Id);
+                  $('#Titulo').text('Documento: ' + resultado[0].Nombre);
+                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+//                $('#eDescripcion').text(resultado[0].Descripcion);
+
+            },
+            error: function (resultado) {
+                alert("Error de ejecucion ");
+            }
+        });
+    }
+</script>
+

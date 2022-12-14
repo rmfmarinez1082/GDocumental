@@ -11,6 +11,76 @@ namespace ProyectoBase.Controllers
 {
     public class DocumentosController : Controller
     {
+        public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                string Carpetas = ObtenerPCustodia2();
+                ViewBag.carpetas = Carpetas;
+
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
+
+        public ActionResult DCustodia(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                _list_Doc.IdSesion = Usuario.Id;
+                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentosCustodia(_list_Doc);
+                ViewBag.dtList_Doc = dtList_Doc;
+
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
+
+        public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                //DATOS DEL DOCUMENTO
+                int Id = 0;
+                Id = Convert.ToInt32(Request.QueryString["Id"]);
+                Models.Documento doc = new Documento();
+                doc.Id = Id;
+
+
+                Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                ViewBag.nombredoc = documento.Nombre;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                string Carpetas = ObtenerPCustodia();
+                ViewBag.carpetas = Carpetas;
+
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
         // GET: Documentos
         public ActionResult NuevoDocumento(Application.Cat_Tipo_Documento cat_Tipo_Documento,
             Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
@@ -102,7 +172,127 @@ namespace ProyectoBase.Controllers
                 resulCarpetas += "</ul>";
             }
             return resulCarpetas;
+        }  
+        
+        
+        public string ObtenerPCustodia()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
         }
+        public string ObtenerHCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosSubCustodia(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+        
+        public string ObtenerPCustodia2()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    resulCarpetas += ObtenerHCustodia2(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+        public string ObtenerHCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosSubCustodia(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    resulCarpetas += ObtenerHCustodia2(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+        public string getDocument(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            cat_ClasificacionDoc.IdTres = Usuario.Id;
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocPadreCustodia(cat_ClasificacionDoc);
+
+            string resulDoc = "";
+
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulDoc += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre;
+                    resulDoc += "</li>";
+
+                }
+                resulDoc += "</ul>";
+            }
+
+            return resulDoc;
+        }
+
+
 
         //VISTAS USUARIO PRINCIPAL
         public ActionResult VisualizarDocumento(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
@@ -580,6 +770,15 @@ namespace ProyectoBase.Controllers
             Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_Renombrar(carpeta);
 
             return Json(carpetaD);
+        } 
+        
+        [HttpPost]
+        public JsonResult ActualizarDirectorio(Models.NuevoDocumento nuevoDocumento, Application.Documentos ApDocumentos)
+        {
+
+            Models.Documento Ndocumento = ApDocumentos.Documento_custodiaA(nuevoDocumento);
+
+            return Json(Ndocumento);
         }
 
         [HttpPost]

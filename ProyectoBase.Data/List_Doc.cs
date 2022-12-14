@@ -33,6 +33,30 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        }
+        public List<Models.List_Doc> SP_ListarDocumentosCustodia(Models.List_Doc listarDoc)
+        {
+            b.ExecuteCommandSP("SP_ListarDocumentosCustodia");
+            b.AddParameter("@IdSesion", listarDoc.IdSesion, SqlDbType.VarChar);
+
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    Version = reader["Version"].ToString(),
+                    Descripcion = reader["Descripcion"].ToString(),
+                    FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
+                    PalabrasClave = reader["PalabrasClave"].ToString(),
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
         } 
         public List<Models.List_Doc> SP_RegistroDelete()
         {

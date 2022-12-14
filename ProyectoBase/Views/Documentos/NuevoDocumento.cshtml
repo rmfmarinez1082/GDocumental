@@ -484,7 +484,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Versión </label>
-                                                                <input type="number" class="form-control form-control input-number" id="Version">
+                                                                <input type="number" min="1" class="form-control form-control input-number" id="Version">
                                                             </div>
                                                         </div>
 
@@ -641,7 +641,7 @@
                                                             <br />
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
-                                                                    <input name="checkboxCaracteristasEnvio" class="form-check-input" id="checkboxCustodia" type="checkbox" value="">
+                                                                    <input name="checkboxCustodia" class="form-check-input" id="checkboxCustodia" type="checkbox" value="">
                                                                     <span class="form-check-sign" title="Si el documento esta en tu custodia palomea esta opción">Custodia del documento</span>
                                                                 </label>
                                                             </div>
@@ -887,6 +887,13 @@
                                                 obj['checkboxCorreo'] = 0;
                                             }
 
+                                            if ($('#checkboxCustodia').prop('checked')) {
+                                                obj['checkboxCustodia'] = 1;
+                                            } else {
+                                                obj['checkboxCustodia'] = 0;
+                                            }
+
+
                                             var node = $('#jstree').jstree().get_selected("id");
                                             obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
                                             obj['Idtemporal'] = node[0].id;
@@ -894,7 +901,6 @@
                                             var jsonObject = {
                                                 "NuevoDocumento": obj
                                             };
-
                                             $.ajax({
                                                 type: "POST",
                                                 url: "@Url.Action("Documentos_Registrar", "Documentos")",
@@ -983,6 +989,11 @@
                                             obj['checkboxCorreo'] = 1;
                                         } else {
                                             obj['checkboxCorreo'] = 0;
+                                        }
+                                        if ($('#checkboxCustodia').prop('checked')) {
+                                            obj['checkboxCustodia'] = 1;
+                                        } else {
+                                            obj['checkboxCustodia'] = 0;
                                         }
 
                                         var node = $('#jstree').jstree().get_selected("id");

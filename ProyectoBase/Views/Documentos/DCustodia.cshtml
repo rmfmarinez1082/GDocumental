@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "DCustodia";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i aria-hidden="true"></i>Documentos en Custodia</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Documentos en custodia</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Documentos en custodia</h5>
+                                    <span>Observa los documentos que tienes en custodia</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="Custodia" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre</th>                                            
+                                                    <th class="text-center" style="color:white">Editar Ruta de almacenamiento física</th>
+                                                    <th style="display:none;" class="text-center">palabras cable</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.dtList_Doc)
+                                                {
+
+                                                    <tr>
+                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                        <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                               
+
+                                                        <td style="display:none;"><a>@item.PalabrasClave</a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#DocumentoCustodia').addClass("active");
+
+    $(document).ready(function () {
+        $('#Custodia').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+    });
+
+    function Ruta(Id) {
+
+                    window.location.href='@Url.Action("EditarCustodia", "Documentos")?Id=' + Id;
+    }
+</script>

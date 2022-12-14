@@ -3,8 +3,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
 
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
@@ -40,7 +38,7 @@
                 <div class="col-xl-6 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>DIRECTORIO FISICO</h5>
+                            <h5>DIRECTORIO</h5>
                         </div>
 
 
@@ -123,11 +121,19 @@
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
 
 <script>
+    $(document).ready(function () {
+        $('#Detalle').DataTable({
 
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+    });
     function VerDetalle(Id) {
       window.location.href='@Url.Action("VistaDetalleAdmin", "Documentos")?Id=' + Id;
     }
@@ -174,12 +180,4 @@
             }
         });
     }
-
-    $('#Detalle').DataTable({
-        pageLength: 10,
-        lengthMenu: [[10, 20, -1], [10, 20, 'Todas']],
-        "language": {
-            "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-        },
-    });
 </script>

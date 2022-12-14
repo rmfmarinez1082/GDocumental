@@ -13,6 +13,10 @@ namespace ProyectoBase.Application
         public Models.Documento Documento_Agregar(Models.NuevoDocumento nuevoDocumento)
         {
             return _Documentos.Documento_Agregar(nuevoDocumento);
+        }
+        public Models.Documento Documento_custodiaA(Models.NuevoDocumento nuevoDocumento)
+        {
+            return _Documentos.Documento_custodiaA(nuevoDocumento);
         } 
         public Models.Documento Documento_AgregarPDF(Models.NuevoDocumento nuevoDocumento)
         {
