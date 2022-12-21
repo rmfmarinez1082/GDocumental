@@ -47,5 +47,11 @@ namespace ProyectoBase.Application
         {
             return _Documentos.SP_DocumentoActualizar(Adoc);
         }
+
+        public List<Models.Documento> SP_INF_Prestado(Models.Documento documento)
+        {
+            return _Documentos.SP_INF_Prestado(documento);
+        }
+
     }
 }

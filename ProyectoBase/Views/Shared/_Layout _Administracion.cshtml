@@ -147,35 +147,75 @@
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <i class="ti-bell"></i>
-                                    <span class="badge bg-c-red"></span>
                                 </a>
-
-                                @*Area Notificaciones*@
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Notificaciones</h6>
-                                        <label class="label label-danger">Nuevas</label>
-                                    </li>
-
-                                    @*Listado Notificacion*@
-                                    @foreach (var item in ViewBag.lisnotifi)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                            <a onclick="doc(@item.IdDocumento);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Nuevo documento compartido</h5>
-                                                        <p class="notification-msg">@item.Documento</p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
+                                @if (@ViewBag.CountNoti.Id == 0)
+                                {
+                                    <span class="badge bg-c-green">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-info">Nada por aquí</label>
                                         </li>
-                                    }
 
-                                </ul>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-c-red">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
+
+                                    @*Area Notificaciones*@
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-danger">Nuevas</label>
+                                        </li>
+
+                                        @*Listado Notificacion*@
+                                        @foreach (var item in ViewBag.lisnotifi)
+                                        {
+                                            if (@item.Tnoti == 1)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="doc(@item.IdDocumento);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Nuevo documento compartido</h5>
+                                                                <p class="notification-msg">@item.Documento</p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (@item.Tnoti == 2)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a>
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Nuevo documento Prestado</h5>
+                                                                <p class="notification-msg">@item.Documento</p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                            }
+
+                                        }
+
+                                    </ul>
+                                }
+
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">

@@ -57,8 +57,57 @@
                         </div>
 
                     </div>
-                </div>
 
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>HISTORIAL  </h5>
+                            <span>Observa el estado actual del documento</span>
+                        </div>
+
+                        <div class="card-block">
+
+                            <div class="table-responsive">
+                                <table id="Custodia" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                    <thead style="background-color: #0d6efd">
+                                        <tr>
+
+                                            <th style="color:white">Nombre</th>
+                                            <th class="text-center" style="color:white">Estado</th>
+                                            <th class="text-center" style="color:white">Fecha de prestamo</th>
+                                            <th class="text-center" style="color:white">Límite de prestamo</th>
+                                            <th class="text-center" style="color:white">Receptor</th>
+                                            @*<th style="display:none;" class="text-center">Buscar</th>*@
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        @foreach (var item in ViewBag.CustodiaD)
+                                        {
+
+                                            <tr>
+                                                <td><a>@item.Nombre</a></td>
+                                                @if (@item.Id == 1)
+                                                {
+                                                    <td class="text-center"><span class="label label-success">Activo</span></td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><span class="label label-danger">Caducado</span></td>
+                                                }
+                                                <td class="text-center"><a>@item.FechaVencimiento</a></td>
+                                                <td class="text-center"><a>@item.FechaPublicacion</a></td>
+                                                <td class="text-center"><a>@item.NmOriginal</a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
                 <div class="col-xl-6 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
@@ -91,117 +140,123 @@
 
 
             </div>
-
-
         </div>
     </div>
 </div>
-
-<script src="~/assets/js/jquery/jquery.min.js"></script>
-
-
-<script>
-    function guardar() {
-        if (Validaclasificacion()) {
-            $("#btguardar").prop('disabled', true);
-
-            var obj = {};
-
-            var node = $('#jstree').jstree().get_selected("id");
-            obj['Idtemporal'] = node[0].id;
-            obj['Id'] = @Request["Id"].ToString();
-
-            var jsonObject = {
-                "NuevoDocumento": obj
-            };
-
-            //console.log(obj);
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("ActualizarDirectorio", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    switch (data.Id) {
-                        case -1:
-
-                            swal({
-                                title: "Error no se guardaron los cambios.",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
-                            break;
-                        case 0:
-                            swal({
-                                title: "Algo ocurrió!",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
-                            break;
+    <script>
+        $(document).ready(function () {
+            $('#Custodia').DataTable({
 
-                        default:
-                        // code block
-                    }
-                    if (data.Id > 0) {
-                        swal({
-                            title: "Ubucación actualizada!",
-                            text: " ",
-                            icon: "success",
-                            button: "Aceptar",
-                        }).then((value) => {
-                            location.reload();
-                        });
-                    }
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
                 }
             });
-
-            $("#btguardar").prop('disabled', false);
-        } else { }
-    }
-
-    $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#DocumentoCustodia').addClass("active");
-
-    $(function () {
-        $('#jstree').jstree();
-        $('#jstree').on("changed.jstree", function (e, data) {
         });
-
-        $('button').on('click', function () {
-            $('#jstree').jstree(true).select_node('child_node_1');
-            $('#jstree').jstree('select_node', 'child_node_1');
-            $.jstree.reference('#jstree').select_node('child_node_1');
-        });
-    });
-
-    function Validaclasificacion() {
-        var result = false;
-
-        var node = $('#jstree').jstree().get_selected("id");
-
-        if (node == "") {
-            swal({
-                title: "Selecciona la carpeta donde guardaras tu documento.",
-                text: '',
-                icon: "warning",
-                button: "Aceptar",
+        $(function () {
+            $('#jstree').jstree();
+            $('#jstree').on("changed.jstree", function (e, data) {
             });
+
+            $('button').on('click', function () {
+                $('#jstree').jstree(true).select_node('child_node_1');
+                $('#jstree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#jstree').select_node('child_node_1');
+            });
+        });
+        function guardar() {
+            if (Validaclasificacion()) {
+                $("#btguardar").prop('disabled', true);
+
+                var obj = {};
+
+                var node = $('#jstree').jstree().get_selected("id");
+                obj['Idtemporal'] = node[0].id;
+                obj['Id'] = @Request["Id"].ToString();
+
+                var jsonObject = {
+                    "NuevoDocumento": obj
+                };
+
+                //console.log(obj);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ActualizarDirectorio", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        switch (data.Id) {
+                            case -1:
+
+                                swal({
+                                    title: "Error no se guardaron los cambios.",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+
+
+                                break;
+                            case 0:
+                                swal({
+                                    title: "Algo ocurrió!",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+                                break;
+
+                            default:
+                            // code block
+                        }
+                        if (data.Id > 0) {
+                            swal({
+                                title: "Ubucación actualizada!",
+                                text: " ",
+                                icon: "success",
+                                button: "Aceptar",
+                            }).then((value) => {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+
+                $("#btguardar").prop('disabled', false);
+            } else { }
         }
 
-        if (!node == "") {
-            $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
+        $('#menuDocumentos').addClass("active pcoded-trigger");
+        $('#DocumentoCustodia').addClass("active");
 
-            result = true;
+        function Validaclasificacion() {
+            var result = false;
+
+            var node = $('#jstree').jstree().get_selected("id");
+
+            if (node == "") {
+                swal({
+                    title: "Selecciona la carpeta donde guardaras tu documento.",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+            }
+
+            if (!node == "") {
+                $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
+
+                result = true;
+            }
+
+
+            return result;
         }
-
-
-        return result;
-    }
-</script>
+    </script>

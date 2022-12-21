@@ -67,14 +67,36 @@ namespace ProyectoBase.Application
         //CUSTODIAS
 
 
-        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia()
+        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
-            return _cat_ClasificacionArchivo.cat_DocumentosCustodia();
+            return _cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
         }
 
         public List<Models.Cat_ClasificacionArchivo> cat_DocumentosSubCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             return _cat_ClasificacionArchivo.cat_DocumentosSubCustodia(cat_ClasificacionDoc);
+        }
+
+        //OPERACIONES ARBOL CUSTODIAS
+        public Models.Cat_ClasificacionArchivo SP_RESSET2()
+        {
+            return _cat_ClasificacionArchivo.SP_RESSET2();
+        }
+        public Models.Cat_ClasificacionArchivo SP_AgregarSubCarpeta(Models.Cat_ClasificacionArchivo nuevasubclas)
+        {
+            return _cat_ClasificacionArchivo.SP_AgregarSubCarpeta(nuevasubclas);
+        }
+        public Models.Cat_ClasificacionArchivo RenombrarCarpeta(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.RenombrarCarpeta(carpeta);
+        }
+        public Models.Cat_ClasificacionArchivo EliminarCarpetaC(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.EliminarCarpetaC(carpeta);
+        }
+        public Models.Cat_ClasificacionArchivo RegistrarCarpeta(Models.Cat_ClasificacionArchivo nuevaclas)
+        {
+            return _cat_ClasificacionArchivo.RegistrarCarpeta(nuevaclas);
         }
 
     }

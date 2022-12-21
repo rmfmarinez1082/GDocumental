@@ -14,6 +14,11 @@ namespace ProyectoBase.Application
         {
             return _notification.SP_Notification(documento,user, notificationId);
         }
+        public Models.Notification SP_Prestamo(Models.Notification notificationId)
+        {
+            return _notification.SP_Prestamo(notificationId);
+
+        }
 
 
         public List<Models.Notification> SP_listNotification(Models.Notification notificacion)
@@ -49,6 +54,10 @@ namespace ProyectoBase.Application
         {
             return _notification.SP_DocNoVisto2();
         }
+        public Models.Notification SP_ConteoNoti(Models.Notification notificationId)
+        {
+            return _notification.SP_ConteoNoti(notificationId);
 
+        }
     }
 }

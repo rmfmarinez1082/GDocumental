@@ -250,5 +250,30 @@ namespace ProyectoBase.Data
             return resultado;
 
         }
+
+        public List<Models.Documento> SP_INF_Prestado(Models.Documento documento)
+        {
+            b.ExecuteCommandSP("SP_INF_Prestado");
+            b.AddParameter("@IdUser", documento.IdUsuario, SqlDbType.VarChar);
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    Id = Convert.ToInt32(reader["Prestamo"].ToString()),
+                    FechaVencimiento = reader["FechaLimite"].ToString(),
+                    Nombre = reader["Nombre"].ToString(),
+                    NmOriginal = reader["Custodia"].ToString(),
+                    FechaPublicacion = reader["FechaT"].ToString()
+
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace ProyectoBase.Models
         public int IdDoc { get; set; }
         public int Idhijo { get; set; }
         public int IdTres { get; set; }
+        public int IdUser { get; set; }
         public string Nombre { get; set; }
         public string Idtemporal { get; set; }
 

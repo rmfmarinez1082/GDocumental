@@ -11,11 +11,14 @@ namespace ProyectoBase.Controllers
 {
     public class DocumentosController : Controller
     {
-        public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
+        public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
+                Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET2();
+
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
 
@@ -23,7 +26,11 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
-                string Carpetas = ObtenerPCustodia2();
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+
+                cat_ClasificacionDoc.IdUser = Usuario.Id;
+                string Carpetas = ObtenerPCustodia2(cat_ClasificacionDoc);
                 ViewBag.carpetas = Carpetas;
 
                 return View();
@@ -31,7 +38,8 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
-        public ActionResult DCustodia(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
+        public ActionResult DCustodia(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
+             Application.EmpresasListado empresasListado)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
@@ -42,17 +50,23 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 _list_Doc.IdSesion = Usuario.Id;
                 List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentosCustodia(_list_Doc);
                 ViewBag.dtList_Doc = dtList_Doc;
+
+                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
+                ViewBag.dtEmpresasListado = dtEmpresasListado;
 
                 return View();
             }
             else { return RedirectToAction("Index", "Home"); }
         }
 
-        public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos)
+        public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
@@ -73,9 +87,17 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
-                string Carpetas = ObtenerPCustodia();
+                cat_ClasificacionDoc.IdUser = Usuario.Id;
+
+                string Carpetas = ObtenerPCustodia(cat_ClasificacionDoc);
                 ViewBag.carpetas = Carpetas;
+
+                documento.IdUsuario = Usuario.Id;
+                List <Models.Documento> InfoDP = documentos.SP_INF_Prestado(documento);
+                ViewBag.CustodiaD = InfoDP;
 
                 return View();
             }
@@ -120,7 +142,8 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
-
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
                 string Carpetas = getParents();
                 ViewBag.carpetas = Carpetas;
 
@@ -141,8 +164,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -175,10 +199,12 @@ namespace ProyectoBase.Controllers
         }  
         
         
-        public string ObtenerPCustodia()
+        public string ObtenerPCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            cat_ClasificacionDoc.IdUser = Usuario.Id;
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
             string resulCarpetas = "";
 
             if (dtClasificacionArchivo.Count > 0)
@@ -187,8 +213,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia(dt);
                     resulCarpetas += "</li>";
 
@@ -220,10 +247,13 @@ namespace ProyectoBase.Controllers
             return resulCarpetas;
         }
         
-        public string ObtenerPCustodia2()
+        public string ObtenerPCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            cat_ClasificacionDoc.IdUser = Usuario.Id;
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
+            
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
             string resulCarpetas = "";
 
             if (dtClasificacionArchivo.Count > 0)
@@ -232,8 +262,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -326,6 +357,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
                 return View();
             }
             else { return RedirectToAction("Index", "Home"); }
@@ -333,6 +366,7 @@ namespace ProyectoBase.Controllers
 
         public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
             , Models.Notification _notification, Application.Notification Anotification)
+
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
@@ -349,6 +383,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 return View();
             }
@@ -378,6 +414,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
                 //VISTA PROCEDIMIENTOS
 
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
@@ -437,6 +475,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
                 //VISTA PROCEDIMIENTOS
 
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
@@ -474,6 +514,8 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
+        
+        
         [HttpPost]
         public JsonResult QuitarArchivo(Models.Documento documento, Application.Documentos AppDoc)
         {
@@ -846,6 +888,53 @@ namespace ProyectoBase.Controllers
             Models.Cat_Tipo_Documento NTDocumento = ANDocumento.SP_Dobligatorio(NDocumento);
 
             return Json(NTDocumento);
+        }
+
+        //CREACION DE CARPETAS FISICAS
+        public JsonResult AgregarSubCarpeta(Models.Cat_ClasificacionArchivo nuevasubClas, Application.Cat_ClasificacionArchivo ApnuevasubClas)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            nuevasubClas.IdUser = Usuario.Id;
+
+            Models.Cat_ClasificacionArchivo nuevasubClass = ApnuevasubClas.SP_AgregarSubCarpeta(nuevasubClas);
+
+            return Json(nuevasubClass);
+        }
+        [HttpPost]
+        public JsonResult RenombrarCarpeta(Models.Cat_ClasificacionArchivo carpeta, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.RenombrarCarpeta(carpeta);
+
+            return Json(carpetaD);
+        }
+        public JsonResult EliminarCarpetaC(Models.Cat_ClasificacionArchivo carpeta, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.EliminarCarpetaC(carpeta);
+
+            return Json(carpetaD);
+        }
+        public JsonResult RegistrarCarpeta(Models.Cat_ClasificacionArchivo nuevaClas, Application.Cat_ClasificacionArchivo ApnuevaClas)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            nuevaClas.IdUser = Usuario.Id;
+            Models.Cat_ClasificacionArchivo nuevaClass = ApnuevaClas.RegistrarCarpeta(nuevaClas);
+
+            return Json(nuevaClass);
+        }
+
+        //PRESTAR
+        [HttpPost]
+        public JsonResult Prestar(Models.CCompartir NCompartir, Application.CCompartir ApNCompartir,
+            Application.Documentos Apdocumentos, Application.LisUser APlisUser, Application.Correo correo,
+            Application.Notification notificacion, Models.Notification notificationId)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            notificationId.IdAdmin = Usuario.Id;
+            Models.Notification notifi = notificacion.SP_Prestamo(notificationId);
+
+
+    
+            return Json(notifi);
         }
     }
 }
