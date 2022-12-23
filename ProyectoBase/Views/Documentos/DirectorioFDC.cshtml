@@ -1,9 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DirectorioFDC";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
-
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -11,7 +10,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="page-header-title">
-                        <h5 class="m-b-10"> Directorio</h5>
+                        <h5 class="m-b-10"> DIRECTORIO FÍSICO DE DOCUMENTOS EN CUSTODIA</h5>
                         <p class="m-b-0"> </p>
                     </div>
                 </div>
@@ -38,7 +37,8 @@
                 <div class="col-xl-6 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5>DIRECTORIO</h5>
+                            <h5>DIRECTORIO FISICO</h5>
+                            <p>Crea o elimina carpetas para resguardar tu documento</p>
                         </div>
 
 
@@ -69,79 +69,19 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-xl-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Documentos en el sistema:  </h5>
-                            <span>Detalle de documentos en el sistema y usuarios responsables</span>
-                        </div>
 
-                        <div class="card-block">
-
-                            <div class="table-responsive">
-                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                    <thead style="background-color: #0d6efd">
-                                        <tr>
-
-                                            <th style="color:white">Nombre</th>
-                                            <th class="text-center" style="color:white">Usuario</th>
-                                            <th class="text-center" style="color:white">Clasificacion</th>
-                                            <th class="text-center" style="color:white">Detalle</th>
-
-                                            <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
-
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        @foreach (var item in ViewBag.AdminDoc)
-                                        {
-
-                                            <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center"><a>@item.NombreUsuario</a></td>
-                                                <td class="text-center"><a>@item.Clasificacion</a></td>
-                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
-
-                                                <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
 </div>
-
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
 
 <script>
-    $(document).ready(function () {
-        $('#Detalle').DataTable({
-
-            pageLength: 5,
-            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-            }
-        });
-    });
-    function VerDetalle(Id) {
-      window.location.href='@Url.Action("VistaDetalleAdmin", "Documentos")?Id=' + Id;
-    }
-
-    $('#IdAdministrador').addClass("active pcoded-trigger");
-    $('#Directorio').addClass("active");
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#DFDC').addClass("active");
 
     $(function () {
+
             $('#jstree').jstree({
 
                 'core': {
@@ -180,7 +120,7 @@
 
                                      $.ajax({
                                         type: "POST",
-                                        url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                        url: "@Url.Action("AgregarSubCarpeta", "Documentos")",
                                         async: false,
                                         data: JSON.stringify(jsonObject),
                                         contentType: "application/json; charset=utf-8",
@@ -235,7 +175,7 @@
 
                                 $.ajax({
                                     type: "POST",
-                                    url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                    url: "@Url.Action("EliminarCarpetaC", "Documentos")",
                                     async: false,
                                     data: JSON.stringify(jsonObject),
                                     contentType: "application/json; charset=utf-8",
@@ -280,7 +220,7 @@
                                      };
                                      $.ajax({
                                         type: "POST",
-                                        url: "@Url.Action("RegistrarClas", "Documentos")",
+                                        url: "@Url.Action("RegistrarCarpeta", "Documentos")",
                                         async: false,
                                         data: JSON.stringify(jsonObject),
                                         contentType: "application/json; charset=utf-8",
@@ -310,6 +250,7 @@
             });
 
             $('#jstree').on('rename_node.jstree', function (e, data) {
+
                 var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
                 var jsonObject = {
                     "carpeta": obj
@@ -317,36 +258,33 @@
 
                  $.ajax({
                     type: "POST",
-                    url: "@Url.Action("Renombrar", "Documentos")",
+                    url: "@Url.Action("RenombrarCarpeta", "Documentos")",
                     async: false,
                     data: JSON.stringify(jsonObject),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                     success: function (data) {
+                    success: function (data) {
 
-                         if (data.Id == 1) {
+                        $("#BtnSubclas").trigger("click");
 
-                             $.notify("Cambios Realizados.", "success");
-                         }
-                         else if (data.Id == 2) {
+                        if (data.Id == 1) {
 
-                                 $.notify("Elemento no editable.", "error");
-                                 ref.edit(sel);
-                            
-                              } else {
-                                 $.notify("Error al procesar tu solicitud.", "error");
-                                 ref.edit(sel);
-                              }
+                            $.notify("Cambios Realizados.", "success");
+                        }
+                        else {
 
-                     }
+                            $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                            ref.edit(sel);
+                        }
+
+                    }
 
                 });
             });
 
-
     });
 
-    function SeleccionarPorId(documento) {
+     function SeleccionarPorId(documento) {
         var obj = {};
         obj['Id'] = documento;
 
@@ -374,3 +312,4 @@
         });
     }
 </script>
+

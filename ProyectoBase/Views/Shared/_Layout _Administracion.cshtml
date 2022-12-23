@@ -147,18 +147,37 @@
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <i class="ti-bell"></i>
-                                    <span class="badge bg-c-red"></span>
                                 </a>
+                                @if (@ViewBag.CountNoti.Id == 0)
+                                {
+                                    <span class="badge bg-c-green">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-info">Nada por aquí</label>
+                                        </li>
 
-                                @*Area Notificaciones*@
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Notificaciones</h6>
-                                        <label class="label label-danger">Nuevas</label>
-                                    </li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-c-red">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
 
-                                    @*Listado Notificacion*@
-                                    @foreach (var item in ViewBag.lisnotifi)
+                                    @*Area Notificaciones*@
+                            <ul class="show-notification">
+                                <li>
+                                    <h6>Notificaciones</h6>
+                                    <label class="label label-danger">Nuevas</label>
+                                </li>
+
+                                @*Listado Notificacion*@
+                                @foreach (var item in ViewBag.lisnotifi)
+                                {
+                                    if (@item.Tnoti == 1)
                                     {
                                         <li class="waves-effect waves-light">
                                             <a onclick="doc(@item.IdDocumento);">
@@ -174,8 +193,45 @@
                                             </a>
                                         </li>
                                     }
+                                    else if (@item.Tnoti == 2)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                            <a>
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Documento Prestado</h5>
+                                                        <p class="notification-msg">El usuario @item.Nombre te a dado custodia del documento: @item.Documento</p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
 
-                                </ul>
+                                    }
+                                    else if (@item.Tnoti == 3)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                             <a onclick="Nvista(@item.Id);">
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Plazo caducado</h5>
+                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento @item.Documento que asignaste al usuario @item.Nombre </p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+
+                                }
+
+                            </ul>
+                                }
+
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
@@ -266,6 +322,21 @@
                                             <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                                                 <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li> 
+                                        <li class=" " id="DocumentoCustodia">
+                                            <a href="/Documentos/DCustodia" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos en Custodia</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li> 
+                                        
+                                        <li class=" " id="DFDC">
+                                            <a href="/Documentos/DirectorioFDC" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Directorio físico de documentos en Custodia</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
@@ -381,7 +452,11 @@
 
     <!-- Warning Section Ends -->
     <!-- Required Jquery -->
-    <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
+    @*<script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script> scriptAnterior*@
+    @*<script src="~/Vendor/bootstrap-notify/bootstrap-notify.min.js"></script>*@
+    <script src="~/Vendor/bootstrap-notify/notify.min.js"></script>
+
+
     <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js "></script>
     <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
     <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js "></script>
@@ -477,18 +552,27 @@
 
         }
 
-        //$(function () {
-        //    $('#jstree').jstree();
-        //    $('#jstree').on("changed.jstree", function (e, data) {
-        //        console.log(data.selected);
-        //    });
+        function Nvista(documento) {
+        var obj = {};
+        obj['Id'] = documento;
 
-        //    $('button').on('click', function () {
-        //        $('#jstree').jstree(true).select_node('child_node_1');
-        //        $('#jstree').jstree('select_node', 'child_node_1');
-        //        $.jstree.reference('#jstree').select_node('child_node_1');
-        //    });
-        //});
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamo", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+
+        }
     </script>
 
 

@@ -17,6 +17,8 @@ namespace ProyectoBase.Controllers
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
             Application.List_Doc listadoAdmin)
         {
+            Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
+
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
@@ -35,6 +37,9 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 List<Models.List_Doc> Adoc = listadoAdmin.SP_ListarDocAdmin();
                 ViewBag.AdminDoc = Adoc;
@@ -68,8 +73,8 @@ namespace ProyectoBase.Controllers
 
                 foreach(var dt in dtClasificacionArchivo)
                 {
-                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -92,8 +97,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li> " + dt.Nombre;
-                    resulCarpetas += getChildren(dt);
+                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre; resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
 
@@ -142,6 +148,7 @@ namespace ProyectoBase.Controllers
 
             if (Usuario != null)
             {
+                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
@@ -177,6 +184,9 @@ namespace ProyectoBase.Controllers
 
                 Models.Notification notificationNV = Anotification.SP_DocNoVisto(_notification);
                 ViewBag.NVisto = notificationNV.Ids;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
                 return View();
 
             }
@@ -207,6 +217,9 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 //VISTA PROCEDIMIENTOS
 
@@ -269,6 +282,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 List<Models.Cat_Tipo_Documento> dtTipoDocumentos = cat_Tipo_Documento.Cat_Tipo_Documento_Listar();
                 ViewBag.dtTipoDocumentos = dtTipoDocumentos;
@@ -348,6 +363,8 @@ namespace ProyectoBase.Controllers
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
             }
             else { return RedirectToAction("Index", "Home"); }
 
@@ -371,6 +388,9 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 List<Models.EmpresasListado> empresasListados = AempresasListado.SP_EmpresasListado();
                 ViewBag.empresaLis = empresasListados;
@@ -399,6 +419,9 @@ namespace ProyectoBase.Controllers
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
 
                 List<Models.List_Doc> listadoDelete = list_Doc.SP_RegistroDelete();
                 ViewBag.listadoDelete = listadoDelete;
@@ -434,6 +457,14 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             Dnotificacion.IdUsuario = Usuario.Id;
             Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+            return Json(DesactivarNot);
+        }
+        [HttpPost]
+        public JsonResult desactivarNotiPrestamo(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
+        {
+        
+            Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionPrestamo(Dnotificacion);
 
             return Json(DesactivarNot);
         }

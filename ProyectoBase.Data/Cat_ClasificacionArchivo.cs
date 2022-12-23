@@ -224,5 +224,165 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public List<Models.Cat_ClasificacionArchivo> SP_DocPadreCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+       
+
+            b.ExecuteCommandSP("SP_DocPadreCustodia");
+            b.AddParameter("@Id", cat_ClasificacionArchivo.Id, SqlDbType.VarChar);
+            b.AddParameter("@Iduser", cat_ClasificacionArchivo.IdTres, SqlDbType.VarChar);
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+           
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        //CUSTODIAS
+        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+            b.ExecuteCommandSP("cat_DocumentosCustodia");
+            b.AddParameter("@IdUser", cat_ClasificacionArchivo.IdUser, SqlDbType.VarChar);
+
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosSubCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+            b.ExecuteCommandSP("cat_DocumentosSubCustodia");
+            b.AddParameter("@Id", cat_ClasificacionArchivo.Id, SqlDbType.VarChar);
+
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        //OPERACIONES ARBOL CUSTODIAS
+        public Models.Cat_ClasificacionArchivo SP_RESSET2()
+        {
+            b.ExecuteCommandSP("SP_RESSET2");
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Cat_ClasificacionArchivo SP_AgregarSubCarpeta(Models.Cat_ClasificacionArchivo nuevasubclas)
+
+        {
+            b.ExecuteCommandSP("SP_AgregarSubCarpeta");
+            b.AddParameter("@Nombre", nuevasubclas.Nombre, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", nuevasubclas.Idpadre, SqlDbType.VarChar);
+            b.AddParameter("@Idtemporal", nuevasubclas.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdUser", nuevasubclas.IdUser, SqlDbType.VarChar);
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Cat_ClasificacionArchivo RenombrarCarpeta(Models.Cat_ClasificacionArchivo carpeta)
+
+        {
+            b.ExecuteCommandSP("RenombrarCarpeta");
+
+            b.AddParameter("@Id", carpeta.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@Nombre", carpeta.Nombre, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", carpeta.Idpadre, SqlDbType.VarChar);
+
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Cat_ClasificacionArchivo EliminarCarpetaC(Models.Cat_ClasificacionArchivo carpeta)
+
+        {
+            b.ExecuteCommandSP("EliminarCarpetaC");
+
+            b.AddParameter("@Id", carpeta.Idtemporal, SqlDbType.VarChar);
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Cat_ClasificacionArchivo RegistrarCarpeta(Models.Cat_ClasificacionArchivo nuevaclas)
+        {
+            b.ExecuteCommandSP("RegistrarCarpeta");
+            b.AddParameter("@Nombre", nuevaclas.Nombre, SqlDbType.VarChar);
+            b.AddParameter("@Idtemporal", nuevaclas.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdUser", nuevaclas.IdUser, SqlDbType.VarChar);
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }

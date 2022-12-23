@@ -43,7 +43,7 @@
         position: relative
     }
 
-        .process-step p {
+    .process-step p {
             margin-top: 4px
         }
 
@@ -63,12 +63,12 @@
         color: #555 !important;
     }
 
-    @@media (min-width: 768px) {
+   /* @@media (min-width: 768px) {
         .modal-dialog {
             width: 600px;
             margin: 150px auto;
         }
-    }
+    }*/
 
     .close:not(:disabled):not(.disabled) {
         cursor: pointer;
@@ -379,13 +379,9 @@
         border-radius: 2px;
     }
 
-        select.form-control:not([size]):not([multiple]) {
+     select.form-control:not([size]):not([multiple]) {
             height: 36px;
         }
-
-    /*.table td, .table th {
-        padding: -1.75rem 0.75rem;
-    }*/
 
     .table td, .table th {
         padding: 0.25rem 0.75rem;
@@ -488,7 +484,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Versión </label>
-                                                                <input type="number" class="form-control form-control input-number" id="Version">
+                                                                <input type="number" min="1" class="form-control form-control input-number" id="Version">
                                                             </div>
                                                         </div>
 
@@ -640,6 +636,16 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <div class="form-material col-md-2 col-lg-2">
+                                                            <br />
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <input name="checkboxCustodia" class="form-check-input" id="checkboxCustodia" type="checkbox" value="">
+                                                                    <span class="form-check-sign" title="Si el documento esta en tu custodia palomea esta opción">Custodia del documento</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
 
 
                                                     </div>
@@ -655,85 +661,86 @@
 
                                                 <div id="menu4" class="tab-pane fade">
                                                     <br />
+                                                    @*TITULO PRINCIPAL*@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Clasificación y Carga de Archivo</h3>
                                                             <p>Selecciona la carpeta en la cual guardaras tu documento. Completa los campos marcados * </p>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col text-center">
-                                                            <h5 style="margin-left:63%">Previsualización</h5>
+                                        
+                                                    @*ELEMENTOS PRINCIPALES*@
+                                                <div class="row">
+
+                                                    <div class="col-md-4" style="overflow:auto;">
+                                                        <div class="card-body">
+                                                            <div id="jstree">
+                                                                @Html.Raw(ViewBag.carpetas);
+                                                            </div>
+
+
                                                         </div>
                                                     </div>
-                                                    <br /><br />
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="card-body">
-                                                                <div id="jstree">
-                                                                    @Html.Raw(ViewBag.carpetas);
-                                                                </div>
 
-
-                                                            </div>
-                                                        </div>
-
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                        <div class="col-md-2">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                                                    <div class="container col-md-4">
+                                                        <br />
+                                                        <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                            <div class="col-md-6">
+                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                    <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                        <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br />
+                                                                            <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                        @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                        <div class="col-md-2">
-                                                            <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                    <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                        <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable
-                                                                        <div class="row">
-                                                                            <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                            <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                            <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                        </div>
-                                                                    </button>
+                                                            @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                            <div class="col-md-6">
+                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                                    <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                        <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
+                                                                            <div class="row">
+                                                                                <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                                <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                            </div>
+                                                                        </button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
-                                                        @*IFRAME*@
-                                                        <div class="col-4">
-                                                            <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
+                                                        @*SELECT*@
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label for="largeInput">* Clasificación </label>
+                                                                    <select class="form-control" id="Clasificacion">
+                                                                        <option value="0">Seleccionar </option>
+                                                                        @foreach (var item1 in ViewBag.dtClasificacion)
+                                                                        {
+                                                                            <option value="@item1.Id">@item1.Nombre</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
                                                         </div>
+
+                                                        <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
 
                                                     </div>
+
+                                                    @*IFRAME*@
+                                                    <div class="col-md-4 container text-center">
+                                                        <h5>PREVISUALIZACIÓN</h5>
+                                                        <iframe id="iframepdf" width="90%" height="90%" frameborder="0"></iframe>
+                                                    </div>
+
+                                                </div>
 
                                                     <br />
-                                                    <div class="row">
-                                                        <div class="col-md-12 col-lg-12">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* Clasificación </label>
-                                                                <select class="form-control" id="Clasificacion">
-                                                                    <option value="0">Seleccionar </option>
-                                                                    @foreach (var item1 in ViewBag.dtClasificacion)
-                                                                    {
-                                                                        <option value="@item1.Id">@item1.Nombre</option>
-                                                                    }
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    @*<div class="row">
-                                                            <div class="col-md-12 col-lg-12">
-                                                                <button class="btn waves-effect waves-light btn-primary col-md-12" onclick="guardarArbol()">Guardar Carpetas  <i class="fa fa-floppy-o"></i></button>
-                                                            </div>
-                                                        </div>*@
-
-
                                                     <br />
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
                                                     <div class="row">
@@ -744,7 +751,7 @@
                                                             <progress id="fileProgress" style="display: none; width:100%"></progress>
                                                         </div>
                                                     </div>
-
+                                                    @*BOTONES*@
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
@@ -803,15 +810,6 @@
 
                                                             <h4><strong class="TextoColor">CLASIFICACIÓN </strong> </h4>
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
-
-
-                                                            <!--<p>
-                                                                <strong>Clasificación Archivo</strong> <br />-->
-                                                            @*<span class="label label-info"></span>*@
-                                                            @*<span class="label label-success" id="SP_Select_SubClasificacionArchivo"></span>/
-                                                                <span class="label label-danger" id="SP_Select_Seccion"></span>*@
-                                                            <!--</p>-->
-
                                                         </div>
                                                     </div>
 
@@ -841,82 +839,9 @@
 </div>
 
 
-<!-- MODAL AGREGARCLASIFICACION -->
-<div class="modal fade" id="ModalClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Proporciona los datos necesarios para agregar la clasificación </p>
 
-                <div class="col-md-12 col-lg-12">
-                    <label for="largeInput"> Nombre de la Clasificación </label>
-                    <input id="NombreClas" type="text" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarClas()" id="BtnGuardarCLas">Guardar</button>
-                <button id="BtnClasificacion" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="ModalSUbClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
 
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación a: </h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Selecciona la clasificación a la cual quieres agregar una subclasificación </p>
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre de la SubClasificación </label>
-                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarSubclas()">Guardar</button>
-                <button id="BtnSubclas" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="Modal3er" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar 3er nivel a:</h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue3er" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre del 3er nivel </label>
-                    <input type="text" id="Nombre3er" class="form-control form-control input-number" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="Guardar3er()">Guardar</button>
-                <button id="Btn3er" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
     function Publicar() {
@@ -962,6 +887,13 @@
                                                 obj['checkboxCorreo'] = 0;
                                             }
 
+                                            if ($('#checkboxCustodia').prop('checked')) {
+                                                obj['checkboxCustodia'] = 1;
+                                            } else {
+                                                obj['checkboxCustodia'] = 0;
+                                            }
+
+
                                             var node = $('#jstree').jstree().get_selected("id");
                                             obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
                                             obj['Idtemporal'] = node[0].id;
@@ -969,7 +901,6 @@
                                             var jsonObject = {
                                                 "NuevoDocumento": obj
                                             };
-
                                             $.ajax({
                                                 type: "POST",
                                                 url: "@Url.Action("Documentos_Registrar", "Documentos")",
@@ -1058,6 +989,11 @@
                                             obj['checkboxCorreo'] = 1;
                                         } else {
                                             obj['checkboxCorreo'] = 0;
+                                        }
+                                        if ($('#checkboxCustodia').prop('checked')) {
+                                            obj['checkboxCustodia'] = 1;
+                                        } else {
+                                            obj['checkboxCustodia'] = 0;
                                         }
 
                                         var node = $('#jstree').jstree().get_selected("id");
@@ -1248,7 +1184,7 @@
         $("#Select3").append(option);
     }
     //Funcion Crearclasificacion
-    function Crearclas() {
+    function MostrarInfo() {
 
         $('#ModalClasificacion').modal('show');
     }
@@ -1766,17 +1702,8 @@
                 })
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+
+                $.notify("Completa el formulario.", "error");
             }
         });
     }
@@ -1832,51 +1759,19 @@
             Next();
         } else {
 
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function Control() {
         if (ValidaControl()) {
             Next();
-        } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
-        }
+        } else { }
     }
     function Distribucion() {
         if (ValidaDistribucion()) {
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function clasificacion() {
@@ -1884,17 +1779,7 @@
 
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
 
@@ -1999,22 +1884,20 @@
             $('#Select_TipoArchivo').css("border", "1px solid #ff0049");
             $('#Select_MedioAlmacenamiento').css("border", "1px solid #ff0049");
 
-
-
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 $('#Select_TipoArchivo').css("border", "1px solid #cccccc");
             }
+
 
             if ($("#Select_MedioAlmacenamiento option:selected").val() > 0) {
                 $('#Select_MedioAlmacenamiento').css("border", "1px solid #cccccc");
             }
 
-
+            
 
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 if ($("#Select_MedioAlmacenamiento option:selected").val()  > 0) {
-
-                        result = true;
+                        result = true;  
                 }
             }
 
@@ -2041,13 +1924,8 @@
 
             if ($("#Clasificacion option:selected").val() > 0) {
                 if (!node == "") {
+                    $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
 
-                    swal({
-                        title: "El documento se guardara en la carpeta: " + node[0].text,
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
                     result = true;
                 }
 
@@ -2095,34 +1973,17 @@
 
                 } else {
 
-                    swal({
-                        title: "La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-
-
-
+                    $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+    
+                $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
 
             }
         } else {
 
-            swal({
-                title: "La FechaRevisión debe ser menor a la Fecha de Publicación.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+       
+            $.notify("La FechaRevisión debe ser menor a la Fecha de Publicación.", "warn");
 
 
         }
@@ -2142,30 +2003,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha Publicación debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha Publicación debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2183,30 +2029,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de entrada envigor debe ser menor a la FechaVencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de entrada envigor debe ser menor a la FechaVencimiento.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2224,30 +2055,15 @@
                     var result = true;
                 } else {
 
-                    swal({
-                        title: "La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
                 }
             } else {
 
-                swal({
-                    title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
         }
 
         return result;
@@ -2264,21 +2080,11 @@
 
             } else {
 
-                swal({
-                    title: "La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación", "warn");
             }
         } else {
 
-            swal({
-                title: "La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
+            $.notify("La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.", "warn");
         }
 
         return result;
@@ -2299,79 +2105,29 @@
 
 
                         } else {
-                            $.notify({
-                                icon: 'fa fa-paw',
-                                message: "Completa el formulario.",
-                            }, {
-                                type: 'warning',
-                                allow_dismiss: false,
-                                animate: {
-                                    enter: 'animated rollIn',
-                                    exit: 'animated rollOut'
-                                }
-                            });
+                            $.notify("Completa el formulario.", "error");
                         }
 
 
 
                     } else {
 
-                        $.notify({
-                            icon: 'fa fa-paw',
-                            message: "Completa el formulario.",
-                        }, {
-                            type: 'warning',
-                            allow_dismiss: false,
-                            animate: {
-                                enter: 'animated rollIn',
-                                exit: 'animated rollOut'
-                            }
-                        });
+                        $.notify("Completa el formulario.", "error");
                     }
 
                 } else {
 
-                    $.notify({
-                        icon: 'fa fa-paw',
-                        message: "Completa el formulario.",
-                    }, {
-                        type: 'warning',
-                        allow_dismiss: false,
-                        animate: {
-                            enter: 'animated rollIn',
-                            exit: 'animated rollOut'
-                        }
-                    });
+                    $.notify("Completa el formulario.", "error");
                 }
 
             } else {
 
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+                $.notify("Completa el formulario.", "error");
             }
 
         } else {
 
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
 
@@ -2727,8 +2483,6 @@
                                             }
                                             else {
 
-                                             alert("error al insertar en la base")
-
                                              ref.delete_node(sel);
                                             }
 
@@ -2778,14 +2532,7 @@
                                             sel = sel[0];
 
                                             ref.delete_node(sel);
-
-                                            swal({
-                                                title: "Carpeta eliminada!",
-                                                text: " ",
-                                                icon: "success",
-                                                button: "Aceptar",
-                                            });
-
+                                            $.notify("Carpeta eliminada!", "success");
                                         }
                                         else {
                                             swal({
@@ -2831,12 +2578,7 @@
                                             }
                                             else {
 
-                                                swal({
-                                                    title: "Esta carpeta ya existe.",
-                                                    text: '',
-                                                    icon: "warning",
-                                                    button: "Aceptar",
-                                                });
+                                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
                                             }
 
                                         }
@@ -2872,23 +2614,13 @@
                         $("#BtnSubclas").trigger("click");
 
                         if (data.Id == 1) {
-                            swal({
-                                title: "Cambios Realizados. !",
-                                text: " ",
-                                icon: "success",
-                                button: "Aceptar",
-                            });
-
+                  
+                            $.notify("Cambios Realizados.", "success");
                         }
                         else {
-                            swal({
-                                title: "El nombre de esta carpeta ya esta en uso renombrela.",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
-                            //usar otro tipo de alerta notify
-                            /*ref.edit(sel);*/
+                         
+                            $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                            ref.edit(sel);
                         }
 
                     }

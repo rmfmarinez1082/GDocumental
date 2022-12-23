@@ -16,6 +16,8 @@ namespace ProyectoBase.Models
         public string Documento { get; set; }
         public string NmArchivo { get; set; }
         public int IdAdmin { get; set; }
+        public string fecha { get; set; }
+        public int Tnoti { get; set; }
 
     }
 }

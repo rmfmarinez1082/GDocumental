@@ -50,7 +50,9 @@ namespace ProyectoBase.Data
                     Nombre = reader["Nombre"].ToString(),
                     Documento = reader["Documento"].ToString(),
                     IdDocumento = Convert.ToInt32(reader["IdDocumento"].ToString()),
-                    NmArchivo = reader["NmArchivo"].ToString()
+                    NmArchivo = reader["NmArchivo"].ToString(),
+                    Tnoti = Convert.ToInt32(reader["Tnoti"].ToString()),
+
                 };
                 resultado.Add(item);
             }
@@ -82,6 +84,22 @@ namespace ProyectoBase.Data
             b.ExecuteCommandSP("SP_NotificacionAC");
             b.AddParameter("@IdUser", notificationA.IdUsuario, SqlDbType.VarChar);
             b.AddParameter("@IdDoc", notificationA.IdDocumento, SqlDbType.VarChar);
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Ids = Convert.ToInt32(reader["Ids"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Notification SP_NotificacionPrestamo(Models.Notification notificationA)
+        {
+            b.ExecuteCommandSP("SP_NotificacionPrestamo");
+            b.AddParameter("@Id", notificationA.Id, SqlDbType.VarChar);
             Models.Notification resultado = new Models.Notification();
             var reader = b.ExecuteReader();
             while (reader.Read())
@@ -163,5 +181,60 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+        public Models.Notification SP_Prestamo(Models.Notification notificationId)
+        {
+            b.ExecuteCommandSP("SP_Prestamo");
+            b.AddParameter("@IdUsuario", notificationId.IdUsuario, SqlDbType.VarChar);
+            b.AddParameter("@IdDocumento", notificationId.IdDocumento, SqlDbType.VarChar);
+            b.AddParameter("@IdAdmin", notificationId.IdAdmin, SqlDbType.VarChar);
+            b.AddParameter("@fecha", notificationId.fecha, SqlDbType.VarChar);
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Notification SP_ConteoNoti(Models.Notification notificationId)
+        {
+            b.ExecuteCommandSP("SP_ConteoNoti");
+            b.AddParameter("@IdUsuario", notificationId.IdUsuario, SqlDbType.VarChar);
+   
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Notification SP_NotiFechaTermino()
+        {
+            b.ExecuteCommandSP("SP_NotiFechaTermino");
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
     }
 }

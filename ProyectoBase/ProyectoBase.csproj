@@ -494,6 +494,7 @@
     <Content Include="Vendor\animsition\js\animsition.js" />
     <Content Include="Vendor\animsition\js\animsition.min.js" />
     <Content Include="Vendor\bootstrap-notify\bootstrap-notify.min.js" />
+    <Content Include="Vendor\bootstrap-notify\notify.min.js" />
     <Content Include="Vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Vendor\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Vendor\bootstrap\css\bootstrap-reboot.css" />
@@ -603,6 +604,9 @@
     <Content Include="Views\Administracion\Index.cshtml" />
     <Content Include="Views\Administracion\Micuenta.cshtml" />
     <Content Include="Views\Documentos\VistaDetalleAdmin.cshtml" />
+    <Content Include="Views\Documentos\DCustodia.cshtml" />
+    <Content Include="Views\Documentos\EditarCustodia.cshtml" />
+    <Content Include="Views\Documentos\DirectorioFDC.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
