@@ -255,6 +255,7 @@ namespace ProyectoBase.Data
         {
             b.ExecuteCommandSP("SP_INF_Prestado");
             b.AddParameter("@IdUser", documento.IdUsuario, SqlDbType.VarChar);
+            b.AddParameter("@Id", documento.Id, SqlDbType.VarChar);
 
             List<Models.Documento> resultado = new List<Models.Documento>();
             var reader = b.ExecuteReader();

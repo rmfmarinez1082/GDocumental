@@ -168,52 +168,68 @@
                                     </span>@*COLOR NOTIFICADOR*@
 
                                     @*Area Notificaciones*@
-                                    <ul class="show-notification">
-                                        <li>
-                                            <h6>Notificaciones</h6>
-                                            <label class="label label-danger">Nuevas</label>
+                            <ul class="show-notification">
+                                <li>
+                                    <h6>Notificaciones</h6>
+                                    <label class="label label-danger">Nuevas</label>
+                                </li>
+
+                                @*Listado Notificacion*@
+                                @foreach (var item in ViewBag.lisnotifi)
+                                {
+                                    if (@item.Tnoti == 1)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                            <a onclick="doc(@item.IdDocumento);">
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Nuevo documento compartido</h5>
+                                                        <p class="notification-msg">@item.Documento</p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (@item.Tnoti == 2)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                            <a>
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Documento Prestado</h5>
+                                                        <p class="notification-msg">El usuario @item.Nombre te a dado custodia del documento: @item.Documento</p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
                                         </li>
 
-                                        @*Listado Notificacion*@
-                                        @foreach (var item in ViewBag.lisnotifi)
-                                        {
-                                            if (@item.Tnoti == 1)
-                                            {
-                                                <li class="waves-effect waves-light">
-                                                    <a onclick="doc(@item.IdDocumento);">
-                                                        <div class="media">
-                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
-                                                            <div class="media-body">
-                                                                <h5 class="notification-user">Nuevo documento compartido</h5>
-                                                                <p class="notification-msg">@item.Documento</p>
-                                                                <span class="notification-time"></span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                            }
-                                            else if (@item.Tnoti == 2)
-                                            {
-                                                <li class="waves-effect waves-light">
-                                                    <a>
-                                                        <div class="media">
-                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
-                                                            <div class="media-body">
-                                                                <h5 class="notification-user">Nuevo documento Prestado</h5>
-                                                                <p class="notification-msg">@item.Documento</p>
-                                                                <span class="notification-time"></span>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
+                                    }
+                                    else if (@item.Tnoti == 3)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                             <a onclick="Nvista(@item.Id);">
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Plazo caducado</h5>
+                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento @item.Documento que asignaste al usuario @item.Nombre </p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
 
-                                            }
+                                }
 
-                                        }
-
-                                    </ul>
+                            </ul>
                                 }
 
                             </li>
@@ -536,18 +552,27 @@
 
         }
 
-        //$(function () {
-        //    $('#jstree').jstree();
-        //    $('#jstree').on("changed.jstree", function (e, data) {
-        //        console.log(data.selected);
-        //    });
+        function Nvista(documento) {
+        var obj = {};
+        obj['Id'] = documento;
 
-        //    $('button').on('click', function () {
-        //        $('#jstree').jstree(true).select_node('child_node_1');
-        //        $('#jstree').jstree('select_node', 'child_node_1');
-        //        $.jstree.reference('#jstree').select_node('child_node_1');
-        //    });
-        //});
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamo", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+
+        }
     </script>
 
 

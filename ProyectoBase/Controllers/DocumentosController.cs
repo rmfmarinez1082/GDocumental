@@ -96,6 +96,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.carpetas = Carpetas;
 
                 documento.IdUsuario = Usuario.Id;
+                documento.Id= Id;
                 List <Models.Documento> InfoDP = documentos.SP_INF_Prestado(documento);
                 ViewBag.CustodiaD = InfoDP;
 

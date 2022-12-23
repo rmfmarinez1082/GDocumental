@@ -148,6 +148,7 @@ namespace ProyectoBase.Controllers
 
             if (Usuario != null)
             {
+                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
@@ -456,6 +457,14 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             Dnotificacion.IdUsuario = Usuario.Id;
             Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+            return Json(DesactivarNot);
+        }
+        [HttpPost]
+        public JsonResult desactivarNotiPrestamo(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
+        {
+        
+            Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionPrestamo(Dnotificacion);
 
             return Json(DesactivarNot);
         }
