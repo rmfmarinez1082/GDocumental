@@ -1,5 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using ProyectoBase.Application;
 using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,24 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : Controller
     {
+        public ActionResult CheckDoc(Application.Documentos documentos, Models.Documento documento, Application.Notification Anotification, Models.Notification _notification)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
+            ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+            ViewBag.Id = Usuario.Id;
+            ViewBag.Rol = Usuario.NombreRol;
+            List<Models.Documento> InfoDP = documentos.CheckDocPrestado();
+            ViewBag.CustodiaD = InfoDP;
+
+            _notification.IdUsuario = Usuario.Id;
+            List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+            ViewBag.lisnotifi = notificar;
+            Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+            ViewBag.CountNoti = CountNoti;
+            
+            return View();
+        }
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
             Application.List_Doc listadoAdmin)
@@ -138,7 +156,7 @@ namespace ProyectoBase.Controllers
             Models.Documento_Versiones _documento_Versiones,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
-            Models.Notification _notification, Application.Notification Anotification)
+            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -148,7 +166,6 @@ namespace ProyectoBase.Controllers
 
             if (Usuario != null)
             {
-                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
@@ -187,6 +204,16 @@ namespace ProyectoBase.Controllers
 
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
+
+                List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
+
+                foreach (var dtUsuario in lisUser)
+                {
+                    correo.EnvioCorreoExpira(dtUsuario);
+
+                }
+
+                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
                 return View();
 
             }
@@ -511,6 +538,22 @@ namespace ProyectoBase.Controllers
             return Json(clasificacionArchivos);
         }
 
+        //EXPIRADO
+        [HttpPost]
+        public JsonResult DocExpirado(Application.LisUser APlisUser, Application.Correo correo, Application.Notification Anotification)
+        {
+            List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
+
+            foreach (var dtUsuario in lisUser)
+            {
+                correo.EnvioCorreoExpira(dtUsuario);
+
+            }
+
+            Models.Notification analisis = Anotification.SP_NotiFechaTermino();
+
+            return Json(lisUser);
+        }
 
     }
 

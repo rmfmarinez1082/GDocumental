@@ -11,6 +11,7 @@ namespace ProyectoBase.Controllers
 {
     public class DocumentosController : Controller
     {
+
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
             Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
@@ -933,8 +934,23 @@ namespace ProyectoBase.Controllers
             notificationId.IdAdmin = Usuario.Id;
             Models.Notification notifi = notificacion.SP_Prestamo(notificationId);
 
+            Models.LisUser lisUser1 = new Models.LisUser();
+            lisUser1.IdPer = notificationId.IdUsuario;
+            List<Models.LisUser> lisUser = APlisUser.SP_LisUserper(lisUser1);
 
-    
+
+            Models.Documento documentoInfo = new Models.Documento();
+            documentoInfo.Id = NCompartir.IdDocumento;
+            Models.Documento documento = Apdocumentos.SP_ListarDocumento(documentoInfo);
+
+
+            foreach (var dtUsuario in lisUser)
+            {
+                correo.EnvioCorreoPrestamo(dtUsuario);
+
+            }
+
+
             return Json(notifi);
         }
     }

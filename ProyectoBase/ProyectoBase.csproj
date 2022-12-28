@@ -607,6 +607,7 @@
     <Content Include="Views\Documentos\DCustodia.cshtml" />
     <Content Include="Views\Documentos\EditarCustodia.cshtml" />
     <Content Include="Views\Documentos\DirectorioFDC.cshtml" />
+    <Content Include="Views\Administracion\CheckDoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

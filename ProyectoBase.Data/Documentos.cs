@@ -275,6 +275,31 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        } 
+        public List<Models.Documento> CheckDocPrestado()
+        {
+            b.ExecuteCommandSP("CheckDocPrestado");
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    NmArchivo = reader["Documento"].ToString(),
+                    DiasRestantes = Convert.ToInt32(reader["DiasRestantes"].ToString()),
+                    Nombre = reader["Receptor"].ToString(),
+                    Descripcion = reader["Email_Receptor"].ToString(),
+                    Elaboro = reader["Emisor"].ToString(),
+                    NmOriginal = reader["Email_Emisor"].ToString()
+
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
         }
     }
 }
