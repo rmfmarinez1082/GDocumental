@@ -153,7 +153,7 @@ namespace ProyectoBase.Controllers
 
 
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
-            Models.Documento_Versiones _documento_Versiones,
+            Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
             Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo)
@@ -206,6 +206,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.CountNoti = CountNoti;
 
                 List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
+              
 
                 foreach (var dtUsuario in lisUser)
                 {

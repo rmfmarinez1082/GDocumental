@@ -102,6 +102,7 @@ namespace ProyectoBase.Data
         }
 
         public Models.Documento SP_ListarDocumento(Models.Documento documento)
+        
         {
             b.ExecuteCommandSP("SP_ListarDocumento");
             b.AddParameter("@IdDoc", documento.Id, SqlDbType.Int);

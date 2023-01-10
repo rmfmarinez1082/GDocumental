@@ -157,6 +157,10 @@
                                         <li>
                                             <h6>Notificaciones</h6>
                                             <label class="label label-info">Nada por aquí</label>
+                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                <img src="~/Images/Headers/Email_1.gif"style="height:90px; width:auto; margin-left:30%"/>
+                                            </div>
+                                           
                                         </li>
 
                                     </ul>
@@ -202,7 +206,7 @@
                                                     <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
                                                         <h5 class="notification-user">Documento Prestado</h5>
-                                                        <p class="notification-msg">El usuario @item.Nombre te a dado custodia del documento: @item.Documento</p>
+                                                        <p class="notification-msg">El usuario @item.NombreEmisor te a dado custodia del documento: @item.Documento</p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>
@@ -219,7 +223,8 @@
                                                     <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
                                                         <h5 class="notification-user">Plazo caducado</h5>
-                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento @item.Documento que asignaste al usuario @item.Nombre </p>
+                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento @item.Documento que te asigno el usuario @item.NombreEmisor.
+                                                        Has la devolución del documento lo más pronto posible.</p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>

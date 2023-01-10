@@ -940,13 +940,13 @@ namespace ProyectoBase.Controllers
 
 
             Models.Documento documentoInfo = new Models.Documento();
-            documentoInfo.Id = NCompartir.IdDocumento;
+            documentoInfo.Id = notificationId.IdDocumento;
             Models.Documento documento = Apdocumentos.SP_ListarDocumento(documentoInfo);
 
 
             foreach (var dtUsuario in lisUser)
             {
-                correo.EnvioCorreoPrestamo(dtUsuario);
+                correo.EnvioCorreoPrestamo(documento,dtUsuario);
 
             }
 

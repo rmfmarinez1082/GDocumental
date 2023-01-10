@@ -13,6 +13,7 @@ namespace ProyectoBase.Models
         public int Ids { get; set; }
         public int IdDocumento { get; set; }
         public string Nombre { get; set; }
+        public string NombreEmisor { get; set; }
         public string Documento { get; set; }
         public string NmArchivo { get; set; }
         public int IdAdmin { get; set; }

@@ -48,6 +48,7 @@ namespace ProyectoBase.Data
                     IdUsuario = Convert.ToInt32(reader["IdUsuario"].ToString()),
                     Id= Convert.ToInt32(reader["Id"].ToString()),
                     Nombre = reader["Nombre"].ToString(),
+                    NombreEmisor = reader["Emisor"].ToString(),
                     Documento = reader["Documento"].ToString(),
                     IdDocumento = Convert.ToInt32(reader["IdDocumento"].ToString()),
                     NmArchivo = reader["NmArchivo"].ToString(),

@@ -118,6 +118,7 @@ namespace ProyectoBase.Data
                 {
                     Nombre = reader["Nombre"].ToString(),
                     Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Documento = reader["Documento"].ToString(),
                     EMail = reader["EMail"].ToString()
                 };
                 resultado.Add(item);

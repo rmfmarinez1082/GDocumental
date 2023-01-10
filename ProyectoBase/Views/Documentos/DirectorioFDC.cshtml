@@ -43,6 +43,8 @@
 
 
                         <div class="card-body">
+                                <button class="btn btn-sm waves-effect waves-light btn-info" onclick="Root()" id="btguardar"> <i class="fa fa-plus-square-o"></i>Crear carpeta Principal</button>
+                         <br /><br />
                             <div id="jstree">
                                 @Html.Raw(ViewBag.carpetas);
 
@@ -205,44 +207,6 @@
 
 
                             }
-                         },
-                        "carpetaRoot": {
-                             "label": "Crear carpeta principal",
-                             "action": function () {
-                                 $("#jstree").jstree("create_node", null, null, "last", function (node) {
-
-                                     var obj = {
-                                         "Nombre": node.text, "Idtemporal": node.id
-                                     };
-
-                                     var jsonObject = {
-                                         "nuevaClas": obj
-                                     };
-                                     $.ajax({
-                                        type: "POST",
-                                        url: "@Url.Action("RegistrarCarpeta", "Documentos")",
-                                        async: false,
-                                        data: JSON.stringify(jsonObject),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-
-                                            if (data.Id == 1) {
-
-
-                                            }
-                                            else {
-
-                                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
-                                            }
-
-                                        }
-                                     });
-
-                                     this.edit(node);
-
-                                 });
-                             }
                          }
                     }
                  },
@@ -309,6 +273,42 @@
             error: function (resultado) {
                 alert("Error de ejecucion ");
             }
+        });
+    }
+
+    function Root() {
+        $("#jstree").jstree("create_node", null, null, "last", function (node) {
+
+            var obj = {
+                "Nombre": node.text, "Idtemporal": node.id
+            };
+
+            var jsonObject = {
+                "nuevaClas": obj
+            };
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("RegistrarCarpeta", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.Id == 1) {
+
+
+                }
+                else {
+
+                    $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                }
+
+            }
+            });
+
+            this.edit(node);
+
         });
     }
 </script>

@@ -149,18 +149,18 @@ namespace ProyectoBase.Application
             return result;
         }
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        public bool EnvioCorreoPrestamo(Models.LisUser user)
+        public bool EnvioCorreoPrestamo(Models.Documento documento, Models.LisUser user)
         {
             bool validacion = false;
             WSCorreo.CorreoSoapClient correo1 = new WSCorreo.CorreoSoapClient();
-            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Nuevo Documento Prestado", FormatoHTMLDocumentoPrestamo(user)) == "Correo enviado")
+            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Nuevo Documento Prestado", FormatoHTMLDocumentoPrestamo(documento, user)) == "Correo enviado")
             {
                 validacion = true;
             }
             return validacion;
         }
 
-        public string FormatoHTMLDocumentoPrestamo(Models.LisUser user)
+        public string FormatoHTMLDocumentoPrestamo(Models.Documento documento,Models.LisUser user)
         {
             string host = HttpContext.Current.Request.Url.Authority;
             string result = "";
@@ -231,7 +231,7 @@ namespace ProyectoBase.Application
                 "<table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>" +
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Roboto', sans-serif;; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> se te ha otorgado la custia del documento.</p>" +
+                            "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> se te ha otorgado la custia del documento: " + documento.Nombre + "</p>" +
                         "</td>" +
                     "</tr>" +
                     "<tr>" +
@@ -242,11 +242,11 @@ namespace ProyectoBase.Application
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;'>" +
                               //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Empresa :</strong> </p>" +
-                              //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Titulo :" + documento.Nombre + "</strong> </p>" +
+                              "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Titulo :" + documento.Nombre + "</strong> </p>" +
                              // "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Compartido por :</strong> </p>" +
                              //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Vigencia :" + documento.Vigencia + "</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Descripción :" + documento.Descripcion + "</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Versión :" + documento.Version + " </strong> </p>" +
+                             "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Descripción :" + documento.Descripcion + "</strong> </p>" +
+                             "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Versión :" + documento.Version + " </strong> </p>" +
                              "</br>" +
                              //"<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "/Administracion/Vista?Id=" + documento.Id + "'><span>Ver Documento</span></a>" +
                     "</td>" +
@@ -372,7 +372,7 @@ namespace ProyectoBase.Application
                 "<table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>" +
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Roboto', sans-serif;; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> el tiempo de custodia del documento a expirado.</p>" +
+                            "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> el tiempo de custodia del documento: " + user.Documento + " a expirado.</p>" +
                         "</td>" +
                     "</tr>" +
                     "<tr>" +
