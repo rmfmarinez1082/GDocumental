@@ -248,7 +248,7 @@ namespace ProyectoBase.Application
                              "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Descripción :" + documento.Descripcion + "</strong> </p>" +
                              "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Versión :" + documento.Version + " </strong> </p>" +
                              "</br>" +
-                             //"<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "/Administracion/Vista?Id=" + documento.Id + "'><span>Ver Documento</span></a>" +
+                             "<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
                     "</td>" +
                     "</tr>" +
                     "</tr>" +
@@ -375,21 +375,11 @@ namespace ProyectoBase.Application
                             "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> el tiempo de custodia del documento: " + user.Documento + " a expirado.</p>" +
                         "</td>" +
                     "</tr>" +
-                    "<tr>" +
-                        "<td bgcolor='#AAD2F7' align='center' style='padding: 2px 3px 4px 3px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<h2 style='font-size: 20px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Información del Documento.</strong> </h2>" +
-                        "</td>" +
-                    "</tr>" +
+                   
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;'>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Empresa :</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Titulo :" + documento.Nombre + "</strong> </p>" +
-                             // "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Compartido por :</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Vigencia :" + documento.Vigencia + "</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Descripción :" + documento.Descripcion + "</strong> </p>" +
-                             //"<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Versión :" + documento.Version + " </strong> </p>" +
                              "</br>" +
-                    //"<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "/Administracion/Vista?Id=" + documento.Id + "'><span>Ver Documento</span></a>" +
+                             "<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
                     "</td>" +
                     "</tr>" +
                     "</tr>" +

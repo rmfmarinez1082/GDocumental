@@ -113,6 +113,22 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public Models.Notification SP_DesactivarNPrestamo(Models.Notification notificationA)
+        {
+            b.ExecuteCommandSP("SP_DesactivarNPrestamo");
+            b.AddParameter("@Id", notificationA.Id, SqlDbType.VarChar);
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Ids = Convert.ToInt32(reader["Ids"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
         //Conteo de Notificaciones vistas o no vistas
 
         public Models.Notification SP_DocVisto(Models.Notification DocVisto)

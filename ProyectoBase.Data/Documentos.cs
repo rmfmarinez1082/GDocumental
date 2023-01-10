@@ -220,9 +220,9 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdTipoArchivo", Adoc.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", Adoc.IdMedioAlmacenamiento, SqlDbType.Int);
             b.AddParameter("@IdClasificacion", Adoc.IdClasificacion, SqlDbType.Int);
-            b.AddParameter("@IdClasificacionArchivo", Adoc.IdClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdSubclasificacionArchivo", Adoc.IdSubclasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdNombre3  ", Adoc.IdNombre3, SqlDbType.Int);
+            //b.AddParameter("@IdClasificacionArchivo", Adoc.IdClasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdSubclasificacionArchivo", Adoc.IdSubclasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdNombre3  ", Adoc.IdNombre3, SqlDbType.Int);
             Models.Documento resultado = new Models.Documento();
             var reader = b.ExecuteReader();
             while (reader.Read())

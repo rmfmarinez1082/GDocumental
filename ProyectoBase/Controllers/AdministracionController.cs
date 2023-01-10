@@ -166,6 +166,16 @@ namespace ProyectoBase.Controllers
 
             if (Usuario != null)
             {
+                List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
+
+
+                foreach (var dtUsuario in lisUser)
+                {
+                    correo.EnvioCorreoExpira(dtUsuario);
+
+                }
+
+                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
@@ -205,16 +215,7 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
-                List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
-              
 
-                foreach (var dtUsuario in lisUser)
-                {
-                    correo.EnvioCorreoExpira(dtUsuario);
-
-                }
-
-                Models.Notification analisis = Anotification.SP_NotiFechaTermino();
                 return View();
 
             }
@@ -493,6 +494,14 @@ namespace ProyectoBase.Controllers
         {
         
             Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionPrestamo(Dnotificacion);
+
+            return Json(DesactivarNot);
+        } 
+        [HttpPost]
+        public JsonResult desactivarNotiPrestamos(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
+        {
+        
+            Models.Notification DesactivarNot = Apnotificacion.SP_DesactivarNPrestamo(Dnotificacion);
 
             return Json(DesactivarNot);
         }

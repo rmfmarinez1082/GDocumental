@@ -37,6 +37,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <link href="~/assets/dist/themes/default/style.min.css" rel="stylesheet" />
+
+    <style>
+        strong{
+            font-weight:700;
+        }
+    </style>
 </head>
 
 <body>
@@ -200,13 +206,13 @@
                                     else if (@item.Tnoti == 2)
                                     {
                                         <li class="waves-effect waves-light">
-                                            <a>
+                                            <a onclick="NvistaP(@item.Id);">
                                                 <div class="media">
                                                     @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <i class="fa fa-share-alt" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
                                                         <h5 class="notification-user">Documento Prestado</h5>
-                                                        <p class="notification-msg">El usuario @item.NombreEmisor te a dado custodia del documento: @item.Documento</p>
+                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor.</strong> te a dado custodia del documento: <strong> @item.Documento </strong></p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>
@@ -220,11 +226,30 @@
                                              <a onclick="Nvista(@item.Id);">
                                                 <div class="media">
                                                     @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
                                                         <h5 class="notification-user">Plazo caducado</h5>
-                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento @item.Documento que te asigno el usuario @item.NombreEmisor.
+                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que te asigno el usuario <strong>@item.NombreEmisor.</strong>
                                                         Has la devolución del documento lo más pronto posible.</p>
+                                                        <span class="notification-time"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (@item.Tnoti == 4)
+                                    {
+                                        <li class="waves-effect waves-light">
+                                             <a onclick="Nvista(@item.Id);">
+                                                <div class="media">
+                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                    <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
+                                                    <div class="media-body">
+                                                        <h5 class="notification-user">Plazo caducado</h5>
+                                                        <p class="notification-msg">
+                                                            A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que asignaste al usuario <strong>@item.NombreEmisor.</strong>
+                                                            solicita la devolución del documento lo más pronto posible.
+                                                        </p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>
@@ -568,6 +593,29 @@
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("desactivarNotiPrestamo", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    location.reload();
+                }
+            });
+
+        }
+
+        function NvistaP(documento) {
+            alert(1);
+        var obj = {};
+        obj['Id'] = documento;
+
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamos", "Administracion")",
                 async: false,
                 data: JSON.stringify(jsonObject),
                 contentType: "application/json; charset=utf-8",

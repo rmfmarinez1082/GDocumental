@@ -843,7 +843,6 @@ namespace ProyectoBase.Controllers
                 Models.Documento documento = Apdocumentos.SP_ListarDocumento(documento1);
 
                 Models.LisUser lisUser1 = new Models.LisUser();
-                //lisUser1.IdAdmin = Usuario.Id;
                 lisUser1.IdEntidad = NCompartir.IdEntidad;
                 lisUser1.IdAsignacion = NCompartir.IdAsignacion;
                 List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(lisUser1);
@@ -934,22 +933,23 @@ namespace ProyectoBase.Controllers
             notificationId.IdAdmin = Usuario.Id;
             Models.Notification notifi = notificacion.SP_Prestamo(notificationId);
 
-            Models.LisUser lisUser1 = new Models.LisUser();
-            lisUser1.IdPer = notificationId.IdUsuario;
-            List<Models.LisUser> lisUser = APlisUser.SP_LisUserper(lisUser1);
+            if (notifi.Id == 1) { 
+                    Models.LisUser lisUser1 = new Models.LisUser();
+                    lisUser1.IdPer = notificationId.IdUsuario;
+                    List<Models.LisUser> lisUser = APlisUser.SP_LisUserper(lisUser1);
 
 
-            Models.Documento documentoInfo = new Models.Documento();
-            documentoInfo.Id = notificationId.IdDocumento;
-            Models.Documento documento = Apdocumentos.SP_ListarDocumento(documentoInfo);
+                    Models.Documento documentoInfo = new Models.Documento();
+                    documentoInfo.Id = notificationId.IdDocumento;
+                    Models.Documento documento = Apdocumentos.SP_ListarDocumento(documentoInfo);
 
 
-            foreach (var dtUsuario in lisUser)
-            {
-                correo.EnvioCorreoPrestamo(documento,dtUsuario);
+                    foreach (var dtUsuario in lisUser)
+                    {
+                        correo.EnvioCorreoPrestamo(documento,dtUsuario);
 
+                    }
             }
-
 
             return Json(notifi);
         }

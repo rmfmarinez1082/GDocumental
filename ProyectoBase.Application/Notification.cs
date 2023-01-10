@@ -39,6 +39,10 @@ namespace ProyectoBase.Application
         {
             return _notification.SP_NotificacionPrestamo(notificationA);
         }
+        public Models.Notification SP_DesactivarNPrestamo(Models.Notification notificationA)
+        {
+            return _notification.SP_DesactivarNPrestamo(notificationA);
+        }
 
         public Models.Notification SP_DocVisto(Models.Notification DocVisto)
         {
