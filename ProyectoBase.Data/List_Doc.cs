@@ -22,6 +22,8 @@ namespace ProyectoBase.Data
                 Models.List_Doc item = new Models.List_Doc()
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
+                    IdTipoArchivo = Convert.ToInt32(reader["Custodia"].ToString()),
+                    IdMedioAlmacenamiento = Convert.ToInt32(reader["Prestamo"].ToString()),
                     Nombre = reader["Nombre"].ToString(),
                     Version = reader["Version"].ToString(),
                     Descripcion = reader["Descripcion"].ToString(),

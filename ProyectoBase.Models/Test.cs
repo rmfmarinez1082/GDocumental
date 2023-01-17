@@ -97,7 +97,25 @@ namespace ProyectoBase.Models
             return resultado;
         }
 
+        public static Models.Notification SP_EstadoPrestasmo(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("SP_EstadoPrestasmo");
+            b.AddParameter("@IdSesion", datos.IdUsuario, SqlDbType.VarChar);
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
 
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Ids = Convert.ToInt32(reader["Dias"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
 
     }
 }

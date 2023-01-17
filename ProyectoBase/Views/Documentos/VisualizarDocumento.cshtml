@@ -11,7 +11,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="page-header-title">
-                        <h5 class="m-b-10"><i class="fa fa-eye" aria-hidden="true"></i>  Visualizar Documentos</h5>
+                        <h5 class="m-b-10">Visualizar Documentos</h5>
                         <p class="m-b-0"> </p>
                     </div>
                 </div>
@@ -39,7 +39,21 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Mis Documentos  </h5>
-                                    <span>Observa tus documentos cargados en el sistema</span>
+                                    
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <span>Observa tus documentos cargados en el sistema</span>
+                                        </div>
+
+                                        <div class="col-5 d-flex d-flex justify-content-center">
+                                            <a><i class="fa fa-flag f-20" style="color: #2ECC71"></i>&nbsp;&nbsp;Vigente</a>
+                                            &nbsp;&nbsp;
+                                            <a><i class="fa fa-flag f-20" style="color: #F1C40F"></i>&nbsp;&nbsp;Por terminar</a>
+                                            &nbsp;&nbsp;
+                                            <a><i class="fa fa-flag f-20" style="color: #E74C3C"></i>&nbsp;&nbsp;Vencido</a>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="card-block">
@@ -52,27 +66,105 @@
                                                     <th style="color:white">Nombre</th>
                                                     <th class="text-center" style="color:white">Detalle</th>
                                                     <th class="text-center" style="color:white">Editar</th>
-                                                    <th style="display:none;" class="text-center">palabras cable</th>
+                                                    <th style="display:none;" class="text-center">palabras clable</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
-                                                    @*<th class="text-center" style="color:white">Dejar de Compartir</th>*@
+                                                    <th class="text-center" style="color:white">Almacen físico</th>
+                                                    <th class="text-center" style="color:white">Prestamo</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
                                                 @foreach (var item in ViewBag.dtList_Doc)
-                                                 {
+                                                {
 
                                                     <tr>
-                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                        @if (item.IdMedioAlmacenamiento == 0)
+                                                        {
+                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+
+                                                        }
+
                                                         <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
                                                         <td style="display:none;"><a>@item.PalabrasClave</a></td>
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20"></i></a></td>
                                                         <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-                                                        @*<td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>*@
+                                                        @if (item.IdTipoArchivo == 1)
+                                                        {
+                                                            <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><a>No aplica</a></td>
+
+                                                        }
+                                                        @if (item.IdTipoArchivo == 1)
+                                                        {
+                                                            if (item.IdMedioAlmacenamiento == 0)
+                                                            {
+                                                                <td class="text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20"></i></a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                _notification.IdUsuario = Usuario.Id;
+                                                                _notification.IdDocumento = item.Id;
+
+                                                                var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                if (Num.Ids >= 16)
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a>
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #2ECC71">
+
+
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                                else if (Num.Ids <= 15 && Num.Ids > 1)
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a>
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #F1C40F">
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                                else if (Num.Ids < 1 )
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a>
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #E74C3C">
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+
+
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><a>No aplica</a></td>
+                                                        }
+
                                                     </tr>
-                                                 }
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -208,7 +300,57 @@
     </div>
 </div>
 
+<!-- Modal Prestar-->
+<div class="modal fade " id="ModalPrestar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PrestarTitulo"></h5>
+                <input type="hidden" id="IdPrestar" />
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Seleciona la persona a la cual prestar tu documento </p>
 
+                <div class="col-md-12 col-lg-12">
+                    <div class="row" id="EmpleadosHide">
+
+                        <div class="col">
+                            <label for="largeInput">Empresa </label>
+                            <select class="form-control" id="empresaEmpleadoP" onchange="ConsultaUsuarioP(this.value, this.text)" ">
+                                <option value="0">Seleccionar </option>
+                                @foreach (var item1 in ViewBag.dtEmpresasListado)
+                                {
+                                    <option value="@item1.Id">@item1.Nombre</option>
+
+                                }
+
+                            </select>
+                            <br />
+                            <div class="form-group">
+                                <label for="largeInput">Fecha límite de prestamo</label>
+                                <input type="date" class="form-control form-control input-number" id="FechaPublicacionP" onkeypress="return soloNum(event)">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <label for="largeInput">Persona </label>
+                            <select class="form-control" id="EmpleadoP">
+                                <option value="0">Seleccionar </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="GuardarPrestar()">Prestar</button>
+                        <button type="button" id="BtnclosePrestar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 
@@ -410,7 +552,7 @@
                 success: function (data) {
 
                     $("#Btnclosecomparto").trigger("click");
-                
+
                     if (data.Id == 1) {
                         swal({
                             title: "Documento Compartido. !",
@@ -623,8 +765,6 @@
     }
     }
 
-
-
     function ConsultaDepartamento (Id){
 
     $('#Departamento').empty();
@@ -724,6 +864,174 @@
         }
     });
 }
+
+    function Ruta(Id) {
+
+       window.location.href='@Url.Action("EditarCustodia", "Documentos")?Id=' + Id;
+    }
+
+
+    //INICIO PRESTAR
+    function Prestar(id) {
+
+        $('#ModalPrestar').modal('show');
+        ListarPrestarPorId(id);
+    }
+
+    function ListarPrestarPorId(id) {
+    var obj = {};
+    obj['Id'] = id;
+
+    var jsonObject = {
+        "list_Doc": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+
+        success: function (resultado) {
+            $('#IdPrestar').val(resultado[0].Id);
+            $('#PrestarTitulo').text('Prestar Documento: ' + resultado[0].Nombre);
+        },
+        error: function (resultado) {
+            alert("Error funcion listar  prestar por ID ");
+        }
+    });
+    }
+
+    function GuardarPrestar() {
+        if (validaPrestrar()) {
+            
+            var obj = {};
+            obj['IdDocumento'] = $("#IdPrestar").val();
+            obj['IdUsuario'] = $("#EmpleadoP option:selected").val();
+            obj['fecha'] = $("#FechaPublicacionP").val();
+
+            var jsonObject = {
+                "notificationId": obj
+            };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Prestar", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#BtnclosePrestar").trigger("click");
+                    //console.log(data)
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Documento Prestado. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "El Documento que intentas Prestar esta en custodia de otro usuario.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
+                }
+            });
+        } else {
+            $.notify("Completa el formulario.", "error");
+        }
+    }
+
+    function validaPrestrar() {
+        var result = false;
+
+
+        $('#empresaEmpleadoP').css("border", "1px solid #ff0049");
+        $('#EmpleadoP').css("border", "1px solid #ff0049");
+        $('#FechaPublicacionP').css("border", "1px solid #ff0049");
+
+
+        if ($("#empresaEmpleadoP option:selected").val() > 0) {
+            $('#empresaEmpleadoP').css("border", "1px solid #cccccc");
+        }
+        if ($("#EmpleadoP option:selected").val() > 0) {
+            $('#EmpleadoP').css("border", "1px solid #cccccc");
+        }
+        if ($('#FechaPublicacionP').val().length > 0) {
+            $('#FechaPublicacionP').css("border", "1px solid #cccccc");
+        }
+
+        if ($("#empresaEmpleadoP option:selected").val() > 0) {
+            if ($("#EmpleadoP option:selected").val() > 0) {
+                if ($('#FechaPublicacionP').val().length > 0) {
+                    result = true;
+                }
+            }
+        }
+
+
+        return result;
+
+    }
+
+    function ConsultaUsuarioP (Id){
+
+        $('#EmpleadoP').empty();
+
+    var obj = {};
+    obj['Id'] = Id;
+    var jsonObject = {
+        "LisUser": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("User_Listar", "Documentos")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        error: function (resultado) {
+            alert("MANDAR MENSAJE SE ERROR");
+
+            var option = $(document.createElement('option'));
+            option.text("Seleccionar");
+            option.val(0);
+
+            $("#EmpleadoP").append(option);
+        },
+        success: function (resultado) {
+
+
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#EmpleadoP").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#EmpleadoP").append(option);
+
+                });
+
+        }
+    });
+    }
+
 </script>
 
 <script>

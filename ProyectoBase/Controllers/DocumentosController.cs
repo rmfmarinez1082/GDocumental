@@ -39,32 +39,7 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
-        public ActionResult DCustodia(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-             Application.EmpresasListado empresasListado)
-        {
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            if (Usuario != null)
-            {
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                ViewBag.Rol = Usuario.NombreRol;
 
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-
-                _list_Doc.IdSesion = Usuario.Id;
-                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentosCustodia(_list_Doc);
-                ViewBag.dtList_Doc = dtList_Doc;
-
-                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
-                ViewBag.dtEmpresasListado = dtEmpresasListado;
-
-                return View();
-            }
-            else { return RedirectToAction("Index", "Home"); }
-        }
 
         public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
             Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)

@@ -220,7 +220,7 @@ namespace ProyectoBase.Application
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='center' valign='top' style='padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Roboto', sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 3px; line-height: 48px;'>" +
                             "<img src='https://tickets.asae.com.mx/Imagenes/LogoAsaeTikets.png' width='125' height='120' style='display: block; border: 0px;' />" +
-                            "<h1 style='font-size: 40px;font-family: 'Roboto', sans-serif; font-weight: 600; margin: 3; '>Nevo Documento compartido Gestión Documental!</h1>" +
+                            "<h1 style='font-size: 40px;font-family: 'Roboto', sans-serif; font-weight: 600; margin: 3; '>Nuevo prestamo !</h1>" +
                         "</td>" +
                     "</tr>" +
                 "</table>" +
@@ -294,7 +294,7 @@ namespace ProyectoBase.Application
         {
             bool validacion = false;
             WSCorreo.CorreoSoapClient correo1 = new WSCorreo.CorreoSoapClient();
-            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Documento Expirado", FormatoHTMLDocumentoExpirado(user)) == "Correo enviado")
+            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Prestamo Expirado", FormatoHTMLDocumentoExpirado(user)) == "Correo enviado")
             {
                 validacion = true;
             }
@@ -361,7 +361,7 @@ namespace ProyectoBase.Application
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='center' valign='top' style='padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Roboto', sans-serif; font-size: 48px; font-weight: 400; letter-spacing: 3px; line-height: 48px;'>" +
                             "<img src='https://tickets.asae.com.mx/Imagenes/LogoAsaeTikets.png' width='125' height='120' style='display: block; border: 0px;' />" +
-                            "<h1 style='font-size: 40px;font-family: 'Roboto', sans-serif; font-weight: 600; margin: 3; '>Nevo Documento compartido Gestión Documental!</h1>" +
+                            "<h1 style='font-size: 40px;font-family: 'Roboto', sans-serif; font-weight: 600; margin: 3; '>Prestamo Expirado</h1>" +
                         "</td>" +
                     "</tr>" +
                 "</table>" +
