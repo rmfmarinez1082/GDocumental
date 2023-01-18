@@ -58,6 +58,9 @@ namespace ProyectoBase.Application
         {
             return _Documentos.CheckDocPrestado();
         }
-
+        public Models.Documento SP_NPrestar(Models.Documento Ddoc)
+        {
+            return _Documentos.SP_NPrestar(Ddoc);
+        }
     }
 }

@@ -190,10 +190,12 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    //resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += ObtenerDocUbicación(dt);
+
                     resulCarpetas += "</li>";
 
                 }
@@ -214,8 +216,12 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += ObtenerDocUbicación(dt);
+
                     resulCarpetas += "</li>";
 
                 }
@@ -223,7 +229,40 @@ namespace ProyectoBase.Controllers
             }
             return resulCarpetas;
         }
-        
+        public string ObtenerDocUbicación(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            cat_ClasificacionDoc.IdTres = Usuario.Id;
+
+            int Id = 0;
+            Id = Convert.ToInt32(Request.QueryString["Id"]);
+            Models.Documento doc = new Documento();
+            doc.Id = Id;
+
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocCustodiaUbicacion(cat_ClasificacionDoc,doc);
+
+            string resulDoc = "";
+
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulDoc += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    string variable = "data-jstree='{\"selected\" : true,\"icon\":\"fa fa-file-text-o\"}'";
+                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre;
+                    resulDoc += "</li>";
+
+                }
+                resulDoc += "</ul>";
+            }
+
+            return resulDoc;
+        }
+
+
+
         public string ObtenerPCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -927,6 +966,17 @@ namespace ProyectoBase.Controllers
             }
 
             return Json(notifi);
+        }
+
+        [HttpPost]
+        public JsonResult DevolverDoc(Models.Documento documento, Application.Documentos AppDoc)
+        {
+
+            //Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            //documento.IdUsuario = Usuario.Id;
+            Models.Documento Ddocument = AppDoc.SP_NPrestar(documento);
+
+            return Json(Ddocument);
         }
     }
 }

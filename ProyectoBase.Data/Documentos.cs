@@ -302,5 +302,22 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+        public Models.Documento SP_NPrestar(Models.Documento Ddoc)
+        {
+
+            b.ExecuteCommandSP("SP_NPrestar");
+            b.AddParameter("@IdDocumento", Ddoc.Id, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

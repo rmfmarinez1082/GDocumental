@@ -598,7 +598,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    location.reload();
+                    window.location.href = "@Url.Action("VisualizarDocumento", "Documentos")";
                 }
             });
 
