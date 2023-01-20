@@ -102,6 +102,7 @@ namespace ProyectoBase.Data
         }
 
         public Models.Documento SP_ListarDocumento(Models.Documento documento)
+        
         {
             b.ExecuteCommandSP("SP_ListarDocumento");
             b.AddParameter("@IdDoc", documento.Id, SqlDbType.Int);
@@ -219,9 +220,9 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdTipoArchivo", Adoc.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", Adoc.IdMedioAlmacenamiento, SqlDbType.Int);
             b.AddParameter("@IdClasificacion", Adoc.IdClasificacion, SqlDbType.Int);
-            b.AddParameter("@IdClasificacionArchivo", Adoc.IdClasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdSubclasificacionArchivo", Adoc.IdSubclasificacionArchivo, SqlDbType.Int);
-            b.AddParameter("@IdNombre3  ", Adoc.IdNombre3, SqlDbType.Int);
+            //b.AddParameter("@IdClasificacionArchivo", Adoc.IdClasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdSubclasificacionArchivo", Adoc.IdSubclasificacionArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdNombre3  ", Adoc.IdNombre3, SqlDbType.Int);
             Models.Documento resultado = new Models.Documento();
             var reader = b.ExecuteReader();
             while (reader.Read())
@@ -271,6 +272,48 @@ namespace ProyectoBase.Data
 
                 };
                 resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        } 
+        public List<Models.Documento> CheckDocPrestado()
+        {
+            b.ExecuteCommandSP("CheckDocPrestado");
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    NmArchivo = reader["Documento"].ToString(),
+                    DiasRestantes = Convert.ToInt32(reader["DiasRestantes"].ToString()),
+                    Nombre = reader["Receptor"].ToString(),
+                    Descripcion = reader["Email_Receptor"].ToString(),
+                    Elaboro = reader["Emisor"].ToString(),
+                    NmOriginal = reader["Email_Emisor"].ToString()
+
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento SP_NPrestar(Models.Documento Ddoc)
+        {
+
+            b.ExecuteCommandSP("SP_NPrestar");
+            b.AddParameter("@IdDocumento", Ddoc.Id, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
             }
             reader = null;
             b.ConnectionCloseToTransaction();

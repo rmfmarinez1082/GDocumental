@@ -26,6 +26,9 @@ namespace ProyectoBase.Application
         {
             return _LisUser.SP_ListUserEntidad(ListUserEntidad);
         }
-
+        public List<Models.LisUser> SP_UserExpirado()
+        {
+            return _LisUser.SP_UserExpirado();
+        }
     }
 }

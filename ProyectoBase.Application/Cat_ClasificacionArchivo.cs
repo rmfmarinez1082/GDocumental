@@ -63,11 +63,14 @@ namespace ProyectoBase.Application
         {
             return _cat_ClasificacionArchivo.SP_DocPadreCustodia(cat_ClasificacionArchivo);
         }
+        public List<Models.Cat_ClasificacionArchivo> SP_DocCustodiaUbicacion(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Models.Documento documento)
+        {
+            return _cat_ClasificacionArchivo.SP_DocCustodiaUbicacion(cat_ClasificacionArchivo, documento);
+        }
+            //CUSTODIAS
 
-        //CUSTODIAS
 
-
-        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+            public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             return _cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
         }

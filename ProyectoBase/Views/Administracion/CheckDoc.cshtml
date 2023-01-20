@@ -1,0 +1,105 @@
+﻿
+@{
+
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Documentos Prestados</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Docs Prestados</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Documentos Compartidos </h5>
+                                    <span>Observa los documentos prestados</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="Custodia" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+                                                    <th style="color:white">Id</th>
+                                                    <th style="color:white">Documento</th>
+                                                    <th class="text-center" style="color:white">Estado</th>
+                                                    <th class="text-center" style="color:white">Receptor</th>
+                                                    <th class="text-center" style="color:white">Email_receptor</th>
+                                                    <th class="text-center" style="color:white">Emisor</th>
+                                                    <th class="text-center" style="color:white">Email_emisor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.CustodiaD)
+                                                {
+
+                                                    <tr>
+                                                        <td><a>@item.Id</a></td>
+                                                        <td><a>@item.NmArchivo</a></td>
+                                                        <td class="text-center">@item.DiasRestantes</td>
+                                                        <td class="text-center"><a>@item.Nombre</a></td>
+                                                        <td class="text-center"><a>@item.Descripcion</a></td>
+                                                        <td class="text-center"><a>@item.Elaboro</a></td>
+                                                        <td class="text-center"><a>@item.NmOriginal</a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                                <button onclick="Ver()">TEST</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function Ver() {
+         $.ajax({
+            url: "@Url.Action("DocExpirado", "Administracion")",
+            data: "",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json"
+        });
+    }
+</script>

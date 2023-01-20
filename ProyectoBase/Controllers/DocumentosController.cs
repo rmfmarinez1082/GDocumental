@@ -11,6 +11,7 @@ namespace ProyectoBase.Controllers
 {
     public class DocumentosController : Controller
     {
+
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
             Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
         {
@@ -38,32 +39,7 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
-        public ActionResult DCustodia(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-             Application.EmpresasListado empresasListado)
-        {
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            if (Usuario != null)
-            {
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                ViewBag.Rol = Usuario.NombreRol;
 
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-
-                _list_Doc.IdSesion = Usuario.Id;
-                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentosCustodia(_list_Doc);
-                ViewBag.dtList_Doc = dtList_Doc;
-
-                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
-                ViewBag.dtEmpresasListado = dtEmpresasListado;
-
-                return View();
-            }
-            else { return RedirectToAction("Index", "Home"); }
-        }
 
         public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
             Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
@@ -214,10 +190,12 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                    //resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += ObtenerDocUbicación(dt);
+
                     resulCarpetas += "</li>";
 
                 }
@@ -238,8 +216,12 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "'" + var + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia(dt);
+                    resulCarpetas += ObtenerDocUbicación(dt);
+
                     resulCarpetas += "</li>";
 
                 }
@@ -247,7 +229,40 @@ namespace ProyectoBase.Controllers
             }
             return resulCarpetas;
         }
-        
+        public string ObtenerDocUbicación(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            cat_ClasificacionDoc.IdTres = Usuario.Id;
+
+            int Id = 0;
+            Id = Convert.ToInt32(Request.QueryString["Id"]);
+            Models.Documento doc = new Documento();
+            doc.Id = Id;
+
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocCustodiaUbicacion(cat_ClasificacionDoc,doc);
+
+            string resulDoc = "";
+
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulDoc += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    string variable = "data-jstree='{\"selected\" : true,\"icon\":\"fa fa-file-text-o\"}'";
+                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre;
+                    resulDoc += "</li>";
+
+                }
+                resulDoc += "</ul>";
+            }
+
+            return resulDoc;
+        }
+
+
+
         public string ObtenerPCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -842,7 +857,6 @@ namespace ProyectoBase.Controllers
                 Models.Documento documento = Apdocumentos.SP_ListarDocumento(documento1);
 
                 Models.LisUser lisUser1 = new Models.LisUser();
-                //lisUser1.IdAdmin = Usuario.Id;
                 lisUser1.IdEntidad = NCompartir.IdEntidad;
                 lisUser1.IdAsignacion = NCompartir.IdAsignacion;
                 List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(lisUser1);
@@ -933,9 +947,36 @@ namespace ProyectoBase.Controllers
             notificationId.IdAdmin = Usuario.Id;
             Models.Notification notifi = notificacion.SP_Prestamo(notificationId);
 
+            if (notifi.Id == 1) { 
+                    Models.LisUser lisUser1 = new Models.LisUser();
+                    lisUser1.IdPer = notificationId.IdUsuario;
+                    List<Models.LisUser> lisUser = APlisUser.SP_LisUserper(lisUser1);
 
-    
+
+                    Models.Documento documentoInfo = new Models.Documento();
+                    documentoInfo.Id = notificationId.IdDocumento;
+                    Models.Documento documento = Apdocumentos.SP_ListarDocumento(documentoInfo);
+
+
+                    foreach (var dtUsuario in lisUser)
+                    {
+                        correo.EnvioCorreoPrestamo(documento,dtUsuario);
+
+                    }
+            }
+
             return Json(notifi);
+        }
+
+        [HttpPost]
+        public JsonResult DevolverDoc(Models.Documento documento, Application.Documentos AppDoc)
+        {
+
+            //Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            //documento.IdUsuario = Usuario.Id;
+            Models.Documento Ddocument = AppDoc.SP_NPrestar(documento);
+
+            return Json(Ddocument);
         }
     }
 }

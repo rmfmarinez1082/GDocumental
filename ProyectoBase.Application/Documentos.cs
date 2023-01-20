@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBase.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,5 +54,13 @@ namespace ProyectoBase.Application
             return _Documentos.SP_INF_Prestado(documento);
         }
 
+        public List<Models.Documento> CheckDocPrestado()
+        {
+            return _Documentos.CheckDocPrestado();
+        }
+        public Models.Documento SP_NPrestar(Models.Documento Ddoc)
+        {
+            return _Documentos.SP_NPrestar(Ddoc);
+        }
     }
 }

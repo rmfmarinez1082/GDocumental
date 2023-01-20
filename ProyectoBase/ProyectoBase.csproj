@@ -322,15 +322,8 @@
     <Content Include="fonts\PlayfairDisplay\OFL.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\Headers\1.png" />
-    <Content Include="Images\Headers\5.jpg" />
-    <Content Include="Images\Headers\6.jpg" />
     <Content Include="Images\Headers\7.jpeg" />
-    <Content Include="Images\Headers\DOC.jfif" />
-    <Content Include="Images\Headers\Fondos-Servicios-06.jpg" />
-    <Content Include="Images\Headers\nty.png" />
-    <Content Include="Images\Headers\pic1.png" />
-    <Content Include="Images\Headers\Tecnología de la Información AdobeStock_267042064.jpeg" />
+    <Content Include="Images\Headers\Email_1.gif" />
     <Content Include="Images\Headers\user1.png" />
     <Content Include="Images\Headers\user2.png" />
     <Content Include="Images\Headers\user3.png" />
@@ -428,7 +421,6 @@
     <Content Include="fonts\Poppins\Poppins-SemiBoldItalic.ttf" />
     <Content Include="fonts\Poppins\Poppins-Thin.ttf" />
     <Content Include="fonts\Poppins\Poppins-ThinItalic.ttf" />
-    <Content Include="Images\Headers\2.webp" />
     <Content Include="assets\icon\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="assets\icon\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="assets\icon\font-awesome\fonts\fontawesome-webfont.woff" />
@@ -604,9 +596,9 @@
     <Content Include="Views\Administracion\Index.cshtml" />
     <Content Include="Views\Administracion\Micuenta.cshtml" />
     <Content Include="Views\Documentos\VistaDetalleAdmin.cshtml" />
-    <Content Include="Views\Documentos\DCustodia.cshtml" />
     <Content Include="Views\Documentos\EditarCustodia.cshtml" />
     <Content Include="Views\Documentos\DirectorioFDC.cshtml" />
+    <Content Include="Views\Administracion\CheckDoc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

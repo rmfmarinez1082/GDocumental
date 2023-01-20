@@ -86,7 +86,7 @@
 
                                             <tr>
                                                 @*<td><a>@item.Nombre</a></td>*@
-                                                @if (@item.Id == 1)
+                                                @if (@item.Id >= 1)
                                                 {
                                                     <td class="text-center"><span class="label label-success">Activo</span></td>
 
@@ -234,7 +234,7 @@
         }
 
         $('#menuDocumentos').addClass("active pcoded-trigger");
-        $('#DocumentoCustodia').addClass("active");
+        $('#visaulizarDocumento').addClass("active");
 
         function Validaclasificacion() {
             var result = false;

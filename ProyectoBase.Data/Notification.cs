@@ -48,6 +48,7 @@ namespace ProyectoBase.Data
                     IdUsuario = Convert.ToInt32(reader["IdUsuario"].ToString()),
                     Id= Convert.ToInt32(reader["Id"].ToString()),
                     Nombre = reader["Nombre"].ToString(),
+                    NombreEmisor = reader["Emisor"].ToString(),
                     Documento = reader["Documento"].ToString(),
                     IdDocumento = Convert.ToInt32(reader["IdDocumento"].ToString()),
                     NmArchivo = reader["NmArchivo"].ToString(),
@@ -99,6 +100,22 @@ namespace ProyectoBase.Data
         public Models.Notification SP_NotificacionPrestamo(Models.Notification notificationA)
         {
             b.ExecuteCommandSP("SP_NotificacionPrestamo");
+            b.AddParameter("@Id", notificationA.Id, SqlDbType.VarChar);
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Ids = Convert.ToInt32(reader["Ids"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Notification SP_DesactivarNPrestamo(Models.Notification notificationA)
+        {
+            b.ExecuteCommandSP("SP_DesactivarNPrestamo");
             b.AddParameter("@Id", notificationA.Id, SqlDbType.VarChar);
             Models.Notification resultado = new Models.Notification();
             var reader = b.ExecuteReader();

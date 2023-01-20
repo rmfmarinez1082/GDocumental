@@ -22,11 +22,12 @@ namespace ProyectoBase.Data
                 Models.ListarCompartir item = new Models.ListarCompartir()
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
+                    prestamo = Convert.ToInt32(reader["Prestamo"].ToString()),
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     FechaVencimiento = reader["FechaVencimiento"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
                     NombreWord = reader["NmArchivoword"].ToString(),
-                    PalabrasClave = reader["PalabrasClave"].ToString() 
+                    PalabrasClave = reader["PalabrasClave"].ToString()
                 };
                 resultado.Add(item);
             }

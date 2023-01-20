@@ -59,7 +59,7 @@ namespace ProyectoBase.Data
         //SP MOSTRAR DATOS DE UN USUARIO POR ID DE PERSONA
         public List<Models.LisUser> SP_LisUserper(Models.LisUser LisUserper)
         {
-            b.ExecuteCommandSP("SP_LisUserDepEmp");
+            b.ExecuteCommandSP("SP_LisUserper");
             b.AddParameter("@IdPer", LisUserper.IdPer, SqlDbType.VarChar);
 
 
@@ -97,6 +97,28 @@ namespace ProyectoBase.Data
                 {
                     Nombre = reader["Nombre"].ToString(),
                     Id = Convert.ToInt32(reader["Id"].ToString()),
+                    EMail = reader["EMail"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public List<Models.LisUser> SP_UserExpirado()
+        {
+            b.ExecuteCommandSP("SP_UserExpirado");
+
+            List<Models.LisUser> resultado = new List<Models.LisUser>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.LisUser item = new Models.LisUser()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Documento = reader["Documento"].ToString(),
                     EMail = reader["EMail"].ToString()
                 };
                 resultado.Add(item);
