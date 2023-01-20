@@ -105,6 +105,8 @@
                                                             <td class="text-center"><a>No aplica</a></td>
 
                                                         }
+                                                       
+                                                        
                                                         @if (item.IdTipoArchivo == 1)
                                                         {
                                                             if (item.IdMedioAlmacenamiento == 0)
@@ -341,7 +343,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="GuardarPrestar()">Prestar</button>
+                        <button type="button" id="BtnGPrestar" class="btn btn-primary" onclick="GuardarPrestar()">Prestar</button>
                         <button type="button" id="BtnclosePrestar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -904,6 +906,7 @@
 
     function GuardarPrestar() {
         if (validaPrestrar()) {
+            $("#BtnGPrestar").prop('disabled', true);
 
             var obj = {};
             obj['IdDocumento'] = $("#IdPrestar").val();
@@ -923,7 +926,6 @@
                 success: function (data) {
 
                     $("#BtnclosePrestar").trigger("click");
-                    //console.log(data)
                     if (data.Id == 1) {
                         swal({
                             title: "Documento Prestado. !",
@@ -946,6 +948,8 @@
 
                 }
             });
+            $("#BtnGPrestar").prop('disabled', false);
+
         } else {
             $.notify("Completa el formulario.", "error");
         }

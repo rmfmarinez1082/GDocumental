@@ -351,7 +351,7 @@
                                         <li class=" " id="DocumentoCompartido">
                                             <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos</span>
+                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos/Prestamos</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li> 
@@ -605,7 +605,6 @@
         }
 
         function NvistaP(documento) {
-            alert(1);
         var obj = {};
         obj['Id'] = documento;
 
@@ -621,8 +620,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    location.reload();
-                }
+                window.location.href = "@Url.Action("DocCompartidos", "Documentos")";                }
             });
 
         }
