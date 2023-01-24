@@ -90,7 +90,7 @@
                     'check_callback': true
                 },
 
-                'plugins': ['contextmenu'/*, 'dnd'*/, 'state', 'wholerow'],
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow'],
 
                  "contextmenu": {
                     items: {
@@ -247,10 +247,23 @@
             });
 
             // $('#jstree').on('redraw.jstree', function (e, data) {
+            //     console.log(data);
+            //     var arr = [data];
+            //     var last = arr[arr.length - 1];
+            //     console.log("Ubicacion nueva:",last);
 
-            //     alert('MOviste algo');
-                
+            //     var ref = $("#jstree").jstree(true);
+            //     var sel = ref.get_selected();
+            //     console.log("Id movido",sel);
             //});
+        $('#jstree').bind('move_node.jstree', function (e, data) {
+            console.log("movido", data.node.id);
+            console.log("Destino", data.parent);
+               
+                //alert(data.old_parent);
+                //alert(data.position);
+                //console.log(data);
+            });
     });
 
      function SeleccionarPorId(documento) {
