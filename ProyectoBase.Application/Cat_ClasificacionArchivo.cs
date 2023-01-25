@@ -102,6 +102,12 @@ namespace ProyectoBase.Application
             return _cat_ClasificacionArchivo.RegistrarCarpeta(nuevaclas);
         }
 
+        public Models.Cat_ClasificacionArchivo SP_DNDCustodia(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            return _cat_ClasificacionArchivo.SP_DNDCustodia(NdN);
+        }
+
     }
 
 

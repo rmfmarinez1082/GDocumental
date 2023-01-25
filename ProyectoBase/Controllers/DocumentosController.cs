@@ -329,7 +329,7 @@ namespace ProyectoBase.Controllers
                 foreach (var dt in dtSClasificacionArchivo)
                 {
                     string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
-                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre;
+                    resulDoc += "<li " + variable + " tipo='1'  onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
                     resulDoc += "</li>";
 
                 }
@@ -977,6 +977,14 @@ namespace ProyectoBase.Controllers
             Models.Documento Ddocument = AppDoc.SP_NPrestar(documento);
 
             return Json(Ddocument);
+        }
+
+        [HttpPost]
+        public JsonResult MoverRutasCustodia(Models.Cat_ClasificacionArchivo NdN, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DNDCustodia(NdN);
+
+            return Json(carpetaD);
         }
     }
 }
