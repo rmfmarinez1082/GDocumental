@@ -426,6 +426,68 @@ namespace ProyectoBase.Data
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
+        } 
+        public Models.Cat_ClasificacionArchivo SP_DNDocumentoCustodia(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            b.ExecuteCommandSP("SP_DNDocumentoCustodia");
+
+            b.AddParameter("@Idtemporal", NdN.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", NdN.Idpadre, SqlDbType.VarChar);
+
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Cat_ClasificacionArchivo SP_DNDCarpetas(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            b.ExecuteCommandSP("SP_DNDCarpetas");
+
+            b.AddParameter("@Idtemporal", NdN.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", NdN.Idpadre, SqlDbType.VarChar);
+
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Cat_ClasificacionArchivo SP_DNDocumento(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            b.ExecuteCommandSP("SP_DNDocumento");
+
+            b.AddParameter("@Idtemporal", NdN.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdPadre", NdN.Idpadre, SqlDbType.VarChar);
+
+
+            Models.Cat_ClasificacionArchivo resultado = new Models.Cat_ClasificacionArchivo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
         }
     }
 }

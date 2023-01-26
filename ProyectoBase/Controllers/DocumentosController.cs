@@ -329,7 +329,7 @@ namespace ProyectoBase.Controllers
                 foreach (var dt in dtSClasificacionArchivo)
                 {
                     string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
-                    resulDoc += "<li " + variable + " tipo='1'  onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
+                    resulDoc += "<li id='"+ dt.Id +"'  " + variable + "onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
                     resulDoc += "</li>";
 
                 }
@@ -986,5 +986,26 @@ namespace ProyectoBase.Controllers
 
             return Json(carpetaD);
         }
+        public JsonResult MoverRutasDocumentoCustodia(Models.Cat_ClasificacionArchivo NdN, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DNDocumentoCustodia(NdN);
+
+            return Json(carpetaD);
+        }
+
+        public JsonResult MoverRutasDocumentos(Models.Cat_ClasificacionArchivo NdN, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DNDCarpetas(NdN);
+
+            return Json(carpetaD);
+        }
+
+        public JsonResult MoverDocumento(Models.Cat_ClasificacionArchivo NdN, Application.Cat_ClasificacionArchivo Apcarpeta)
+        {
+            Models.Cat_ClasificacionArchivo carpetaD = Apcarpeta.SP_DNDocumento(NdN);
+
+            return Json(carpetaD);
+        }
+
     }
 }
