@@ -90,7 +90,7 @@
                     'check_callback': true
                 },
 
-                'plugins': ['contextmenu'/*, 'dnd'*/, 'state', 'wholerow'],
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'crrm'],
 
                  "contextmenu": {
                     items: {
@@ -246,11 +246,76 @@
                 });
             });
 
-            // $('#jstree').on('redraw.jstree', function (e, data) {
+        $('#jstree').bind('move_node.jstree', function (e, data) {
 
-            //     alert('MOviste algo');
-                
-            //});
+
+                if (data.node.parent == '#') {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre":  '0' };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+                else {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+
+            if (data.node.icon == "fa fa-file-text-o") {
+
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("MoverRutasDocumentoCustodia", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#BtnSubclas").trigger("click");
+
+                        if (data.Id == 1) {
+
+                            $.notify("Documento Reubicado.", "success");
+                        }
+                        else {
+
+                            $.notify("No es posible mover a esta ruta.", "error");
+                        }
+
+                    }
+
+                });
+            } else {
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("MoverRutasCustodia", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#BtnSubclas").trigger("click");
+
+                        if (data.Id == 1) {
+
+                            $.notify("Carpeta Reubicada.", "success");
+                        }
+                        else {
+
+                            $.notify("No es posible mover a esta ruta.", "error");
+                        }
+
+                    }
+
+                });
+
+            }
+
+
+            });
     });
 
      function SeleccionarPorId(documento) {

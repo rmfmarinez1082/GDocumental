@@ -140,7 +140,8 @@ namespace ProyectoBase.Controllers
                 foreach (var dt in dtSClasificacionArchivo)
                 {
                     string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
-                    resulDoc += "<li " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
+                    resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
+
                     resulDoc += "</li>";
 
                 }

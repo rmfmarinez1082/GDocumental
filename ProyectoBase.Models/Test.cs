@@ -116,6 +116,41 @@ namespace ProyectoBase.Models
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public static Models.Notification SP_StatusDoCompartido(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("SP_StatusDoCompartido");
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
+
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Ids = Convert.ToInt32(reader["Compartido"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        } public static Models.Notification sp_NombreRutaDoc(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("sp_NombreRutaDoc");
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
+
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Nombre = reader["Nombre"].ToString();
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
 
     }
 }

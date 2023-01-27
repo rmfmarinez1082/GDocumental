@@ -102,6 +102,28 @@ namespace ProyectoBase.Application
             return _cat_ClasificacionArchivo.RegistrarCarpeta(nuevaclas);
         }
 
+        public Models.Cat_ClasificacionArchivo SP_DNDCustodia(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            return _cat_ClasificacionArchivo.SP_DNDCustodia(NdN);
+        }
+        public Models.Cat_ClasificacionArchivo SP_DNDocumentoCustodia(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            return _cat_ClasificacionArchivo.SP_DNDocumentoCustodia(NdN);
+        }
+
+        public Models.Cat_ClasificacionArchivo SP_DNDCarpetas(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            return _cat_ClasificacionArchivo.SP_DNDCarpetas(NdN);
+        }
+        public Models.Cat_ClasificacionArchivo SP_DNDocumento(Models.Cat_ClasificacionArchivo NdN)
+
+        {
+            return _cat_ClasificacionArchivo.SP_DNDocumento(NdN);
+        }
+
     }
 
 
