@@ -43,8 +43,25 @@
 
 
                         <div class="card-body">
-                                <button class="btn btn-sm waves-effect waves-light btn-info" onclick="Root()" id="btguardar"> <i class="fa fa-plus-square-o"></i>Crear carpeta Principal</button>
-                         <br /><br />
+                            <div class="row justify-content-around">
+
+                                <div class="col-8 p-15 p-b-0">
+                                    <form class="form-material">
+                                        <div class="form-group form-primary">
+                                            <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-4">
+                                    <button style="margin-top: 22px;" class="btn btn-sm waves-effect waves-light btn-info" onclick="Root()" id="btguardar"> <i class="fa fa-plus-square-o"></i>Crear carpeta Principal</button>
+                                </div>
+
+                            </div>
+                 
+                            <br /><br />
                             <div id="jstree">
                                 @Html.Raw(ViewBag.carpetas);
 
@@ -90,7 +107,7 @@
                     'check_callback': true
                 },
 
-                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'crrm'],
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'crrm', 'search'],
 
                  "contextmenu": {
                     items: {
@@ -212,6 +229,14 @@
                  },
 
             });
+            var to = false;
+            $('#plugins4_q').keyup(function () {
+                if (to) { clearTimeout(to); }
+                to = setTimeout(function () {
+                    var v = $('#plugins4_q').val();
+                    $('#jstree').jstree(true).search(v);
+                }, 250);
+            });
 
             $('#jstree').on('rename_node.jstree', function (e, data) {
 
@@ -246,7 +271,7 @@
                 });
             });
 
-        $('#jstree').bind('move_node.jstree', function (e, data) {
+            $('#jstree').bind('move_node.jstree', function (e, data) {
 
 
                 if (data.node.parent == '#') {

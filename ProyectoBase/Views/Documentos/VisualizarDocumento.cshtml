@@ -4,6 +4,28 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
+<style>
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        background-color: rgb(0 0 0 / 0%);
+        color: #fff;
+        padding: 0px 30px 8px 20px;
+    }
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        margin-top: 12px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 46px !important;
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        width: 20px;
+    }
+</style>
+
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -39,7 +61,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Mis Documentos  </h5>
-                                    
+
                                     <div class="row justify-content-between">
                                         <div class="col-6">
                                             <span>Observa tus documentos cargados en el sistema</span>
@@ -185,13 +207,13 @@
                                                             ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
-                                                               
-                                                            <td><i class="fa fa-folder-open-o"></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+
+                                                            <td class=""><i class="fa fa-folder-open-o"></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                         }
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
 
                                                     </tr>
-                                                 }
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -208,7 +230,7 @@
 
 
 <!-- VIEW compartir-->
-<div class="modal fade " id="ModalCompartir" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade " id="ModalCompartir" data-bs-backdrop="static" data-bs-keyboard="false" style="overflow:hidden;" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -380,11 +402,13 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
-
+@*SCRIPTS SELECT2--*@
+<link href="~/Vendor/select2/dist/css/select2.css" rel="stylesheet" />
+<script src="~/Vendor/select2/dist/js/select2.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
+
         $('#Notificacion').DataTable({
 
             pageLength: 5,
@@ -401,12 +425,23 @@
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
         });
+
+        $('#Empleado').select2({
+            dropdownParent: $("#ModalCompartir")
+        });
+        $('#Departamento').select2({
+            dropdownParent: $("#ModalCompartir")
+        });
+        $('#EmpleadoP').select2({
+            dropdownParent: $("#ModalPrestar")
+        });
+
     });
 
-        $("#DepartamentoHide").hide();
-        $("#EmpleadosHide").hide();
-        $("#Empresahide").hide();
-        $("#Provedorhide").hide();
+    $("#DepartamentoHide").hide();
+    $("#EmpleadosHide").hide();
+    $("#Empresahide").hide();
+    $("#Provedorhide").hide();
     //Funcion detalles del documento
 
     function VerDetalle(Id) {

@@ -43,7 +43,7 @@
         position: relative
     }
 
-    .process-step p {
+        .process-step p {
             margin-top: 4px
         }
 
@@ -63,7 +63,7 @@
         color: #555 !important;
     }
 
-   /* @@media (min-width: 768px) {
+    /* @@media (min-width: 768px) {
         .modal-dialog {
             width: 600px;
             margin: 150px auto;
@@ -379,7 +379,7 @@
         border-radius: 2px;
     }
 
-     select.form-control:not([size]):not([multiple]) {
+        select.form-control:not([size]):not([multiple]) {
             height: 36px;
         }
 
@@ -636,7 +636,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="form-material col-md-2 col-lg-2">
                                                             <br />
                                                             <div class="form-check">
@@ -668,77 +668,89 @@
                                                             <p>Selecciona la carpeta en la cual guardaras tu documento. Completa los campos marcados * </p>
                                                         </div>
                                                     </div>
-                                        
+                                                    <div class="row justify-content-start">
+
+                                                        <div class="col-4 p-15 p-b-0">
+                                                            <form class="form-material">
+                                                                <div class="form-group form-primary">
+                                                                    <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
+                                                                    <span class="form-bar"></span>
+                                                                    <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
                                                     @*ELEMENTOS PRINCIPALES*@
-                                                <div class="row">
+                                                    <div class="row">
 
-                                                    <div class="col-md-4" style="overflow:auto;">
-                                                        <div class="card-body">
-                                                            <div id="jstree">
-                                                                @Html.Raw(ViewBag.carpetas);
+                                                        <div class="col-md-4" style="overflow:auto;">
+                                                            <div class="card-body">
+                                                                <div id="jstree">
+                                                                    @Html.Raw(ViewBag.carpetas);
+                                                                </div>
+
+
                                                             </div>
-
-
                                                         </div>
-                                                    </div>
 
-                                                    <div class="container col-md-4">
-                                                        <br />
-                                                        <div class="m-0 vh-100 row justify-content-center align-items-center">
-                                                            <div class="col-md-6">
-                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                    <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                        <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br />
-                                                                            <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                                                        </button>
+                                                        <div class="container col-md-4">
+                                                            <br />
+                                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                                <div class="col-md-6">
+                                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                        <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                            <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br />
+                                                                                <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                                <div class="col-md-6">
+                                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                                        <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                            <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
+                                                                                <div class="row">
+                                                                                    <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                                    <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                                    <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                                </div>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            @*SELECT*@
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="largeInput">* Clasificación </label>
+                                                                        <select class="form-control" id="Clasificacion">
+                                                                            <option value="0">Seleccionar </option>
+                                                                            @foreach (var item1 in ViewBag.dtClasificacion)
+                                                                            {
+                                                                                <option value="@item1.Id">@item1.Nombre</option>
+                                                                            }
+                                                                        </select>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
-                                                            @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                            <div class="col-md-6">
-                                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
-                                                                    <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                        <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
-                                                                            <div class="row">
-                                                                                <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                                <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                            </div>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @*SELECT*@
-                                                        <div class="row">
-                                                            <div class="col-md-12 col-lg-12">
-                                                                <div class="form-group">
-                                                                    <label for="largeInput">* Clasificación </label>
-                                                                    <select class="form-control" id="Clasificacion">
-                                                                        <option value="0">Seleccionar </option>
-                                                                        @foreach (var item1 in ViewBag.dtClasificacion)
-                                                                        {
-                                                                            <option value="@item1.Id">@item1.Nombre</option>
-                                                                        }
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                            <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+
                                                         </div>
 
-                                                        <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+                                                        @*IFRAME*@
+                                                        <div class="col-md-4 container text-center">
+                                                            <h5>PREVISUALIZACIÓN</h5>
+                                                            <iframe id="iframepdf" width="90%" height="90%" frameborder="0"></iframe>
+                                                        </div>
 
                                                     </div>
-
-                                                    @*IFRAME*@
-                                                    <div class="col-md-4 container text-center">
-                                                        <h5>PREVISUALIZACIÓN</h5>
-                                                        <iframe id="iframepdf" width="90%" height="90%" frameborder="0"></iframe>
-                                                    </div>
-
-                                                </div>
 
                                                     <br />
                                                     <br />
@@ -1893,11 +1905,11 @@
                 $('#Select_MedioAlmacenamiento').css("border", "1px solid #cccccc");
             }
 
-            
+
 
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 if ($("#Select_MedioAlmacenamiento option:selected").val()  > 0) {
-                        result = true;  
+                        result = true;
                 }
             }
 
@@ -1976,13 +1988,13 @@
                     $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
                 }
             } else {
-    
+
                 $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
 
             }
         } else {
 
-       
+
             $.notify("La FechaRevisión debe ser menor a la Fecha de Publicación.", "warn");
 
 
@@ -2417,7 +2429,6 @@
         });
 
         $('[href="#menu1"]').tab('show');
-
     });
 </script>
 
@@ -2433,7 +2444,7 @@
                     'check_callback': true
                 },
 
-                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow'],
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
 
                  "contextmenu": {
                     items: {
@@ -2593,6 +2604,14 @@
                  },
 
             });
+            var to = false;
+            $('#plugins4_q').keyup(function () {
+                if (to) { clearTimeout(to); }
+                to = setTimeout(function () {
+                    var v = $('#plugins4_q').val();
+                    $('#jstree').jstree(true).search(v);
+                }, 250);
+            });
 
             $('#jstree').on('rename_node.jstree', function (e, data) {
 
@@ -2644,7 +2663,7 @@
                     };
                 }
 
-            
+
                  $.ajax({
                     type: "POST",
                     url: "@Url.Action("MoverRutasDocumentos", "Documentos")",
@@ -2683,8 +2702,16 @@ else
                     'check_callback': true
                 },
 
-                'plugins': ['state', 'wholerow'],
+                'plugins': ['state', 'wholerow', 'search'],
 
+            });
+            var to = false;
+            $('#plugins4_q').keyup(function () {
+                if (to) { clearTimeout(to); }
+                to = setTimeout(function () {
+                    var v = $('#plugins4_q').val();
+                    $('#jstree').jstree(true).search(v);
+                }, 250);
             });
 
         });
