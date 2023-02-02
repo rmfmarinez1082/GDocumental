@@ -122,6 +122,23 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+        public Models.Documento sp_NombreRutaDoc(Models.Documento doc)
+        {
+            b.ExecuteCommandSP("sp_NombreRutaDoc");
+            b.AddParameter("@IdDoc ", doc.Id, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Nombre = reader["Nombre"].ToString();
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
         public Models.Documento SP_DocumentoInfo(Models.Documento doc)
         {
             b.ExecuteCommandSP("SP_DocumentoInfo");
@@ -133,16 +150,30 @@ namespace ProyectoBase.Data
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
                 resultado.Nombre = reader["Nombre"].ToString();
+
                 resultado.FechaEntradaVigor = reader["FechaEntradaVigor"].ToString();
+                resultado.FechaRevision = reader["FechaRevision"].ToString();
+                resultado.FechaPublicacion = reader["FechaPublicacion"].ToString();
+                resultado.FechaVencimiento = reader["FechaVencimiento"].ToString();
+                resultado.FechaProximaRevision = reader["FechaProximaRevision"].ToString();
+
+                resultado.TipoDoc = reader["TipoDoc"].ToString();
+                resultado.ClasificacionDoc = reader["ClasificacionDoc"].ToString();
+                resultado.Registro = reader["Registrado"].ToString();
+
+                resultado.PalabraClave = reader["PalabrasClave"].ToString();
                 resultado.Version = reader["Version"].ToString();
                 resultado.Descripcion = reader["Descripcion"].ToString();
                 resultado.NmArchivo = reader["NmArchivo"].ToString();
+                
+                resultado.MedioAlmacenamiento = reader["MedioAlmacenamiento"].ToString();
+                resultado.Extension = reader["Extension"].ToString();
             }
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-        
+
         public Models.Documento SP_DocumentoInfo2(Models.Documento doc2)
         {
             b.ExecuteCommandSP("SP_DocumentoInfo2");
@@ -175,9 +206,7 @@ namespace ProyectoBase.Data
                 resultado.IdTipoArchivo = Convert.ToInt32(reader["IdTipoArchivo"].ToString());
                 resultado.IdMedioAlmacenamiento = Convert.ToInt32(reader["IdMedioAlmacenamiento"].ToString());
                 resultado.IdClasificacion = Convert.ToInt32(reader["IdClasificacion"].ToString());
-                //resultado.IdClasificacionArchivo = Convert.ToInt32(reader["IdClasificacionArchivo"].ToString());
-                //resultado.IdSubclasificacionArchivo = Convert.ToInt32(reader["IdSubClasificacionArchivo"].ToString());
-                //resultado.IdNombre3 = Convert.ToInt32(reader["IdNombre3"].ToString());
+  
             }
             reader = null;
             b.ConnectionCloseToTransaction();
