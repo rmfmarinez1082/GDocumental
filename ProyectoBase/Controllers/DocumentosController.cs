@@ -141,8 +141,7 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
+                   
                     resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
@@ -444,11 +443,12 @@ namespace ProyectoBase.Controllers
 
 
                     Models.Documento documento = documentos.SP_DocumentoInfo(doc);
-                    ViewBag.nombredoc = documento.Nombre;
-                    ViewBag.Descripcion = documento.Descripcion;
-                    ViewBag.version = documento.Version;
-                    ViewBag.NArchivo = documento.NmArchivo;
+                    ViewBag.InfoDoc = documento;
+                  
                     ViewBag.Ruta = "DocumentosTemporales";
+
+                    Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
+                    ViewBag.Ruta = documentoR.Nombre;
 
                     Models.List_Doc info = new List_Doc();
                     info.Id = Id;

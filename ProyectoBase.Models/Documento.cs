@@ -21,6 +21,11 @@ namespace ProyectoBase.Models
         public string DocumentoURL { get; set; }
         public DateTime Fecha_Registro { get; set; }
 
+        public string Registro { get; set; }
+        public string TipoDoc { get; set; } 
+        public string ClasificacionDoc { get; set; }
+
+
         public string FechaRevision { get; set; }
         public string FechaEntradaVigor { get; set; }
         public string FechaPublicacion { get; set; }
@@ -44,5 +49,8 @@ namespace ProyectoBase.Models
         public string Descripcion { get; set; } //Email
         public string Elaboro { get; set; } //emisor
         public string NmOriginal { get; set; } //email Emisor
+
+        public string MedioAlmacenamiento { get; set; }
+        public string Extension { get; set; }
     }
 }

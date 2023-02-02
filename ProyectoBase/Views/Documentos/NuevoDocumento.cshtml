@@ -739,8 +739,10 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-
-                                                            <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+                                                            @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            {
+                                                                <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+                                                            }
 
                                                         </div>
 

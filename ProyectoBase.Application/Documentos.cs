@@ -34,6 +34,10 @@ namespace ProyectoBase.Application
         {
             return _Documentos.SP_DocumentoInfo(doc);
         }
+        public Models.Documento sp_NombreRutaDoc(Models.Documento doc)
+        {
+            return _Documentos.sp_NombreRutaDoc(doc);
+        }
 
         public Models.Documento SP_DocumentoInfo2(Models.Documento doc2)
         {
