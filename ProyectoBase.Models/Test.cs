@@ -133,7 +133,25 @@ namespace ProyectoBase.Models
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
-        } public static Models.Notification sp_NombreRutaDoc(Models.Notification datos)
+        } 
+        public static Models.Documento SP_ASKCOmpartido(Models.Documento datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("SP_ASKCOmpartido");
+            b.AddParameter("@IdDoc", datos.Id, SqlDbType.VarChar);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Id = Convert.ToInt32(reader["Result"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }public static Models.Notification sp_NombreRutaDoc(Models.Notification datos)
         {
             AccesoDatos b = new AccesoDatos();
             b.ExecuteCommandSP("sp_NombreRutaDoc");

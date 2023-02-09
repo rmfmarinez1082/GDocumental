@@ -1007,5 +1007,13 @@ namespace ProyectoBase.Controllers
             return Json(carpetaD);
         }
 
+        [HttpPost]
+        public JsonResult DoCompartido(Models.List_Doc list_Doc, Application.List_Doc APlist_Doc)
+        {
+           List<Models.List_Doc> LisDoc = APlist_Doc.DetalleDocCompartidoAdmin(list_Doc);
+
+            return Json(LisDoc);
+        }
+
     }
 }

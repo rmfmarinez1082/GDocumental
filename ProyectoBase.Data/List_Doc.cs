@@ -155,6 +155,28 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public List<Models.List_Doc> DetalleDocCompartidoAdmin(Models.List_Doc list_Doc)
+        {
+            b.ExecuteCommandSP("DetalleDocCompartidoAdmin");
+            b.AddParameter("@IdDoc", list_Doc.Id, SqlDbType.VarChar);
 
+            List<Models.List_Doc> resultado = new List<Models.List_Doc>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.List_Doc item = new Models.List_Doc()
+                {
+                    //Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Doc"].ToString(),
+                    NombreUsuario = reader["Nombre"].ToString(),
+                    FechaEntradaVigor = reader["FechaCompartido"].ToString(),
+                    Estatus = reader["Estatus"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }
