@@ -115,8 +115,8 @@ namespace ProyectoBase.Application
                     "</tr>" +
                     "</br>" +
                     "<tr>" +
-                        "<td bgcolor='#ffffff' align='left' style='padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<p style='margin: 0;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
+                        "<td bgcolor='#ffffff' align='left' style='padding: 0px 30px 20px 30px; color: #666666;  sans-serif; font-size: 8px; font-weight: 100; line-height: 25px;'>" +
+                            "<p style='margin: 0; font-size: 15px;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
                         "</td>" +
                     "</tr>" +
                 "</table>" +
@@ -126,7 +126,7 @@ namespace ProyectoBase.Application
             "<td bgcolor='#f4f4f4' align='center' style='padding: 30px 10px 0px 10px;'>" +
                 "<table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>" +
                     "<tr>" +
-                        "<td bgcolor='#D1E9FF' align='center' style='padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
+                        "<td bgcolor='#D1E9FF' align='center' style='padding: 30px 30px 30px 30px; border-radius: 4px 4px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 400; line-height: 25px;'>" +
                         "</td>" +
                     "</tr>" +
                 "</table>" +
@@ -255,8 +255,8 @@ namespace ProyectoBase.Application
                     "</tr>" +
                     "</br>" +
                     "<tr>" +
-                        "<td bgcolor='#ffffff' align='left' style='padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<p style='margin: 0;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
+                        "<td bgcolor='#ffffff' align='left' style='padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 100; line-height: 25px;'>" +
+                            "<p style='margin: 0; font-size: 15px;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
                         "</td>" +
                     "</tr>" +
                 "</table>" +
@@ -386,10 +386,16 @@ namespace ProyectoBase.Application
                     "</tr>" +
                     "</br>" +
                     "<tr>" +
-                        "<td bgcolor='#ffffff' align='left' style='padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                            "<p style='margin: 0;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
-                        "</td>" +
-                    "</tr>" +
+                    "<td bgcolor='#f4f4f4' align='center' style='padding: 0px 10px 0px 10px;'>" +
+                        "<table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>" +
+                            "<tr>" +
+                                "<td bgcolor='#f4f4f4' align='left' style='padding: 0px 30px 30px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 100; line-height: 18px;'> <br>" +
+                                    "<p style='margin: 0; font-size: 15px;'>Este correo es de carácter informativo, favor de no responder a esta dirección de correo, ya que no se encuentra habilitada para recibir mensajes. Si necesitas ayuda o deseas contactarnos ponemos a su disposición a los teléfonos correspondientes.</p>" +
+                                "</td>" +
+                            "</tr>" +
+                        "</table>" +
+                    "</td>" +
+                "</tr>" +
                 "</table>" +
             "</td>" +
         "</tr>" +
