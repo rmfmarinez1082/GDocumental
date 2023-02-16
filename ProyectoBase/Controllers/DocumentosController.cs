@@ -445,7 +445,7 @@ namespace ProyectoBase.Controllers
                     Models.Documento documento = documentos.SP_DocumentoInfo(doc);
                     ViewBag.InfoDoc = documento;
                   
-                    ViewBag.Ruta = "DocumentosTemporales";
+                    //ViewBag.Ruta = "DocumentosTemporales";
 
                     Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
                     ViewBag.Ruta = documentoR.Nombre;

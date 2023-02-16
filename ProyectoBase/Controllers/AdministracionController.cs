@@ -301,12 +301,10 @@ namespace ProyectoBase.Controllers
 
 
                     Models.Documento documento = documentos.SP_DocumentoInfo(doc);
-                    ViewBag.nombredoc = documento.Nombre;
-                    ViewBag.Descripcion = documento.Descripcion;
-                    ViewBag.version = documento.Version;
-                    ViewBag.NArchivo = documento.NmArchivo;
-                    ViewBag.Ruta = "DocumentosTemporales";
-
+                    ViewBag.InfoDoc = documento;
+                    //ViewBag.Ruta = "DocumentosTemporales";
+                    Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
+                    ViewBag.Ruta = documentoR.Nombre;
 
 
                     //CONTROL DE NOTIFICACIONES 

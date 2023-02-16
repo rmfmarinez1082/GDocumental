@@ -46,29 +46,51 @@
 
                                 <div class="card-block">
                                     <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>DESCRIPCIÓN</h4>
+                                            <div class="resumen">
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Nombre: </label>
-                                                <input type="text" class="form-control form-control" value="@ViewBag.nombredoc" disabled>
+                                                <p><strong>Nombre (titulo)</strong> <br /> <span>@ViewBag.InfoDoc.Nombre</span></p>
+                                                <p><strong>Versión</strong> <br /> <span>@ViewBag.InfoDoc.Version</span></p>
+                                                <p><strong>Tipo Documento</strong> <br /> <span>@ViewBag.InfoDoc.TipoDoc</span></p>
+                                                <p><strong>Palabra Clave</strong> <br /> <span>@ViewBag.InfoDoc.PalabraClave</span></p>
+                                                <p><strong>Descripción</strong> <br /> <span>@ViewBag.InfoDoc.Descripcion</span></p>
+
+
                                             </div>
                                         </div>
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Descripcion: </label>
-                                                <textarea class="form-control" aria-label="With textarea" disabled>@ViewBag.Descripcion</textarea>
+                                        <div class="col-md-4">
+                                            <h4>CONTROL</h4>
+
+                                            <div class="resumen">
+                                                <p><strong>Fecha Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaRevision</span></p>
+                                                <p><strong>Fecha Proxima Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaProximaRevision</span></p>
+
+                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span>@ViewBag.InfoDoc.FechaEntradaVigor</span></p>
+                                                <p><strong>Fecha Publicacion</strong> <br /> <span>@ViewBag.InfoDoc.FechaPublicacion</span></p>
+                                                <p><strong>Fecha Vencimiento</strong> <br /> <span>@ViewBag.InfoDoc.FechaVencimiento</span></p>
+
                                             </div>
+
                                         </div>
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Versión: </label>
-                                                <input type="text" class="form-control form-control" value="@ViewBag.version" disabled>
+                                        <div class="col-md-4">
+                                            <h4>DISTRIBUCIÓN </h4>
+                                            <div class="resumen">
+                                                <p><strong>Tipo Archivo</strong> <br /> <span>@ViewBag.InfoDoc.Extension</span></p>
+                                                <p><strong>Medio de Almacenamiento</strong> <br /> <span>@ViewBag.InfoDoc.MedioAlmacenamiento</span></p>
+
+
+
                                             </div>
+
+                                            <h4>CLASIFICACIÓN </h4>
+                                            <p><strong>Clasificación</strong> <br /> <span>@ViewBag.InfoDoc.ClasificacionDoc</span></p>
+
+                                            <h4>RUTA</h4>
+                                            <p><span>@ViewBag.Ruta</span></p>
                                         </div>
-
-
                                     </div>
                                 </div>
 

@@ -102,14 +102,15 @@
                                                 {
 
                                                     <tr>
+                                                        @*CONTROL ICONO PRESTAMO*@
                                                         @if (item.IdMedioAlmacenamiento == 0)
                                                         {
-                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
                                                         }
                                                         else
                                                         {
-                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a onclick="VerRegistro(@item.Id);">@item.Nombre</a></td>
+                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
                                                         }
 
@@ -119,11 +120,13 @@
 
 
                                                         @{ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
+
                                                             Estatus.IdDocumento = item.Id;
 
                                                             var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
 
-                                                            if (status.Ids == 1)
+                                                            //CONTROL COMPARTIDO
+                                                            if (status.Ids >= 1)
                                                             {
                                                                 <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
 
@@ -133,7 +136,7 @@
                                                                 <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
 
                                                             }
-
+                                                            //CONTROL ALMACEN FÍSICO
                                                             if (item.IdTipoArchivo == 1)
                                                             {
                                                                 <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
@@ -145,7 +148,7 @@
 
                                                             }
 
-
+                                                            //CONTROL PRESTAMO
                                                             if (item.IdTipoArchivo == 1)
                                                             {
                                                                 if (item.IdMedioAlmacenamiento == 0)
@@ -154,16 +157,16 @@
 
                                                                 }
                                                                 else
+                                                            {
+                                                                ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                _notification.IdUsuario = Usuario.Id;
+                                                                _notification.IdDocumento = item.Id;
+
+                                                                var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                if (Num.Ids >= 16)
                                                                 {
-                                                                    ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                                    ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                                    _notification.IdUsuario = Usuario.Id;
-                                                                    _notification.IdDocumento = item.Id;
-
-                                                                    var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                                    if (Num.Ids >= 16)
-                                                                    {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -173,7 +176,7 @@
                                                                         </td>
                                                                     }
                                                                     else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                                    {
+                                                            {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -183,7 +186,7 @@
                                                                         </td>
                                                                     }
                                                                     else if (Num.Ids <= 0)
-                                                                    {
+                                                            {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -206,8 +209,7 @@
                                                             ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
-
-                                                            <td class=""><i class="fa fa-folder-open-o"></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                            <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                         }
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
 
@@ -1000,8 +1002,8 @@
                     }
                     else {
                         swal({
-                            title: "El Documento que intentas Prestar esta en custodia de otro usuario.",
-                            text: '',
+                            title: "Gestión Documental (ERROR)",
+                            text: 'El Documento que intentas Prestar esta compartido con el mismo usuario.',
                             icon: "warning",
                             button: "Aceptar",
                         });
