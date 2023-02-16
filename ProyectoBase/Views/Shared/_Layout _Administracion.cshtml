@@ -197,8 +197,8 @@
                                                     @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
                                                     <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
-                                                        <h5 class="notification-user">Nuevo documento compartido</h5>
-                                                        <p class="notification-msg">@item.Documento</p>
+                                                        <h5 class="notification-user">Nuevo documento compartido</h5> 
+                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a compartido el documento:<strong> @item.Documento.</strong></p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>
@@ -214,7 +214,7 @@
                                                     <i class="fa fa-share-alt" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
                                                         <h5 class="notification-user">Documento Prestado</h5>
-                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor.</strong> te a dado custodia del documento: <strong> @item.Documento </strong></p>
+                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a dado custodia del documento: <strong> @item.Documento.</strong></p>
                                                         <span class="notification-time"></span>
                                                     </div>
                                                 </div>
@@ -230,7 +230,7 @@
                                                     @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
                                                     <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
                                                     <div class="media-body">
-                                                        <h5 class="notification-user">Plazo caducado</h5>
+                                                        <h5 class="notification-user">Plazo caducado</h5> 
                                                         <p class="notification-msg">A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que te asigno el usuario <strong>@item.NombreEmisor.</strong>
                                                         Has la devolución del documento lo más pronto posible.</p>
                                                         <span class="notification-time"></span>
