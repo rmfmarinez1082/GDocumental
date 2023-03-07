@@ -15,6 +15,10 @@ namespace ProyectoBase.Application
         {
             return _Documentos.Documento_Agregar(nuevoDocumento);
         }
+        public Models.Documento SP_ActualizarDoc(Models.NuevoDocumento nuevoDocumento)
+        {
+            return _Documentos.SP_ActualizarDoc(nuevoDocumento);
+        }
         public Models.Documento Documento_custodiaA(Models.NuevoDocumento nuevoDocumento)
         {
             return _Documentos.Documento_custodiaA(nuevoDocumento);

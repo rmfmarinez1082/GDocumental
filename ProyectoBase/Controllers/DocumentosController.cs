@@ -1015,5 +1015,57 @@ namespace ProyectoBase.Controllers
             return Json(LisDoc);
         }
 
+
+
+
+
+
+
+
+
+        [HttpPost]
+        public JsonResult Documentos_Actualizar(Models.NuevoDocumento nuevoDocumento, Application.Documentos ApDocumentos)
+        {
+
+            List<Models.Documento> ListaDocumentos = new List<Models.Documento>();
+            List<Models.Documento> ListaDocumentoword = new List<Models.Documento>();
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Session["NuevoDocumentoword"] != null)
+            {
+                ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
+                ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
+
+
+                nuevoDocumento.NmArchivo = ListaDocumentos[0].NmArchivo;
+                nuevoDocumento.NmArchivoword = ListaDocumentoword[0].NmArchivoword;
+                nuevoDocumento.NmOriginal = ListaDocumentos[0].NmOriginal;
+                nuevoDocumento.IdUsuario = Usuario.Id;
+
+                Models.Documento Ndocumento = ApDocumentos.SP_ActualizarDoc(nuevoDocumento);
+
+                Session["NuevoDocumento"] = null;
+                Session["NuevoDocumentoword"] = null;
+
+                return Json(Ndocumento);
+            }
+            else
+            {
+                ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
+
+
+                nuevoDocumento.NmArchivo = ListaDocumentos[0].NmArchivo;
+                nuevoDocumento.NmOriginal = ListaDocumentos[0].NmOriginal;
+                nuevoDocumento.IdUsuario = Usuario.Id;
+
+                Models.Documento Ndocumento = ApDocumentos.Documento_AgregarPDF(nuevoDocumento);
+
+                Session["NuevoDocumento"] = null;
+
+                return Json(Ndocumento);
+
+            }
+
+        }
     }
 }

@@ -4,6 +4,383 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
+<style>
+
+
+    .process-step .btn:focus {
+        outline: none
+    }
+
+    .process {
+        display: table;
+        width: 100%;
+        position: relative
+    }
+
+    .process-row {
+        display: table-row
+    }
+
+    .process-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important
+    }
+
+    .process-row:before {
+        top: 40px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0
+    }
+
+    .process-step {
+        display: table-cell;
+        text-align: center;
+        position: relative
+    }
+
+        .process-step p {
+            margin-top: 4px
+        }
+
+    .btn-circle {
+        width: 80px;
+        height: 80px;
+        text-align: center;
+        font-size: 12px;
+        border-radius: 50%
+    }
+
+
+
+
+
+    .TextoColor {
+        color: #555 !important;
+    }
+
+
+    .close:not(:disabled):not(.disabled) {
+        cursor: pointer;
+    }
+
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #fff;
+        opacity: .5;
+    }
+
+    progress {
+        -webkit-appearance: none;
+        border-radius: 15px;
+    }
+
+    ::-webkit-progress-bar {
+        background-color: #ccc;
+        border-radius: 15px;
+    }
+
+
+    progress[value]::-webkit-progress-value {
+        background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, .1) 33%, rgba(0,0, 0, .1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)), -webkit-linear-gradient(left, #01477f, #008c99);
+        border-radius: 15px;
+        background-size: 35px 20px, 100% 100%, 100% 100%;
+    }
+
+
+
+    .cogVcH:hover {
+        cursor: pointer;
+        border-style: solid;
+    }
+
+    .cogVcH {
+        max-width: 180px;
+        width: 100%;
+        border: 1px dashed #448aff;
+        color: #448aff;
+        height: 216px;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-flow: column wrap;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+        transition: border 0.25s ease-in-out 0s;
+    }
+
+    .gXEoDm {
+        width: 180px;
+        height: 216px;
+        border: 0.5px solid rgb(124, 152, 167);
+        border-radius: 8px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        flex-direction: column;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .sc-fATqzn:hover .fpCmKW {
+        visibility: visible;
+        top: -16px;
+    }
+
+    .fpCmKW {
+        position: absolute;
+        width: 100%;
+        text-align: right;
+        z-index: 3;
+        top: 0px;
+        visibility: hidden;
+        transition: visibility 0s ease-out 0s;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .ecdNeI {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: inline-block;
+        background-image: url(/panel/static/media/R-PANELv2.06.1-RC1/icon_rotate_48x48.2dfac1f1.svg);
+        background-size: cover;
+        margin-right: 4px;
+    }
+
+    .ecdNeI2 {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: inline-block;
+        background-image: url(/panel/static/media/R-PANELv2.06.1-RC1/icon_rotate_48x48.2dfac1f1.svg);
+        background-size: cover;
+        margin-right: 4px;
+    }
+
+
+    .fpCmKW span:last-child {
+        margin: 0px;
+    }
+
+    .jskYLk {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: inline-block;
+        background-size: cover;
+        margin-right: 4px;
+        background-image: url('../../Images/icons/icon_trash_48x48.e4cbe3f0.svg');
+    }
+
+    .gsEJWt {
+        width: 100%;
+        height: 30px;
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 5px 10px;
+        background-image: linear-gradient( 310deg, #ff0049 0%, #990051 100%);
+        border-radius: 8px 8px 0px 0px;
+        text-align: center;
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        -webkit-box-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        align-items: center;
+    }
+
+    .iOCuAz {
+        border-radius: 8px 0px 8px 0px 0px;
+        overflow: hidden;
+        width: 180px;
+        height: 215px;
+        transition: height 1s ease 0s;
+    }
+
+    .gnckKk {
+        width: 178px;
+        height: 215px;
+        object-fit: cover;
+        transition: height 1s ease 0s;
+        border-radius: 8px;
+    }
+
+    .hZRbtg input, .hZRbtg select, .hZRbtg textarea {
+        font-family: Hind;
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .ldkJDz {
+        display: block;
+        width: 100%;
+        padding: 0px 67px 0px;
+        margin-top: 40px;
+        white-space: normal;
+        min-height: 692px;
+        font-family: Hind;
+        overflow-x: hidden;
+    }
+
+    .ihwDZV {
+        padding: 40px 40px 45px;
+        white-space: normal;
+    }
+
+    .hZRbtg {
+        box-shadow: rgb(0 0 0 / 8%) -1px 2px 20px 0px;
+        border-radius: 12px;
+        width: 100%;
+        white-space: normal;
+    }
+
+    .hZRbtg {
+        box-shadow: rgb(0 0 0 / 8%) -1px 2px 20px 0px;
+        border-radius: 12px;
+        width: 100%;
+        white-space: normal;
+    }
+
+    .dUQJCE {
+        height: 35px;
+        width: 172px;
+        text-overflow: ellipsis;
+        border-radius: 0px 0px 8px 8px;
+        margin: 0px 5px;
+        color: rgb(104, 128, 140);
+        font-size: 12px !important;
+    }
+
+    .sc-fATqzn:hover .fpCmKW {
+        visibility: visible;
+        top: -16px;
+    }
+
+
+    .fpCmKW {
+        position: absolute;
+        width: 100%;
+        text-align: right;
+        z-index: 3;
+        top: 0px;
+        visibility: hidden;
+        transition: visibility 0s ease-out 0s;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .ecdNeI:hover {
+        background-image: url('../../Images/icons/icon_rotate_48x48_hover.1e032e91.svg');
+    }
+
+    .ecdNeI {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: inline-block;
+        background-image: url('../../Images/icons/icon_rotate_48x48.2dfac1f1.svg');
+        background-size: cover;
+        margin-right: 4px;
+    }
+
+    .ecdNeI2:hover {
+        background-image: url('../../Images/icons/icon_subir.png');
+    }
+
+    .ecdNeI2 {
+        width: 48px;
+        height: 48px;
+        cursor: pointer;
+        display: inline-block;
+        background-image: url('../../Images/icons/icon_subir_hover.png');
+        background-size: cover;
+        margin-right: 4px;
+    }
+
+    .gsEJWt div {
+        height: 14px;
+        width: 14px;
+        margin-bottom: 4px;
+        background-image: url('../../Images/icons/star.9fe16126.svg');
+        background-size: cover;
+        margin-right: 8px;
+    }
+
+    .faMYgb {
+        max-height: 250px;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: content-box;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        transition: max-height 1s ease 0s;
+        overflow: hidden;
+    }
+
+    .gJWAcE {
+        width: 100%;
+        padding: 30px 0px 0px px;
+        display: flex;
+        -webkit-box-pack: start;
+        justify-content: flex-start;
+        flex-flow: row wrap;
+        transition: max-height 1s ease 0s;
+    }
+
+    .fpCmKW span:last-child {
+        margin: 0px;
+    }
+
+
+    .jskYLk:hover {
+        background-image: url('../../Images/icons/icon_trash_48x48_hover.d8eb4bff.svg');
+    }
+
+    .btn-info.active, .btn-info:active, .show > .btn-info.dropdown-toggle {
+        background-color: #448aff;
+        background-image: none;
+        border-color: #3f629d;
+    }
+
+    select.form-control, select.form-control:focus, select.form-control:hover {
+        border-top: 1px;
+        border-right: 1px;
+        border-left: 1px;
+        border: 1px solid #cccccc;
+        border-radius: 2px;
+    }
+
+        select.form-control:not([size]):not([multiple]) {
+            height: 36px;
+        }
+
+    .table td, .table th {
+        padding: 0.25rem 0.75rem;
+    }
+</style>
 
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
@@ -65,7 +442,7 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="largeInput">* Nombre (titulo): </label>
-                                                <input id="NombreDocumento" type="text" onkeyup="countChars(this)"; class="form-control form-control" value="@ViewBag.nombredoc">
+                                                <input id="NombreDocumento" type="text" onkeyup="countChars(this)" ; class="form-control form-control" value="@ViewBag.nombredoc">
                                                 <p id="charNum"></p>
                                             </div>
                                         </div>
@@ -301,6 +678,81 @@
                                     </div>
                                 </div>
                             </div>
+
+
+
+                            <div class="card table-card">
+                                <div class="card-header">
+                                    <h5>Documento</h5>
+                                    <div class="card-header-right">
+                                        <ul class="list-unstyled card-option">
+                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                            <li><i class="fa fa-window-maximize full-card"></i></li>
+                                            <li><i class="fa fa-minus minimize-card"></i></li>
+                                            <li><i class="fa fa-refresh reload-card"></i></li>
+                                            <li><i class="fa fa-trash close-card"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+
+                                        <div class="col-md-12">
+                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                @*APARIENCIA DE SUBIDA DOCUMENTO*@
+                                                <div class="col-md-6">
+                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                        <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                            <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Archivo <br />
+                                                                <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                <div class="col-md-6">
+                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                        <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                            <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
+                                                                <div class="row">
+                                                                    <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                    <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                    <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <br />
+                                                <br />
+                                                @*BARRA DE PROGRESO Y EL input de documento*@
+                                            <div class="row">
+                                                <input id="fileInput2" type="file" multiple style="visibility:hidden">
+                                                <input id="fileInputword" type="file" multiple style="visibility:hidden">
+
+                                                <div class="col-md-12">
+                                                    <progress id="fileProgress" style="display: none; width:100%"></progress>
+                                                </div>
+                                                <div class="card-block">
+                                                    <div class="row">
+                                                        <div class="col-md-6 offset-md-3">
+                                                            <button class="btn waves-effect waves-light btn-success" onclick="GuardarDocumentos()" id="BtnGuardar">Guardar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                     </div>
@@ -309,6 +761,7 @@
             </div>
         </div>
     </div>
+    <script src="~/assets/js/jquery/jquery.min.js"></script>
 
     <script>
         function Guardar(id) {
@@ -368,7 +821,6 @@
 
         $("#BtnGuardar").prop('disabled', false);
         };
-
         function ConsultaSubClasificacion(Id) {
             $('#SubClasificacionArchivo').empty();
             $('#Select3').empty();
@@ -400,9 +852,9 @@
 
                     option.text("Seleccionar");
                     option.val(0);
-                 
+
                     $("#SubClasificacionArchivo").append(option);
-               
+
 
                     $(resultado).each(function () {
                         var option = $(document.createElement('option'));
@@ -422,7 +874,6 @@
                 }
             });
         }
-
         function Consulta3er(Id) {
         $('#Select3').empty();
 
@@ -468,9 +919,7 @@
             }
         });
     }
-
         /*SCRIPS Validación*/
-
         function validarFechaRevision() {
 
             var result = false;
@@ -673,7 +1122,6 @@
 
             return result;
         }
-
         function validatodasfechas() {
 
             if (validarFechaRevision()) {
@@ -764,7 +1212,6 @@
                 });
             }
         }
-
         /*Conteo caracteres*/
         function countChars(obj) {
             var maxLength = 150;
@@ -777,10 +1224,346 @@
                 document.getElementById("charNum").innerHTML = charRemain + ' Carácteres restantes';
             }
         }
-    </script>
 
-    <script src="~/assets/js/jquery/jquery.min.js"></script>
-    <script>
+        //Funcion para cargar documento
+        function BtnCargarPDF() {
+            $("#fileInput2").click();
+        };
+        $('#fileInput2').change(function () {
+            var fileInput = document.getElementById('fileInput2');
+
+            if (fileInput.files.length > 0) {
+                for (i = 0; i < fileInput.files.length; i++) {
+                    var ext = fileInput.files[i].name.split('.').pop();
+                    Extencion = fileInput.files[i].name.split('.').pop();
+
+                    // Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
+                    ext = ext.toLowerCase();
+
+                    if (ext == 'pdf' || ext == 'pdf' || ext == 'pdf') {
+
+                        Carga = true;
+                    } else {
+                        Carga = false;
+                        Formato = ext;
+                        break;
+                    }
+                }
+
+                for (i = 0; i < fileInput.files.length; i++) {
+                    var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
+
+                    if (filesize < 10) {
+                        CargaTam = true;
+                    } else {
+                        CargaTam = false;
+                        Tam = filesize;
+                        break;
+                    }
+                }
+
+                if (Carga) {
+                    if (CargaTam) {
+
+                        $("#BtnCargarPDF").prop('disabled', true);
+                        var formData = new FormData();
+
+                        for (i = 0; i < fileInput.files.length; i++) {
+                            formData.append(fileInput.files[i].name, fileInput.files[i]);
+                        }
+
+                        $.ajax({
+                            url: '/api/FileAPI/UploadFilesArticulo',
+                            type: 'POST',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (ListDocumentos) {
+                                $("#fileProgress").hide();
+                                $("#BtnCargarPDF").prop('disabled', false);
+
+                                CargaDocumento(ListDocumentos);
+
+                            },
+                            xhr: function () {
+
+                                var fileXhr = $.ajaxSettings.xhr();
+                                if (fileXhr.upload) {
+                                    $("progress").show();
+                                    fileXhr.upload.addEventListener("progress", function (e) {
+                                        if (e.lengthComputable) {
+                                            $("#fileProgress").attr({
+                                                value: e.loaded,
+                                                max: e.total
+                                            });
+                                        }
+                                    }, false);
+                                }
+                                return fileXhr;
+                            }
+                        });
+
+
+                    } else {
+                        swal({
+                            title: "Intentas cargar una archivo muy pesada: " + Tam + " MG",
+                            text: "Límite permitido 10 MG",
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+                } else {
+                    swal({
+                        title: "Intentas cargar un formato no permitido: " + Formato,
+                        text: "Formato de archivos permitidos: .pdf ",
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                }
+
+            } else {
+                $("#BtnCargarPDF").prop('disabled', false);
+                $.notify({
+                    message: "Selecciona un archivo."
+                }, {
+                    type: 'danger',
+                    allow_dismiss: false,
+                    animate: {
+                        enter: 'animated rollIn',
+                        exit: 'animated rollOut'
+                    }
+                });
+            }
+        });
+        function CargaDocumento(ListDocumentos) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CargaDocumentos", "Documentos")",
+                async: false,
+                data: JSON.stringify(ListDocumentos),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (Contenido) {
+                    swal({
+                        title: "Documento cargado. !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+	            },
+                error: function (Contenido) {
+                    alert("error")
+                }
+            });
+        }
+
+
+
+        //FUNCION QUE CARGA EDITABLE
+        function BtnCargarWord() {
+            $("#fileInputword").click();
+        };
+        $('#fileInputword').change(function () {
+            var fileInput = document.getElementById('fileInputword');
+
+            if (fileInput.files.length > 0) {
+                for (i = 0; i < fileInput.files.length; i++) {
+                    var ext = fileInput.files[i].name.split('.').pop();
+                    Extencion = fileInput.files[i].name.split('.').pop();
+
+                    // Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
+                    ext = ext.toLowerCase();
+
+                    if (ext == 'docx' || ext == 'pptx' || ext == 'xlsx') {
+
+                        Carga = true;
+                    } else {
+                        Carga = false;
+                        Formato = ext;
+                        break;
+                    }
+                }
+
+                for (i = 0; i < fileInput.files.length; i++) {
+                    var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
+
+                    if (filesize < 10) {
+                        CargaTam = true;
+                    } else {
+                        CargaTam = false;
+                        Tam = filesize;
+                        break;
+                    }
+                }
+
+                if (Carga) {
+                    if (CargaTam) {
+
+                        $("#BtnCargarWord").prop('disabled', true);
+                        var formData = new FormData();
+
+                        for (i = 0; i < fileInput.files.length; i++) {
+                            formData.append(fileInput.files[i].name, fileInput.files[i]);
+                        }
+
+                        $.ajax({
+                            url: '/api/FileAPI/SubirWord',
+                            type: 'POST',
+                            data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (ListDocumentos) {
+                                $("#fileProgress").hide();
+                                $("#BtnCargarWord").prop('disabled', false);
+
+                                CargaDocumentoword(ListDocumentos);
+
+                            },
+                            xhr: function () {
+
+                                var fileXhr = $.ajaxSettings.xhr();
+                                if (fileXhr.upload) {
+                                    $("progress").show();
+                                    fileXhr.upload.addEventListener("progress", function (e) {
+                                        if (e.lengthComputable) {
+                                            $("#fileProgress").attr({
+                                                value: e.loaded,
+                                                max: e.total
+                                            });
+                                        }
+                                    }, false);
+                                }
+                                return fileXhr;
+                            }
+                        });
+
+
+                    } else {
+                        swal({
+                            title: "Intentas cargar un archivo muy pesado: " + Tam + " MG",
+                            text: "Límite permitido 10 MG",
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+                } else {
+                    swal({
+                        title: "Intentas cargar un formato no permitido: " + Formato,
+                        text: "Formato de documentos permitidos: .docx, .pptx, .xlsx ",
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                }
+
+            } else {
+                $("#BtnCargarWord").prop('disabled', false);
+                $.notify({
+                    message: "Selecciona un archivo."
+                }, {
+                    type: 'danger',
+                    allow_dismiss: false,
+                    animate: {
+                        enter: 'animated rollIn',
+                        exit: 'animated rollOut'
+                    }
+                });
+            }
+        });
+        function CargaDocumentoword(ListDocumentos) {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CargaDocumentosword", "Documentos")",
+                async: false,
+                data: JSON.stringify(ListDocumentos),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (Contenido) {
+                    swal({
+                        title: "Documento cargado. !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+	            },
+                error: function (Contenido) {
+
+                    $.notify("Completa el formulario.", "error");
+                }
+            });
+        }
+
+
+        //FUNCION Guardar Datos
+        function GuardarDocumentos(){
+            //$("#BtnPublicar").prop('disabled', true);
+
+            var obj = {};
+
+            obj['Version'] = ($("#Version").val()) + 1;
+            obj['Id'] =  @ViewBag.Id;
+
+
+            var jsonObject = {
+                "nuevoDocumento": obj
+            };
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Documentos_Actualizar", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    switch (data.Id) {
+                        case -1:
+
+                            swal({
+                                title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                text: '',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+
+
+                            break;
+                        case 0:
+                            swal({
+                                title: "Algo ocurrió documento no registrado !",
+                                text: '',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                            break;
+
+                        default:
+                        // code block
+                    }
+                    if (data.Id > 0) {
+                        swal({
+                            title: "Documento Actualizado. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        }).then((value) => {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+
+        //    $("#BtnPublicar").prop('disabled', false);
+        };
+
+
+
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#visaulizarDocumento').addClass("active");
+
     </script>
+
+
+
