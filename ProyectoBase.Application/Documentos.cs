@@ -19,6 +19,10 @@ namespace ProyectoBase.Application
         {
             return _Documentos.SP_ActualizarDoc(nuevoDocumento);
         }
+        public Models.Documento SP_ActualizarDocPDF(Models.NuevoDocumento nuevoDocumento)
+        {
+            return _Documentos.SP_ActualizarDocPDF(nuevoDocumento);
+        }
         public Models.Documento Documento_custodiaA(Models.NuevoDocumento nuevoDocumento)
         {
             return _Documentos.Documento_custodiaA(nuevoDocumento);

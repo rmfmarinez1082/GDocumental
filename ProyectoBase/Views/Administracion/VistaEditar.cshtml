@@ -414,7 +414,7 @@
             <div class="page-wrapper">
                 <div class="page-body">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-md-12 col-xl-6">
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Información del Documento: </h5>
@@ -638,9 +638,11 @@
 
                                 <div class="card-block">
                                     <div class="row">
-                                        <div class="col-md-6 offset-md-3">
-                                            <button class="btn waves-effect waves-light btn-success" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
-                                            <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>
+                                        <div class="col-md-6">
+                                            <button class="btn waves-effect waves-light btn-success col-12" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
                                         </div>
                                     </div>
                                 </div>
@@ -681,26 +683,18 @@
 
 
 
-                            <div class="card table-card">
+                            <div class="card table-card" style="display:none" id="versionamiento">
                                 <div class="card-header">
-                                    <h5>Documento</h5>
-                                    <div class="card-header-right">
-                                        <ul class="list-unstyled card-option">
-                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                            <li><i class="fa fa-window-maximize full-card"></i></li>
-                                            <li><i class="fa fa-minus minimize-card"></i></li>
-                                            <li><i class="fa fa-refresh reload-card"></i></li>
-                                            <li><i class="fa fa-trash close-card"></i></li>
-                                        </ul>
-                                    </div>
+                                    <h5>Archivos</h5>
+                                   
                                 </div>
-                                <div class="card-block">
+                                <div class="card-body">
                                     <div class="row">
 
                                         <div class="col-md-12">
-                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                            <div class="row justify-content-center">
                                                 @*APARIENCIA DE SUBIDA DOCUMENTO*@
-                                                <div class="col-md-6">
+                                                <div>
                                                     <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                         <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                             <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
@@ -710,26 +704,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                <div class="col-md-6">
-                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
-                                                        <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                            <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
-                                                                <div class="row">
-                                                                    <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                    <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                    <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                </div>
-                                                            </button>
+                                                @if (ViewBag.editable != "")
+                                                {
+                                                    @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                    <div>
+                                                        <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                            <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
+                                                                    <div class="row">
+                                                                        <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                        <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                        <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                    </div>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
 
-                                                <br />
-                                                <br />
-                                                @*BARRA DE PROGRESO Y EL input de documento*@
+
+                                            </div>
+                                            @*BARRA DE PROGRESO Y EL input de documento*@
                                             <div class="row">
                                                 <input id="fileInput2" type="file" multiple style="visibility:hidden">
                                                 <input id="fileInputword" type="file" multiple style="visibility:hidden">
@@ -737,15 +733,28 @@
                                                 <div class="col-md-12">
                                                     <progress id="fileProgress" style="display: none; width:100%"></progress>
                                                 </div>
-                                                <div class="card-block">
-                                                    <div class="row">
-                                                        <div class="col-md-6 offset-md-3">
-                                                            <button class="btn waves-effect waves-light btn-success" onclick="GuardarDocumentos()" id="BtnGuardar">Guardar</button>
-                                                        </div>
+                                            </div>
+
+                                            @if (ViewBag.editable != "")
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-6 justify-content-center">
+                                                        <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentosEdit()" id="BtnGuardarEditable">Actualizar</button>
                                                     </div>
+                                                    <div class="col-md-3"></div>
                                                 </div>
-                                            </div>
-                                            </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-6 justify-content-center">
+                                                        <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentos()" id="BtnGuardarEdit">Actualizar</button>
+                                                    </div>
+                                                    <div class="col-md-3"></div>
+                                                </div>
+                                            }
 
                                         </div>
 
@@ -786,9 +795,7 @@
         obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
         obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
         obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-        //obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-        //obj['IdSubclasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-        //obj['IdNombre3'] = $("#Select3 option:selected").val();
+
 
 
         var jsonObject = {
@@ -1359,6 +1366,28 @@
             });
         }
 
+        function ValidaDocumento() {
+        var result = false;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ConsultaDocumentosSesion", "Documentos")",
+            async: false,
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                if (respuesta.length > 0) {
+                    result = true;
+                }
+            },
+            error: function () {
+                Error();
+            }
+        });
+
+        return result;
+    }
 
 
         //FUNCION QUE CARGA EDITABLE
@@ -1496,66 +1525,177 @@
             });
         }
 
+        function ValidaDocumentoWord() {
+        var result = false;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ConsultaDocumentosSesionWord", "Documentos")",
+            async: false,
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                if (respuesta.length > 0) {
+                    result = true;
+                }
+            },
+            error: function () {
+                Error();
+            }
+        });
+
+        return result;
+    }
 
         //FUNCION Guardar Datos
-        function GuardarDocumentos(){
-            //$("#BtnPublicar").prop('disabled', true);
+        function GuardarDocumentos() {
+            if (ValidaDocumento()) {
+                $("#BtnGuardarEdit").prop('disabled', true);
 
-            var obj = {};
+                var obj = {};
 
-            obj['Version'] = ($("#Version").val()) + 1;
-            obj['Id'] =  @ViewBag.Id;
+                obj['Version'] = ($("#Version").val());
+                obj['Id'] =  @ViewBag.Id;
 
 
-            var jsonObject = {
-                "nuevoDocumento": obj
-            };
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Documentos_Actualizar", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    switch (data.Id) {
-                        case -1:
+                var jsonObject = {
+                    "nuevoDocumento": obj
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Documentos_Actualizar", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        switch (data.Id) {
+                            case -1:
 
+                                swal({
+                                    title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+
+
+                                break;
+                            case 0:
+                                swal({
+                                    title: "Algo ocurrió documento no registrado !",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+                                break;
+
+                            default:
+                            // code block
+                        }
+                        if (data.Id > 0) {
                             swal({
-                                title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                text: '',
-                                icon: "warning",
+                                title: "Documento Actualizado. !",
+                                text: " ",
+                                icon: "success",
                                 button: "Aceptar",
+                            }).then((value) => {
+                                location.reload();
                             });
-
-
-                            break;
-                        case 0:
-                            swal({
-                                title: "Algo ocurrió documento no registrado !",
-                                text: '',
-                                icon: "warning",
-                                button: "Aceptar",
-                            });
-                            break;
-
-                        default:
-                        // code block
+                        }
                     }
-                    if (data.Id > 0) {
-                        swal({
-                            title: "Documento Actualizado. !",
-                            text: " ",
-                            icon: "success",
-                            button: "Aceptar",
-                        }).then((value) => {
-                            location.reload();
-                        });
-                    }
+                });
+
+                $("#BtnGuardarEdit").prop('disabled', false);
+            } else {
+                swal({
+                    title: "Documento faltante",
+                    text: 'No has cargado ningun documento PDF',
+                    icon: "warning",
+                    button: "Aceptar"
+                });
+            }
+        };
+
+        function GuardarDocumentosEdit() {
+
+            if (ValidaDocumento()) {
+                if (ValidaDocumentoWord()) {
+                    $("#BtnGuardarEdit").prop('disabled', true);
+
+                    var obj = {};
+
+                    obj['Version'] = ($("#Version").val());
+                    obj['Id'] =  @ViewBag.Id;
+
+
+                    var jsonObject = {
+                        "nuevoDocumento": obj
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Documentos_Actualizar", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            switch (data.Id) {
+                                case -1:
+
+                                    swal({
+                                        title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                        text: '',
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+
+
+                                    break;
+                                case 0:
+                                    swal({
+                                        title: "Algo ocurrió documento no registrado !",
+                                        text: '',
+                                        icon: "warning",
+                                        button: "Aceptar",
+                                    });
+                                    break;
+
+                                default:
+                                // code block
+                            }
+                            if (data.Id > 0) {
+                                swal({
+                                    title: "Documento Actualizado. !",
+                                    text: " ",
+                                    icon: "success",
+                                    button: "Aceptar",
+                                }).then((value) => {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+
+                    $("#BtnGuardarEdit").prop('disabled', false);
+                } else {
+                    swal({
+                        title: "Documento faltante",
+                        text: ' Carga un documento editable para poder actualizar el archivo deseado',
+                        icon: "warning",
+                        button: "Aceptar"
+                    });
                 }
-            });
+            } else {
+                swal({
+                    title: "Documento faltante",
+                    text: 'No has cargado ningun documento PDF',
+                    icon: "warning",
+                    button: "Aceptar"
+                });
+            }
 
-        //    $("#BtnPublicar").prop('disabled', false);
         };
 
 
@@ -1563,6 +1703,11 @@
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#visaulizarDocumento').addClass("active");
 
+
+        const versionamiento = document.getElementById("Version");
+        versionamiento.onchange = function () {
+            $("#versionamiento").show(); 
+        }
     </script>
 
 

@@ -1058,7 +1058,7 @@ namespace ProyectoBase.Controllers
                 nuevoDocumento.NmOriginal = ListaDocumentos[0].NmOriginal;
                 nuevoDocumento.IdUsuario = Usuario.Id;
 
-                Models.Documento Ndocumento = ApDocumentos.Documento_AgregarPDF(nuevoDocumento);
+                Models.Documento Ndocumento = ApDocumentos.SP_ActualizarDocPDF(nuevoDocumento);
 
                 Session["NuevoDocumento"] = null;
 
