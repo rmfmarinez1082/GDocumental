@@ -10,19 +10,21 @@
         color: #fff;
         padding: 0px 30px 8px 20px;
     }
+
     .select2-container--default .select2-selection--single {
         background-color: #fff;
         border: 1px solid #aaa;
         border-radius: 4px;
         margin-top: 12px;
     }
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 46px !important;
-        position: absolute;
-        top: 1px;
-        right: 1px;
-        width: 20px;
-    }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 46px !important;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            width: 20px;
+        }
 </style>
 
 <div class="@*pcoded-content*@">
@@ -157,16 +159,16 @@
 
                                                                 }
                                                                 else
-                                                            {
-                                                                ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                                ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                                _notification.IdUsuario = Usuario.Id;
-                                                                _notification.IdDocumento = item.Id;
-
-                                                                var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                                if (Num.Ids >= 16)
                                                                 {
+                                                                    ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                    ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                    _notification.IdUsuario = Usuario.Id;
+                                                                    _notification.IdDocumento = item.Id;
+
+                                                                    var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                    if (Num.Ids >= 16)
+                                                                    {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -176,7 +178,7 @@
                                                                         </td>
                                                                     }
                                                                     else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                            {
+                                                                    {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -186,7 +188,7 @@
                                                                         </td>
                                                                     }
                                                                     else if (Num.Ids <= 0)
-                                                            {
+                                                                    {
                                                                         <td class="text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
@@ -342,8 +344,51 @@
                 </div>
                 <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="GuardarCompartido()">Compartir</button>
+                    <button type="button" class="btn btn-primary" onclick=" MoreInfo()">Aceptar</button>
                     <button type="button" id="Btnclosecomparto" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---MODAL POSCOMPARTIR--->
+<div class="modal fade " id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CompartirTitulo"></h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>El documento se compartira con los siguientes usuarios</p>
+
+                <div class="col-md-12 col-lg-12">
+
+                    <div class="row">
+
+                        <div class="table-responsive">
+                            <table id="TableDocsCompartido" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                <thead style="background-color: #0d6efd">
+                                    <tr>
+                                        <th style="color:white">Nombre</th>
+                                        <th style="color:white">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider" id="Contenido">
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="GuardarCompartido()">Compartir</button>
+
+                        <button type="button" id="BtncloseCompartir" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -614,7 +659,7 @@
                 dataType: "json",
                 success: function (data) {
 
-                    $("#Btnclosecomparto").trigger("click");
+                    $("#BtncloseCompartir").trigger("click");
 
                     if (data.Id == 1) {
                         swal({
@@ -1150,6 +1195,74 @@
                     break;
                 }
             });
+    }
+    function MoreInfo(Id) {
+        if (validacompartir()) {
+
+            $('#ModalCompartido').modal('show');
+
+            var obj = {};
+            obj['IdDocumento'] = $("#Idcompartir").val();
+            obj['IdEntidad'] = $("#Entidad option:selected").val();
+
+            var entidad = $("#Entidad option:selected").text();
+
+
+            if (entidad == "Empresas") {
+                obj['IdAsignacion'] = $("#empresa option:selected").val();
+            }
+            else if (entidad == "Departamentos") {
+                obj['IdAsignacion'] = $("#Departamento option:selected").val();
+            } else if (entidad == "Empleados") {
+                obj['IdAsignacion'] = $("#Empleado option:selected").val();
+            } else if (entidad == "Provedores") {
+                obj['IdAsignacion'] = $("#proveedor option:selected").val();
+            }
+
+
+
+            var jsonObject = {
+                "list_User": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("UsuarioPosCompartir", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+
+                success: function (resultado) {
+                    $("#Btnclosecomparto").trigger("click");
+
+                    tabla(resultado);
+
+                },
+                error: function (resultado) {
+                    alert("Error funcion listar compartir por ID ");
+                }
+            });
+
+            function tabla(datos) {
+                //console.log(datos);
+                Contenido.innerHTML = "";
+
+
+                for (let valor of datos) {
+
+                    Contenido.innerHTML += `
+
+                     <tr>
+                        <th>${valor.Nombre}</th>
+                        <th>${valor.EMail}</th>
+
+                    </tr>
+                `
+                }
+
+
+            }
+        }
     }
 </script>
 

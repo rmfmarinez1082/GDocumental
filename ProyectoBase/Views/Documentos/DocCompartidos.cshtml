@@ -53,8 +53,8 @@
                                                     <th style="color:white">Vencimiento</th>
                                                     <th class="text-center" style="color:white">Visualizar</th>
                                                     <th class="text-center" style="color:white">Descargar</th>
+                                                    <th class="text-center" style="color:white">Actualizar</th>
                                                     <th style="display:none;" class="text-center">palabras cable</th>
-                                                    @*<th class="text-center" style="color:white">Almacen físico</th>*@
                                                     <th class="text-center" style="color:white">Estado</th>
 
 
@@ -77,25 +77,22 @@
                                                         <td>@item.FechaEntradaVigor</td>
                                                         <td>@item.FechaVencimiento</td>
                                                         <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
-                                                        @if (item.NombreWord != "")
+                                                        @if (item.IdTipoDocumento == 8)
+
                                                         {
+                                                            //ACCIONDECARGAR
                                                             <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+                                                            <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+
                                                         }
                                                         else
                                                         {
                                                             <td class="text-center"><a><i></i></a>No disponible</td>
+                                                            <td class="text-center"><a><i></i></a>Sin permiso</td>
+
                                                         }
                                                         <td style="display:none;"><a>@item.PalabrasClave</a></td>
-                                                        @*@if (item.prestamo == 1)
-                                                        {
-                                                            <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
 
-                                                        }
-                                                        else
-                                                        {
-                                                            <td class="text-center"><a>No aplica</a></td>
-
-                                                        }*@
                                                         @if (item.prestamo == 1)
                                                         {
                                                             ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
@@ -333,6 +330,12 @@
                     break;
                 }
             });
+    }
+
+
+
+     function Ver(documento) {
+        window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
     }
 </script>
 

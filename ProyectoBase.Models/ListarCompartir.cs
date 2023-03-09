@@ -13,9 +13,11 @@ namespace ProyectoBase.Models
         public int prestamo { get; set; }
         
         public string Nombre { get; set; } 
+        public string NombreWord { get; set; } 
         public string PalabrasClave { get; set; }
-        public string NombreWord { get; set; }
+        public int IdTipoDocumento { get; set; }
         public string FechaEntradaVigor { get; set; }
         public string FechaVencimiento { get; set; }
+   
     }
 }

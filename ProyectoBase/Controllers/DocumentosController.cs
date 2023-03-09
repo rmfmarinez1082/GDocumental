@@ -1015,14 +1015,6 @@ namespace ProyectoBase.Controllers
             return Json(LisDoc);
         }
 
-
-
-
-
-
-
-
-
         [HttpPost]
         public JsonResult Documentos_Actualizar(Models.NuevoDocumento nuevoDocumento, Application.Documentos ApDocumentos)
         {
@@ -1066,6 +1058,16 @@ namespace ProyectoBase.Controllers
 
             }
 
+        }
+
+
+        [HttpPost]
+        public JsonResult UsuarioPosCompartir(Models.LisUser list_User, Application.LisUser APlisUser)
+        {
+
+            List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(list_User);
+
+            return Json(lisUser);
         }
     }
 }

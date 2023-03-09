@@ -27,6 +27,7 @@ namespace ProyectoBase.Data
                     FechaVencimiento = reader["FechaVencimiento"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
                     NombreWord = reader["NmArchivoword"].ToString(),
+                    IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString()),
                     PalabrasClave = reader["PalabrasClave"].ToString()
                 };
                 resultado.Add(item);
