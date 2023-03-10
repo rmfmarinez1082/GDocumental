@@ -52,5 +52,7 @@ namespace ProyectoBase.Models
 
         public string MedioAlmacenamiento { get; set; }
         public string Extension { get; set; }
+
+        public int Entrega { get; set; } 
     }
 }

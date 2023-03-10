@@ -380,6 +380,7 @@ namespace ProyectoBase.Controllers
 
                     Models.Documento documento = documentos.SP_DocumentoInfo2(doc);
                     ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.editable = documento.NmArchivoword;
                     ViewBag.Descripcion = documento.Descripcion;
                     ViewBag.version = documento.Version;
                     ViewBag.codigo = documento.NmArchivo;
@@ -396,9 +397,6 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdTipoArchivo = documento.IdTipoArchivo;
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
-                    //ViewBag.IdClasificacionArchivo = documento.IdClasificacionArchivo;
-                    //ViewBag.IdSubclasificacionArchivo = documento.IdSubclasificacionArchivo;
-                    //ViewBag.IdNombre3 = documento.IdNombre3;
 
 
                     return View();

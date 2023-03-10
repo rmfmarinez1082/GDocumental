@@ -76,6 +76,7 @@
                                             <th class="text-center" style="color:white">Fecha de prestamo</th>
                                             <th class="text-center" style="color:white">Límite de prestamo</th>
                                             <th class="text-center" style="color:white">Custodia</th>
+                                            <th class="text-center" style="color:white">Entrega</th>
                                             @*<th style="display:none;" class="text-center">Buscar</th>*@
 
                                         </tr>
@@ -98,6 +99,15 @@
                                                 <td class="text-center"><a>@item.FechaVencimiento</a></td>
                                                 <td class="text-center"><a>@item.FechaPublicacion</a></td>
                                                 <td class="text-center"><a>@item.NmOriginal</a></td>
+                                                @if (@item.Entrega == 1)
+                                                {
+                                                    <td class="text-center"><span class="label label-inverse-danger">No entregado</span></td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><span class="label label-inverse-success">Entregado</span></td>
+                                                }
                                             </tr>
                                         }
                                     </tbody>

@@ -198,6 +198,7 @@ namespace ProyectoBase.Data
                 resultado.Version = reader["Version"].ToString();
                 resultado.Descripcion = reader["Descripcion"].ToString();
                 resultado.NmArchivo = reader["NmArchivo"].ToString();
+                resultado.NmArchivoword = reader["NmArchivoword"].ToString();
                 resultado.PalabraClave = reader["PalabrasClave"].ToString();
               
 
@@ -294,6 +295,7 @@ namespace ProyectoBase.Data
                 Models.Documento item = new Models.Documento()
                 {
                     Id = Convert.ToInt32(reader["Prestamo"].ToString()),
+                    Entrega = Convert.ToInt32(reader["Devuelto"].ToString()),
                     FechaVencimiento = reader["FechaLimite"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
                     NmOriginal = reader["Custodia"].ToString(),
@@ -343,6 +345,57 @@ namespace ProyectoBase.Data
             while (reader.Read())
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+
+
+        public Models.Documento SP_ActualizarDoc(Models.NuevoDocumento nuevoDocumento)
+
+        {
+            b.ExecuteCommandSP("SP_ActualizarDoc");
+            //b.AddParameter("@Nombre", nuevoDocumento.Nombre, SqlDbType.NVarChar);
+            b.AddParameter("@Id", nuevoDocumento.Id, SqlDbType.Int);
+            b.AddParameter("@IdUser", nuevoDocumento.IdUsuario, SqlDbType.Int);
+            b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
+            b.AddParameter("@NMArchivoEditable", nuevoDocumento.NmArchivoword, SqlDbType.NVarChar);
+            b.AddParameter("@Version", nuevoDocumento.Version, SqlDbType.NVarChar);
+            //b.AddParameter("@NmOriginal", nuevoDocumento.NmOriginal, SqlDbType.NVarChar);
+           
+
+
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }  
+        public Models.Documento SP_ActualizarDocPDF(Models.NuevoDocumento nuevoDocumento)
+
+        {
+            b.ExecuteCommandSP("SP_ActualizarDocPDF");
+            b.AddParameter("@Id", nuevoDocumento.Id, SqlDbType.Int);
+            b.AddParameter("@IdUser", nuevoDocumento.IdUsuario, SqlDbType.Int);
+            b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
+            b.AddParameter("@Version", nuevoDocumento.Version, SqlDbType.NVarChar);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
             }
             reader = null;
             b.ConnectionCloseToTransaction();
