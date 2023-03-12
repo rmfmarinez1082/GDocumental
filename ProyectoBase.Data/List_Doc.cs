@@ -28,7 +28,8 @@ namespace ProyectoBase.Data
                     Version = reader["Version"].ToString(),
                     Descripcion = reader["Descripcion"].ToString(),
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
-                    PalabrasClave = reader["PalabrasClave"].ToString(),
+                    PalabrasClave = reader["PalabrasClave"].ToString(), 
+                    NmArchivo = reader["NmArchivoword"].ToString()
                 };
                 resultado.Add(item);
             }

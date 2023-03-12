@@ -95,8 +95,7 @@
                                                     <th class="text-center" style="color:white">Prestamo</th>
                                                     <th class="text-center" style="color:white">Ruta</th>
                                                     <th class="text-center" style="color:white">Eliminar</th>
-
-
+                                                    <th class="text-center" style="color:white">Descargar</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
@@ -212,6 +211,18 @@
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
                                                             <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                        }
+                                                        @if (item.NmArchivo != "")
+
+                                                        {
+                                                            //ACCION DESCARGAR
+                                                            <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><a><i></i></a>No disponible</td>
+
                                                         }
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
 
@@ -353,7 +364,7 @@
 </div>
 
 <!---MODAL POSCOMPARTIR--->
-<div class="modal fade " id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade " id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="overflow-y: scroll;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -470,7 +481,15 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
-        });
+        });     
+        //$('#TableDocsCompartido').DataTable({
+
+        //    pageLength: 5,
+        //    lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+        //    language: {
+        //        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+        //    }
+        //});
 
         $('#Empleado').select2({
             dropdownParent: $("#ModalCompartir")

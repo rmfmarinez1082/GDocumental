@@ -638,14 +638,24 @@
 
                                 <div class="card-block">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div id="btnEdit" class="col-md-6" style="display:none">
+                                            @if (ViewBag.editable != "")
+                                            {
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentosEdit()" id="BtnGuardarEditable">Actualizar</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentos()" id="BtnGuardarEdit">Actualizar</button>
+                                            }
+                                        </div>
+                                        <div class="col-md-6" id="colbtn">
                                             <button class="btn waves-effect waves-light btn-success col-12" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
                                         </div>
                                         <div class="col-md-6">
                                             <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
                                         </div>
                                     </div>
-                                </div>
+                                    </div>
 
                             </div>
                         </div>
@@ -735,26 +745,7 @@
                                                 </div>
                                             </div>
 
-                                            @if (ViewBag.editable != "")
-                                            {
-                                                <div class="row">
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-6 justify-content-center">
-                                                        <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentosEdit()" id="BtnGuardarEditable">Actualizar</button>
-                                                    </div>
-                                                    <div class="col-md-3"></div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="row">
-                                                    <div class="col-md-3"></div>
-                                                    <div class="col-md-6 justify-content-center">
-                                                        <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentos()" id="BtnGuardarEdit">Actualizar</button>
-                                                    </div>
-                                                    <div class="col-md-3"></div>
-                                                </div>
-                                            }
+                                          
 
                                         </div>
 
@@ -774,60 +765,79 @@
 
     <script>
         function Guardar(id) {
+            if (ValidaDescripcion()) {
+                if (ValidaDistribucion()) {
+                    if (validaClasificacionArchivo()) {
+                             $("#BtnGuardar").prop('disabled', true);
+                                var obj = {};
+                                obj['Id'] = id;
+                                obj['Nombre'] = $("#NombreDocumento").val();
+                                obj['PalabraClave'] = $("#PalabraClave").val();
+                                obj['FechaRevision'] = $("#FechaRevision").val();
+                                obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
+                                obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+                                obj['Descripcion'] = $("#Descripcion").val();
+                                obj['Version'] = $("#Version").val();
+                                obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+                                obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                var jsonObject = {
+                                    "Adoc": obj
+                                };
+                                $.ajax({
+                                    url: "@Url.Action("DocumentoActualizar", "Administracion")",
+                                    data: JSON.stringify(jsonObject),
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    success: function (data) {
 
-        $("#BtnGuardar").prop('disabled', true);
+                                        swal({
+                                            title: "Documento Actualizado !",
+                                            text: " ",
+                                            icon: "success",
+                                            button: "Aceptar",
+                                        }).then((value) => {
+                                            window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
+                                        });
+                                    },
+                                    error: function (resultado) {
+                                        console.log(resultado);
+                                        alert("Error funcion ");
+                                    }
 
-        var obj = {};
-        obj['Id'] = id;
-        obj['Nombre'] = $("#NombreDocumento").val();
-        obj['PalabraClave'] = $("#PalabraClave").val();
+                                });
+                                $("#BtnGuardar").prop('disabled', false);
+                    } else {
+                        swal({
+                            title: "Debes completar el formulario de información.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        }); }
 
-        obj['FechaRevision'] = $("#FechaRevision").val();
-        obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
-        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+                } else {
+                    swal({
+                        title: "Debes completar el formulario de información.",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    }); }
 
-        obj['Descripcion'] = $("#Descripcion").val();
-        obj['Version'] = $("#Version").val();
-
-        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
-        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-
-
-
-        var jsonObject = {
-            "Adoc": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("DocumentoActualizar", "Administracion")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
+            } else {
                 swal({
-                    title: "Documento Actualizado !",
-                    text: " ",
-                    icon: "success",
+                    title: "Debes completar el formulario de información.",
+                    text: '',
+                    icon: "warning",
                     button: "Aceptar",
-                }).then((value) => {
-                    window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
                 });
-            },
-            error: function (resultado) {
-                console.log(resultado);
-                alert("Error funcion ");
-            }
+}
 
-        });
-
-        $("#BtnGuardar").prop('disabled', false);
         };
+
         function ConsultaSubClasificacion(Id) {
             $('#SubClasificacionArchivo').empty();
             $('#Select3').empty();
@@ -1219,6 +1229,123 @@
                 });
             }
         }
+        function validatodasfechasEdit() {
+            var result = false;
+
+            if (validarFechaRevision()) {
+
+                if (validarFechaPublicacion()) {
+
+                    if (validarFechadeentradaenvigor()) {
+
+                        if (validarFechaVencimiento()) {
+
+                            if (validarFechaProximaRevision()) {
+
+                                var result = true;
+
+                            }
+
+
+
+                        }
+                    }
+                }
+
+            }
+            return result;
+        }
+
+
+
+        function ValidaDescripcion() {
+
+            var result = false;
+
+
+            $('#TipoDocumento').css("border", "1px solid #ff0049");
+            $('#Version').css("border", "1px solid #ff0049");
+            $('#NombreDocumento').css("border", "1px solid #ff0049");
+            $('#PalabraClave').css("border", "1px solid #ff0049");
+            $('#Descripcion').css("border", "1px solid #ff0049");
+
+
+            if ($("#TipoDocumento option:selected").val() > 0) {
+                $('#TipoDocumento').css("border", "1px solid #cccccc");
+            }
+
+            if ($('#Version').val().length > 0) {
+                $('#Version').css("border", "1px solid #cccccc");
+            }
+
+            if ($('#NombreDocumento').val().length > 0) {
+                $('#NombreDocumento').css("border", "1px solid #cccccc");
+            }
+            if ($('#PalabraClave').val().length > 0) {
+                $('#PalabraClave').css("border", "1px solid #cccccc");
+            }
+            if ($('#Descripcion').val().length > 0) {
+                $('#Descripcion').css("border", "1px solid #cccccc");
+            }
+
+
+            if ($("#TipoDocumento option:selected").val() > 0) {
+                if ($('#Version').val().length > 0) {
+                    if ($('#NombreDocumento').val().length > 0) {
+                        if ($('#PalabraClave').val().length > 0) {
+                            if ($('#Descripcion').val().length > 0) {
+                                result = true;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            return result;
+        }
+        function ValidaDistribucion() {
+            var result = false;
+
+            $('#Select_TipoArchivo').css("border", "1px solid #ff0049");
+            $('#Select_MedioAlmacenamiento').css("border", "1px solid #ff0049");
+
+            if ($("#Select_TipoArchivo option:selected").val() > 0) {
+                $('#Select_TipoArchivo').css("border", "1px solid #cccccc");
+            }
+
+
+            if ($("#Select_MedioAlmacenamiento option:selected").val() > 0) {
+                $('#Select_MedioAlmacenamiento').css("border", "1px solid #cccccc");
+            }
+
+
+
+            if ($("#Select_TipoArchivo option:selected").val() > 0) {
+                if ($("#Select_MedioAlmacenamiento option:selected").val() > 0) {
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+        function validaClasificacionArchivo() {
+
+            var result = false;
+
+            $('#Clasificacion').css("border", "1px solid #ff0049");
+
+
+            if ($('#Clasificacion option:selected').val() > 0) {
+                $().css("border", "1px solid #cccccc");
+            }
+
+            if ($('#Clasificacion option:selected').val() > 0) {
+                result = true;
+            }
+
+            return result;
+        }
         /*Conteo caracteres*/
         function countChars(obj) {
             var maxLength = 150;
@@ -1550,151 +1677,198 @@
 
         //FUNCION Guardar Datos
         function GuardarDocumentos() {
-            if (ValidaDocumento()) {
-                $("#BtnGuardarEdit").prop('disabled', true);
 
-                var obj = {};
+            if (ValidaDescripcion()) {
+                if (ValidaDistribucion()) {
+                    if (validaClasificacionArchivo()) {
+                        if (validatodasfechasEdit()) {
+                            if (ValidaDocumento()) {
 
-                obj['Version'] = ($("#Version").val());
-                obj['Id'] =  @ViewBag.Id;
+                                $("#BtnGuardarEdit").prop('disabled', true);
+                                var obj = {};
+                                obj['Version'] = ($("#Version").val());
+                                obj['Id'] =  @ViewBag.Id;
+                                var jsonObject = {
+                                    "nuevoDocumento": obj
+                                };
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("Documentos_Actualizar", "Documentos")",
+                                    async: false,
+                                    data: JSON.stringify(jsonObject),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (data) {
+                                        switch (data.Id) {
+                                            case -1:
+
+                                                swal({
+                                                    title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
 
 
-                var jsonObject = {
-                    "nuevoDocumento": obj
-                };
-                $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("Documentos_Actualizar", "Documentos")",
-                    async: false,
-                    data: JSON.stringify(jsonObject),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        switch (data.Id) {
-                            case -1:
+                                                break;
+                                            case 0:
+                                                swal({
+                                                    title: "Algo ocurrió documento no registrado !",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+                                                break;
 
-                                swal({
-                                    title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                    text: '',
-                                    icon: "warning",
-                                    button: "Aceptar",
+                                            default:
+                                            // code block
+                                        }
+                                        if (data.Id > 0) {
+                                            Guardar(@ViewBag.Id);
+                                        }
+                                    }
                                 });
-
-
-                                break;
-                            case 0:
+                                $("#BtnGuardarEdit").prop('disabled', false);
+                            }else {
                                 swal({
-                                    title: "Algo ocurrió documento no registrado !",
-                                    text: '',
+                                    title: "Documento faltante",
+                                    text: 'No has cargado ningun documento PDF',
                                     icon: "warning",
-                                    button: "Aceptar",
+                                    button: "Aceptar"
                                 });
-                                break;
+                            }
+                        } else { }
 
-                            default:
-                            // code block
-                        }
-                        if (data.Id > 0) {
-                            swal({
-                                title: "Documento Actualizado. !",
-                                text: " ",
-                                icon: "success",
-                                button: "Aceptar",
-                            }).then((value) => {
-                                location.reload();
-                            });
-                        }
+                    } else {
+                        swal({
+                            title: "Debes completar el formulario de información.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
                     }
-                });
 
-                $("#BtnGuardarEdit").prop('disabled', false);
+                } else {
+                    swal({
+                        title: "Debes completar el formulario de información.",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                }
+
             } else {
                 swal({
-                    title: "Documento faltante",
-                    text: 'No has cargado ningun documento PDF',
+                    title: "Debes completar el formulario de información.",
+                    text: '',
                     icon: "warning",
-                    button: "Aceptar"
+                    button: "Aceptar",
                 });
             }
         };
 
         function GuardarDocumentosEdit() {
-
-            if (ValidaDocumento()) {
-                if (ValidaDocumentoWord()) {
-                    $("#BtnGuardarEdit").prop('disabled', true);
-
-                    var obj = {};
-
-                    obj['Version'] = ($("#Version").val());
-                    obj['Id'] =  @ViewBag.Id;
+            if (ValidaDescripcion()) {
+                if (ValidaDistribucion()) {
+                    if (validaClasificacionArchivo()) {
+                        if (validatodasfechasEdit()) {
+                            if (ValidaDocumento()) {
+                                if (ValidaDocumentoWord()) {
 
 
-                    var jsonObject = {
-                        "nuevoDocumento": obj
-                    };
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("Documentos_Actualizar", "Documentos")",
-                        async: false,
-                        data: JSON.stringify(jsonObject),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            switch (data.Id) {
-                                case -1:
+                                    $("#BtnGuardarEdit").prop('disabled', true);
+                                    var obj = {};
+                                    obj['Version'] = ($("#Version").val());
+                                    obj['Id'] =  @ViewBag.Id;
+                                    var jsonObject = {
+                                        "nuevoDocumento": obj
+                                    };
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("Documentos_Actualizar", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            switch (data.Id) {
+                                                case -1:
 
-                                    swal({
-                                        title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                        text: '',
-                                        icon: "warning",
-                                        button: "Aceptar",
+                                                    swal({
+                                                        title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                        text: '',
+                                                        icon: "warning",
+                                                        button: "Aceptar",
+                                                    });
+
+
+                                                    break;
+                                                case 0:
+                                                    swal({
+                                                        title: "Algo ocurrió documento no registrado !",
+                                                        text: '',
+                                                        icon: "warning",
+                                                        button: "Aceptar",
+                                                    });
+                                                    break;
+
+                                                default:
+                                                // code block
+                                            }
+                                            if (data.Id > 0) {
+                                                Guardar(@ViewBag.Id);
+                                            }
+                                        }
                                     });
+                                    $("#BtnGuardarEdit").prop('disabled', false);
+                                }
 
-
-                                    break;
-                                case 0:
+                                else {
                                     swal({
-                                        title: "Algo ocurrió documento no registrado !",
-                                        text: '',
+                                        title: "Documento faltante",
+                                        text: ' Carga un documento editable para poder actualizar el archivo deseado',
                                         icon: "warning",
-                                        button: "Aceptar",
+                                        button: "Aceptar"
                                     });
-                                    break;
-
-                                default:
-                                // code block
-                            }
-                            if (data.Id > 0) {
+                                }
+                            } else {
                                 swal({
-                                    title: "Documento Actualizado. !",
-                                    text: " ",
-                                    icon: "success",
-                                    button: "Aceptar",
-                                }).then((value) => {
-                                    location.reload();
+                                    title: "Documento faltante",
+                                    text: 'No has cargado ningun documento PDF',
+                                    icon: "warning",
+                                    button: "Aceptar"
                                 });
                             }
-                        }
-                    });
+                        } else { }
 
-                    $("#BtnGuardarEdit").prop('disabled', false);
+                    } else {
+                        swal({
+                            title: "Debes completar el formulario de información.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
                 } else {
                     swal({
-                        title: "Documento faltante",
-                        text: ' Carga un documento editable para poder actualizar el archivo deseado',
+                        title: "Debes completar el formulario de información.",
+                        text: '',
                         icon: "warning",
-                        button: "Aceptar"
+                        button: "Aceptar",
                     });
                 }
+
             } else {
                 swal({
-                    title: "Documento faltante",
-                    text: 'No has cargado ningun documento PDF',
+                    title: "Debes completar el formulario de información.",
+                    text: '',
                     icon: "warning",
-                    button: "Aceptar"
+                    button: "Aceptar",
                 });
             }
+
+
 
         };
 
@@ -1702,11 +1876,11 @@
 
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#visaulizarDocumento').addClass("active");
-
-
         const versionamiento = document.getElementById("Version");
         versionamiento.onchange = function () {
-            $("#versionamiento").show(); 
+            $("#versionamiento").show();
+            $("#btnEdit").show();
+            $("#colbtn").hide();
         }
     </script>
 
