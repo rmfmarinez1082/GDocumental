@@ -29,7 +29,7 @@ namespace ProyectoBase.Data
                     Descripcion = reader["Descripcion"].ToString(),
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     PalabrasClave = reader["PalabrasClave"].ToString(), 
-                    NmArchivo = reader["NmArchivoword"].ToString()
+                    NmArchivo = reader["NmArchivoword"].ToString(),
                 };
                 resultado.Add(item);
             }

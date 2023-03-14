@@ -88,14 +88,17 @@
 
                                                     <th style="color:white">Nombre</th>
                                                     <th class="text-center" style="color:white">Detalle</th>
-                                                    <th class="text-center" style="color:white">Editar</th>
+
                                                     <th style="display:none;" class="text-center">palabras clable</th>
                                                     <th class="text-center" style="color:white">Compartir</th>
                                                     <th class="text-center" style="color:white">Almacen físico</th>
                                                     <th class="text-center" style="color:white">Prestamo</th>
                                                     <th class="text-center" style="color:white">Ruta</th>
-                                                    <th class="text-center" style="color:white">Eliminar</th>
                                                     <th class="text-center" style="color:white">Descargar</th>
+                                                    <th class="text-center" style="color:white">Editar</th>
+
+                                                    <th class="text-center" style="color:white">Eliminar</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
@@ -116,7 +119,6 @@
                                                         }
 
                                                         <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20" style="color: #0d6efd "></i></a></td>
-                                                        <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
                                                         <td style="display:none;"><a>@item.PalabrasClave</a></td>
 
 
@@ -211,19 +213,37 @@
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
                                                             <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+
+                                                            ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
+                                                            permiso.IdUsuario = ViewBag.UsuarioId;
+                                                            permiso.IdDocumento = item.Id;
+                                                            var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
+
                                                         }
-                                                        @if (item.NmArchivo != "")
+
+
+                                                        @if (item.NmArchivo != "" && Resultado.Id == 1)
 
                                                         {
-                                                            //ACCION DESCARGAR
-                                                            <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+                                                            <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
 
                                                         }
                                                         else
                                                         {
                                                             <td class="text-center"><a><i></i></a>No disponible</td>
+                                                        }
+                                                        @if (Resultado.Id == 1)
+
+                                                        {
+                                                            <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
 
                                                         }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><a><i></i></a>Editando</td>
+                                                        }
+
+
                                                         <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
 
                                                     </tr>
@@ -481,7 +501,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
-        });     
+        });
         //$('#TableDocsCompartido').DataTable({
 
         //    pageLength: 5,
@@ -508,6 +528,36 @@
     $("#Empresahide").hide();
     $("#Provedorhide").hide();
     //Funcion detalles del documento
+    function Bloquear(Id) {
+
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("DocumentoInsertarPermiso", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                swal({
+                    title: "Documento descargado",
+                    text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documneto para habilitar la edición en los demas usuarios",
+                    icon: "success",
+                    button: "Aceptar",
+                })
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
 
     function VerDetalle(Id) {
 

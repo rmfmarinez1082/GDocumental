@@ -74,5 +74,14 @@ namespace ProyectoBase.Application
         {
             return _Documentos.SP_NPrestar(Ddoc);
         }
+
+        public Models.Documento DocumentoInsertarPermiso(Models.Documento Doc)
+        {
+            return _Documentos.DocumentoInsertarPermiso(Doc);
+        } 
+        public Models.Documento HabilitarPermisos(Models.Documento Doc)
+        {
+            return _Documentos.HabilitarPermisos(Doc);
+        }
     }
 }

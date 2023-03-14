@@ -352,6 +352,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
+                ViewBag.UsuarioId = Usuario.Id;
 
                 List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
                 ViewBag.dtEntidad = dtEntidades;
@@ -1068,6 +1069,24 @@ namespace ProyectoBase.Controllers
             List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(list_User);
 
             return Json(lisUser);
+        }
+
+        public JsonResult DocumentoInsertarPermiso(Models.Documento Doc, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Doc.IdUsuario = Usuario.Id;
+            Models.Documento Res = ADoc.DocumentoInsertarPermiso(Doc);
+
+            return Json(Res);
+        } 
+        
+        public JsonResult HabilitarPermisos(Models.Documento Doc, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Doc.IdUsuario = Usuario.Id;
+            Models.Documento Res = ADoc.HabilitarPermisos(Doc);
+
+            return Json(Res);
         }
     }
 }

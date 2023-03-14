@@ -641,11 +641,11 @@
                                         <div id="btnEdit" class="col-md-6" style="display:none">
                                             @if (ViewBag.editable != "")
                                             {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentosEdit()" id="BtnGuardarEditable">Actualizar</button>
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">Actualizar</button>
                                             }
                                             else
                                             {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="GuardarDocumentos()" id="BtnGuardarEdit">Actualizar</button>
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()" id="BtnGuardarEdit">Actualizar</button>
                                             }
                                         </div>
                                         <div class="col-md-6" id="colbtn">
@@ -1675,6 +1675,7 @@
         return result;
     }
 
+
         //FUNCION Guardar Datos
         function GuardarDocumentos() {
 
@@ -1766,7 +1767,6 @@
                 });
             }
         };
-
         function GuardarDocumentosEdit() {
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
@@ -1872,6 +1872,57 @@
 
         };
 
+
+        function habilitar() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                  
+                    GuardarDocumentos();
+                },
+                error: function (resultado) {
+
+                  
+                }
+            });
+        }
+        function habilitarEdit() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                   
+                    GuardarDocumentosEdit();
+                },
+                error: function (resultado) {
+
+                  
+                }
+            });
+        }
 
 
         $('#menuDocumentos').addClass("active pcoded-trigger");

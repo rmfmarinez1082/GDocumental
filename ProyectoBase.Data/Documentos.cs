@@ -401,5 +401,43 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        
+        
+        public Models.Documento DocumentoInsertarPermiso(Models.Documento Doc)
+
+        {
+            b.ExecuteCommandSP("DocumentoInsertarPermiso");
+            b.AddParameter("@IdDoc", Doc.Id, SqlDbType.Int);
+            b.AddParameter("@IdUser", Doc.IdUsuario, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Documento HabilitarPermisos(Models.Documento Doc)
+
+        {
+            b.ExecuteCommandSP("HabilitarPermisos");
+            b.AddParameter("@IdDoc", Doc.Id, SqlDbType.Int);
+            b.AddParameter("@IdUser", Doc.IdUsuario, SqlDbType.Int);
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }
