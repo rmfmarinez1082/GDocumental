@@ -388,7 +388,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="CompartirTitulo"></h5>
+                <h5 class="modal-title" id="CompartirTitulo2"></h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
@@ -403,7 +403,7 @@
                                 <thead style="background-color: #0d6efd">
                                     <tr>
                                         <th style="color:white">Nombre</th>
-                                        <th style="color:white">Email</th>
+                                        <th  class="text-center"  style="color:white">Email</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider" id="Contenido">
@@ -502,14 +502,7 @@
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
         });
-        //$('#TableDocsCompartido').DataTable({
-
-        //    pageLength: 5,
-        //    lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-        //    language: {
-        //        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-        //    }
-        //});
+      
 
         $('#Empleado').select2({
             dropdownParent: $("#ModalCompartir")
@@ -547,7 +540,7 @@
 
                 swal({
                     title: "Documento descargado",
-                    text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documneto para habilitar la edición en los demas usuarios",
+                    text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documento para habilitar la edición en los demas usuarios",
                     icon: "success",
                     button: "Aceptar",
                 })
@@ -687,6 +680,7 @@
         success: function (resultado) {
             $('#Idcompartir').val(resultado[0].Id);
             $('#CompartirTitulo').text('Compartir Documento: ' + resultado[0].Nombre);
+            $('#CompartirTitulo2').text('Compartir Documento: ' + resultado[0].Nombre);
         },
         error: function (resultado) {
             alert("Error funcion listar compartir por ID ");
@@ -1269,7 +1263,7 @@
         if (validacompartir()) {
 
             $('#ModalCompartido').modal('show');
-
+            
             var obj = {};
             obj['IdDocumento'] = $("#Idcompartir").val();
             obj['IdEntidad'] = $("#Entidad option:selected").val();
@@ -1296,6 +1290,7 @@
 
             $.ajax({
                 url: "@Url.Action("UsuarioPosCompartir", "Documentos")",
+
                 data: JSON.stringify(jsonObject),
                 type: "POST",
                 contentType: "application/json",
@@ -1306,6 +1301,7 @@
 
                     tabla(resultado);
 
+
                 },
                 error: function (resultado) {
                     alert("Error funcion listar compartir por ID ");
@@ -1313,10 +1309,12 @@
             });
 
             function tabla(datos) {
-                //console.log(datos);
+                var table = $('#TableDocsCompartido').DataTable();
+                table.destroy();
+
+           /*     $('#TableDocsCompartido').destroy();*/
+
                 Contenido.innerHTML = "";
-
-
                 for (let valor of datos) {
 
                     Contenido.innerHTML += `
@@ -1325,11 +1323,19 @@
                         <th>${valor.Nombre}</th>
                         <th>${valor.EMail}</th>
 
-                    </tr>
-                `
+                    </tr>`
                 }
 
+                
 
+                $('#TableDocsCompartido').DataTable({
+
+                    pageLength: 5,
+                    lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                    }
+                });
             }
         }
     }

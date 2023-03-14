@@ -144,7 +144,7 @@
                                 <thead style="background-color: #0d6efd">
                                     <tr>
                                         <th style="color:white">Nombre</th>
-                                        <th  style="color:white">Fecha</th>
+                                        <th  class="text-center"  style="color:white">Fecha</th>
                                         <th class="text-center" style="color:white">Estado</th>
                                     </tr>
                                 </thead>
@@ -180,14 +180,7 @@
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
         });
-        //$('#TableDocsCompartido').DataTable({
 
-        //    pageLength: 10,
-        //    lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-        //    language: {
-        //        url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-        //    }
-        //});
 
 
     });
@@ -224,6 +217,8 @@
         });
 
         function tabla(datos) {
+            var table = $('#TableDocsCompartido').DataTable();
+            table.destroy();
             //console.log(datos);
             Contenido.innerHTML = "";
 
@@ -240,6 +235,15 @@
                     </tr>
                 `
             }
+
+            $('#TableDocsCompartido').DataTable({
+
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                }
+            });
 
 
         }
