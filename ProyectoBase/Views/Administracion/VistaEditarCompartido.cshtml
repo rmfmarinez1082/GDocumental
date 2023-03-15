@@ -641,21 +641,21 @@
                                         <div id="btnEdit" class="col-md-6" style="display:none">
                                             @if (ViewBag.editable != "")
                                             {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">Actualizar</button>
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="DesbloPEdit()" id="BtnGuardarEditable">Actualizar</button>
                                             }
                                             else
                                             {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()" id="BtnGuardarEdit">Actualizar</button>
+                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="DesbloP()" id="BtnGuardarEdit">Actualizar</button>
                                             }
                                         </div>
                                         <div class="col-md-6" id="colbtn">
                                             <button class="btn waves-effect waves-light btn-success col-12" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
+                                            <a href="/Documentos/DocCompartidos" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
                                         </div>
                                     </div>
-                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -696,7 +696,7 @@
                             <div class="card table-card" style="display:none" id="versionamiento">
                                 <div class="card-header">
                                     <h5>Archivos</h5>
-                                   
+
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -745,7 +745,7 @@
                                                 </div>
                                             </div>
 
-                                          
+
 
                                         </div>
 
@@ -801,7 +801,7 @@
                                             icon: "success",
                                             button: "Aceptar",
                                         }).then((value) => {
-                                            window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
+                                            window.location.href = '@Url.Action("DocCompartidos", "Documentos")';
                                         });
                                     },
                                     error: function (resultado) {
@@ -1889,12 +1889,12 @@
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                  
+
                     GuardarDocumentos();
                 },
                 error: function (resultado) {
 
-                  
+
                 }
             });
         }
@@ -1914,19 +1914,71 @@
                 contentType: "application/json",
                 dataType: "json",
                 success: function (data) {
-                   
+
                     GuardarDocumentosEdit();
                 },
                 error: function (resultado) {
 
+
+                }
+            });
+        }
+
+        function DesbloP() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("DesbloP", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    habilitar();
                   
+                },
+                error: function (resultado) {
+
+
+                }
+            });
+        }
+        function DesbloPEdit() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("DesbloP", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+
+                    habilitarEdit();
+                },
+                error: function (resultado) {
+
+
                 }
             });
         }
 
 
+
         $('#menuDocumentos').addClass("active pcoded-trigger");
-        $('#visaulizarDocumento').addClass("active");
+        $('#DocumentoCompartido').addClass("active");
         const versionamiento = document.getElementById("Version");
         versionamiento.onchange = function () {
             $("#versionamiento").show();
@@ -1934,6 +1986,7 @@
             $("#colbtn").hide();
         }
     </script>
+
 
 
 

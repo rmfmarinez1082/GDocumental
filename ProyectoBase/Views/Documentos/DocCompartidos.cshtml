@@ -77,11 +77,11 @@
                                                         <td>@item.FechaEntradaVigor</td>
                                                         <td>@item.FechaVencimiento</td>
                                                         <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
-                                                        @if (item.IdTipoDocumento == 8)
+                                                        @if (item.IdTipoDocumento == 8 && item.Editable == 1)
 
                                                         {
-                                                            //ACCIONDECARGAR
-                                                            <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+                                                            //ACCION DESCARGAR
+                                                            <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
                                                             <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
 
                                                         }
@@ -214,6 +214,61 @@
             }
         });
     });
+     function Bloquear(Id) {
+
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("DocumentoInsertarPermiso", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                BloqueoP(Id);
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
+
+
+    function BloqueoP(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Bloqueop", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                swal({
+                    title: "Documento descargado",
+                    text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documento para habilitar la edición en los demas usuarios",
+                    icon: "success",
+                    button: "Aceptar",
+                })
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
 
     function VerRegistro(documento) {
 
@@ -335,7 +390,7 @@
 
 
      function Ver(documento) {
-        window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
+        window.location.href='@Url.Action("VistaEditarCompartido", "Administracion")?Id=' + documento;
     }
 </script>
 

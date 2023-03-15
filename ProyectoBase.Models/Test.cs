@@ -170,5 +170,26 @@ namespace ProyectoBase.Models
             return resultado;
         }
 
+
+
+        public static Models.Notification ValidacionPermiso(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("ValidacionPermiso");
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
+            b.AddParameter("@IdUSer", datos.IdUsuario, SqlDbType.VarChar);
+
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

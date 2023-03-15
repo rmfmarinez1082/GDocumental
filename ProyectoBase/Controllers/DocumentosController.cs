@@ -352,6 +352,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
+                ViewBag.UsuarioId = Usuario.Id;
 
                 List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
                 ViewBag.dtEntidad = dtEntidades;
@@ -1069,5 +1070,42 @@ namespace ProyectoBase.Controllers
 
             return Json(lisUser);
         }
+
+        public JsonResult DocumentoInsertarPermiso(Models.Documento Doc, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Doc.IdUsuario = Usuario.Id;
+            Models.Documento Res = ADoc.DocumentoInsertarPermiso(Doc);
+
+            return Json(Res);
+        } 
+        
+        public JsonResult HabilitarPermisos(Models.Documento Doc, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Doc.IdUsuario = Usuario.Id;
+            Models.Documento Res = ADoc.HabilitarPermisos(Doc);
+
+            return Json(Res);
+        }
+
+
+
+        public JsonResult Bloqueop(Models.Documento Doc, Application.Documentos ADoc)
+        {
+           //Buscando la forma de obtener id del personal un documneto
+            Models.Documento Res = ADoc.Bloqueop(Doc);
+
+            return Json(Res);
+        } 
+        
+        public JsonResult DesbloP(Models.Documento Doc, Application.Documentos ADoc)
+        {
+           //Buscando la forma de obtener id del personal un documneto
+            Models.Documento Res = ADoc.DesbloP(Doc);
+
+            return Json(Res);
+        }
+
     }
 }

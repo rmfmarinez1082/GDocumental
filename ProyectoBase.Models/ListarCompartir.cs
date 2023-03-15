@@ -18,6 +18,8 @@ namespace ProyectoBase.Models
         public int IdTipoDocumento { get; set; }
         public string FechaEntradaVigor { get; set; }
         public string FechaVencimiento { get; set; }
-   
+
+        public int Editable { get; set; }
+
     }
 }
