@@ -231,6 +231,31 @@
             dataType: "json",
             success: function (data) {
 
+                BloqueoP(Id);
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
+
+
+    function BloqueoP(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Bloqueop", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
                 swal({
                     title: "Documento descargado",
                     text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documento para habilitar la edición en los demas usuarios",
@@ -365,7 +390,7 @@
 
 
      function Ver(documento) {
-        window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
+        window.location.href='@Url.Action("VistaEditarCompartido", "Administracion")?Id=' + documento;
     }
 </script>
 

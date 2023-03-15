@@ -410,6 +410,89 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("Index", "Home"); }
 
+        } 
+        
+        public ActionResult VistaEditarCompartido(Models.Notification _notification, Application.Notification Anotification,
+        Application.Documentos documentos, Application.Cat_Tipo_Documento cat_Tipo_Documento,
+        Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
+        Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        {
+
+
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+
+                List<Models.Cat_Tipo_Documento> dtTipoDocumentos = cat_Tipo_Documento.Cat_Tipo_Documento_Listar();
+                ViewBag.dtTipoDocumentos = dtTipoDocumentos;
+
+                List<Models.Cat_TipoArchivo> dtTipoArchivo = cat_TipoArchivo.Cat_TipoArchivo_Listar();
+                ViewBag.dtTipoArchivo = dtTipoArchivo;
+
+                List<Models.Cat_Almacenamiento_Documento> dtAlmacenamiento = cat_Almacenamiento_Documento.Cat_Almacenamiento_Documento_Listar();
+                ViewBag.dtAlmacenamiento = dtAlmacenamiento;
+
+                List<Models.Cat_ClasificacionDoc> dtClasificacion = cat_ClasificacionDoc.Cat_ClasificacionDoc_Listar();
+                ViewBag.dtClasificacion = dtClasificacion;
+
+                List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+                ViewBag.dtClasificacionArchivo = dtClasificacionArchivo;
+
+                List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_Subclas();
+                ViewBag.dtsubClasificacionArchivo = dtSClasificacionArchivo;
+
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo2(doc);
+                    ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.editable = documento.NmArchivoword;
+                    ViewBag.Descripcion = documento.Descripcion;
+                    ViewBag.version = documento.Version;
+                    ViewBag.codigo = documento.NmArchivo;
+                    ViewBag.Id = doc.Id;
+
+                    ViewBag.FechaRevision = documento.FechaRevision;
+                    ViewBag.Fechadeentradaenvigor = documento.FechaEntradaVigor;
+                    ViewBag.FechaPublicacion = documento.FechaPublicacion;
+                    ViewBag.FechaVencimiento = documento.FechaVencimiento;
+                    ViewBag.FechaProximaRevision = documento.FechaProximaRevision;
+
+                    ViewBag.dtTipoDocumento = documento.IdTipoDocumento;
+                    ViewBag.PalabraClave = documento.PalabraClave;
+                    ViewBag.IdTipoArchivo = documento.IdTipoArchivo;
+                    ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
+                    ViewBag.IdClasificacion = documento.IdClasificacion;
+
+
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("PrincipalA", "Administracion");
+                }
+
+
+            }
+            else { return RedirectToAction("Index", "Home"); }
+
         }
 
         public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification)

@@ -1088,5 +1088,24 @@ namespace ProyectoBase.Controllers
 
             return Json(Res);
         }
+
+
+
+        public JsonResult Bloqueop(Models.Documento Doc, Application.Documentos ADoc)
+        {
+           //Buscando la forma de obtener id del personal un documneto
+            Models.Documento Res = ADoc.Bloqueop(Doc);
+
+            return Json(Res);
+        } 
+        
+        public JsonResult DesbloP(Models.Documento Doc, Application.Documentos ADoc)
+        {
+           //Buscando la forma de obtener id del personal un documneto
+            Models.Documento Res = ADoc.DesbloP(Doc);
+
+            return Json(Res);
+        }
+
     }
 }

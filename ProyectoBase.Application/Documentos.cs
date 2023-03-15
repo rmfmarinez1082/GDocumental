@@ -82,6 +82,14 @@ namespace ProyectoBase.Application
         public Models.Documento HabilitarPermisos(Models.Documento Doc)
         {
             return _Documentos.HabilitarPermisos(Doc);
+        }  
+        public Models.Documento Bloqueop(Models.Documento Doc)
+        {
+            return _Documentos.Bloqueop(Doc);
+        } 
+        public Models.Documento DesbloP(Models.Documento Doc)
+        {
+            return _Documentos.DesbloP(Doc);
         }
     }
 }
