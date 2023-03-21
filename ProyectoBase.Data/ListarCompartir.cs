@@ -23,6 +23,7 @@ namespace ProyectoBase.Data
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
                     prestamo = Convert.ToInt32(reader["Prestamo"].ToString()),
+                    Compartido = Convert.ToInt32(reader["Compartido"].ToString()),
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     FechaVencimiento = reader["FechaVencimiento"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
@@ -30,6 +31,8 @@ namespace ProyectoBase.Data
                     IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString()),
                     PalabrasClave = reader["PalabrasClave"].ToString(),
                     Editable = Convert.ToInt32(reader["Editable"].ToString()),
+                   
+                    
                 };
                 resultado.Add(item);
             }

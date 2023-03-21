@@ -20,6 +20,7 @@ namespace ProyectoBase.Models
         public string FechaVencimiento { get; set; }
 
         public int Editable { get; set; }
+        public int Compartido { get; set; }
 
     }
 }

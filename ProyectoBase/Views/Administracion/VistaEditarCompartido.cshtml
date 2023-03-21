@@ -1975,7 +1975,26 @@
             });
         }
 
+        const Nombre = document.getElementById('NombreDocumento');
+        Nombre.addEventListener('keyup', function () {
+            const text = Nombre.value;
+            const uppercaseText = text.toUpperCase();
+            Nombre.value = uppercaseText;
+        });
 
+        const PalabraClave = document.getElementById('PalabraClave');
+        PalabraClave.addEventListener('keyup', function () {
+            const text = PalabraClave.value;
+            const uppercaseText = text.toUpperCase();
+            PalabraClave.value = uppercaseText;
+        });
+
+        const Descripciones = document.getElementById('Descripcion');
+        Descripciones.addEventListener('keyup', function () {
+            const text = Descripciones.value;
+            const uppercaseText = text.toUpperCase();
+            Descripciones.value = uppercaseText;
+        });
 
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#DocumentoCompartido').addClass("active");

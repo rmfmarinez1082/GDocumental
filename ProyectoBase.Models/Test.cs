@@ -191,5 +191,24 @@ namespace ProyectoBase.Models
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public static Models.Notification Editor(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("Editor");
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
+          
+
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Nombre = reader["Nombre"].ToString();
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

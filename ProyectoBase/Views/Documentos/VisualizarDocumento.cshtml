@@ -219,6 +219,10 @@
                                                             permiso.IdDocumento = item.Id;
                                                             var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
 
+                                                            ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                            editor.IdDocumento = item.Id;
+                                                            var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
                                                         }
 
 
@@ -240,7 +244,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <td class="text-center"><a><i></i></a>Editando</td>
+                                                             <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
                                                         }
 
 

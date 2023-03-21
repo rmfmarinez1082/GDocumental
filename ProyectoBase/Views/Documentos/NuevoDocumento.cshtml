@@ -512,7 +512,7 @@
                                                         <div class="col-md-8 col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Descripción </label>
-                                                                <textarea class="form-control" id="Descripcion" rows="3"></textarea>
+                                                                <textarea   class="form-control" id="Descripcion" rows="3"></textarea>
                                                             </div>
                                                         </div>
 
@@ -2444,6 +2444,27 @@
 
         $('[href="#menu1"]').tab('show');
     });
+
+    const Nombre = document.getElementById('NombreDocumento');
+    Nombre.addEventListener('keyup', function () {
+        const text = Nombre.value;
+        const uppercaseText = text.toUpperCase();
+        Nombre.value = uppercaseText;
+    });
+
+    const PalabraClave = document.getElementById('PalabraClave');
+    PalabraClave.addEventListener('keyup', function () {
+        const text = PalabraClave.value;
+        const uppercaseText = text.toUpperCase();
+        PalabraClave.value = uppercaseText;
+    });
+
+    const Descripciones = document.getElementById('Descripcion');
+    Descripciones.addEventListener('keyup', function () {
+        const text = Descripciones.value;
+        const uppercaseText = text.toUpperCase();
+        Descripciones.value = uppercaseText;
+    });
 </script>
 
 <!--ARBOL-->
@@ -2628,6 +2649,10 @@
             });
 
             $('#jstree').on('rename_node.jstree', function (e, data) {
+
+                const node = data.node;
+                const newName = data.text.toUpperCase();
+                node.text = newName;
 
                 var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
                 var jsonObject = {
