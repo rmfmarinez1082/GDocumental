@@ -803,10 +803,11 @@
 
                                                             <div class="resumen">
                                                                 <p><strong>Fecha Revisión</strong> <br /> <span id="SP_FechaRevision"></span></p>
-                                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
                                                                 <p><strong>Fecha Publicacion</strong> <br /> <span id="SP_FechaPublicacion"></span></p>
-                                                                <p><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
+                                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
                                                                 <p><strong>Fecha Proxima Revisión</strong> <br /> <span id="SP_FechaProximaRevision"></span></p>
+                                                                <p><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
+
 
                                                             </div>
 
@@ -2380,12 +2381,26 @@
         $('#SP_Descripcion').text($("#Descripcion").val());
         $('#SP_Descripcion2').text($("#Descripcion").val());
 
-        /* $('#SP_Galeria').text(Galeria);*/
-        $('#SP_FechaRevision').text($("#FechaRevision").val());
-        $('#SP_Fechadeentradaenvigor').text($("#Fechadeentradaenvigor").val());
-        $('#SP_FechaPublicacion').text($("#FechaPublicacion").val());
-        $('#SP_FechaVencimiento').text($("#FechaVencimiento").val());
-        $('#SP_FechaProximaRevision').text($("#FechaProximaRevision").val());
+        var FechaRevision = new Date($("#FechaRevision").val() + 'T00:00:00');
+        var FechaRevisionF = new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(FechaRevision).replace(/\//g, '-');
+
+        var Fechadeentradaenvigor = new Date($("#Fechadeentradaenvigor").val() + 'T00:00:00');
+        var FechadeentradaenvigorF = Fechadeentradaenvigor.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+
+        var FechaPublicacion = new Date($("#FechaPublicacion").val() + 'T00:00:00');
+        var FechaPublicacionF = FechaPublicacion.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+
+        var FechaVencimiento = new Date($("#FechaVencimiento").val() + 'T00:00:00');
+        var FechaVencimientoF = FechaVencimiento.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+
+        var FechaProximaRevision = new Date($("#FechaProximaRevision").val() + 'T00:00:00');
+        var FechaProximaRevisionF = FechaProximaRevision.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+
+        $('#SP_FechaRevision').text(/*$("#FechaRevision").val()*/FechaRevisionF);
+        $('#SP_Fechadeentradaenvigor').text(/*$("#Fechadeentradaenvigor").val()*/FechadeentradaenvigorF);
+        $('#SP_FechaPublicacion').text(/*$("#FechaPublicacion").val()*/FechaPublicacionF);
+        $('#SP_FechaVencimiento').text(/*$("#FechaVencimiento").val()*/FechaVencimientoF);
+        $('#SP_FechaProximaRevision').text(/*$("#FechaProximaRevision").val()*/FechaProximaRevisionF);
 
         $('#SP_Select_TipoArchivo').text($("#Select_TipoArchivo option:selected").html());
         $('#SP_Select_MedioAlmacenamiento').text($("#Select_MedioAlmacenamiento option:selected").html());
