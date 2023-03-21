@@ -294,13 +294,14 @@ namespace ProyectoBase.Data
             {
                 Models.Documento item = new Models.Documento()
                 {
-                    Id = Convert.ToInt32(reader["Prestamo"].ToString()),
-                    Entrega = Convert.ToInt32(reader["Devuelto"].ToString()),
-                    FechaVencimiento = reader["FechaLimite"].ToString(),
-                    Nombre = reader["Nombre"].ToString(),
-                    NmOriginal = reader["Custodia"].ToString(),
-                    FechaPublicacion = reader["FechaT"].ToString()
+                    Id = Convert.ToInt32(reader["Dias"].ToString()),
 
+                    FechaPublicacion = reader["FechaRegistro"].ToString(),
+                    FechaVencimiento = reader["FechaT"].ToString(),
+                    
+                    //Nombre = reader["Nombre"].ToString(),
+                    NmOriginal = reader["Custodia"].ToString(),
+                    Entrega = Convert.ToInt32(reader["Devuelto"].ToString())
                 };
                 resultado.Add(item);
             }
