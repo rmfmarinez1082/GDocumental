@@ -104,7 +104,7 @@ namespace ProyectoBase.Application
             "<ul style='list-style:none;'>" +
             "<li><b> Título:</b>" + documento.Nombre + " </li>" +
             "<p style='margin:0px'>" +
-            "<img src='https://i.postimg.cc/xC96cFGj/ASAEito.png' align='right' width='100px' height='130px' style='margin-left: 20px'>" +
+            //"<img src='https://i.postimg.cc/xC96cFGj/ASAEito.png' align='right' width='100px' height='130px' style='margin-left: 20px'>" +
             "<li style='text-align:start;'><b>Descripción:</b>" + documento.Descripcion + "</li>" +
             "<li><b>Versión:</b>" + documento.Version + "</li>" +
             //"<li><b>Fecha de publicación:</b> 3-03-2023</li>" +
