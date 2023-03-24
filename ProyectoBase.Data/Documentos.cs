@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -334,7 +335,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
         public Models.Documento SP_NPrestar(Models.Documento Ddoc)
         {
 
@@ -351,10 +351,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
-
-
-
         public Models.Documento SP_ActualizarDoc(Models.NuevoDocumento nuevoDocumento)
 
         {
@@ -402,8 +398,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-        
-        
         public Models.Documento DocumentoInsertarPermiso(Models.Documento Doc)
 
         {
@@ -471,6 +465,51 @@ namespace ProyectoBase.Data
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
 
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        //public List<Models.Documento> DOC_Versionamiento(Models.Documento documento)
+        //{
+        //    const string consulta = "DOC_Versionamiento";
+        //    b.ExecuteCommandSP(consulta);
+        //    b.AddParameter("@IdDoc", documento.Id, SqlDbType.VarChar);
+
+
+        //    List<Models.Documento>
+        //        resultado = new List<Models.Documento>();
+        //        var reader = b.ExecuteReader();
+        //    if (reader.Read())
+        //    {
+        //        resultado = JsonConvert.DeserializeObject<List<Models.Documento>>(reader.GetValue(0).ToString());
+        //    }
+        //    reader = null;
+        //    b.ConnectionCloseToTransaction();
+
+        //    return resultado;
+        //}
+
+        public List<Models.Documento> DOC_Versionamiento(Models.Documento documento)
+        {
+            b.ExecuteCommandSP("DOC_Versionamiento");
+            b.AddParameter("@IdDoc", documento.Id, SqlDbType.VarChar);
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    Nombre = reader["Editores"].ToString(),
+                    NmArchivo = reader["NmArchivo"].ToString(),
+                    NmArchivoword = reader["NMArchivoEditable"].ToString(),
+                    Version = reader["Version"].ToString(),
+                    Registro = reader["Fecha"].ToString(),
+                    NmOriginal = reader["Nombre"].ToString()
+                };
+                resultado.Add(item);
             }
             reader = null;
             b.ConnectionCloseToTransaction();

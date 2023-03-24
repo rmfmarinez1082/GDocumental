@@ -91,5 +91,12 @@ namespace ProyectoBase.Application
         {
             return _Documentos.DesbloP(Doc);
         }
+
+
+        public List<Models.Documento> DOC_Versionamiento(Models.Documento documento)
+        {
+            return _Documentos.DOC_Versionamiento(documento);
+        }
+
     }
 }

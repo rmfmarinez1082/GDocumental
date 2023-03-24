@@ -344,6 +344,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
 
+        
+
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -398,6 +400,8 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
 
+                    List<Models.Documento> DocHistorial = documentos.DOC_Versionamiento(doc);
+                    ViewBag.Historial = DocHistorial;
 
                     return View();
                 }
