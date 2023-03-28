@@ -205,7 +205,7 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdUsuario", notificationId.IdUsuario, SqlDbType.VarChar);
             b.AddParameter("@IdDocumento", notificationId.IdDocumento, SqlDbType.VarChar);
             b.AddParameter("@IdAdmin", notificationId.IdAdmin, SqlDbType.VarChar);
-            b.AddParameter("@fecha", notificationId.fecha, SqlDbType.VarChar);
+            b.AddParameter("@fecha", notificationId.fecha, SqlDbType.DateTime);
             Models.Notification resultado = new Models.Notification();
             var reader = b.ExecuteReader();
             while (reader.Read())

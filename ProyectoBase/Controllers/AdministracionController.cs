@@ -485,6 +485,8 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
 
+                    List<Models.Documento> DocHistorial = documentos.DOC_Versionamiento(doc);
+                    ViewBag.Historial = DocHistorial;
 
                     return View();
                 }
