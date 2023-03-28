@@ -72,7 +72,7 @@
                                         <tr>
 
                                             @*<th style="color:white">Nombre</th>*@
-                                            <th class="text-center" style="color:white">Estado</th>
+                                            <th class="text-center" style="color:white">Vigencia</th>
                                             <th class="text-center" style="color:white">Fecha de prestamo</th>
                                             <th class="text-center" style="color:white">Límite de prestamo</th>
                                             <th class="text-center" style="color:white">Custodia</th>
@@ -87,17 +87,25 @@
 
                                             <tr>
                                                 @*<td><a>@item.Nombre</a></td>*@
-                                                @if (@item.Id >= 1)
+                                                @if (@item.Id >= 16)
                                                 {
-                                                    <td class="text-center"><span class="label label-success">Activo</span></td>
+                                                    <td class="text-center"><span class="label label-success">vigente</span></td>
 
                                                 }
-                                                else
+                                                else if (@item.Id <= 15 && @item.Id >= 1)
                                                 {
-                                                    <td class="text-center"><span class="label label-danger">Caducado</span></td>
+                                                    <td class="text-center"><span class="label label-warning" style="color: black !important;">Por vencer</span></td>
                                                 }
-                                                <td class="text-center"><a>@item.FechaVencimiento</a></td>
+                                                else if (@item.Id <= 0)
+                                                {
+                                                    <td class="text-center"><span class="label label-danger" >Vencido</span></td>
+                                                }
+
+
+
+
                                                 <td class="text-center"><a>@item.FechaPublicacion</a></td>
+                                                <td class="text-center"><a>@item.FechaVencimiento</a></td>
                                                 <td class="text-center"><a>@item.NmOriginal</a></td>
                                                 @if (@item.Entrega == 1)
                                                 {

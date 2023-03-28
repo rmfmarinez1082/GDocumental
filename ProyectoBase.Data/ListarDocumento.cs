@@ -15,7 +15,8 @@ namespace ProyectoBase.Data
         public List<Models.LisUser> SP_LisUser(Models.LisUser lisUser)
         {
             b.ExecuteCommandSP("SP_LisUser");
-            b.AddParameter("@Id", lisUser.Id, SqlDbType.VarChar);
+            b.AddParameter("@Id", lisUser.IdEntidad, SqlDbType.VarChar);
+            b.AddParameter("@Iduser", lisUser.Id, SqlDbType.VarChar);
 
             List<Models.LisUser> resultado = new List<Models.LisUser>();
             var reader = b.ExecuteReader();
@@ -87,7 +88,7 @@ namespace ProyectoBase.Data
             b.ExecuteCommandSP("SP_ListUserEntidad");
             b.AddParameter("@IdEntidad", ListUserEntidad.IdEntidad, SqlDbType.VarChar);
             b.AddParameter("@IdAsignacion", ListUserEntidad.IdAsignacion, SqlDbType.VarChar);
-
+            b.AddParameter("@Iduser", ListUserEntidad.Id, SqlDbType.VarChar);
 
             List<Models.LisUser> resultado = new List<Models.LisUser>();
             var reader = b.ExecuteReader();

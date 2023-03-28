@@ -578,6 +578,8 @@ namespace ProyectoBase.Controllers
         }
         public JsonResult User_Listar(Models.LisUser lisUser, Application.LisUser APLisUser)
         {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            lisUser.Id = Usuario.Id;
             List<Models.LisUser> LisUser = APLisUser.SP_LisUser(lisUser);
             return Json(LisUser);
         }
@@ -846,7 +848,7 @@ namespace ProyectoBase.Controllers
             Application.Notification notificacion, Models.Notification notificationId)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            
 
             Models.CCompartir NCompartirr = ApNCompartir.SP_Compartir(NCompartir);
             if (NCompartirr.Id == 1)
@@ -860,6 +862,7 @@ namespace ProyectoBase.Controllers
                 Models.LisUser lisUser1 = new Models.LisUser();
                 lisUser1.IdEntidad = NCompartir.IdEntidad;
                 lisUser1.IdAsignacion = NCompartir.IdAsignacion;
+                lisUser1.Id = Usuario.Id;
                 List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(lisUser1);
 
                 notificationId.IdAdmin = Usuario.Id;
@@ -1065,6 +1068,8 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult UsuarioPosCompartir(Models.LisUser list_User, Application.LisUser APlisUser)
         {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            list_User.Id = Usuario.Id;
 
             List<Models.LisUser> lisUser = APlisUser.SP_ListUserEntidad(list_User);
 

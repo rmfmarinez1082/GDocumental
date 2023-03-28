@@ -427,7 +427,7 @@
                                             <li><i class="fa fa-trash close-card"></i></li>
                                         </ul>
                                     </div>
-                                    <span>Edita la información del documento que deseas cambiar</span>
+                                    <span>Para subir una actualizacion del documento sera necesario cambiar la versión del documento.</span>
                                 </div>
                                 <br />
                                 <div class="row">
@@ -753,6 +753,54 @@
                                 </div>
                             </div>
 
+
+                            <div class="row">
+                                <div class="col-xl-12 col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5>Historial de versiones</h5>
+                                            <span>Consulta las versiones antigüas del documento</span>
+                                        </div>
+
+                                        <div class="card-block">
+
+                                            <div class="table-responsive">
+                                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                                    <thead style="background-color: #0d6efd">
+                                                        <tr>
+
+                                                            <th style="color:white">Nombre Editor</th>
+                                                            <th class="text-center" style="color:white">Versión</th>
+                                                            <th class="text-center" style="color:white">Fecha</th>
+                                                            <th class="text-center" style="color:white">Descargar</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-group-divider">
+                                                        @foreach (var item in ViewBag.Historial)
+                                                        {
+
+                                                            <tr>
+                                                                <td><i class="fa fa-user"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                                <td class="text-center"><a>@item.Version</a></td>
+                                                                <td class="text-center"><a>@item.Registro</a></td>
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.NmOriginal"><i class="fa fa-download f-20"></i></a></td>
+
+
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -764,6 +812,17 @@
     <script src="~/assets/js/jquery/jquery.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+
+            $('#Detalle').DataTable({
+
+                pageLength: 10,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                }
+            });
+        });
         function Guardar(id) {
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
@@ -1975,7 +2034,26 @@
             });
         }
 
+        const Nombre = document.getElementById('NombreDocumento');
+        Nombre.addEventListener('keyup', function () {
+            const text = Nombre.value;
+            const uppercaseText = text.toUpperCase();
+            Nombre.value = uppercaseText;
+        });
 
+        const PalabraClave = document.getElementById('PalabraClave');
+        PalabraClave.addEventListener('keyup', function () {
+            const text = PalabraClave.value;
+            const uppercaseText = text.toUpperCase();
+            PalabraClave.value = uppercaseText;
+        });
+
+        const Descripciones = document.getElementById('Descripcion');
+        Descripciones.addEventListener('keyup', function () {
+            const text = Descripciones.value;
+            const uppercaseText = text.toUpperCase();
+            Descripciones.value = uppercaseText;
+        });
 
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#DocumentoCompartido').addClass("active");
