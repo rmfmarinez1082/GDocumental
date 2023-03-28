@@ -208,7 +208,8 @@ namespace ProyectoBase.Application
                         "<table border='0' cellpadding='0' cellspacing='0' width='100%' style='max-width: 600px;'>" +
                             "<tr>" +
                                 "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Roboto', sans-serif;; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
-                                    "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> se te ha otorgado la custia del documento: " + documento.Nombre + "</p>" +
+                                    "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: <b style='color: red'> " + user.Nombre + "</b> <br> se te ha otorgado la custia del documento: " + documento.Nombre + "</p>" +
+                                    "<p> te agradecemos que ingreses al sistema CICA (Centro de Información Corporativa de Asae) con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de Asae (<b style='color: #00f'>www.asae.com.mx</b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
                                 "</td>" +
                             "</tr>" +
                             "<tr>" +
@@ -225,7 +226,8 @@ namespace ProyectoBase.Application
                                         "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Descripción :" + documento.Descripcion + "</strong> </p>" +
                                         "<p style='margin: 0;font-size: 15px;font-family: 'Roboto', sans-serif; font-weight: 10;'><strong>Versión :" + documento.Version + " </strong> </p>" +
                                         "</br>" +
-                                        "<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
+                                        "<p>Gracias por su atención.</p>" +
+                            //"<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
                             "</td>" +
                             "</tr>" +
                             "</tr>" +
@@ -350,13 +352,15 @@ namespace ProyectoBase.Application
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Roboto', sans-serif;; font-size: 18px; font-weight: 400; line-height: 25px;'>" +
                             "<p style='font-size: 17px;font-family: 'Roboto', sans-serif; font-weight: 10;'>Estimado/a usuario/a: " + user.Nombre + " <br> el tiempo de custodia del documento: " + user.Documento + " a expirado.</p>" +
+                            "<p> te agradecemos que ingreses al sistema CICA (Centro de Información Corporativa de Asae) con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de Asae (<b style='color: #00f'>www.asae.com.mx</b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
                         "</td>" +
                     "</tr>" +
                    
                     "<tr>" +
                         "<td bgcolor='#ffffff' align='left' style='padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 25px;'>" +
                              "</br>" +
-                             "<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
+                            //"<a style='text-decoration: none; font-size: 20px; font-weight: 600; color: #ffffff; padding-top: 20px; padding-bottom: 20px; padding-left: 40px; padding-right: 40px; background-color: #005BBB;' href='https://" + host + "'><span>Más Información</span></a>" +
+                            "<p>Gracias por su atención.</p>" +
                     "</td>" +
                     "</tr>" +
                     "</tr>" +

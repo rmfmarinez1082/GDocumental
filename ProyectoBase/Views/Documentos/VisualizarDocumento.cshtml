@@ -946,15 +946,17 @@
         });
     }
 
+    
     function ConsultaUsuario (Id){
-
+       
         $('#Empleado').empty();
 
         var obj = {};
-        obj['Id'] = Id;
+        obj['IdEntidad'] = Id;
         var jsonObject = {
-            "LisUser": obj
+            "lisUser": obj
         };
+        
 
         $.ajax({
             url: "@Url.Action("User_Listar", "Documentos")",
@@ -972,8 +974,6 @@
                 $("#Empleado").append(option);
             },
             success: function (resultado) {
-
-
 
                     var option = $(document.createElement('option'));
 
@@ -1122,9 +1122,9 @@
         $('#EmpleadoP').empty();
 
         var obj = {};
-        obj['Id'] = Id;
+        obj['IdEntidad'] = Id;
         var jsonObject = {
-            "LisUser": obj
+            "lisUser": obj
         };
 
     $.ajax({

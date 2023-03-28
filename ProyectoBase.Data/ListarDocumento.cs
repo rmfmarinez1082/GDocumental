@@ -15,7 +15,7 @@ namespace ProyectoBase.Data
         public List<Models.LisUser> SP_LisUser(Models.LisUser lisUser)
         {
             b.ExecuteCommandSP("SP_LisUser");
-            b.AddParameter("@Id", lisUser.Id, SqlDbType.VarChar);
+            b.AddParameter("@Id", lisUser.IdEntidad, SqlDbType.VarChar);
             b.AddParameter("@Iduser", lisUser.Id, SqlDbType.VarChar);
 
             List<Models.LisUser> resultado = new List<Models.LisUser>();
