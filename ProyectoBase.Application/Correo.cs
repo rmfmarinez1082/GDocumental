@@ -29,7 +29,7 @@ namespace ProyectoBase.Application
             "<html>" +
             "<head>" +
             "<meta charset='UTF-8'>" +
-            "<title>Mi Plantilla de Correo Electrónico</title>" +
+            "<title>CICA</title>" +
             "<style>" +
             "body{" +
             "font-family:Arial,sans-serif;" +
