@@ -452,6 +452,24 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+        public Models.Documento BloqueopR(Models.Documento Doc)
+
+        {
+            b.ExecuteCommandSP("BloqueopR");
+            b.AddParameter("@IdDoc", Doc.Id, SqlDbType.Int);
+           
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
         public Models.Documento DesbloP(Models.Documento Doc)
 
         {
