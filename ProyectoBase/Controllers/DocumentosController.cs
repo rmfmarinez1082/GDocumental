@@ -425,6 +425,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                  ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.UsuarioId = Usuario.Id;
 
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);

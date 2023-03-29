@@ -137,16 +137,42 @@
 
                                                                 var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
 
+                                                                ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
+                                                                permiso.IdUsuario = ViewBag.UsuarioId;
+                                                                permiso.IdDocumento = item.Id;
+                                                                var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
+
+                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                                editor.IdDocumento = item.Id;
+                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+                                                                ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
+                                                                NRuta.IdDocumento = item.Id;
+                                                                var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
+
                                                                 //CONTROL COMPARTIDO
                                                                 if (status.Ids >= 1)
                                                                 {
-                                                                    <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
 
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
                                                                 }
                                                                 //CONTROL ALMACEN FÍSICO
                                                                 if (item.IdTipoArchivo == 1)
@@ -218,20 +244,7 @@
                                                                 }
 
 
-                                                                ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
-                                                                NRuta.IdDocumento = item.Id;
-                                                                var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
                                                                 <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
-
-                                                                ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
-                                                                permiso.IdUsuario = ViewBag.UsuarioId;
-                                                                permiso.IdDocumento = item.Id;
-                                                                var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
-
-                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
-                                                                editor.IdDocumento = item.Id;
-                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
-
                                                             }
 
 
