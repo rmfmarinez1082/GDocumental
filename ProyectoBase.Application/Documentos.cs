@@ -86,6 +86,10 @@ namespace ProyectoBase.Application
         public Models.Documento Bloqueop(Models.Documento Doc)
         {
             return _Documentos.Bloqueop(Doc);
+        }
+        public Models.Documento BloqueopR(Models.Documento Doc)
+        {
+            return _Documentos.BloqueopR(Doc);
         } 
         public Models.Documento DesbloP(Models.Documento Doc)
         {

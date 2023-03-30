@@ -137,16 +137,42 @@
 
                                                                 var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
 
+                                                                ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
+                                                                permiso.IdUsuario = ViewBag.UsuarioId;
+                                                                permiso.IdDocumento = item.Id;
+                                                                var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
+
+                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                                editor.IdDocumento = item.Id;
+                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+                                                                ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
+                                                                NRuta.IdDocumento = item.Id;
+                                                                var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
+
                                                                 //CONTROL COMPARTIDO
                                                                 if (status.Ids >= 1)
                                                                 {
-                                                                    <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
 
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
                                                                 }
                                                                 //CONTROL ALMACEN FÍSICO
                                                                 if (item.IdTipoArchivo == 1)
@@ -218,20 +244,7 @@
                                                                 }
 
 
-                                                                ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
-                                                                NRuta.IdDocumento = item.Id;
-                                                                var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
                                                                 <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
-
-                                                                ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
-                                                                permiso.IdUsuario = ViewBag.UsuarioId;
-                                                                permiso.IdDocumento = item.Id;
-                                                                var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
-
-                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
-                                                                editor.IdDocumento = item.Id;
-                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
-
                                                             }
 
 
@@ -515,7 +528,7 @@
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
         });
-      
+
 
         $('#Empleado').select2({
             dropdownParent: $("#ModalCompartir")
@@ -551,6 +564,30 @@
             dataType: "json",
             success: function (data) {
 
+                BloqueoP(Id);
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
+
+     function BloqueoP(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("BloqueopR", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
                 swal({
                     title: "Documento descargado",
                     text: "El documento descargado no sera editable para los demas usuarios sube la actualización del documento para habilitar la edición en los demas usuarios",
@@ -946,9 +983,9 @@
         });
     }
 
-    
+
     function ConsultaUsuario (Id){
-       
+
         $('#Empleado').empty();
 
         var obj = {};
@@ -956,7 +993,7 @@
         var jsonObject = {
             "lisUser": obj
         };
-        
+
 
         $.ajax({
             url: "@Url.Action("User_Listar", "Documentos")",
@@ -1222,7 +1259,7 @@
         if (validacompartir()) {
 
             $('#ModalCompartido').modal('show');
-            
+
             var obj = {};
             obj['IdDocumento'] = $("#Idcompartir").val();
             obj['IdEntidad'] = $("#Entidad option:selected").val();
@@ -1285,7 +1322,7 @@
                     </tr>`
                 }
 
-                
+
 
                 $('#TableDocsCompartido').DataTable({
 

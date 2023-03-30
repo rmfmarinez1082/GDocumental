@@ -425,6 +425,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                  ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.UsuarioId = Usuario.Id;
 
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
@@ -1098,8 +1099,13 @@ namespace ProyectoBase.Controllers
 
         public JsonResult Bloqueop(Models.Documento Doc, Application.Documentos ADoc)
         {
-           //Buscando la forma de obtener id del personal un documneto
             Models.Documento Res = ADoc.Bloqueop(Doc);
+
+            return Json(Res);
+        }
+        public JsonResult BloqueopR(Models.Documento Doc, Application.Documentos ADoc)
+        {
+            Models.Documento Res = ADoc.BloqueopR(Doc);
 
             return Json(Res);
         } 
