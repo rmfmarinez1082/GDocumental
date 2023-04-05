@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asae Consultores </title>
+    <title>@ViewBag.Sistema.NombreEmpresa</title>
     <!--===============================================================================================-->
     <link rel="shortcut icon" href="~/Images/icons/ico.ico">
     <!--===============================================================================================-->
@@ -55,7 +55,7 @@
 
                     <!-- Logo desktop -->
                     <a href="@Url.Action("Index", "Home")" class="logo">
-                        <img src="~/Images/icons/asaelogo.png" />
+                        <img src="@ViewBag.Sistema.RutaLogo" />
                     </a>
 
                     <!-- Menu desktop -->
@@ -80,7 +80,8 @@
             <!-- Logo moblie -->
             <div class="logo-mobile">
                 <a href="@Url.Action("Index", "Home")">
-                    <img src="~/Images/icons/asaelogo.png" alt="ASAE" />
+                    @*<img src="~/Images/icons/asaelogo.png" alt="ASAE" />*@
+                    <img src="@ViewBag.Sistema.RutaLogo" />
                 </a>
             </div>
 
@@ -150,14 +151,14 @@
     <footer class="bg3 p-t-75 p-b-32">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-lg-3 p-b-50">
-                    <h4 class="stext-301 cl0 p-b-10">
+                <!--<div class="col-sm-6 col-lg-3 p-b-50">-->
+                    @*<h4 class="stext-301 cl0 p-b-10">
                         ¿ Quiénes somos ?
-                    </h4>
-                    <p style="color:#ffffff; font-size: 13px;">
-                    </p>
-                    <hr />
-                    <h4 class="stext-301 cl0 p-b-10">
+                    </h4>*@
+                    @*<p style="color:#ffffff; font-size: 13px;">
+                    </p>*@
+                    @*<hr />*@
+                    <!--<h4 class="stext-301 cl0 p-b-10">
                         SOBRE NOSOTROS
                     </h4>
                     <p style="color:#ffffff; font-size: 13px;">
@@ -206,24 +207,24 @@
                         Información
                     </h4>
 
-                    <ul class="footer-links">
+                    <ul class="footer-links">-->
                         @*<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Sobre nosotros</a></li>*@
-                        <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Contáctanos </a></li>
+                        <!--<li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Contáctanos </a></li>
                         <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Políticas de privacidad</a></li>
                         <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i>Términos y condiciones </a></li>
                     </ul>
-                    <hr />
+                    <hr />-->
 
-                    <h4 class="stext-301 cl0 p-b-10">
+                    @*<h4 class="stext-301 cl0 p-b-10">
                         Menú
                     </h4>
                     <ul class="footer-links">
                         <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-caret-right" aria-hidden="true"></i>Inicio </a></li>
-                    </ul>
+                    </ul>*@
 
-                </div>
+                <!--</div>-->
 
-                <div class="col-sm-6 col-lg-2 p-b-50">
+                @*<div class="col-sm-6 col-lg-2 p-b-50">
                     <h4 class="stext-301 cl0 p-b-10">
                         SERVICIOS
                     </h4>
@@ -239,7 +240,7 @@
                     </h4>
                     <p style="color:#ffffff">Suscríbete y recibe nuestras <strong>ultimas publicaciones</strong></p>
 
-                </div>
+                </div>*@
             </div>
 
             <div class="p-t-40">

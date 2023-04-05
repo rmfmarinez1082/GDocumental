@@ -13,8 +13,10 @@ namespace ProyectoBase.Controllers
     {
 
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
@@ -39,11 +41,11 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
 
-
-
         public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Sistema ApSistema)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
@@ -84,9 +86,10 @@ namespace ProyectoBase.Controllers
         public ActionResult NuevoDocumento(Application.Cat_Tipo_Documento cat_Tipo_Documento,
             Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
             Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-             Models.Notification _notification, Application.Notification Anotification)
+             Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
         {
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
@@ -129,6 +132,205 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
 
         }
+
+        public ActionResult VisualizarDocumento(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
+            Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
+            Application.ProvedorListado provedoresListado, Models.Notification _notification, Application.Notification Anotification
+            , Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Usuario = Usuario;
+                ViewBag.UsuarioId = Usuario.Id;
+
+                List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
+                ViewBag.dtEntidad = dtEntidades;
+
+                List<Models.ProvedorListado> dtprovedorListados = provedoresListado.SP_ProvedoresListado();
+                ViewBag.dtprovedorListados = dtprovedorListados;
+
+                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
+                ViewBag.dtEmpresasListado = dtEmpresasListado;
+
+
+
+                _list_Doc.IdSesion = Usuario.Id;
+                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentos(_list_Doc);
+                ViewBag.dtList_Doc = dtList_Doc;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
+
+        public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
+            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _listarCompartir.IdUsuario = Usuario.Id;
+
+                List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
+                ViewBag.Compartir = Lcompartir;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
+
+
+        public ActionResult VistaDetalle(Models.Notification _notification, Application.Notification Anotification,
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
+            Application.List_Doc ADetails, Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.UsuarioId = Usuario.Id;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+                //VISTA PROCEDIMIENTOS
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    //DATOS DEL DOCUMENTO
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                    ViewBag.InfoDoc = documento;
+                  
+                    //ViewBag.Ruta = "DocumentosTemporales";
+
+                    Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
+                    ViewBag.Ruta = documentoR.Nombre;
+
+                    Models.List_Doc info = new List_Doc();
+                    info.Id = Id;
+                    info.IdSesion = Usuario.Id;
+                    List < Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
+                    ViewBag.DetailsDoc = DetailsDoc;
+
+
+                    //CONTROL DE NOTIFICACIONES 
+                    Dnotificacion.IdUsuario = Usuario.Id;
+                    Dnotificacion.IdDocumento = Id;
+                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+
+                    return View();
+                    }
+                    else { return RedirectToAction("Index", "Home"); }
+                }
+            else { return RedirectToAction("PrincipalA", "Administracion"); }
+        }
+        public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
+            Application.List_Doc ADetails, Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+                //VISTA PROCEDIMIENTOS
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    //DATOS DEL DOCUMENTO
+                    int Id = 0;
+                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+
+                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+                    ViewBag.nombredoc = documento.Nombre;
+                    ViewBag.Descripcion = documento.Descripcion;
+                    ViewBag.version = documento.Version;
+                    ViewBag.NArchivo = documento.NmArchivo;
+                    ViewBag.Ruta = "DocumentosTemporales";
+
+                    Models.List_Doc info = new List_Doc();
+                    info.Id = Id;
+                    info.IdSesion = Usuario.Id;
+                    List<Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
+                    ViewBag.DetailsDoc = DetailsDoc;
+
+
+                    //CONTROL DE NOTIFICACIONES 
+                    Dnotificacion.IdUsuario = Usuario.Id;
+                    Dnotificacion.IdDocumento = Id;
+                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+
+
+                    return View();
+                }
+                else { return RedirectToAction("Index", "Home"); }
+            }
+            else { return RedirectToAction("PrincipalA", "Administracion"); }
+        }
+
         public string getParents()
         {
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
@@ -141,7 +343,7 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
-                   
+
                     resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
@@ -164,7 +366,7 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -172,9 +374,8 @@ namespace ProyectoBase.Controllers
                 resulCarpetas += "</ul>";
             }
             return resulCarpetas;
-        }  
-        
-        
+        }
+
         public string ObtenerPCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -239,7 +440,7 @@ namespace ProyectoBase.Controllers
             Models.Documento doc = new Documento();
             doc.Id = Id;
 
-            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocCustodiaUbicacion(cat_ClasificacionDoc,doc);
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocCustodiaUbicacion(cat_ClasificacionDoc, doc);
 
             string resulDoc = "";
 
@@ -260,14 +461,12 @@ namespace ProyectoBase.Controllers
             return resulDoc;
         }
 
-
-
         public string ObtenerPCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             cat_ClasificacionDoc.IdUser = Usuario.Id;
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            
+
             List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
             string resulCarpetas = "";
 
@@ -302,7 +501,7 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id +"'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -328,7 +527,7 @@ namespace ProyectoBase.Controllers
                 foreach (var dt in dtSClasificacionArchivo)
                 {
                     string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
-                    resulDoc += "<li id='"+ dt.Id +"'  " + variable + "onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
+                    resulDoc += "<li id='" + dt.Id + "'  " + variable + "onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
                     resulDoc += "</li>";
 
                 }
@@ -338,202 +537,6 @@ namespace ProyectoBase.Controllers
             return resulDoc;
         }
 
-
-
-        //VISTAS USUARIO PRINCIPAL
-        public ActionResult VisualizarDocumento(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-            Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
-            Application.ProvedorListado provedoresListado, Models.Notification _notification, Application.Notification Anotification)
-        {
-
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            if (Usuario != null)
-            {
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                ViewBag.Rol = Usuario.NombreRol;
-                ViewBag.Usuario = Usuario;
-                ViewBag.UsuarioId = Usuario.Id;
-
-                List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
-                ViewBag.dtEntidad = dtEntidades;
-
-                List<Models.ProvedorListado> dtprovedorListados = provedoresListado.SP_ProvedoresListado();
-                ViewBag.dtprovedorListados = dtprovedorListados;
-
-                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
-                ViewBag.dtEmpresasListado = dtEmpresasListado;
-
-
-
-                _list_Doc.IdSesion = Usuario.Id;
-                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentos(_list_Doc);
-                ViewBag.dtList_Doc = dtList_Doc;
-
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-                return View();
-            }
-            else { return RedirectToAction("Index", "Home"); }
-        }
-
-        public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
-            , Models.Notification _notification, Application.Notification Anotification)
-
-        {
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            if (Usuario != null)
-            {
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                ViewBag.Rol = Usuario.NombreRol;
-
-                _listarCompartir.IdUsuario = Usuario.Id;
-
-                List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
-                ViewBag.Compartir = Lcompartir;
-
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-
-                return View();
-            }
-            else { return RedirectToAction("Index", "Home"); }
-        }
-
-
-        public ActionResult VistaDetalle(Models.Notification _notification, Application.Notification Anotification,
-            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails)
-        {
-
-            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
-            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
-            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
-
-
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
-            if (Usuario != null)
-            {
-
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                 ViewBag.Rol = Usuario.NombreRol;
-                ViewBag.UsuarioId = Usuario.Id;
-
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-                //VISTA PROCEDIMIENTOS
-
-                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
-                {
-                    //DATOS DEL DOCUMENTO
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
-                    Models.Documento doc = new Documento();
-                    doc.Id = Id;
-
-
-                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
-                    ViewBag.InfoDoc = documento;
-                  
-                    //ViewBag.Ruta = "DocumentosTemporales";
-
-                    Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
-                    ViewBag.Ruta = documentoR.Nombre;
-
-                    Models.List_Doc info = new List_Doc();
-                    info.Id = Id;
-                    info.IdSesion = Usuario.Id;
-                    List < Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
-                    ViewBag.DetailsDoc = DetailsDoc;
-
-
-                    //CONTROL DE NOTIFICACIONES 
-                    Dnotificacion.IdUsuario = Usuario.Id;
-                    Dnotificacion.IdDocumento = Id;
-                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
-
-
-                    return View();
-                    }
-                    else { return RedirectToAction("Index", "Home"); }
-                }
-            else { return RedirectToAction("PrincipalA", "Administracion"); }
-        }
-        public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
-            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails)
-        {
-
-            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
-            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
-            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
-
-
-            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
-            if (Usuario != null)
-            {
-
-                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
-                ViewBag.Rol = Usuario.NombreRol;
-
-                _notification.IdUsuario = Usuario.Id;
-                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
-                ViewBag.lisnotifi = notificar;
-
-                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
-                ViewBag.CountNoti = CountNoti;
-                //VISTA PROCEDIMIENTOS
-
-                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
-                {
-                    //DATOS DEL DOCUMENTO
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
-                    Models.Documento doc = new Documento();
-                    doc.Id = Id;
-
-
-                    Models.Documento documento = documentos.SP_DocumentoInfo(doc);
-                    ViewBag.nombredoc = documento.Nombre;
-                    ViewBag.Descripcion = documento.Descripcion;
-                    ViewBag.version = documento.Version;
-                    ViewBag.NArchivo = documento.NmArchivo;
-                    ViewBag.Ruta = "DocumentosTemporales";
-
-                    Models.List_Doc info = new List_Doc();
-                    info.Id = Id;
-                    info.IdSesion = Usuario.Id;
-                    List<Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
-                    ViewBag.DetailsDoc = DetailsDoc;
-
-
-                    //CONTROL DE NOTIFICACIONES 
-                    Dnotificacion.IdUsuario = Usuario.Id;
-                    Dnotificacion.IdDocumento = Id;
-                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
-
-
-                    return View();
-                }
-                else { return RedirectToAction("Index", "Home"); }
-            }
-            else { return RedirectToAction("PrincipalA", "Administracion"); }
-        }
-        
-        
         [HttpPost]
         public JsonResult QuitarArchivo(Models.Documento documento, Application.Documentos AppDoc)
         {
@@ -1094,8 +1097,6 @@ namespace ProyectoBase.Controllers
 
             return Json(Res);
         }
-
-
 
         public JsonResult Bloqueop(Models.Documento Doc, Application.Documentos ADoc)
         {

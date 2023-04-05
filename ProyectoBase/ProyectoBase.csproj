@@ -331,6 +331,7 @@
     <Content Include="Images\icons\asaelogo.png" />
     <Content Include="Images\icons\ico.ico" />
     <Content Include="Images\icons\loading.gif" />
+    <Content Include="Images\icons\LogoPrueba.png" />
     <Content Include="Images\PDF\152596.png" />
     <Content Include="Images\PDF\3917090.png" />
     <Content Include="Images\PDF\AsaeLogo_Colores.png" />
