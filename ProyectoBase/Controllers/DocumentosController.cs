@@ -849,7 +849,7 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult Compartir(Models.CCompartir NCompartir, Application.CCompartir ApNCompartir,
             Application.Documentos Apdocumentos, Application.LisUser APlisUser, Application.Correo correo,
-            Application.Notification notificacion, Models.Notification notificationId)
+            Application.Notification notificacion, Models.Notification notificationId, Application.Sistema ApSistema)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             
@@ -862,6 +862,7 @@ namespace ProyectoBase.Controllers
                 Models.Documento documento1 = new Models.Documento();
                 documento1.Id = NCompartir.IdDocumento;
                 Models.Documento documento = Apdocumentos.SP_ListarDocumento(documento1);
+                Models.Sistema sistema = ApSistema.DataSystem();
 
                 Models.LisUser lisUser1 = new Models.LisUser();
                 lisUser1.IdEntidad = NCompartir.IdEntidad;
@@ -872,7 +873,7 @@ namespace ProyectoBase.Controllers
                 notificationId.IdAdmin = Usuario.Id;
                 foreach (var dtUsuario in lisUser)
                 {
-                    correo.EnvioCorreoDocumentoCompartir(documento, dtUsuario);
+                    correo.EnvioCorreoDocumentoCompartir(documento, dtUsuario, sistema);
                     notificacion.SP_Notification(documento, dtUsuario, notificationId);
 
                 }
