@@ -15,11 +15,11 @@ namespace ProyectoBase.Models
         public string PalabraClave { get; set; }
         public string Descripcion { get; set; }
 
-        public string FechaRevision { get; set; }
-        public string Fechadeentradaenvigor { get; set; }
-        public string FechaPublicacion { get; set; }
-        public string FechaVencimiento { get; set; }
-        public string FechaProximaRevision { get; set; }
+        public DateTime FechaRevision { get; set; }
+        public DateTime Fechadeentradaenvigor { get; set; }
+        public DateTime FechaPublicacion { get; set; }
+        public DateTime FechaVencimiento { get; set; }
+        public DateTime FechaProximaRevision { get; set; }
 
         public int IdTipoArchivo { get; set; }
         public int IdMedioAlmacenamiento { get; set; }
