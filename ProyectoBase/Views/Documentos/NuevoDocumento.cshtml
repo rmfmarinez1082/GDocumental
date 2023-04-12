@@ -3,6 +3,7 @@
     ViewBag.Title = "Nuevo Documento";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <style>
 
@@ -512,7 +513,7 @@
                                                         <div class="col-md-8 col-lg-8">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Descripción </label>
-                                                                <textarea   class="form-control" id="Descripcion" rows="3"></textarea>
+                                                                <textarea class="form-control" id="Descripcion" rows="3"></textarea>
                                                             </div>
                                                         </div>
 
@@ -537,35 +538,35 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
-                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
+                                                                <input type="text" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
@@ -857,8 +858,10 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/assets/js/bootstrap/js/bootstrap-datepicker.es.js" charset="UTF-8"></script>
 <script>
+
     function Publicar() {
 
                 if (ValidaDescripcion()) {
@@ -2381,26 +2384,13 @@
         $('#SP_Descripcion').text($("#Descripcion").val());
         $('#SP_Descripcion2').text($("#Descripcion").val());
 
-        var FechaRevision = new Date($("#FechaRevision").val() + 'T00:00:00');
-        var FechaRevisionF = new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(FechaRevision).replace(/\//g, '-');
 
-        var Fechadeentradaenvigor = new Date($("#Fechadeentradaenvigor").val() + 'T00:00:00');
-        var FechadeentradaenvigorF = Fechadeentradaenvigor.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
 
-        var FechaPublicacion = new Date($("#FechaPublicacion").val() + 'T00:00:00');
-        var FechaPublicacionF = FechaPublicacion.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-
-        var FechaVencimiento = new Date($("#FechaVencimiento").val() + 'T00:00:00');
-        var FechaVencimientoF = FechaVencimiento.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-
-        var FechaProximaRevision = new Date($("#FechaProximaRevision").val() + 'T00:00:00');
-        var FechaProximaRevisionF = FechaProximaRevision.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-
-        $('#SP_FechaRevision').text(/*$("#FechaRevision").val()*/FechaRevisionF);
-        $('#SP_Fechadeentradaenvigor').text(/*$("#Fechadeentradaenvigor").val()*/FechadeentradaenvigorF);
-        $('#SP_FechaPublicacion').text(/*$("#FechaPublicacion").val()*/FechaPublicacionF);
-        $('#SP_FechaVencimiento').text(/*$("#FechaVencimiento").val()*/FechaVencimientoF);
-        $('#SP_FechaProximaRevision').text(/*$("#FechaProximaRevision").val()*/FechaProximaRevisionF);
+        $('#SP_FechaRevision').text($("#FechaRevision").val());
+        $('#SP_Fechadeentradaenvigor').text($("#Fechadeentradaenvigor").val());
+        $('#SP_FechaPublicacion').text($("#FechaPublicacion").val());
+        $('#SP_FechaVencimiento').text($("#FechaVencimiento").val());
+        $('#SP_FechaProximaRevision').text($("#FechaProximaRevision").val());
 
         $('#SP_Select_TipoArchivo').text($("#Select_TipoArchivo option:selected").html());
         $('#SP_Select_MedioAlmacenamiento').text($("#Select_MedioAlmacenamiento option:selected").html());
@@ -2442,8 +2432,40 @@
             $(this).addClass('btn-info').removeClass('btn-default').blur();
         });
 
+
         $('[href="#menu1"]').tab('show');
+
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '< Ant',
+            nextText: 'Sig >',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+        $(function () {
+            $("#fecha").datepicker();
+        });
+
+        $("#FechaVencimiento").datepicker();
+        $("#FechaProximaRevision").datepicker();
+        $("#Fechadeentradaenvigor").datepicker();
+        $("#FechaPublicacion").datepicker();
+        $("#FechaRevision").datepicker();
+
+
     });
+
 
     const Nombre = document.getElementById('NombreDocumento');
     Nombre.addEventListener('keyup', function () {

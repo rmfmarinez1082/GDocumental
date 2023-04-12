@@ -22,11 +22,11 @@ namespace ProyectoBase.Data
             b.AddParameter("@PalabraClave", nuevoDocumento.PalabraClave, SqlDbType.NVarChar);
             b.AddParameter("@Descripcion", nuevoDocumento.Descripcion, SqlDbType.NVarChar);
 
-            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.NVarChar);
-            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.NVarChar);
-            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.NVarChar);
-            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.NVarChar);
-            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.NVarChar);
+            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.Date);
+            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.Date);
+            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
+            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
+            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
             
             b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
