@@ -174,17 +174,18 @@
                                                         }
                                                         @{ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
                                                             permiso.IdUsuario = ViewBag.UsuarioId;
-                                                            permiso.IdDocumento = item.Id;
+                                                            permiso.IdDocumento = item.IdClasificacionArchivo;
                                                             var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
                                                         }
-                                                        @if (Resultado.Id == 1)
+                                                        @if (Resultado.Id == 1 || Resultado.Id == 2)
                                                         {
-                                                        <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+                                                            <td class="text-center"><a><i></i></a>Documento en edición</td>
 
                                                         }
                                                         else
                                                         {
-                                                        <td class="text-center"><a><i></i></a>Documento en edición</td>
+                                                            <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+
                                                         }
 
                                                     </tr>

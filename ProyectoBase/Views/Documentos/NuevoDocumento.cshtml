@@ -3,7 +3,6 @@
     ViewBag.Title = "Nuevo Documento";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <style>
 
@@ -858,8 +857,6 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="~/assets/js/bootstrap/js/bootstrap-datepicker.es.js" charset="UTF-8"></script>
 <script>
 
     function Publicar() {
@@ -2450,7 +2447,8 @@
             firstDay: 1,
             isRTL: false,
             showMonthAfterYear: false,
-            yearSuffix: ''
+            yearSuffix: '',
+            showAnim: 'slide'
         };
         $.datepicker.setDefaults($.datepicker.regional['es']);
         $(function () {
