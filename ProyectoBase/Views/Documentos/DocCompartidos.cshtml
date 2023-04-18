@@ -145,9 +145,6 @@
                                                                 <td class="text-center">No aplica</td>
                                                             }
 
-
-
-
                                                             <td style="display:none;"><a>@item.PalabrasClave</a></td>
 
                                                             @if (item.prestamo == 1)
@@ -382,7 +379,31 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    window.location.href='@Url.Action("Vista", "Administracion")?Id=' + documento;
+
+                    var obj = {};
+
+                    obj['UrlVaible'] = documento;
+
+                    var jsonObject = {
+                        "URL": obj
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("URL_Cifrar", "URLS")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + result.Url;
+                        },
+                        error: function () {
+                            AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+                        }
+                    });
+
+
 
                 }
             });
@@ -446,8 +467,31 @@
 
 
 
-     function Ver(documento) {
-        window.location.href='@Url.Action("VistaEditarCompartido", "Administracion")?Id=' + documento;
+    function Ver(documento) {
+
+        var obj = {};
+
+        obj['UrlVaible'] = documento;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaEditarCompartido", "Administracion")?Id=' + result.Url;
+
+            },
+            error: function () {
+                AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+            }
+        });
     }
 </script>
 

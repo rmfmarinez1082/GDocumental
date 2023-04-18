@@ -638,7 +638,29 @@
 
     function VerDetalle(Id) {
 
-                    window.location.href='@Url.Action("VistaDetalle", "Documentos")?Id=' + Id;
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaDetalle", "Documentos")?Id=' + result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+
     }
 
     function SeleccionarPorId(id) {
@@ -679,7 +701,29 @@
     }
 
     function Ver(documento) {
-        window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
+        var obj = {};
+
+        obj['UrlVaible'] = documento;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaEditar", "Administracion")?Id=' + result.Url;
+            },
+            error: function () {
+                AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+            }
+        });
+
     }
     //Inicio Para compartir
     function Compartir(id) {
@@ -1068,8 +1112,29 @@
     }
 
     function Ruta(Id) {
+        var obj = {};
 
-       window.location.href='@Url.Action("EditarCustodia", "Documentos")?Id=' + Id;
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+            window.location.href = '@Url.Action("EditarCustodia", "Documentos")?Id=' + result.Url;            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+
+
     }
 
 
