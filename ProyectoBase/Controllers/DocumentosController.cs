@@ -57,6 +57,7 @@ namespace ProyectoBase.Controllers
                 Models.Documento doc = new Documento();
                 doc.Id = Id;
 
+                ViewBag.IdDoc = Id;
 
                 Models.Documento documento = documentos.SP_DocumentoInfo(doc);
                 ViewBag.nombredoc = documento.Nombre;
@@ -433,8 +434,8 @@ namespace ProyectoBase.Controllers
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
             cat_ClasificacionDoc.IdTres = Usuario.Id;
 
-            int Id = 0;
-            Id = Convert.ToInt32(Request.QueryString["Id"]);
+           
+            int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
             Models.Documento doc = new Documento();
             doc.Id = Id;
 
