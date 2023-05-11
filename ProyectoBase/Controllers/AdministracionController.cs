@@ -15,9 +15,10 @@ namespace ProyectoBase.Controllers
     {
 
         public ActionResult VisualizarDocumentoSAdmin(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-          Models.Notification _notification, Application.Notification Anotification)
+          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
         {
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             if (Usuario != null)
             {
@@ -45,16 +46,12 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("Index", "Home"); }
         }
-
-
-
-
-
-
-        public ActionResult CheckDoc(Application.Documentos documentos, Models.Documento documento, Application.Notification Anotification, Models.Notification _notification)
+        public ActionResult CheckDoc(Application.Documentos documentos, Models.Documento documento, Application.Notification Anotification, Models.Notification _notification
+            ,Application.Sistema ApSistema)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
             ViewBag.Id = Usuario.Id;
             ViewBag.Rol = Usuario.NombreRol;
@@ -71,10 +68,11 @@ namespace ProyectoBase.Controllers
         }
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-            Application.List_Doc listadoAdmin)
+            Application.List_Doc listadoAdmin, Application.Sistema ApSistema)
         {
             Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
@@ -116,93 +114,19 @@ namespace ProyectoBase.Controllers
             //}
         }
 
-
-        public string getParents()
-        {
-            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-            string resulCarpetas = "";
-
-            if (dtClasificacionArchivo.Count > 0)
-            {
-                resulCarpetas += "<ul>";
-
-                foreach(var dt in dtClasificacionArchivo)
-                {
-                    
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
-                    resulCarpetas += getChildren(dt);
-                    resulCarpetas += getDocument(dt);
-                    resulCarpetas += "</li>";
-
-                }
-                resulCarpetas += "</ul>";
-            }
-
-            return resulCarpetas;
-        }
-        public string getChildren(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
-        {
-            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionDoc);
-
-            string resulCarpetas = "";
-            if (dtSClasificacionArchivo.Count > 0)
-            {
-                resulCarpetas += "<ul>";
-
-                foreach (var dt in dtSClasificacionArchivo)
-                {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre; resulCarpetas += getChildren(dt);
-                    resulCarpetas += getDocument(dt);
-                    resulCarpetas += "</li>";
-
-                }
-                resulCarpetas += "</ul>";
-            }
-            return resulCarpetas;
-        }
-        public string getDocument(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
-        {
-            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocPadre(cat_ClasificacionDoc);
-
-            string resulDoc = "";
-
-            if (dtSClasificacionArchivo.Count > 0)
-            {
-                resulDoc += "<ul>";
-
-                foreach (var dt in dtSClasificacionArchivo)
-                {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
-                    resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
-
-                    resulDoc += "</li>";
-
-                }
-                resulDoc += "</ul>";
-            }
-
-            return resulDoc;
-        }
-
-
-
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
             Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
-            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo)
+            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             if (Usuario != null)
             {
                 List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
@@ -266,9 +190,10 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult Vista(Models.Notification _notification, Application.Notification Anotification,
-            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion)
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion, Application.Sistema ApSistema)
         {
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
@@ -294,11 +219,9 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     //DATOS DEL DOCUMENTO
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
-
 
                     Models.Documento documento = documentos.SP_DocumentoInfo(doc);
                     ViewBag.InfoDoc = documento;
@@ -332,9 +255,11 @@ namespace ProyectoBase.Controllers
         public ActionResult VistaEditar(Models.Notification _notification, Application.Notification Anotification,
         Application.Documentos documentos, Application.Cat_Tipo_Documento cat_Tipo_Documento,
         Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
-        Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo
+            , Application.Sistema ApSistema)
         {
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -375,8 +300,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
 
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -419,10 +343,12 @@ namespace ProyectoBase.Controllers
         public ActionResult VistaEditarCompartido(Models.Notification _notification, Application.Notification Anotification,
         Application.Documentos documentos, Application.Cat_Tipo_Documento cat_Tipo_Documento,
         Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
-        Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo
+            , Application.Sistema ApSistema)
         {
 
-
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -460,8 +386,8 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
 
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+
+                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -500,9 +426,11 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
 
         }
-
-        public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification)
+        public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification
+            , Application.Sistema ApSistema)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -523,10 +451,11 @@ namespace ProyectoBase.Controllers
 
             return View();
         }
-
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
-            Application.EmpresasListado AempresasListado)
+            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
@@ -556,8 +485,11 @@ namespace ProyectoBase.Controllers
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
-        Application.List_Doc list_Doc, Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios)
+        Application.List_Doc list_Doc, Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios
+            , Application.Sistema ApSistema)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
@@ -604,6 +536,78 @@ namespace ProyectoBase.Controllers
             }
         }
 
+
+        public string getParents()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+        public string getChildren(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
+                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre; resulCarpetas += getChildren(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+        public string getDocument(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.SP_DocPadre(cat_ClasificacionDoc);
+
+            string resulDoc = "";
+
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulDoc += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
+
+                    resulDoc += "</li>";
+
+                }
+                resulDoc += "</ul>";
+            }
+
+            return resulDoc;
+        }
         [HttpPost]
         public JsonResult desactivarNoti(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
         {
@@ -637,7 +641,6 @@ namespace ProyectoBase.Controllers
 
             return Json(Ndocumento);
         }
-
         public JsonResult Departamento_Listar(Models.Cat_ListadoDepartamentos cat_ListadoDepartamentos, Application.Cat_ListadoDepartamentos APcat_ListadoDepartamentos)
         {
             List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_LisDep(cat_ListadoDepartamentos);
@@ -648,7 +651,6 @@ namespace ProyectoBase.Controllers
             List<Models.Cat_ListadoDepartamentos> cat_ListadoDepartamentoss = APcat_ListadoDepartamentos.SP_CatEmpresaPuestos(cat_ListadoDepartamentos);
             return Json(cat_ListadoDepartamentoss);
         }
-
         [HttpPost]
         public JsonResult Usuario_Registrar(Models.Usuarios NuevoUsuario, Application.Usuarios Ausuarios)
         {

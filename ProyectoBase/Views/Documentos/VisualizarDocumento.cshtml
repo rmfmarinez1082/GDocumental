@@ -153,26 +153,42 @@
                                                                 //CONTROL COMPARTIDO
                                                                 if (status.Ids >= 1)
                                                                 {
-                                                                    if (Resultado.Id == 1)
+                                                                    if (Resultado.Id == 2)
                                                                     {
-                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
-
+                                                                        <td class="text-center"><span class="label label-info">Editando por ti</span></td>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                        if (Resultado.Id == 1)
+                                                                        {
+                                                                            <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                        }
                                                                     }
+
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (Resultado.Id == 1)
+                                                                    if (Resultado.Id == 2)
                                                                     {
-                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                        <td class="text-center"><span class="label label-info">Editando por ti</span></td>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                        if (Resultado.Id == 1)
+                                                                        {
+                                                                            <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                        }
                                                                     }
+
                                                                 }
                                                                 //CONTROL ALMACEN FÍSICO
                                                                 if (item.IdTipoArchivo == 1)
@@ -247,28 +263,46 @@
                                                                 <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                             }
 
-
-                                                            @if (item.NmArchivo != "" && Resultado.Id == 1)
-
+                                                            @if (item.NmArchivo != "" && Resultado.Id == 2)
                                                             {
-                                                                <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
-
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center"><a><i></i></a>No disponible</td>
-                                                            }
-                                                            @if (Resultado.Id == 1)
+                                                                if (item.NmArchivo != "" && Resultado.Id == 1)
 
+                                                                {
+                                                                    <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                }
+                                                            }
+
+                                                            @if (Resultado.Id == 2)
                                                             {
                                                                 <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
-                                                                <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                <td class="text-center"><a><i></i></a>Función no disponible</td>
+
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
-                                                                <td class="text-center"><a><i></i></a>Función no disponible</td>
+                                                                if (Resultado.Id == 1)
+
+                                                                {
+                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                                    <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
+                                                                    <td class="text-center"><a><i></i></a>Función no disponible</td>
+                                                                }
                                                             }
+
+
 
 
 
@@ -604,7 +638,29 @@
 
     function VerDetalle(Id) {
 
-                    window.location.href='@Url.Action("VistaDetalle", "Documentos")?Id=' + Id;
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaDetalle", "Documentos")?Id=' + result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+
     }
 
     function SeleccionarPorId(id) {
@@ -645,7 +701,29 @@
     }
 
     function Ver(documento) {
-        window.location.href='@Url.Action("VistaEditar", "Administracion")?Id=' + documento;
+        var obj = {};
+
+        obj['UrlVaible'] = documento;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaEditar", "Administracion")?Id=' + result.Url;
+            },
+            error: function () {
+                AlertDanger("Problemas al consultar ", "Intentolo mas tarde.");
+            }
+        });
+
     }
     //Inicio Para compartir
     function Compartir(id) {
@@ -1034,8 +1112,29 @@
     }
 
     function Ruta(Id) {
+        var obj = {};
 
-       window.location.href='@Url.Action("EditarCustodia", "Documentos")?Id=' + Id;
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+            window.location.href = '@Url.Action("EditarCustodia", "Documentos")?Id=' + result.Url;            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+
+
     }
 
 

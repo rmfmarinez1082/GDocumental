@@ -15,6 +15,11 @@ namespace ProyectoBase.Application
         {
             return _Documentos.Documento_Agregar(nuevoDocumento);
         }
+        public Models.Documento Documento_AgregarPDF(Models.NuevoDocumento nuevoDocumento)
+        {
+            return _Documentos.Documento_AgregarPDF(nuevoDocumento);
+        }
+
         public Models.Documento SP_ActualizarDoc(Models.NuevoDocumento nuevoDocumento)
         {
             return _Documentos.SP_ActualizarDoc(nuevoDocumento);
@@ -27,10 +32,6 @@ namespace ProyectoBase.Application
         {
             return _Documentos.Documento_custodiaA(nuevoDocumento);
         } 
-        public Models.Documento Documento_AgregarPDF(Models.NuevoDocumento nuevoDocumento)
-        {
-            return _Documentos.Documento_AgregarPDF(nuevoDocumento);
-        }
 
         public Models.Documento SP_ListarDocumento(Models.Documento documento)
         {

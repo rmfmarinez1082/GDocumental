@@ -22,11 +22,11 @@ namespace ProyectoBase.Data
             b.AddParameter("@PalabraClave", nuevoDocumento.PalabraClave, SqlDbType.NVarChar);
             b.AddParameter("@Descripcion", nuevoDocumento.Descripcion, SqlDbType.NVarChar);
 
-            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.NVarChar);
-            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.NVarChar);
-            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.NVarChar);
-            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.NVarChar);
-            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.NVarChar);
+            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.Date);
+            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.Date);
+            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
+            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
+            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
             
             b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
@@ -67,11 +67,11 @@ namespace ProyectoBase.Data
             b.AddParameter("@PalabraClave", nuevoDocumento.PalabraClave, SqlDbType.NVarChar);
             b.AddParameter("@Descripcion", nuevoDocumento.Descripcion, SqlDbType.NVarChar);
 
-            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.NVarChar);
-            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.NVarChar);
-            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.NVarChar);
-            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.NVarChar);
-            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.NVarChar);
+            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.Date);
+            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.Date);
+            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
+            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
+            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
             
             b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
@@ -251,9 +251,7 @@ namespace ProyectoBase.Data
             b.AddParameter("@IdTipoArchivo", Adoc.IdTipoArchivo, SqlDbType.Int);
             b.AddParameter("@IdMedioAlmacenamiento", Adoc.IdMedioAlmacenamiento, SqlDbType.Int);
             b.AddParameter("@IdClasificacion", Adoc.IdClasificacion, SqlDbType.Int);
-            //b.AddParameter("@IdClasificacionArchivo", Adoc.IdClasificacionArchivo, SqlDbType.Int);
-            //b.AddParameter("@IdSubclasificacionArchivo", Adoc.IdSubclasificacionArchivo, SqlDbType.Int);
-            //b.AddParameter("@IdNombre3  ", Adoc.IdNombre3, SqlDbType.Int);
+            
             Models.Documento resultado = new Models.Documento();
             var reader = b.ExecuteReader();
             while (reader.Read())
@@ -355,13 +353,11 @@ namespace ProyectoBase.Data
 
         {
             b.ExecuteCommandSP("SP_ActualizarDoc");
-            //b.AddParameter("@Nombre", nuevoDocumento.Nombre, SqlDbType.NVarChar);
             b.AddParameter("@Id", nuevoDocumento.Id, SqlDbType.Int);
             b.AddParameter("@IdUser", nuevoDocumento.IdUsuario, SqlDbType.Int);
             b.AddParameter("@NmArchivo", nuevoDocumento.NmArchivo, SqlDbType.NVarChar);
             b.AddParameter("@NMArchivoEditable", nuevoDocumento.NmArchivoword, SqlDbType.NVarChar);
             b.AddParameter("@Version", nuevoDocumento.Version, SqlDbType.NVarChar);
-            //b.AddParameter("@NmOriginal", nuevoDocumento.NmOriginal, SqlDbType.NVarChar);
            
 
 

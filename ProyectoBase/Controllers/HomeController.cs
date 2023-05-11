@@ -8,11 +8,13 @@ namespace ProyectoBase.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index(Application.Usuarios usuarios)
+        public ActionResult Index(Application.Usuarios usuarios,Application.Sistema ApSistema)
         {
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
 
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
             Models.Usuarios Usuairo = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
                 if (Usuairo != null)

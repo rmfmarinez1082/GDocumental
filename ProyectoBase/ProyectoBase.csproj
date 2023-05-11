@@ -143,6 +143,7 @@
     <Compile Include="Controllers\FileAPIController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PDFController.cs" />
+    <Compile Include="Controllers\URLSController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -331,6 +332,7 @@
     <Content Include="Images\icons\asaelogo.png" />
     <Content Include="Images\icons\ico.ico" />
     <Content Include="Images\icons\loading.gif" />
+    <Content Include="Images\icons\LogoPrueba.png" />
     <Content Include="Images\PDF\152596.png" />
     <Content Include="Images\PDF\3917090.png" />
     <Content Include="Images\PDF\AsaeLogo_Colores.png" />
@@ -1299,6 +1301,7 @@
     <Folder Include="Directorio\" />
     <Folder Include="DocumentosTemporales\" />
     <Folder Include="Views\FileAPI\" />
+    <Folder Include="Views\URLS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

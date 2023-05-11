@@ -9,18 +9,18 @@ namespace ProyectoBase.Application
 {
     public class Correo
     {
-        public bool EnvioCorreoDocumentoCompartir(Models.Documento documento, Models.LisUser user)
+        public bool EnvioCorreoDocumentoCompartir(Models.Documento documento, Models.LisUser user, Models.Sistema sistema)
         {
             bool validacion = false;
             WSCorreo.CorreoSoapClient correo1 = new WSCorreo.CorreoSoapClient();
-            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), "Centro de Información Corporativa de ASAE (CICA)", "Notificacion Nuevo Documento Compartido", FormatoHTMLDocumentoCompartir(documento, user)) == "Correo enviado")
+            if (correo1.CorreoMetPrivado("mail.asae.com.mx", 25, "soporte-aplicaciones@asae.com.mx", "$%65hgy#19_", user.EMail.Trim(), sistema.NombreSistema, "Notificacion Nuevo Documento Compartido", FormatoHTMLDocumentoCompartir(documento, user, sistema)) == "Correo enviado")
             {
                 validacion = true;
             }
             return validacion;
         }
 
-        public string FormatoHTMLDocumentoCompartir(Models.Documento documento, Models.LisUser user)
+        public string FormatoHTMLDocumentoCompartir(Models.Documento documento, Models.LisUser user, Models.Sistema sistema)
         {
             string host = HttpContext.Current.Request.Url.Authority;
             string result = "";
@@ -29,7 +29,7 @@ namespace ProyectoBase.Application
             "<html>" +
             "<head>" +
             "<meta charset='UTF-8'>" +
-            "<title>CICA</title>" +
+            "<title>"+sistema.Acronimo+"</title>" +
             "<style>" +
             "body{" +
             "font-family:Arial,sans-serif;" +
@@ -91,13 +91,13 @@ namespace ProyectoBase.Application
             "<body>" +
             "<div class='container'>" +
             "<header>" +
-            "<h1>¡Nuevo documento Compartido en CICA!</h1>" +
+            "<h1>¡Nuevo documento Compartido en:" + sistema.Acronimo + "</h1>" +
             "</header>" +
             "<div class='content-wrapper'>" +
             "<div class='content'>" +
-            "<img src = 'https://tickets.asae.com.mx/Imagenes/LogoAsaeTikets.png'  class='image'>" +
+            "<img src='https://tickets.asae.com.mx/Imagenes/LogoAsaeTikets.png' width='125' height='120' style='display: block; border: 0px;' />" +
             "<p>Estimado(a) <b style = 'color: red'> " + user.Nombre + " </b>.</p>" +
-            "<p> Se ha compartido información importante en un Nuevo Documento, te agradecemos que ingreses al sistema CICA(Centro de Información Corporativa de Asae) con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de Asae(<b style = 'color: #00f' > www.asae.com.mx </b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
+            "<p> Se ha compartido información importante en un Nuevo Documento, te agradecemos que ingreses al sistema " + sistema.Acronimo + " (" + sistema.NombreSistema + ") con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de "+sistema.NombreEmpresa+"(<b style = 'color: #00f' > www.asae.com.mx </b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
             "<div style = 'border:groove; border-radius: 3px; text-align: center;'> " +
             "<h2><b>Información del Documento.</b></h2>" +
             "</div>" +

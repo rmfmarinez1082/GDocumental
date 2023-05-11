@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 
 <head>
-    <title>CICA</title>
+    <title>@ViewBag.Sistema.NombreEmpresa</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -10,7 +10,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Meta -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
@@ -38,6 +38,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
     <link href="~/assets/dist/themes/default/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
     <style>
@@ -123,7 +124,7 @@
                             </div>
                         </div>
                         <a href="/Administracion/PrincipalA">
-                            <h6>Centro de Información Corporativa de ASAE</h6>
+                            <h6>@ViewBag.Sistema.NombreSistema</h6>
                             @*<img class="img-fluid" src="~/Images/icons/asaelogo.png" alt="Theme-Logo" />*@
                         </a>
                         <a class="mobile-options waves-effect waves-light">
@@ -166,9 +167,9 @@
                                             <h6>Notificaciones</h6>
                                             <label class="label label-info">Nada por aquí</label>
                                             <div class="m-0 vh-100 row justify-content-center align-items-center">
-                                                <img src="~/Images/Headers/Email_1.gif"style="height:90px; width:auto; margin-left:30%"/>
+                                                <img src="~/Images/Headers/Email_1.gif" style="height:90px; width:auto; margin-left:30%" />
                                             </div>
-                                           
+
                                         </li>
 
                                     </ul>
@@ -180,88 +181,90 @@
                                     </span>@*COLOR NOTIFICADOR*@
 
                                     @*Area Notificaciones*@
-                            <ul class="show-notification">
-                                <li>
-                                    <h6>Notificaciones</h6>
-                                    <label class="label label-danger">Nuevas</label>
-                                </li>
-
-                                @*Listado Notificacion*@
-                                @foreach (var item in ViewBag.lisnotifi)
-                                {
-                                    if (@item.Tnoti == 1)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                            <a onclick="doc(@item.IdDocumento);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Nuevo documento compartido</h5> 
-                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a compartido el documento:<strong> @item.Documento.</strong></p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    }
-                                    else if (@item.Tnoti == 2)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                            <a onclick="NvistaP(@item.Id);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-share-alt" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Documento Prestado</h5>
-                                                        <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a dado custodia del documento: <strong> @item.Documento.</strong></p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-danger">Nuevas</label>
                                         </li>
 
-                                    }
-                                    else if (@item.Tnoti == 3)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                             <a onclick="Nvista(@item.Id);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Plazo caducado</h5> 
-                                                        <p class="notification-msg">A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que te asigno el usuario <strong>@item.NombreEmisor.</strong>
-                                                        Has la devolución del documento lo más pronto posible.</p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    }
-                                    else if (@item.Tnoti == 4)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                             <a onclick="Nvista(@item.Id);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Plazo caducado</h5>
-                                                        <p class="notification-msg">
-                                                            A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que asignaste al usuario <strong>@item.NombreEmisor.</strong>
-                                                            solicita la devolución del documento lo más pronto posible.
-                                                        </p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    }
+                                        @*Listado Notificacion*@
+                                        @foreach (var item in ViewBag.lisnotifi)
+                                        {
+                                            if (@item.Tnoti == 1)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="doc(@item.IdDocumento);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Nuevo documento compartido</h5>
+                                                                <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a compartido el documento:<strong> @item.Documento.</strong></p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (@item.Tnoti == 2)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="NvistaP(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-share-alt" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Documento Prestado</h5>
+                                                                <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a dado custodia del documento: <strong> @item.Documento.</strong></p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
 
-                                }
+                                            }
+                                            else if (@item.Tnoti == 3)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="Nvista(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Plazo caducado</h5>
+                                                                <p class="notification-msg">
+                                                                    A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que te asigno el usuario <strong>@item.NombreEmisor.</strong>
+                                                                    Has la devolución del documento lo más pronto posible.
+                                                                </p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (@item.Tnoti == 4)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="Nvista(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Plazo caducado</h5>
+                                                                <p class="notification-msg">
+                                                                    A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que asignaste al usuario <strong>@item.NombreEmisor.</strong>
+                                                                    solicita la devolución del documento lo más pronto posible.
+                                                                </p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
 
-                            </ul>
+                                        }
+
+                                    </ul>
                                 }
 
                             </li>
@@ -356,15 +359,15 @@
                                                 <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos/Prestamos</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
-                                        </li> 
+                                        </li>
                                         @*<li class=" " id="DocumentoCustodia">
-                                            <a href="/Documentos/DCustodia" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos en Custodia</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>*@ 
-                                        
+                                                <a href="/Documentos/DCustodia" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos en Custodia</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>*@
+
                                         <li class=" " id="DFDC">
                                             <a href="/Documentos/DirectorioFDC" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -492,6 +495,8 @@
 
 
     <!-- Warning Section Ends -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- Required Jquery -->
     <script src="~/Vendor/bootstrap-notify/notify.min.js"></script>
 

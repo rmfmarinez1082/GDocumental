@@ -508,36 +508,36 @@
                                 <div class="card-block">
                                     @*FECHAS*@
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Revision: </label>
-                                                <input id="FechaRevision" type="date" class="form-control form-control" value="@ViewBag.FechaRevision">
+                                                <input id="FechaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaRevision">
 
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Publicacion	: </label>
-                                                <input id="FechaPublicacion" type="date" class="form-control form-control" value="@ViewBag.FechaPublicacion">
+                                                <input id="FechaPublicacion" type="text" class="form-control form-control" value="@ViewBag.FechaPublicacion">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-4">
                                             <div class="form-group">
-                                                <label for="largeInput">* Fecha Entrada en vigor: </label>
-                                                <input id="FechaEntradaVigor" type="date" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
+                                                <label for="largeInput">* Fecha vigor: </label>
+                                                <input id="FechaEntradaVigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
                                             </div>
                                         </div>
-                                        <div class="col">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Proxima Revisión: </label>
-                                                <input id="FechaProximaRevision" type="date" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
+                                                <input id="FechaProximaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
                                             </div>
                                         </div>
 
-                                        <div class="col">
+                                        <div class="col-4">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Vencimiento	: </label>
-                                                <input id="FechaVencimiento" type="date" class="form-control form-control" value="@ViewBag.FechaVencimiento">
+                                                <input id="FechaVencimiento" type="text" class="form-control form-control" value="@ViewBag.FechaVencimiento">
                                             </div>
                                         </div>
 
@@ -683,7 +683,7 @@
                                         <div class="col-md-12 text-left">
                                             <div style="width: 100%; height: 100vh">
                                                 @*<iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
-                                                <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id= @Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                                <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                                             </div>
                                         </div>
 
@@ -822,6 +822,35 @@
                     url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
                 }
             });
+
+            $.datepicker.regional['es'] = {
+                closeText: 'Cerrar',
+                prevText: '< Ant',
+                nextText: 'Sig >',
+                currentText: 'Hoy',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                showAnim: 'drop'
+            };
+            $.datepicker.setDefaults($.datepicker.regional['es']);
+            $(function () {
+                $("#fecha").datepicker();
+            });
+
+            $("#FechaVencimiento").datepicker();
+            $("#FechaProximaRevision").datepicker();
+            $("#FechaEntradaVigor").datepicker();
+            $("#FechaPublicacion").datepicker();
+            $("#FechaRevision").datepicker();
         });
         function Guardar(id) {
             if (ValidaDescripcion()) {
