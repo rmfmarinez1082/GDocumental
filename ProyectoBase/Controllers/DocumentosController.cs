@@ -296,9 +296,11 @@ namespace ProyectoBase.Controllers
 
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
+                    
+
+
                     //DATOS DEL DOCUMENTO
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
