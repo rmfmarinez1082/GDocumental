@@ -1120,6 +1120,12 @@ namespace ProyectoBase.Controllers
 
             return Json(Res);
         }
+        public JsonResult RequiereEditable(Models.Cat_Tipo_Documento TDoc, Application.Cat_Tipo_Documento ATDoc)
+        {
+            //Buscando la forma de obtener id del personal un documneto
+            Models.Cat_Tipo_Documento Res = ATDoc.ValidarSolicitiudEdit(TDoc);
 
+            return Json(Res);
+        }
     }
 }
