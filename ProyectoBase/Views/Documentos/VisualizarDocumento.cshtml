@@ -70,7 +70,7 @@
                                             <p><b>Simbología Prestamos</b></p>
                                         </div>
                                     </div>
-                                        
+
 
                                     <div class="row justify-content-between">
                                         <div class="col-8">
@@ -88,182 +88,189 @@
 
                                 </div>
 
-                                    <div class="card-block">
+                                <div class="card-block">
 
-                                        <div class="table-responsive">
-                                            <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                                <thead style="background-color: #0d6efd">
+                                    <div class="table-responsive">
+                                        <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre</th>
+                                                    <th class="text-center" style="color:white">Detalle</th>
+
+                                                    <th style="display:none;" class="text-center">palabras clable</th>
+                                                    <th class="text-center" style="color:white">Compartir</th>
+                                                    <th class="text-center" style="color:white">Almacen físico</th>
+                                                    <th class="text-center" style="color:white">Prestamo</th>
+                                                    <th class="text-center" style="color:white">Ruta</th>
+                                                    <th class="text-center" style="color:white">Descargar</th>
+                                                    <th class="text-center" style="color:white">Editar</th>
+
+                                                    <th class="text-center" style="color:white">Eliminar</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.dtList_Doc)
+                                                {
+
                                                     <tr>
+                                                        @*CONTROL ICONO PRESTAMO*@
+                                                        @if (item.IdMedioAlmacenamiento == 0)
+                                                        {
+                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
-                                                        <th style="color:white">Nombre</th>
-                                                        <th class="text-center" style="color:white">Detalle</th>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
-                                                        <th style="display:none;" class="text-center">palabras clable</th>
-                                                        <th class="text-center" style="color:white">Compartir</th>
-                                                        <th class="text-center" style="color:white">Almacen físico</th>
-                                                        <th class="text-center" style="color:white">Prestamo</th>
-                                                        <th class="text-center" style="color:white">Ruta</th>
-                                                        <th class="text-center" style="color:white">Descargar</th>
-                                                        <th class="text-center" style="color:white">Editar</th>
+                                                        }
 
-                                                        <th class="text-center" style="color:white">Eliminar</th>
+                                                        <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20" style="color: #0d6efd "></i></a></td>
+                                                        <td style="display:none;"><a>@item.PalabrasClave</a></td>
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="table-group-divider">
-                                                    @foreach (var item in ViewBag.dtList_Doc)
-                                                    {
 
-                                                        <tr>
-                                                            @*CONTROL ICONO PRESTAMO*@
-                                                            @if (item.IdMedioAlmacenamiento == 0)
+                                                        @{ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
+
+                                                            Estatus.IdDocumento = item.Id;
+
+                                                            var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
+
+                                                            ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
+                                                            permiso.IdUsuario = ViewBag.UsuarioId;
+                                                            permiso.IdDocumento = item.Id;
+                                                            var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
+
+                                                            ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                            editor.IdDocumento = item.Id;
+                                                            var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+                                                            ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
+                                                            NRuta.IdDocumento = item.Id;
+                                                            var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
+
+                                                            //CONTROL COMPARTIDO
+                                                            if (status.Ids >= 1)
                                                             {
-                                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                                if (Resultado.Id == 2)
+                                                                {
+                                                                    <td class="text-center"><span class="label label-info">Editando por ti</span></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
+                                                                }
 
                                                             }
                                                             else
                                                             {
-                                                                <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                                if (Resultado.Id == 2)
+                                                                {
+                                                                    <td class="text-center"><span class="label label-info">Editando por ti</span></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (Resultado.Id == 1)
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
+                                                                }
+
+                                                            }
+                                                            //CONTROL ALMACEN FÍSICO
+                                                            if (item.IdTipoArchivo == 1)
+                                                            {
+                                                                <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><a>No aplica</a></td>
 
                                                             }
 
-                                                            <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20" style="color: #0d6efd "></i></a></td>
-                                                            <td style="display:none;"><a>@item.PalabrasClave</a></td>
-
-
-                                                            @{ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
-
-                                                                Estatus.IdDocumento = item.Id;
-
-                                                                var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
-
-                                                                ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
-                                                                permiso.IdUsuario = ViewBag.UsuarioId;
-                                                                permiso.IdDocumento = item.Id;
-                                                                var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
-
-                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
-                                                                editor.IdDocumento = item.Id;
-                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
-
-                                                                ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
-                                                                NRuta.IdDocumento = item.Id;
-                                                                var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
-
-                                                                //CONTROL COMPARTIDO
-                                                                if (status.Ids >= 1)
+                                                            //CONTROL PRESTAMO
+                                                            if (item.IdTipoArchivo == 1)
+                                                            {
+                                                                if (item.IdMedioAlmacenamiento == 0)
                                                                 {
-                                                                    if (Resultado.Id == 2)
-                                                                    {
-                                                                        <td class="text-center"><span class="label label-info">Editando por ti</span></td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        if (Resultado.Id == 1)
-                                                                        {
-                                                                            <td class="text-center"><a onclick="Compartir(@item.Id);"><span class="label label-info">Compartido</span></a></td>
-
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td class="text-center"><a><i></i></a>No disponible</td>
-                                                                        }
-                                                                    }
+                                                                    <td class="text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20"></i></a></td>
 
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (Resultado.Id == 2)
+                                                                    ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                    ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                    _notification.IdUsuario = Usuario.Id;
+                                                                    _notification.IdDocumento = item.Id;
+
+                                                                    var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                    if (Num.Ids >= 16)
                                                                     {
-                                                                        <td class="text-center"><span class="label label-info">Editando por ti</span></td>
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #2ECC71">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
                                                                     }
-                                                                    else
+                                                                    else if (Num.Ids <= 15 && Num.Ids >= 1)
                                                                     {
-                                                                        if (Resultado.Id == 1)
-                                                                        {
-                                                                            <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td class="text-center"><a><i></i></a>No disponible</td>
-                                                                        }
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #F1C40F">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
                                                                     }
-
-                                                                }
-                                                                //CONTROL ALMACEN FÍSICO
-                                                                if (item.IdTipoArchivo == 1)
-                                                                {
-                                                                    <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="text-center"><a>No aplica</a></td>
-
-                                                                }
-
-                                                                //CONTROL PRESTAMO
-                                                                if (item.IdTipoArchivo == 1)
-                                                                {
-                                                                    if (item.IdMedioAlmacenamiento == 0)
+                                                                    else if (Num.Ids <= 0)
                                                                     {
-                                                                        <td class="text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20"></i></a></td>
-
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                                        ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                                        _notification.IdUsuario = Usuario.Id;
-                                                                        _notification.IdDocumento = item.Id;
-
-                                                                        var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                                        if (Num.Ids >= 16)
-                                                                        {
-                                                                            <td class="text-center">
-                                                                                <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                    <i class="fa fa-flag f-20"
-                                                                                       style="color: #2ECC71">
-                                                                                    </i>
-                                                                                </a>
-                                                                            </td>
-                                                                        }
-                                                                        else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                                        {
-                                                                            <td class="text-center">
-                                                                                <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                    <i class="fa fa-flag f-20"
-                                                                                       style="color: #F1C40F">
-                                                                                    </i>
-                                                                                </a>
-                                                                            </td>
-                                                                        }
-                                                                        else if (Num.Ids <= 0)
-                                                                        {
-                                                                            <td class="text-center">
-                                                                                <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                    <i class="fa fa-flag f-20"
-                                                                                       style="color: #E74C3C">
-                                                                                    </i>
-                                                                                </a>
-                                                                            </td>
-                                                                        }
-
-
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #E74C3C">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
                                                                     }
 
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="text-center"><a>No aplica</a></td>
+
                                                                 }
 
-
-                                                                <td class=""><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><a>No aplica</a></td>
                                                             }
 
-                                                            @if (item.NmArchivo != "" && Resultado.Id == 2)
+                                                            if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            {
+                                                                <td onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+
+                                                            }
+
+                                                            if (item.NmArchivo != "" && Resultado.Id == 2)
                                                             {
                                                                 <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
                                                             }
@@ -281,7 +288,7 @@
                                                                 }
                                                             }
 
-                                                            @if (Resultado.Id == 2)
+                                                            if (Resultado.Id == 2)
                                                             {
                                                                 <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
                                                                 <td class="text-center"><a><i></i></a>Función no disponible</td>
@@ -302,17 +309,20 @@
                                                                 }
                                                             }
 
+                                                        }
 
 
 
 
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </div>
+
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
 
@@ -463,7 +473,7 @@
                                 <thead style="background-color: #0d6efd">
                                     <tr>
                                         <th style="color:white">Nombre</th>
-                                        <th  class="text-center"  style="color:white">Email</th>
+                                        <th class="text-center" style="color:white">Email</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider" id="Contenido">
@@ -537,8 +547,8 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @*SCRIPTS SELECT2--*@
 <link href="~/Vendor/select2/dist/css/select2.css" rel="stylesheet" />
 <script src="~/Vendor/select2/dist/js/select2.js"></script>
@@ -563,6 +573,17 @@
             }
         });
 
+        ///Funcion Busqueda Principal
+        // Obtener el parámetro de búsqueda de la URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var searchParam = urlParams.get('search');
+
+        // Buscar y establecer el valor de búsqueda en DataTables
+        if (searchParam) {
+            var tabla = $('#Notificacion').DataTable();
+            tabla.search(searchParam).draw();
+        }
+
 
         $('#Empleado').select2({
             dropdownParent: $("#ModalCompartir")
@@ -575,6 +596,9 @@
         });
 
     });
+
+    ///INICIALIZACION TABLAS
+
 
     $("#DepartamentoHide").hide();
     $("#EmpleadosHide").hide();
@@ -1437,6 +1461,9 @@
 
     $('#menuDocumentos').addClass("active pcoded-trigger");
     $('#visaulizarDocumento').addClass("active");
+
+    
+
 </script>
 
 

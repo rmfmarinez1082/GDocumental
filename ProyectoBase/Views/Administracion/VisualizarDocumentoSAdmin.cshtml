@@ -95,7 +95,7 @@
                                                             var Estatus = ProyectoBase.Models.Test.SP_ASKCOmpartido(IdDoc);
 
                                                         }
-                                                        <td><i class="fa fa-folder-open" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                        <td onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                         @if (Estatus.Id > 0)
                                                         {
                                                             <td><span onclick="MoreInfo(@item.Id)" class="label label-success">@Estatus.Id</span><a> veces</a></td>
