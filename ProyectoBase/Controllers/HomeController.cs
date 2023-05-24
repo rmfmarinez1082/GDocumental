@@ -54,17 +54,17 @@ namespace ProyectoBase.Controllers
 
                     if (NuevoUsuario.usuarios.Session)
                     {
-                        Response.Cookies["SesionDT"].Value = Application.UrlCifrardo.Encrypt(DataUser.ClaveCoo);
+                        Response.Cookies["SesionDT"].Value = Application.Cifrado.Encriptar(DataUser.ClaveCoo);
                     }
                 }
 
                 if (!String.IsNullOrEmpty(NuevoUsuario.usuarios.Ruta))
                 {
-                    string url = Application.UrlCifrardo.Decrypt(NuevoUsuario.usuarios.Ruta);
+                    string url = Application.Cifrado.Desencriptar(NuevoUsuario.usuarios.Ruta);
                     if (menu.ValidacionPagina(DataUser, url))
                     {
                         //string Nu = Application.UrlCifrardo.Decrypt(NuevoUsuario.usuarios.RutaAcceso);
-                        string Nu = Application.UrlCifrardo.Decrypt(NuevoUsuario.usuarios.RutaCompleta);
+                        string Nu = Application.Cifrado.Desencriptar(NuevoUsuario.usuarios.RutaCompleta);
                         DataUser.RutaAcceso = Nu;
                     }
                 }

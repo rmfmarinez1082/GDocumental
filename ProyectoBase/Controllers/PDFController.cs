@@ -21,7 +21,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
 
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 

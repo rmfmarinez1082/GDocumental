@@ -53,7 +53,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
 
                 //DATOS DEL DOCUMENTO
-                int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                int Id = Convert.ToInt32(Application.Cifrado.Encriptar(Request.QueryString["Id"]));
                 Models.Documento doc = new Documento();
                 doc.Id = Id;
 
@@ -235,7 +235,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     //DATOS DEL DOCUMENTO
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -300,7 +300,7 @@ namespace ProyectoBase.Controllers
 
 
                     //DATOS DEL DOCUMENTO
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -437,7 +437,7 @@ namespace ProyectoBase.Controllers
             cat_ClasificacionDoc.IdTres = Usuario.Id;
 
            
-            int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+            int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
             Models.Documento doc = new Documento();
             doc.Id = Id;
 
