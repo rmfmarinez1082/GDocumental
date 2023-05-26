@@ -9,10 +9,11 @@ namespace ProyectoBase.Controllers
     public class URLSController : Controller
     {
         [HttpPost]
+
         public JsonResult URL_Cifrar(Models.URL uRL)
         {
             Models.URL NewUrl = new Models.URL();
-            NewUrl.Url = Application.UrlCifrardo.Encrypt(uRL.UrlVaible);
+            NewUrl.Url = Application.Cifrado.Encriptar(uRL.UrlVaible);
             return Json(NewUrl);
         }
     }

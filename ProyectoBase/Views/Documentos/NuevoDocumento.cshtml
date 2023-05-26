@@ -388,8 +388,6 @@
     }
 </style>
 
-
-
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -491,7 +489,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Documento </label>
-                                                                <select class="form-control" id="TipoDocumento" @*onchange="ValidaSelect('TipoDocumento')"*@>
+                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value)">
                                                                     <option value="0">Seleccionar</option>
                                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                                     {
@@ -697,7 +695,7 @@
                                                         <div class="container col-md-4">
                                                             <br />
                                                             <div class="m-0 vh-100 row justify-content-center align-items-center">
-                                                                <div class="col-md-6">
+                                                                <div class="col-md-6" id="Rpdf">
                                                                     <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
                                                                         <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
                                                                             <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
@@ -868,9 +866,10 @@
                         if (ValidaDistribucion()) {
 
                             if (Validaclasificacion()) {
-                                if (ValidaDocumento()) {
-                                    if (validarSolicitudWord()) {
 
+                                if (ValidaDocumento()) {
+                                    if (RequiereEditable()) {
+                                        //EJECUCION DOCUMENTO CON EDITABLE
                                         if (ValidaDocumentoWord()) {
                                             $("#BtnPublicar").prop('disabled', true);
 
@@ -962,7 +961,10 @@
                                             });
 
                                             $("#BtnPublicar").prop('disabled', false);
-                                            } else {
+
+                                        }
+
+                                        else {
                                                 swal({
                                                     title: "Documento faltante",
                                                     text: 'El tipo de documento que has seleccionado requiere de un documento editable',
@@ -974,7 +976,8 @@
                                                 $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
                                                 $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
                                                 $('[href="#menu4"]').tab('show');
-                                            }
+                                        }
+                                        //EJECUCION PROCEDIMIENTO SIN EDITABLE
                                     } else {
                                         $("#BtnPublicar").prop('disabled', true);
 
@@ -1745,14 +1748,71 @@
         return result;
     }
 
-    function validarSolicitudWord() {
+    function RequiereEditable() {
+        var result = false;
 
-        var result = true;
+        var obj = {};
 
-        if ($("#TipoDocumento option:selected").val() == 5) {
-                result = false;
-        }
+        obj['Id'] = $("#TipoDocumento option:selected").val();
+
+        var jsonObject = {
+            "TDoc": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequiereEditable", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id === 1) {
+                    result = true;
+                } else {
+                    return result;
+                }
+
+            }
+
+        });
+
         return result;
+    }
+
+    
+    function ValidaTDoc(Id) {
+
+        var obj = {};
+
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "TDoc": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequiereEditable", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id === 1) {
+                    $("#Word").css("display", "block");
+                    $("#Rpdf").addClass("col-md-6");
+                    $("#Rpdf").removeClass("col-md-12");
+
+
+                } else {
+                    $("#Word").css("display", "none");
+                    $("#Rpdf").addClass("col-md-12");
+                }
+
+            }
+
+        });
     }
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
@@ -2752,8 +2812,7 @@
 }
 else
 {
-    <script>
-        $(function () {
+    <script>$(function () {
 
             $('#jstree').jstree({
 
@@ -2773,6 +2832,5 @@ else
                 }, 250);
             });
 
-        });
-    </script>
+        });</script>
 }

@@ -53,7 +53,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
 
                 //DATOS DEL DOCUMENTO
-                int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                int Id = Convert.ToInt32(Application.Cifrado.Encriptar(Request.QueryString["Id"]));
                 Models.Documento doc = new Documento();
                 doc.Id = Id;
 
@@ -235,7 +235,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     //DATOS DEL DOCUMENTO
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -296,9 +296,11 @@ namespace ProyectoBase.Controllers
 
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
+                    
+
+
                     //DATOS DEL DOCUMENTO
-                    int Id = 0;
-                    Id = Convert.ToInt32(Request.QueryString["Id"]);
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -435,7 +437,7 @@ namespace ProyectoBase.Controllers
             cat_ClasificacionDoc.IdTres = Usuario.Id;
 
            
-            int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+            int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
             Models.Documento doc = new Documento();
             doc.Id = Id;
 
@@ -1118,6 +1120,10 @@ namespace ProyectoBase.Controllers
 
             return Json(Res);
         }
-
+        public JsonResult RequiereEditable(Models.Cat_Tipo_Documento TDoc, Application.Cat_Tipo_Documento ATDoc)
+        {
+            Models.Cat_Tipo_Documento Res = ATDoc.ValidarSolicitiudEdit(TDoc);
+            return Json(Res);
+        }
     }
 }

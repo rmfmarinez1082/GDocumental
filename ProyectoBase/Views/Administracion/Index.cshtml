@@ -44,7 +44,7 @@
                         <div class="row justify-content-around">
 
                             <div class="col-11 p-15 p-b-0">
-                                <form class="form-material">
+                                <form class="form-material" onsubmit="return false;">
                                     <div class="form-group form-primary">
                                         <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
                                         <span class="form-bar"></span>
@@ -147,9 +147,35 @@
             }
         });
     });
+
+
+
     function VerDetalle(Id) {
-      window.location.href='@Url.Action("VistaDetalleAdmin", "Documentos")?Id=' + Id;
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar","URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaDetalleAdmin","Documentos")?Id='+result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
     }
+
+
 
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Directorio').addClass("active");
@@ -321,14 +347,7 @@
                  },
 
             });
-            var to = false;
-            $('#plugins4_q').keyup(function () {
-                if (to) { clearTimeout(to); }
-                to = setTimeout(function () {
-                    var v = $('#plugins4_q').val();
-                    $('#jstree').jstree(true).search(v);
-                }, 250);
-            });
+
             $('#jstree').on('rename_node.jstree', function (e, data) {
 
                 const node = data.node;
@@ -437,7 +456,7 @@
 
 
             });
-           
+
     });
 
     function SeleccionarPorId(documento) {
@@ -467,4 +486,28 @@
             }
         });
     }
+
+
+    $(function () {
+        // Obtén el parámetro del nombre del documento de la URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var nombreDocumento = decodeURIComponent(urlParams.get('Doc'));
+
+        // Inserta el nombre del documento en el campo de búsqueda si está presente y no es null
+        var campoBusqueda = $('#plugins4_q');
+        if (nombreDocumento && nombreDocumento !== 'null') {
+            campoBusqueda.val(nombreDocumento);
+
+            // Realiza la búsqueda en el jstree directamente
+            $('#jstree').jstree(true).search(nombreDocumento);
+        }
+
+        // Asigna el evento keyup al campo de búsqueda
+        campoBusqueda.keyup(function () {
+            var v = $(this).val();
+            $('#jstree').jstree(true).search(v);
+        });
+    });
+
+
 </script>

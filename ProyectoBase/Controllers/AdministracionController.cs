@@ -105,7 +105,7 @@ namespace ProyectoBase.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
             }
             //}
             //else
@@ -184,7 +184,7 @@ namespace ProyectoBase.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
             }
 
         }
@@ -219,7 +219,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
                     //DATOS DEL DOCUMENTO
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -243,8 +243,8 @@ namespace ProyectoBase.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url)
-                , @cf = Application.UrlCifrardo.Encrypt(cadenaCompleta)
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url)
+                , @cf = Application.Cifrado.Encriptar(cadenaCompleta)
                 });
             }
 
@@ -300,7 +300,7 @@ namespace ProyectoBase.Controllers
                 if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
                 {
 
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -387,7 +387,7 @@ namespace ProyectoBase.Controllers
                 {
 
 
-                    int Id = Convert.ToInt32(Application.UrlCifrardo.Decrypt(Request.QueryString["Id"]));
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                     Models.Documento doc = new Documento();
                     doc.Id = Id;
 
@@ -481,7 +481,7 @@ namespace ProyectoBase.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
             }
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
@@ -532,7 +532,7 @@ namespace ProyectoBase.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
             }
         }
 
