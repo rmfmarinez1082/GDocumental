@@ -13,14 +13,14 @@ namespace ProyectoBase.Application
     {
         private const int keysize = 256;
         //WINDOWS
-        //static readonly string initVector = File.ReadAllText(@"C:\Data\textFileInitVector.config");
-        //static readonly string passPhrase = File.ReadAllText(@"C:\Data\textFilePassPhrase.config");
-        //static readonly string textFileSalt = File.ReadAllText(@"C:\Data\textFileSalt.config");
+        static readonly string initVector = File.ReadAllText(@"C:\Data\textFileInitVector.config");
+        static readonly string passPhrase = File.ReadAllText(@"C:\Data\textFilePassPhrase.config");
+        static readonly string textFileSalt = File.ReadAllText(@"C:\Data\textFileSalt.config");
 
         //MACOS
-        static readonly string initVector = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileInitVector.config");
-        static readonly string passPhrase = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFilePassPhrase.config");
-        static readonly string textFileSalt = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileSalt.config");
+        //static readonly string initVector = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileInitVector.config");
+        //static readonly string passPhrase = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFilePassPhrase.config");
+        //static readonly string textFileSalt = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileSalt.config");
 
         private static string EncryptString(string plainText)
         {

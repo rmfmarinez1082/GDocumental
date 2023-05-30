@@ -118,5 +118,19 @@ namespace ProyectoBase.Application
         {
             return _Documentos.ConteoSolicitud(Documento);
         }
+
+        public List<Models.Documento> ListSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.ListSolicitud(Documento);
+        }
+
+        public Models.Documento SolicitudAceptar(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudAceptar(Documento);
+        }
+        public Models.Documento SolicitudNegar(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudNegar(Documento);
+        }
     }
 }

@@ -22,5 +22,7 @@ namespace ProyectoBase.Models
         public int Editable { get; set; }
         public int Compartido { get; set; }
         public string NmOriginal { get; set; }
+        public string Propietario { get; set; }
+
     }
 }

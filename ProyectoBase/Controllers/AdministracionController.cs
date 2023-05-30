@@ -180,8 +180,12 @@ namespace ProyectoBase.Controllers
                 ViewBag.CountNoti = CountNoti;
 
                 documento.IdUsuario = Usuario.Id;
+
                 Models.Documento ConteoSolicitud = Apdocumentos.ConteoSolicitud(documento);
                 ViewBag.Solicitud = ConteoSolicitud;
+
+                List<Models.Documento> ListSolicitud = Apdocumentos.ListSolicitud(documento);
+                ViewBag.ListSolicitud = ListSolicitud;
                 return View();
 
             }
@@ -691,6 +695,18 @@ namespace ProyectoBase.Controllers
             Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
             return Json(lisUser);
+        }
+
+        public JsonResult SolicitudAceptar(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Documento Res = ADoc.SolicitudAceptar(Documento);
+            return Json(Res);
+        }
+
+        public JsonResult SolicitudNegar(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Documento Res = ADoc.SolicitudNegar(Documento);
+            return Json(Res);
         }
 
     }

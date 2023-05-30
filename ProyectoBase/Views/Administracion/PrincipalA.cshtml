@@ -9,12 +9,25 @@
         max-height: 100%;
         margin: auto; /* Centra la imagen verticalmente y horizontalmente */
     }
+
     #gif-icon {
         display: none; /* Inicialmente oculto */
     }
 
-    #gif-icon.block {
-        display: block; /* Mostrar la imagen si la clase .block está presente */
+        #gif-icon.block {
+            display: block; /* Mostrar la imagen si la clase .block está presente */
+        }
+
+    .swal-overlay {
+        z-index: 1060; /* Ajusta el z-index del swal */
+    }
+
+    .modal {
+        z-index: 1050; /* Ajusta el z-index del modal */
+    }
+
+    .bg-c-white {
+        background-color: #FFB6C1;
     }
 
 </style>
@@ -54,7 +67,7 @@
         <div class="page-body">
             <div class="row">
                 <!-- task, page, download counter  start -->
-                <div class="col-xl-3 col-md-6">
+                <div class="col">
                     <a href="/Documentos/VisualizarDocumento">
                         <div class="card">
                             <div class="card-block">
@@ -88,7 +101,7 @@
                     </a>
                 </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col">
                     <a href="/Documentos/DocCompartidos">
                         <div class="card">
                             <div class="card-block">
@@ -122,7 +135,7 @@
                     </a>
                 </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col">
                     <a href="#">
                         <div class="card" onclick="VDocVigente();" style="cursor:pointer">
                             <div class="card-block">
@@ -156,7 +169,7 @@
                     </a>
                 </div>
 
-                <!--<div class="col-xl-3 col-md-6">
+                <div class="col">
                     <a href="#">
                         <div class="card" onclick="VDocVencido();" style="cursor:pointer">
                             <div class="card-block">
@@ -180,34 +193,34 @@
                                     <div class="col-9">
                                         <p class="text-white m-b-0"></p>
                                     </div>
-                                    <div class="col-3 text-right">-->
-                                        @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                    <!--</div>
+                                    <div class="col-3 text-right">
+                                         @*<i class="fa fa-line-chart text-white f-16"></i>*@
+                                     </div>
                                 </div>
                             </div>
                         </div>
                     </a>
-                </div>-->
+                </div>
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col" onclick="ModalSolicitud();">
                     <a href="#">
                         <div class="card" style="cursor:pointer">
                             <div class="card-block">
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <h4 id="counter" class="text-c-red">
+                                        <h4 id="counter" style="color: #FFB6C1">
                                             @ViewBag.Solicitud.Id
                                         </h4>
                                         <h6 class="text-muted m-b-0">Solicitudes</h6>
                                     </div>
                                     <div class="col-4 text-right">
                                         @*<i class="fa fa-check-square-o f-28"></i>*@
-                                        <img id="gif-icon" src="~/Images/Headers/Email_1.gif" style="height:50px; width:auto;"/>
+                                        <img id="gif-icon" src="~/Images/Headers/Email.gif" style="height:53px; width:auto;" />
 
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer bg-c-red">
+                            <div class="card-footer bg-c-white">
                                 <div class="row align-items-center">
                                     <div class="col-9">
                                         <p class="text-white m-b-0"></p>
@@ -225,11 +238,11 @@
 
             <div class="row">
                 <!-- Docs Proximos a vencer -->
-                <div class="col-xl-8 col-md-12" id="ProxVencer" style="display: block;">
+                <div class="col-xl-6 col-md-12" id="ProxVencer" style="display: block;">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Documentos Proximos a vencer</h5>
-                            
+
                         </div>
                         <div class="p-15">
                             <div class="table-responsive">
@@ -258,8 +271,9 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- GRAFICO -->
-                <div class="col-xl-4 col-md-12">
+                <div class="col-xl-6 col-md-12">
                     <div class="card">
                         <div class="card-block">
                             <div class="row">
@@ -280,7 +294,7 @@
 
             <div class="row">
                 <!-- Docs Vigentes -->
-                <div class="col-xl-6 col-md-12" id="DocVigente" style="display: none;">
+                <div class="col-xl-12 col-md-12" id="DocVigente" style="display: none;">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Documentos Vigentes</h5>
@@ -292,7 +306,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="card-block p-15"  style="display: block;">
+                        <div class="card-block p-15" style="display: block;">
                             <div class="table-responsive">
 
                                 <table id="TDocVigente" class="table table-hover">
@@ -323,7 +337,7 @@
                 </div>
 
                 <!-- Docs Vencidos -->
-                <div class="col-xl-6 col-md-12" id="DocVencido" style="display: none;">
+                <div class="col-xl-12 col-md-12" id="DocVencido" style="display: none;">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Documentos Vencidos</h5>
@@ -372,7 +386,68 @@
     <div id="styleSelector"> </div>
 </div>
 
+
+
+
+<!---MODAL Solicitud--->
+<div class="modal fade" id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="overflow-y: auto;">
+    <div class="modal-dialog modal-xl" style="max-width:750px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Solicitud de Documentos</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Seleccione si desea permitir la descarga de los siguientes documentos.</p>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--SOLICITUDES -->
+                        <div class="col-12" id="Solicitud">
+                            <div class="card table-card">
+                                <div class="p-15">
+                                    <div class="table-responsive">
+                                        <table id="TDocSolicitud" class="table table-hover" cursor: pointer">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th class="text-center">Solicitante</th>
+                                                    <th class="text-center">Estado</th>
+                                                    <th class="text-center">Fecha de solicitud</th>
+                                                    <th class="text-center">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.ListSolicitud)
+                                                {
+                                                    <tr>
+                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                        <td class="text-center">@item.Elaboro</td>
+                                                        <td class="text-center">@item.Estatus</td>
+                                                        <td class="text-center">@item.FechaPublicacion</td>
+                                                        <td class="text-center"><a onclick="Aceptar(@item.Id);"><i class="fa fa-check-square-o f-20" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;<a onclick="Negar(@item.Id);"><i class="fa fa-times-circle-o f-20" aria-hidden="true"></i></a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="BtncloseCompartir" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="~/assets/js/jquery/jquery.min.js"></script>
+
 
 <script>
 
@@ -448,7 +523,15 @@
             }
         });
 
-       $('#TDocPVencer').DataTable({
+        $('#TDocPVencer').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+        $('#TDocSolicitud').DataTable({
 
             pageLength: 5,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
@@ -465,5 +548,70 @@
     }
     function VDocVencido() {
         $("#DocVencido").css("display", "block");
+    }
+
+    function ModalSolicitud() {
+        $('#ModalCompartido').modal('show');
+    }
+
+    function Aceptar(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Documento": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SolicitudAceptar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (resultado) {
+                if (resultado.Id == 1) {
+                    swal({
+                        title: "Permiso concedido",
+                        text: "Se otorgaron permisos satisfactoriamente",
+                        icon: "success",
+                        button: "Aceptar",
+                        target: document.getElementById('ModalCompartido')
+                    });
+                } else {
+                    alert('Intente más tarde');
+                }
+            }
+        });
+
+
+    }
+    function Negar(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Documento": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SolicitudNegar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (resultado) {
+                if (resultado.Id == 1) {
+                    swal({
+                        title: "Permiso Denegado",
+                        text: "El usuario no tendra acceso a la descarga",
+                        icon: "success",
+                        button: "Aceptar",
+                        target: document.getElementById('ModalCompartido')
+                    });
+                } else {
+                    alert('Intente mas tarde')
+                }
+            }
+        });
     }
 </script>
