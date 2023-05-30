@@ -30,6 +30,13 @@ namespace ProyectoBase.Data
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     PalabrasClave = reader["PalabrasClave"].ToString(), 
                     NmArchivo = reader["NmArchivoword"].ToString(),
+
+                    NmOriginal= reader["NmArchivo"].ToString(),
+
+                    ///BLOQUEO
+                    IdClasificacionArchivo = Convert.ToInt32(reader["T_Doc"].ToString())
+
+
                 };
                 resultado.Add(item);
             }
@@ -149,7 +156,10 @@ namespace ProyectoBase.Data
                     Nombre = reader["Nombre"].ToString(),
                     NombreUsuario = reader["Usuario"].ToString(),
                     Clasificacion = reader["Clasificacion"].ToString(),
-                    PalabrasClave = reader["PalabrasClave"].ToString()
+                    PalabrasClave = reader["PalabrasClave"].ToString(),
+
+                    NmArchivo = reader["NmArchivo"].ToString(),
+
                 };
                 resultado.Add(item);
             }

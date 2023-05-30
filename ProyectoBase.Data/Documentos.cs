@@ -529,5 +529,68 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+
+
+
+        public Models.Documento SolicitudPDF(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("ConsultarSolicitud");
+            b.AddParameter("@Id_documento", Documento.Id, SqlDbType.Int);
+            b.AddParameter("@Id_solicitante", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento InsertarSolicitud(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("InsertarSolicitud");
+            b.AddParameter("@Id_documento", Documento.Id, SqlDbType.Int);
+            b.AddParameter("@Id_solicitante", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public Models.Documento ConteoSolicitud(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("ConteoSolicitud");
+            b.AddParameter("@Id", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }

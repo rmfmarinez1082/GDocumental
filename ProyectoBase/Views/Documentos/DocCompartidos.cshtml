@@ -72,13 +72,14 @@
                                                 <thead style="background-color: #0d6efd">
                                                     <tr>
                                                         <th style="color:white">Nombre</th>
-                                                        <th style="color:white">Entrada en vigor</th>
-                                                        <th style="color:white">Vencimiento</th>
-                                                        <th class="text-center" style="color:white">Visualizar</th>
-                                                        <th class="text-center" style="color:white">Descargar</th>
-                                                        <th class="text-center" style="color:white">Editar</th>
+                                                        @*<th style="color:white">Entrada en vigor</th>
+                                                        <th style="color:white">Vencimiento</th>*@
+                                                        <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Editar</th>
                                                         <th style="display:none;" class="text-center">palabras clave</th>
-                                                        <th class="text-center" style="color:white">Estado</th>
+                                                        @*<th class="text-center" style="color:white">Estado</th>*@
+                                                        <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
 
 
                                                     </tr>
@@ -97,57 +98,70 @@
                                                                 <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
                                                             }
-                                                            <td>@item.FechaEntradaVigor</td>
-                                                            <td>@item.FechaVencimiento</td>
+                                                            @*<td>@item.FechaEntradaVigor</td>
+                                                            <td>@item.FechaVencimiento</td>*@
                                                             <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
 
                                                             @{
                                                                 ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
                                                                 editor.IdDocumento = item.Id;
                                                                 var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+
                                                             }
-
-                                                            @if (item.Compartido == 1 && item.prestamo == 0)
-
+                                                            @*DESCARGA*@
+                                                            @if (item.IdTipoDocumento == 8)
                                                             {
-                                                                if (item.Editable == 1 && item.NombreWord != "")
+                                                                if (item.Compartido == 1 && item.prestamo == 0)
+
                                                                 {
-                                                                    <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
+                                                                    if (item.Editable == 1 && item.NombreWord != "")
+                                                                    {
+                                                                        <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center">No disponible</td>
+                                                                    }
 
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="text-center">No disponible</td>
+                                                                    <td class="text-center">No aplica</td>
                                                                 }
+
+
+                                                            }else if (!(item.NombreWord == "" || item.NombreWord == null))
+                                                            {
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+
+                                                            }else
+                                                            {
+                                                                <td>Sin editable</td>
+                                                            }
+                                                            @*EDITAR*@
+                                                            @if (item.Compartido == 1 && item.prestamo == 0 && (item.NombreWord == "" || item.NombreWord == null))
+                                                            {
+                                                                <td class="text-center">No aplica</td>
 
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center">No aplica</td>
-                                                            }
-
-                                                            @if (item.Compartido == 1 && item.prestamo == 0)
-
-                                                            {
-                                                                if (item.Editable == 1 && item.NombreWord != "")
+                                                                if (item.Editable == 1 && item.NombreWord != null && item.NombreWord != "")
                                                                 {
                                                                     <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
-
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
+                                                                    <td class="text-center"><a><i></i></a>No se está editando</td>
                                                                 }
+                                                            }
 
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center">No aplica</td>
-                                                            }
 
                                                             <td style="display:none;"><a>@item.PalabrasClave</a></td>
-
-                                                            @if (item.prestamo == 1)
+                                                            @*Estado*@
+                                                            @*@if (item.prestamo == 1)
                                                             {
                                                                 ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
                                                                 ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -191,8 +205,10 @@
                                                             {
                                                                 <td class="text-center"><a>No aplica</a></td>
 
-                                                            }
+                                                            }*@
 
+                                                             @*VAMOS A DESCARGAR PDF*@
+                                                            <td  class="text-center"><a onclick="ConsultarPdf('@item.Id','@item.NmOriginal','@item.Nombre')"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
                                                         </tr>
 
                                                     }
@@ -257,6 +273,71 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
 <script type="text/javascript">
+    function ConsultarPdf(Id, NmOriginal, Nombre) {
+        //href="/Documentos/descargar?doc=item.NmOriginal&nom=item.Nombre"
+        {
+
+            var obj = {};
+            obj['Id'] = Id;
+            obj['NmOriginal'] = NmOriginal;
+            obj['Nombre'] = Nombre;
+
+            var jsonObject = {
+                "Documento": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("SolicitudPDF", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (resultado) {
+                    if (resultado.Id == 0) {
+                        swal({
+                            title: "Enviar Solicitud",
+                            text: "Por el momento no tienes acceso al documento, ¿deseas enviar una solicitud para permitir la descarga del documento?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        }).then((willDelete) => {
+                            if (willDelete) {
+                                // Lógica para enviar la solicitud
+                                 $.ajax({
+                                    url: "@Url.Action("InsertarSolicitud", "Documentos")",
+                                    data: JSON.stringify(jsonObject),
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                     success: function (resultado) {
+                                         swal("Solicitud enviada", {
+                                             icon: "success",
+                                         });
+                                     }
+                                 });
+                               
+                            } else {
+                                // Lógica si el usuario no envía la solicitud
+                                swal("Solicitud no enviada", "No se ha enviado la solicitud para descargar el documento", "info");
+                            }
+                        });
+                    } else if (resultado.Id == 3) {
+                        // Lógica si el usuario ya tiene permiso para descargar el documento
+                        swal("Permiso concedido", "Ya tienes permiso para descargar el documento", "success");
+                        window.location.href = "/Documentos/descargar?doc=" + NmOriginal + "&nom=" + Nombre;
+                    } else {
+                        // Lógica si hay otro estado de solicitud
+                        swal("En Proceso", "La solicitud está en proceso de revisión", "info");
+                    }
+                },
+                error: function (resultado) {
+                    alert("Error de ejecución");
+                }
+            });
+
+
+        }
+    }
 
     $(document).ready(function () {
         $('#Notificacion').DataTable({

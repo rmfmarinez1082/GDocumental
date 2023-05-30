@@ -11,6 +11,60 @@ namespace ProyectoBase.Controllers
 {
     public class DocumentosController : Controller
     {
+        public ActionResult Gestionar(Models.Notification _notification, Application.Notification Anotification,
+           Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
+           Application.List_Doc ADetails, Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadenaCompleta = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.UsuarioId = Usuario.Id;
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+                //VISTA PROCEDIMIENTOS
+
+                if (!String.IsNullOrEmpty(Request.QueryString["Id"]))
+                {
+                    //DATOS DEL DOCUMENTO
+                    int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
+                    Models.Documento doc = new Documento();
+                    doc.Id = Id;
+
+                    Models.List_Doc info = new List_Doc();
+                    info.Id = Id;
+                    info.IdSesion = Usuario.Id;
+                    List<Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
+                    ViewBag.DetailsDoc = DetailsDoc;
+
+                    //CONTROL DE NOTIFICACIONES 
+                    Dnotificacion.IdUsuario = Usuario.Id;
+                    Dnotificacion.IdDocumento = Id;
+                    Models.Notification DesactivarNot = Apnotificacion.SP_NotificacionAC(Dnotificacion);
+                    //HISTORIAL
+                    List<Models.Documento> DocHistorial = documentos.DOC_Versionamiento(doc);
+                    ViewBag.Historial = DocHistorial;
+                    return View();
+                }
+                else { return RedirectToAction("Index", "Home"); }
+            }
+            else { return RedirectToAction("PrincipalA", "Administracion"); }
+        }
 
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
             Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema)
@@ -248,13 +302,6 @@ namespace ProyectoBase.Controllers
                     Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
                     ViewBag.Ruta = documentoR.Nombre;
 
-                    Models.List_Doc info = new List_Doc();
-                    info.Id = Id;
-                    info.IdSesion = Usuario.Id;
-                    List < Models.List_Doc> DetailsDoc = ADetails.DetalleDocCompartido(info);
-                    ViewBag.DetailsDoc = DetailsDoc;
-
-
                     //CONTROL DE NOTIFICACIONES 
                     Dnotificacion.IdUsuario = Usuario.Id;
                     Dnotificacion.IdDocumento = Id;
@@ -267,6 +314,7 @@ namespace ProyectoBase.Controllers
                 }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
+
         public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
             Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
             Application.List_Doc ADetails, Application.Sistema ApSistema)
@@ -1123,6 +1171,26 @@ namespace ProyectoBase.Controllers
         public JsonResult RequiereEditable(Models.Cat_Tipo_Documento TDoc, Application.Cat_Tipo_Documento ATDoc)
         {
             Models.Cat_Tipo_Documento Res = ATDoc.ValidarSolicitiudEdit(TDoc);
+            return Json(Res);
+        }
+
+        public JsonResult SolicitudPDF(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Documento.IdUsuario = Usuario.Id;
+
+
+            Models.Documento Res = ADoc.SolicitudPDF(Documento);
+            return Json(Res);
+        }
+
+        public JsonResult InsertarSolicitud(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Documento.IdUsuario = Usuario.Id;
+
+
+            Models.Documento Res = ADoc.InsertarSolicitud(Documento);
             return Json(Res);
         }
     }

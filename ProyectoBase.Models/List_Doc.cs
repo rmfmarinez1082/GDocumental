@@ -33,6 +33,7 @@ namespace ProyectoBase.Models
         public int IdClasificacionArchivo { get; set; }
 
         public string NombreUsuario { get; set; }
-
+        public string NmOriginal { get; set; }
+        
     }
 }

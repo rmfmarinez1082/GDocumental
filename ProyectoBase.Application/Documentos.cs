@@ -103,5 +103,20 @@ namespace ProyectoBase.Application
             return _Documentos.DOC_Versionamiento(documento);
         }
 
+
+        public Models.Documento SolicitudPDF(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudPDF(Documento);
+        }
+
+        public Models.Documento InsertarSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.InsertarSolicitud(Documento);
+        }
+
+        public Models.Documento ConteoSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.ConteoSolicitud(Documento);
+        }
     }
 }

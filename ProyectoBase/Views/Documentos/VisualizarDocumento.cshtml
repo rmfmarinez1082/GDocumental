@@ -96,18 +96,15 @@
                                                 <tr>
 
                                                     <th style="color:white">Nombre</th>
-                                                    <th class="text-center" style="color:white">Detalle</th>
-
-                                                    <th style="display:none;" class="text-center">palabras clable</th>
-                                                    <th class="text-center" style="color:white">Compartir</th>
-                                                    <th class="text-center" style="color:white">Almacen físico</th>
-                                                    <th class="text-center" style="color:white">Prestamo</th>
                                                     <th class="text-center" style="color:white">Ruta</th>
-                                                    <th class="text-center" style="color:white">Descargar</th>
-                                                    <th class="text-center" style="color:white">Editar</th>
-
-                                                    <th class="text-center" style="color:white">Eliminar</th>
-
+                                                    <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
+                                                    <th style="display:none;" class="text-center">palabrasclave</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Compartir</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Detalles</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Eliminar</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Editar</th>
+                                                    <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
@@ -115,26 +112,10 @@
                                                 {
 
                                                     <tr>
-                                                        @*CONTROL ICONO PRESTAMO*@
-                                                        @if (item.IdMedioAlmacenamiento == 0)
-                                                        {
-                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-
-                                                        }
-
-                                                        <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20" style="color: #0d6efd "></i></a></td>
-                                                        <td style="display:none;"><a>@item.PalabrasClave</a></td>
-
-
-                                                        @{ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
-
+                                                        @{
+                                                            //PROCESOS Y CONSULTAS /////////////////////////////////////////////////////
+                                                            ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
                                                             Estatus.IdDocumento = item.Id;
-
                                                             var status = ProyectoBase.Models.Test.SP_StatusDoCompartido(Estatus);
 
                                                             ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
@@ -150,7 +131,32 @@
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
 
-                                                            //CONTROL COMPARTIDO
+                                                            ///////////////////////////////////////////////////////////////////////////////
+
+
+                                                            //Verificar Si esta Prestado (NOMBRE)
+                                                            if (item.IdMedioAlmacenamiento == 0)
+                                                            {
+                                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                            }
+
+                                                            //FUNCION DE BUSCAR Directorio SOLO ADMIN(RUTA)
+                                                            if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            {
+                                                                <td class="text-center" onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                            }
+
+                                                            <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
+                                                            <td style="display:none;"><a>@item.PalabrasClave</a></td>
+                                                            //COMPARTIR LOGICA
                                                             if (status.Ids >= 1)
                                                             {
                                                                 if (Resultado.Id == 2)
@@ -181,7 +187,7 @@
                                                                 {
                                                                     if (Resultado.Id == 1)
                                                                     {
-                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20"></i></a></td>
+                                                                        <td class="text-center"><a onclick="Compartir(@item.Id);"><i class="fa fa-share-alt-square f-20" style="color: #00B050"></i></a></td>
                                                                     }
                                                                     else
                                                                     {
@@ -190,107 +196,13 @@
                                                                 }
 
                                                             }
-                                                            //CONTROL ALMACEN FÍSICO
-                                                            if (item.IdTipoArchivo == 1)
-                                                            {
-                                                                <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20"></i></a></td>
+                                                            //Detalles
+                                                            <td class="text-center"><a onclick="gestionar(@item.Id);"><i class="fa fa-info f-20" style="color: #9C27B0 "></i></a></td>
 
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center"><a>No aplica</a></td>
-
-                                                            }
-
-                                                            //CONTROL PRESTAMO
-                                                            if (item.IdTipoArchivo == 1)
-                                                            {
-                                                                if (item.IdMedioAlmacenamiento == 0)
-                                                                {
-                                                                    <td class="text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20"></i></a></td>
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                                    ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                                    _notification.IdUsuario = Usuario.Id;
-                                                                    _notification.IdDocumento = item.Id;
-
-                                                                    var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                                    if (Num.Ids >= 16)
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                <i class="fa fa-flag f-20"
-                                                                                   style="color: #2ECC71">
-                                                                                </i>
-                                                                            </a>
-                                                                        </td>
-                                                                    }
-                                                                    else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                <i class="fa fa-flag f-20"
-                                                                                   style="color: #F1C40F">
-                                                                                </i>
-                                                                            </a>
-                                                                        </td>
-                                                                    }
-                                                                    else if (Num.Ids <= 0)
-                                                                    {
-                                                                        <td class="text-center">
-                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                                <i class="fa fa-flag f-20"
-                                                                                   style="color: #E74C3C">
-                                                                                </i>
-                                                                            </a>
-                                                                        </td>
-                                                                    }
-
-
-                                                                }
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center"><a>No aplica</a></td>
-                                                            }
-
-                                                            if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
-                                                            {
-                                                                <td onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <td><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
-
-                                                            }
-
-                                                            if (item.NmArchivo != "" && Resultado.Id == 2)
-                                                            {
-                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
-                                                            }
-                                                            else
-                                                            {
-                                                                if (item.NmArchivo != "" && Resultado.Id == 1)
-
-                                                                {
-                                                                    <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20"></i></a></td>
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="text-center"><a><i></i></a>No disponible</td>
-                                                                }
-                                                            }
-
+                                                            //EDITAR  LOGICA
                                                             if (Resultado.Id == 2)
                                                             {
-                                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20"></i></a></td>
                                                                 <td class="text-center"><a><i></i></a>Función no disponible</td>
 
                                                             }
@@ -299,7 +211,7 @@
                                                                 if (Resultado.Id == 1)
 
                                                                 {
-                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
                                                                     <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
                                                                 }
                                                                 else
@@ -308,16 +220,44 @@
                                                                     <td class="text-center"><a><i></i></a>Función no disponible</td>
                                                                 }
                                                             }
+                                                            //DescargarEditable
+                                                            if (item.IdClasificacionArchivo == 8)
+                                                            {
+                                                                if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 2)
+                                                                {
+                                                                    <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:blue"></i></a></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 1)
+
+                                                                    {
+                                                                        <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                    }
+                                                                }
+                                                            }
+                                                            else if (!(item.NmArchivo == "" || item.NmArchivo == null))
+                                                            {
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+
+                                                            }
+                                                            else {
+                                                                <td>Sin editable</td>
+                                                            }
+
+
+                                                            /////VAMOS A DESCARGAR PDF
+                                                            <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmOriginal&nom=@item.Nombre"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
 
                                                         }
 
-
-
-
-
-
                                                     </tr>
-                                                }
+                                                    }
                                             </tbody>
                                         </table>
                                     </div>
@@ -554,16 +494,48 @@
 <script src="~/Vendor/select2/dist/js/select2.js"></script>
 
 <script type="text/javascript">
+
+    function gestionar(Id) {
+
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("Gestionar", "Documentos")?Id=' + result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+
+    }
+
+
     $(document).ready(function () {
 
         $('#Notificacion').DataTable({
-
             pageLength: 10,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
+        }).on('init.dt', function () {
+            $('.dataTables_filter input').attr('placeholder', 'Palabra clave');
         });
+
+
         $('#Detalle').DataTable({
 
             pageLength: 5,
@@ -598,8 +570,6 @@
     });
 
     ///INICIALIZACION TABLAS
-
-
     $("#DepartamentoHide").hide();
     $("#EmpleadosHide").hide();
     $("#Empresahide").hide();
@@ -932,9 +902,6 @@
                     case "si":
                         SeguroEliminarArchivo(id);
                         break;
-
-                    default:
-                        swal("Se cancelo la eliminación del documento");
                 }
             });
     }
@@ -1462,7 +1429,7 @@
     $('#menuDocumentos').addClass("active pcoded-trigger");
     $('#visaulizarDocumento').addClass("active");
 
-    
+
 
 </script>
 

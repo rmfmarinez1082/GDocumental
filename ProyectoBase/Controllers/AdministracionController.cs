@@ -118,7 +118,8 @@ namespace ProyectoBase.Controllers
             Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
-            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema)
+            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema,
+            Models.Documento documento)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -178,7 +179,9 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
-
+                documento.IdUsuario = Usuario.Id;
+                Models.Documento ConteoSolicitud = Apdocumentos.ConteoSolicitud(documento);
+                ViewBag.Solicitud = ConteoSolicitud;
                 return View();
 
             }
@@ -324,8 +327,7 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
 
-                    List<Models.Documento> DocHistorial = documentos.DOC_Versionamiento(doc);
-                    ViewBag.Historial = DocHistorial;
+                  
 
                     return View();
                 }

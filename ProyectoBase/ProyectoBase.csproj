@@ -1295,6 +1295,7 @@
     <Content Include="Vendor\select2\src\scss\_single.scss" />
     <Content Include="Views\Administracion\VisualizarDocumentoSAdmin.cshtml" />
     <Content Include="Views\Administracion\VistaEditarCompartido.cshtml" />
+    <Content Include="Views\Documentos\Gestionar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
