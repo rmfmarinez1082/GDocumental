@@ -754,52 +754,7 @@
                             </div>
 
 
-                            <div class="row">
-                                <div class="col-xl-12 col-md-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5>Historial de versiones</h5>
-                                            <span>Consulta las versiones antigüas del documento</span>
-                                        </div>
-
-                                        <div class="card-block">
-
-                                            <div class="table-responsive">
-                                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                                    <thead style="background-color: #0d6efd">
-                                                        <tr>
-
-                                                            <th style="color:white">Nombre Editor</th>
-                                                            <th class="text-center" style="color:white">Versión</th>
-                                                            <th class="text-center" style="color:white">Fecha</th>
-                                                            <th class="text-center" style="color:white">Descargar</th>
-
-
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table-group-divider">
-                                                        @foreach (var item in ViewBag.Historial)
-                                                        {
-
-                                                            <tr>
-                                                                <td><i class="fa fa-user"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                                <td class="text-center"><a>@item.Version</a></td>
-                                                                <td class="text-center"><a>@item.Registro</a></td>
-                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.NmOriginal"><i class="fa fa-download f-20"></i></a></td>
-
-
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                            </div>
+                            
 
                         </div>
 
@@ -814,14 +769,7 @@
     <script>
         $(document).ready(function () {
 
-            $('#Detalle').DataTable({
 
-                pageLength: 10,
-                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-                }
-            });
 
             $.datepicker.regional['es'] = {
                 closeText: 'Cerrar',

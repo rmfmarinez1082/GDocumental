@@ -103,5 +103,39 @@ namespace ProyectoBase.Application
             return _Documentos.DOC_Versionamiento(documento);
         }
 
+
+        public Models.Documento SolicitudPDF(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudPDF(Documento);
+        }
+
+        public Models.Documento InsertarSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.InsertarSolicitud(Documento);
+        }
+
+        public Models.Documento ConteoSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.ConteoSolicitud(Documento);
+        }
+
+        public List<Models.Documento> ListSolicitud(Models.Documento Documento)
+        {
+            return _Documentos.ListSolicitud(Documento);
+        }
+
+        public Models.Documento SolicitudAceptar(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudAceptar(Documento);
+        }
+        public Models.Documento SolicitudNegar(Models.Documento Documento)
+        {
+            return _Documentos.SolicitudNegar(Documento);
+        }
+
+        public Models.Documento DocVersion(Models.Documento Adoc)
+        {
+            return _Documentos.DocVersion(Adoc);
+        }
     }
 }

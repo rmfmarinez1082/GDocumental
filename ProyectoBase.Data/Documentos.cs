@@ -529,5 +529,149 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+
+
+
+        public Models.Documento SolicitudPDF(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("ConsultarSolicitud");
+            b.AddParameter("@Id_documento", Documento.Id, SqlDbType.Int);
+            b.AddParameter("@Id_solicitante", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento InsertarSolicitud(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("InsertarSolicitud");
+            b.AddParameter("@Id_documento", Documento.Id, SqlDbType.Int);
+            b.AddParameter("@Id_solicitante", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public Models.Documento ConteoSolicitud(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("ConteoSolicitud");
+            b.AddParameter("@Id", Documento.IdUsuario, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public List<Models.Documento> ListSolicitud(Models.Documento documento)
+        {
+            b.ExecuteCommandSP("ListSolicitud");
+            b.AddParameter("@Id", documento.IdUsuario, SqlDbType.VarChar);
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),  
+                    Nombre = reader["Nombre"].ToString(),
+                    Estatus= reader["Estado"].ToString(),
+                    Elaboro = reader["Solicitante"].ToString(),
+                    FechaPublicacion = reader["FechaSolicitud"].ToString()
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public Models.Documento SolicitudAceptar(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("SolicitudAceptar");
+            b.AddParameter("@Id", Documento.Id, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+        public Models.Documento SolicitudNegar(Models.Documento Documento)
+
+        {
+            b.ExecuteCommandSP("SolicitudNegar");
+            b.AddParameter("@Id", Documento.Id, SqlDbType.Int);
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento DocVersion(Models.Documento Adoc)
+        {
+            b.ExecuteCommandSP("DocVersion");
+            
+            b.AddParameter("@Version", Adoc.Version, SqlDbType.NVarChar);
+            
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }

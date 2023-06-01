@@ -118,7 +118,8 @@ namespace ProyectoBase.Controllers
             Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
-            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema)
+            Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema,
+            Models.Documento documento)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -178,7 +179,13 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
+                documento.IdUsuario = Usuario.Id;
 
+                Models.Documento ConteoSolicitud = Apdocumentos.ConteoSolicitud(documento);
+                ViewBag.Solicitud = ConteoSolicitud;
+
+                List<Models.Documento> ListSolicitud = Apdocumentos.ListSolicitud(documento);
+                ViewBag.ListSolicitud = ListSolicitud;
                 return View();
 
             }
@@ -324,8 +331,7 @@ namespace ProyectoBase.Controllers
                     ViewBag.IdMedioAlmacenamiento = documento.IdMedioAlmacenamiento;
                     ViewBag.IdClasificacion = documento.IdClasificacion;
 
-                    List<Models.Documento> DocHistorial = documentos.DOC_Versionamiento(doc);
-                    ViewBag.Historial = DocHistorial;
+                  
 
                     return View();
                 }
@@ -691,6 +697,26 @@ namespace ProyectoBase.Controllers
             return Json(lisUser);
         }
 
+        public JsonResult SolicitudAceptar(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Documento Res = ADoc.SolicitudAceptar(Documento);
+            return Json(Res);
+        }
+
+        public JsonResult SolicitudNegar(Models.Documento Documento, Application.Documentos ADoc)
+        {
+            Models.Documento Res = ADoc.SolicitudNegar(Documento);
+            return Json(Res);
+        }
+
+
+        [HttpPost]
+        public JsonResult DocVersion(Application.Documentos ApDocumentos, Models.Documento Adoc)
+        {
+            Models.Documento Ndocumento = ApDocumentos.DocVersion(Adoc);
+
+            return Json(Ndocumento);
+        }
     }
 
 }

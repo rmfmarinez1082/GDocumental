@@ -31,8 +31,9 @@ namespace ProyectoBase.Data
                     IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString()),
                     PalabrasClave = reader["PalabrasClave"].ToString(),
                     Editable = Convert.ToInt32(reader["Editable"].ToString()),
-                   
-                    
+                    NmOriginal = reader["NmArchivo"].ToString(),
+                    Propietario = reader["Propietario"].ToString(),
+                    Version = reader["Version"].ToString()
                 };
                 resultado.Add(item);
             }

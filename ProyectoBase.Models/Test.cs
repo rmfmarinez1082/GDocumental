@@ -151,7 +151,8 @@ namespace ProyectoBase.Models
             reader = null;
             b.ConnectionCloseToTransaction();
             return resultado;
-        }public static Models.Notification sp_NombreRutaDoc(Models.Notification datos)
+        }
+        public static Models.Notification sp_NombreRutaDoc(Models.Notification datos)
         {
             AccesoDatos b = new AccesoDatos();
             b.ExecuteCommandSP("sp_NombreRutaDoc");
@@ -204,6 +205,27 @@ namespace ProyectoBase.Models
             {
 
                 resultado.Nombre = reader["Nombre"].ToString();
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public static Models.Notification VerificarEditable(Models.Notification datos)
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("VerificarEditable");
+            b.AddParameter("@IdDoc", datos.IdDocumento, SqlDbType.VarChar);
+            b.AddParameter("@IdUSer", datos.IdUsuario, SqlDbType.VarChar);
+
+            Models.Notification resultado = new Models.Notification();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
 
             }
             reader = null;

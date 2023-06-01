@@ -24,5 +24,7 @@ namespace ProyectoBase.Application
         {
             return _cat_Tipo_Documento.ValidarSolicitiudEdit(TDoc);
         }
+
+
     }
 }
