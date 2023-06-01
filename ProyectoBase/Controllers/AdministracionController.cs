@@ -709,6 +709,14 @@ namespace ProyectoBase.Controllers
             return Json(Res);
         }
 
+
+        [HttpPost]
+        public JsonResult DocVersion(Application.Documentos ApDocumentos, Models.Documento Adoc)
+        {
+            Models.Documento Ndocumento = ApDocumentos.DocVersion(Adoc);
+
+            return Json(Ndocumento);
+        }
     }
 
 }

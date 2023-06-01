@@ -656,5 +656,22 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+        public Models.Documento DocVersion(Models.Documento Adoc)
+        {
+            b.ExecuteCommandSP("DocVersion");
+            
+            b.AddParameter("@Version", Adoc.Version, SqlDbType.NVarChar);
+            
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }

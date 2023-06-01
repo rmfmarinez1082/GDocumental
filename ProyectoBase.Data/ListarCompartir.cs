@@ -32,7 +32,8 @@ namespace ProyectoBase.Data
                     PalabrasClave = reader["PalabrasClave"].ToString(),
                     Editable = Convert.ToInt32(reader["Editable"].ToString()),
                     NmOriginal = reader["NmArchivo"].ToString(),
-                    Propietario = reader["Propietario"].ToString()
+                    Propietario = reader["Propietario"].ToString(),
+                    Version = reader["Version"].ToString()
                 };
                 resultado.Add(item);
             }

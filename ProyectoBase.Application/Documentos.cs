@@ -132,5 +132,10 @@ namespace ProyectoBase.Application
         {
             return _Documentos.SolicitudNegar(Documento);
         }
+
+        public Models.Documento DocVersion(Models.Documento Adoc)
+        {
+            return _Documentos.DocVersion(Adoc);
+        }
     }
 }

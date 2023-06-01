@@ -239,7 +239,7 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.IdUser = Usuario.Id;
                 _listarCompartir.IdUsuario = Usuario.Id;
 
                 List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);

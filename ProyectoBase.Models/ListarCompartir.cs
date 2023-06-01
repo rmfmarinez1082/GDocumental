@@ -24,5 +24,7 @@ namespace ProyectoBase.Models
         public string NmOriginal { get; set; }
         public string Propietario { get; set; }
 
+        public string Version { get; set; }
+
     }
 }
