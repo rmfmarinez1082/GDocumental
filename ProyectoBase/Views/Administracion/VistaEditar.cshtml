@@ -801,79 +801,7 @@
             $("#FechaRevision").datepicker();
         });
 
-        function Guardar(id) {
-            if (ValidaDescripcion()) {
-                if (ValidaDistribucion()) {
-                    if (validaClasificacionArchivo()) {
-                             $("#BtnGuardar").prop('disabled', true);
-                                var obj = {};
-                                obj['Id'] = id;
-                                obj['Nombre'] = $("#NombreDocumento").val();
-                                obj['PalabraClave'] = $("#PalabraClave").val();
-                                obj['FechaRevision'] = $("#FechaRevision").val();
-                                obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
-                                obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-                                obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-                                obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
-                                obj['Descripcion'] = $("#Descripcion").val();
-                                obj['Version'] = $("#Version").val();
-                                obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-                                obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-                                obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
-                                obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                var jsonObject = {
-                                    "Adoc": obj
-                                };
-                                $.ajax({
-                                    url: "@Url.Action("DocumentoActualizar", "Administracion")",
-                                    data: JSON.stringify(jsonObject),
-                                    type: "POST",
-                                    contentType: "application/json",
-                                    dataType: "json",
-                                    success: function (data) {
 
-                                        swal({
-                                            title: "Documento Actualizado !",
-                                            text: " ",
-                                            icon: "success",
-                                            button: "Aceptar",
-                                        }).then((value) => {
-                                            window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
-                                        });
-                                    },
-                                    error: function (resultado) {
-                                        console.log(resultado);
-                                        alert("Error funcion ");
-                                    }
-
-                                });
-                                $("#BtnGuardar").prop('disabled', false);
-                    } else {
-                        swal({
-                            title: "Debes completar el formulario de información.",
-                            text: '',
-                            icon: "warning",
-                            button: "Aceptar",
-                        }); }
-
-                } else {
-                    swal({
-                        title: "Debes completar el formulario de información.",
-                        text: '',
-                        icon: "warning",
-                        button: "Aceptar",
-                    }); }
-
-            } else {
-                swal({
-                    title: "Debes completar el formulario de información.",
-                    text: '',
-                    icon: "warning",
-                    button: "Aceptar",
-                });
-}
-
-        };
 
         function ConsultaSubClasificacion(Id) {
             $('#SubClasificacionArchivo').empty();
@@ -1804,6 +1732,62 @@
                 });
             }
         };
+
+
+
+        function habilitar() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+
+                    GuardarDocumentos();
+                },
+                error: function (resultado) {
+
+
+                }
+            });
+        }
+
+
+
+        function habilitarEdit() {
+
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
+
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+
+                    GuardarDocumentosEdit();
+                },
+                error: function (resultado) {
+
+
+                }
+            });
+        }
         function GuardarDocumentosEdit() {
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
@@ -1908,58 +1892,80 @@
 
 
         };
+        function Guardar(id) {
+            if (ValidaDescripcion()) {
+                if (ValidaDistribucion()) {
+                    if (validaClasificacionArchivo()) {
+                             $("#BtnGuardar").prop('disabled', true);
+                                var obj = {};
+                                obj['Id'] = id;
+                                obj['Nombre'] = $("#NombreDocumento").val();
+                                obj['PalabraClave'] = $("#PalabraClave").val();
+                                obj['FechaRevision'] = $("#FechaRevision").val();
+                                obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
+                                obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+                                obj['Descripcion'] = $("#Descripcion").val();
+                                obj['Version'] = $("#Version").val();
+                                obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+                                obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                var jsonObject = {
+                                    "Adoc": obj
+                                };
+                                $.ajax({
+                                    url: "@Url.Action("DocumentoActualizar", "Administracion")",
+                                    data: JSON.stringify(jsonObject),
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    success: function (data) {
 
+                                        swal({
+                                            title: "Documento Actualizado !",
+                                            text: " ",
+                                            icon: "success",
+                                            button: "Aceptar",
+                                        }).then((value) => {
+                                            window.location.href = '@Url.Action("VisualizarDocumento", "Documentos")';
+                                        });
+                                    },
+                                    error: function (resultado) {
+                                        console.log(resultado);
+                                        alert("Error funcion ");
+                                    }
 
-        function habilitar() {
+                                });
+                                $("#BtnGuardar").prop('disabled', false);
+                    } else {
+                        swal({
+                            title: "Debes completar el formulario de información.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        }); }
 
-            var obj = {};
-            obj['Id'] = @ViewBag.Id;;
+                } else {
+                    swal({
+                        title: "Debes completar el formulario de información.",
+                        text: '',
+                        icon: "warning",
+                        button: "Aceptar",
+                    }); }
 
-            var jsonObject = {
-                "Doc": obj
-            };
+            } else {
+                swal({
+                    title: "Debes completar el formulario de información.",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+}
 
-            $.ajax({
-                url: "@Url.Action("HabilitarPermisos", "Documentos")",
-                data: JSON.stringify(jsonObject),
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-                  
-                    GuardarDocumentos();
-                },
-                error: function (resultado) {
+        };
 
-                  
-                }
-            });
-        }
-        function habilitarEdit() {
-
-            var obj = {};
-            obj['Id'] = @ViewBag.Id;;
-
-            var jsonObject = {
-                "Doc": obj
-            };
-
-            $.ajax({
-                url: "@Url.Action("HabilitarPermisos", "Documentos")",
-                data: JSON.stringify(jsonObject),
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-                   
-                    GuardarDocumentosEdit();
-                },
-                error: function (resultado) {
-
-                  
-                }
-            });
-        }
 
         const Nombre = document.getElementById('NombreDocumento');
         Nombre.addEventListener('keyup', function () {

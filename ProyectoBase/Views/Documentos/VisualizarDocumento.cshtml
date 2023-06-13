@@ -722,7 +722,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" onclick="GuardarDocsEditar()">Compartir</button>
+                        <button class="btn btn-primary" onclick="GuardarDocsEditar()">Subir</button>
 
                         <button type="button" id="BtncloseCompartir" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
@@ -2218,90 +2218,47 @@
 
         return result;
     }
+
+
+
     function GuardarDocsEditar() {
-    if (ValidaDocumento()) {
-        if (ValidaDocumentoWord()) {
-
-
-            var obj = {};
+         var obj = {};
             obj['Id'] = IdTemporal;
 
-        var jsonObject = {
-            "Doc": obj
-        };
+            var jsonObject = {
+                "Doc": obj
+            };
 
-        $.ajax({
-            url: "@Url.Action("DesbloP", "Documentos")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
 
-                habilitarEdit();
-            },
-            error: function (resultado) {
+                    GuardarDocumentosEdit();
+                },
+                error: function (resultado) {
 
 
-            }
-        });
-        }
-
-        else {
-            swal({
-                title: "Documento faltante",
-                text: ' Carga un documento editable para poder actualizar el archivo deseado',
-                icon: "warning",
-                button: "Aceptar"
+                }
             });
-        }
-    } else {
-        swal({
-            title: "Documento faltante",
-            text: 'No has cargado ningun documento PDF',
-            icon: "warning",
-            button: "Aceptar"
-        });
     }
+    function GuardarDocumentosEdit() {
 
-};
-    function habilitarEdit() {
-
-        var obj = {};
-        obj['Id'] = IdTemporal;
-
-        var jsonObject = {
-            "Doc": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("HabilitarPermisos", "Documentos")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
-                GuardarDocumentosEdit();
-            },
-            error: function (resultado) {
+        if (ValidaDocumento()) {
+            if (ValidaDocumentoWord()) {
 
 
-            }
-        });
-    };
-
-     function GuardarDocumentosEdit() {
-         $("#BtnGuardarEdit").prop('disabled', true);
+                $("#BtnGuardarEdit").prop('disabled', true);
                 IdVersion++;
-
                 var obj = {};
                 obj['Version'] = IdVersion;
-                obj['Id'] = IdTemporal;
+                obj['Id'] =   IdTemporal;
                 var jsonObject = {
                     "nuevoDocumento": obj
                 };
-         console.log(obj);
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("Documentos_Actualizar", "Documentos")",
@@ -2335,11 +2292,7 @@
                             // code block
                         }
                         if (data.Id > 0) {
-                            // Obtén una referencia al DataTable
-                            var dataTable = $('#Notificacion').DataTable();
-
-                            // En el código donde tienes el swal y el botón de "Aceptar" o al cerrar el modal
-                            swal({
+                              swal({
                                 title: "Documento Actualizado!",
                                 text: "",
                                 icon: "success",
@@ -2355,7 +2308,27 @@
                     }
                 });
                 $("#BtnGuardarEdit").prop('disabled', false);
-    };
+            }
+
+            else {
+                swal({
+                    title: "Documento faltante",
+                    text: ' Carga un documento editable para poder actualizar el archivo deseado',
+                    icon: "warning",
+                    button: "Aceptar"
+                });
+            }
+        } else {
+            swal({
+                title: "Documento faltante",
+                text: 'No has cargado ningun documento PDF',
+                icon: "warning",
+                button: "Aceptar"
+            });
+        }
+
+        };
+
 
 </script>
 

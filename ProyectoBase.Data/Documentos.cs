@@ -609,7 +609,8 @@ namespace ProyectoBase.Data
                     Nombre = reader["Nombre"].ToString(),
                     Estatus= reader["Estado"].ToString(),
                     Elaboro = reader["Solicitante"].ToString(),
-                    FechaPublicacion = reader["FechaSolicitud"].ToString()
+                    FechaPublicacion = reader["FechaSolicitud"].ToString(),
+                    IdClasificacion= Convert.ToInt32(reader["Id_estado"].ToString())
                 };
                 resultado.Add(item);
             }

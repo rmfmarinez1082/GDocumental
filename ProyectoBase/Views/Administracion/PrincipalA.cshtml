@@ -420,10 +420,25 @@
                                             <tbody>
                                                 @foreach (var item in ViewBag.ListSolicitud)
                                                 {
-                                                    <tr>
+                                                    <tr style="background-color: 
+                                                            @if (item.IdClasificacion == 1)
+                                                            {
+                                                                <text>rgba(255,205,86,0.2)</text> 
+                                                            }
+                                                            else if (item.IdClasificacion == 2)
+                                                            {
+                                                                <text>hsla(120, 100%, 25%, 0.5)</text>
+                                                            }
+                                                            else if (item.IdClasificacion == 3)
+                                                            {
+                                                                <text>hsla(0, 100%, 50%, 0.5)</text>                                                            }
+                                                            else
+                                                            {
+                                                                <text>white</text>
+                                                            };" data-id="@item.Id">
                                                         <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
                                                         <td class="text-center">@item.Elaboro</td>
-                                                        <td class="text-center">@item.Estatus</td>
+                                                        <td class="text-center estadocolumna">@item.Estatus</td>
                                                         <td class="text-center">@item.FechaPublicacion</td>
                                                         <td class="text-center"><a onclick="Aceptar(@item.Id);"><i class="fa fa-check-square-o f-20" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;<a onclick="Negar(@item.Id);"><i class="fa fa-times-circle-o f-20" aria-hidden="true"></i></a></td>
                                                     </tr>
@@ -577,6 +592,14 @@
                         button: "Aceptar",
                         target: document.getElementById('ModalCompartido')
                     });
+
+                    var fila = document.querySelector("tr[data-id='" + Id + "']");
+                    fila.style.backgroundColor = "hsla(120, 100%, 25%, 0.5)";
+
+                    // Cambiar el texto de la columna Estado
+                    var columnaEstado = fila.querySelector(".text-center.estadocolumna");
+                    columnaEstado.innerText = "Aprobada";
+
                 } else {
                     alert('Intente más tarde');
                 }
@@ -608,6 +631,13 @@
                         button: "Aceptar",
                         target: document.getElementById('ModalCompartido')
                     });
+
+                    var fila = document.querySelector("tr[data-id='" + Id + "']");
+                    fila.style.backgroundColor = "hsla(0, 100%, 50%, 0.5)";
+
+                    // Cambiar el texto de la columna Estado
+                    var columnaEstado = fila.querySelector(".text-center.estadocolumna");
+                    columnaEstado.innerText = "Negada";
                 } else {
                     alert('Intente mas tarde')
                 }
