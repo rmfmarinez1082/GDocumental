@@ -8,6 +8,19 @@ using System.Threading.Tasks;
 
 namespace ProyectoBase.Application
 {
+    //public class DATA
+    //{
+    //    public void Consulta()
+    //    {
+    //        ProyectoBase.Models.Sistema EncriptData = ProyectoBase.Models.Test.RutaEncriptado();
+
+    //        string IV = EncriptData.initVector;
+    //        string PP = EncriptData.passPhrase;
+    //        string TFS = EncriptData.textFileSalt;
+
+    //    }
+
+    //}
 
     public static class Cifrado
     {
