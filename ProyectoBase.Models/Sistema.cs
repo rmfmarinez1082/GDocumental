@@ -12,5 +12,15 @@ namespace ProyectoBase.Models
         public string Acronimo { get; set; } 
         public string RutaLogo { get; set; }
         public string NombreEmpresa { get; set; }
+        public string url_Imagen { get; set; }
+        public string url_Sitio { get; set; }
+
+
+        public string initVector { get; set; }
+
+        public string passPhrase { get; set; }
+
+        public string textFileSalt { get; set; }
+
     }
 }

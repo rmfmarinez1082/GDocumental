@@ -95,9 +95,9 @@ namespace ProyectoBase.Application
             "</header>" +
             "<div class='content-wrapper'>" +
             "<div class='content'>" +
-            "<img src='https://tickets.asae.com.mx/Imagenes/LogoAsaeTikets.png' width='125' height='120' style='display: block; border: 0px;' />" +
+            "<img src="+sistema.url_Imagen+" width='125' height='120' style='display: block; border: 0px;' />" +
             "<p>Estimado(a) <b style = 'color: red'> " + user.Nombre + " </b>.</p>" +
-            "<p> Se ha compartido información importante en un Nuevo Documento, te agradecemos que ingreses al sistema " + sistema.Acronimo + " (" + sistema.NombreSistema + ") con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de "+sistema.NombreEmpresa+"(<b style = 'color: #00f' > www.asae.com.mx </b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
+            "<p> Se ha compartido información importante en un Nuevo Documento, te agradecemos que ingreses al sistema " + sistema.Acronimo + " (" + sistema.NombreSistema + ") con tus credenciales de acceso.En caso de no conocer la liga del sistema, ingresa a la página de "+sistema.NombreEmpresa+"(<b style = 'color: #00f' > "+sistema.url_Sitio+ " </b>) en el apartado de la intranet donde muy fácilmente podrás ingresar.</p>" +
             "<div style = 'border:groove; border-radius: 3px; text-align: center;'> " +
             "<h2><b>Información del Documento.</b></h2>" +
             "</div>" +

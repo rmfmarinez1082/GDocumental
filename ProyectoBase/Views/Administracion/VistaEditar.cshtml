@@ -396,7 +396,7 @@
                 <div class="col-md-4">
                     <ul class="breadcrumb-title">
                         <li class="breadcrumb-item">
-                            <a href="/Administracion/PrincipalU"> <i class="fa fa-home"></i> </a>
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="#!">Edición de documento</a>
@@ -902,208 +902,186 @@
         });
     }
         /*SCRIPS Validación*/
+        /*SCRIPS Validación*/
+
         function validarFechaRevision() {
-
             var result = false;
 
-            if ($('#FechaRevision').val() <= $('#FechaPublicacion').val()) {
+            var fechaRevisionInput = $('#FechaRevision').val();
+            var fechaRevisionParts = fechaRevisionInput.split('/');
+            var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
 
-                if ($('#FechaRevision').val() < $('#FechaEntradaVigor').val()) {
+            var fechaPublicacionInput = $('#FechaPublicacion').val();
+            var fechaPublicacionParts = fechaPublicacionInput.split('/');
+            var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
 
-                    if ($('#FechaRevision').val() < $('#FechaVencimiento').val()) {
+            var fechaEntradaEnVigorInput = $('#FechaEntradaVigor').val();
+            var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+            var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
 
-                        var result = true;
+            var fechaVencimientoInput = $('#FechaVencimiento').val();
+            var fechaVencimientoParts = fechaVencimientoInput.split('/');
+            var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
 
+            if (fechaRevision <= fechaPublicacion) {
+                if (fechaRevision < fechaEntradaEnVigor) {
+                    if (fechaRevision < fechaVencimiento) {
+                        result = true;
                     } else {
-
-                        swal({
-                            title: "La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.",
-                            text: '',
-                            icon: "error",
-                            button: "Aceptar",
-                        });
-
-
-
+                        $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
                     }
                 } else {
-
-                    swal({
-                        title: "La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-
+                    $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La FechaRevisión debe ser menor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-
-
+                $.notify("La Fecha de Revisión debe ser menor a la Fecha de Publicación.", "warn");
             }
+
+            console.log(fechaRevision);
+            console.log(fechaPublicacion);
+            console.log(fechaEntradaEnVigor);
+            console.log(fechaVencimiento);
 
             return result;
         }
+
         function validarFechaPublicacion() {
-
             var result = false;
 
-            if ($('#FechaPublicacion').val() >= $('#FechaRevision').val()) {
+            var fechaPublicacionInput = $('#FechaPublicacion').val();
+            var fechaPublicacionParts = fechaPublicacionInput.split('/');
+            var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
 
-                if ($('#FechaPublicacion').val() < $('#FechaEntradaVigor').val()) {
+            var fechaRevisionInput = $('#FechaRevision').val();
+            var fechaRevisionParts = fechaRevisionInput.split('/');
+            var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
 
-                    if ($('#FechaPublicacion').val() < $('#FechaVencimiento').val()) {
+            var fechaEntradaEnVigorInput = $('#FechaEntradaVigor').val();
+            var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+            var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
 
-                        var result = true;
+            var fechaVencimientoInput = $('#FechaVencimiento').val();
+            var fechaVencimientoParts = fechaVencimientoInput.split('/');
+            var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+            if (fechaPublicacion.getTime() >= fechaRevision.getTime()) {
+                if (fechaPublicacion.getTime() < fechaEntradaEnVigor.getTime()) {
+                    if (fechaPublicacion.getTime() < fechaVencimiento.getTime()) {
+                        result = true;
                     } else {
-
-                        swal({
-                            title: "La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.",
-                            text: '',
-                            icon: "error",
-                            button: "Aceptar",
-                        });
+                        $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
                     }
                 } else {
-
-                    swal({
-                        title: "La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Publicación debe ser menor a la Fecha de entrada en vigor.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha Publicación debe ser mayor a la Fecha de Revisión.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Publicación debe ser mayor a la Fecha de Revisión.", "warn");
             }
 
             return result;
         }
+
+
         function validarFechadeentradaenvigor() {
-
             var result = false;
 
-            if ($('#FechaEntradaVigor').val() > $('#FechaRevision').val()) {
+            var fechaEntradaEnVigorInput = $('#FechaEntradaVigor').val();
+            var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+            var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
 
-                if ($('#FechaEntradaVigor').val() > $('#FechaPublicacion').val()) {
+            var fechaRevisionInput = $('#FechaRevision').val();
+            var fechaRevisionParts = fechaRevisionInput.split('/');
+            var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
 
-                    if ($('#FechaEntradaVigor').val() < $('#FechaVencimiento').val()) {
+            var fechaPublicacionInput = $('#FechaPublicacion').val();
+            var fechaPublicacionParts = fechaPublicacionInput.split('/');
+            var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
 
-                        var result = true;
+            var fechaVencimientoInput = $('#FechaVencimiento').val();
+            var fechaVencimientoParts = fechaVencimientoInput.split('/');
+            var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+            if (fechaEntradaEnVigor > fechaRevision) {
+                if (fechaEntradaEnVigor > fechaPublicacion) {
+                    if (fechaEntradaEnVigor < fechaVencimiento) {
+                        result = true;
                     } else {
-
-                        swal({
-                            title: "La Fecha de entrada envigor debe ser menor a la FechaVencimiento.",
-                            text: '',
-                            icon: "error",
-                            button: "Aceptar",
-                        });
+                        $.notify("La Fecha de entrada en vigor debe ser menor a la Fecha de Vencimiento.", "warn");
                     }
                 } else {
-
-                    swal({
-                        title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Publicación.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Revisión.", "warn");
             }
 
             return result;
         }
-        function validarFechaVencimiento() {
 
+        function validarFechaVencimiento() {
             var result = false;
 
-            if ($('#FechaVencimiento').val() > $('#FechaRevision').val()) {
+            var fechaVencimientoInput = $('#FechaVencimiento').val();
+            var fechaVencimientoParts = fechaVencimientoInput.split('/');
+            var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
 
-                if ($('#FechaVencimiento').val() > $('#FechaPublicacion').val()) {
+            var fechaRevisionInput = $('#FechaRevision').val();
+            var fechaRevisionParts = fechaRevisionInput.split('/');
+            var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
 
-                    if ($('#FechaVencimiento').val() > $('#FechaEntradaVigor').val()) {
+            var fechaPublicacionInput = $('#FechaPublicacion').val();
+            var fechaPublicacionParts = fechaPublicacionInput.split('/');
+            var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
 
-                        var result = true;
+            var fechaEntradaEnVigorInput = $('#FechaEntradaVigor').val();
+            var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+            var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+            if (fechaVencimiento > fechaRevision) {
+                if (fechaVencimiento > fechaPublicacion) {
+                    if (fechaVencimiento > fechaEntradaEnVigor) {
+                        result = true;
                     } else {
-
-                        swal({
-                            title: "La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.",
-                            text: '',
-                            icon: "error",
-                            button: "Aceptar",
-                        });
+                        $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
                     }
                 } else {
-
-                    swal({
-                        title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
             }
 
             return result;
         }
         function validarFechaProximaRevision() {
-
             var result = false;
 
-            if ($('#FechaProximaRevision').val() < $('#FechaVencimiento').val()) {
+            var fechaProximaRevisionInput = $('#FechaProximaRevision').val();
+            var fechaProximaRevisionParts = fechaProximaRevisionInput.split('/');
+            var fechaProximaRevision = new Date(fechaProximaRevisionParts[2], fechaProximaRevisionParts[1] - 1, fechaProximaRevisionParts[0]);
 
-                if ($('#FechaProximaRevision').val() > $('#FechaPublicacion').val()) {
+            var fechaVencimientoInput = $('#FechaVencimiento').val();
+            var fechaVencimientoParts = fechaVencimientoInput.split('/');
+            var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
 
-                    var result = true;
+            var fechaPublicacionInput = $('#FechaPublicacion').val();
+            var fechaPublicacionParts = fechaPublicacionInput.split('/');
+            var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
 
+            if (fechaProximaRevision < fechaVencimiento) {
+                if (fechaProximaRevision > fechaPublicacion) {
+                    result = true;
                 } else {
-
-                    swal({
-                        title: "La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
+                    $.notify("La Fecha de Proxima Revisión debe ser mayor a la Fecha de Publicación.", "warn");
                 }
             } else {
-
-                swal({
-                    title: "La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
+                $.notify("La Fecha de Proxima Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
             }
 
             return result;
         }
+
+
         function validatodasfechas() {
 
             if (validarFechaRevision()) {

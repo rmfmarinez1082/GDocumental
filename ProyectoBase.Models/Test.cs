@@ -232,5 +232,26 @@ namespace ProyectoBase.Models
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+
+        public static Models.Sistema RutaEncriptado()
+        {
+            AccesoDatos b = new AccesoDatos();
+            b.ExecuteCommandSP("RutaEncriptado");
+
+            Models.Sistema resultado = new Models.Sistema();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+
+                resultado.initVector = reader["initVector"].ToString();
+                resultado.passPhrase = reader["passPhrase"].ToString();
+                resultado.textFileSalt = reader["textFileSalt"].ToString();
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }

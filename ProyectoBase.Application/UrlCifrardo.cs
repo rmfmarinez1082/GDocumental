@@ -22,6 +22,7 @@ namespace ProyectoBase.Application
         //static readonly string passPhrase = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFilePassPhrase.config");
         //static readonly string textFileSalt = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileSalt.config");
 
+
         private static string EncryptString(string plainText)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);
@@ -78,4 +79,5 @@ namespace ProyectoBase.Application
             return DecryptString(cadena);
         }
     }
+
 }
