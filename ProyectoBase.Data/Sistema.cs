@@ -22,6 +22,8 @@ namespace ProyectoBase.Data
                 resultado.Acronimo = reader["Acronimo"].ToString();
                 resultado.RutaLogo = reader["RutaLogo"].ToString();
                 resultado.NombreEmpresa = reader["NombreEmpresa"].ToString();
+                resultado.url_Imagen = reader["url_Imagen"].ToString();
+                resultado.url_Sitio = reader["url_Sitio"].ToString();
             }
             reader = null;
             b.ConnectionCloseToTransaction();
