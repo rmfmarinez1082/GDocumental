@@ -70,9 +70,9 @@ namespace ProyectoBase.Application
             //CUSTODIAS
 
 
-            public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+            public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia()
         {
-            return _cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
+            return _cat_ClasificacionArchivo.cat_DocumentosCustodia();
         }
 
         public List<Models.Cat_ClasificacionArchivo> cat_DocumentosSubCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
