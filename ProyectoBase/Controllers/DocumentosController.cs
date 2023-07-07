@@ -87,7 +87,9 @@ namespace ProyectoBase.Controllers
                 ViewBag.CountNoti = CountNoti;
 
                 cat_ClasificacionDoc.IdUser = Usuario.Id;
-                string Carpetas = ObtenerPCustodia2(cat_ClasificacionDoc);
+                //string Carpetas = ObtenerPCustodia2(cat_ClasificacionDoc);
+                string Carpetas = ObtenerPCustodia2();
+
                 ViewBag.carpetas = Carpetas;
 
                 return View();
@@ -107,7 +109,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
 
                 //DATOS DEL DOCUMENTO
-                int Id = Convert.ToInt32(Application.Cifrado.Encriptar(Request.QueryString["Id"]));
+                int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                 Models.Documento doc = new Documento();
                 doc.Id = Id;
 
@@ -124,7 +126,7 @@ namespace ProyectoBase.Controllers
 
                 cat_ClasificacionDoc.IdUser = Usuario.Id;
 
-                string Carpetas = ObtenerPCustodia(cat_ClasificacionDoc);
+                string Carpetas = ObtenerPCustodia();
                 ViewBag.carpetas = Carpetas;
 
                 documento.IdUsuario = Usuario.Id;
@@ -136,6 +138,8 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("Index", "Home"); }
         }
+
+
         // GET: Documentos
         public ActionResult NuevoDocumento(Application.Cat_Tipo_Documento cat_Tipo_Documento,
             Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
@@ -425,12 +429,11 @@ namespace ProyectoBase.Controllers
             return resulCarpetas;
         }
 
-        public string ObtenerPCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        public string ObtenerPCustodia()
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            cat_ClasificacionDoc.IdUser = Usuario.Id;
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
             string resulCarpetas = "";
 
             if (dtClasificacionArchivo.Count > 0)
@@ -510,13 +513,12 @@ namespace ProyectoBase.Controllers
             return resulDoc;
         }
 
-        public string ObtenerPCustodia2(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        public string ObtenerPCustodia2()
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-            cat_ClasificacionDoc.IdUser = Usuario.Id;
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
 
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia(cat_ClasificacionDoc);
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.cat_DocumentosCustodia();
             string resulCarpetas = "";
 
             if (dtClasificacionArchivo.Count > 0)

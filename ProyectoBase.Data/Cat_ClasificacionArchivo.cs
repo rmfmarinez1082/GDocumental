@@ -273,10 +273,9 @@ namespace ProyectoBase.Data
 
 
         //CUSTODIAS
-        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia(Models.Cat_ClasificacionArchivo cat_ClasificacionArchivo)
+        public List<Models.Cat_ClasificacionArchivo> cat_DocumentosCustodia()
         {
             b.ExecuteCommandSP("cat_DocumentosCustodia");
-            b.AddParameter("@IdUser", cat_ClasificacionArchivo.IdUser, SqlDbType.VarChar);
 
             List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
             var reader = b.ExecuteReader();

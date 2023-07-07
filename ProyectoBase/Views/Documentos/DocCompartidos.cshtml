@@ -460,13 +460,13 @@
                                                     <th style="color:white">Nombre</th>
                                                     <th class="text-center" style="color:white">Propietario</th>
                                                     @*<th style="color:white">Entrada en vigor</th>
-                                                        <th style="color:white">Vencimiento</th>*@
+                                                     <th style="color:white">Vencimiento</th>*@
                                                     <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Editar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
                                                     <th style="display:none;" class="text-center">palabras clave</th>
-                                                    @*<th class="text-center" style="color:white">Estado</th>*@
                                                     <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
+                                                    <th class="text-center" style="color:white">Estado</th>
 
 
                                                 </tr>
@@ -486,7 +486,7 @@
 
                                                         }
                                                         @*<td>@item.FechaEntradaVigor</td>
-                                                            <td>@item.FechaVencimiento</td>*@
+                                                         <td>@item.FechaVencimiento</td>*@
                                                         <td class="text-center"> <a>@item.Propietario</a></td>
 
                                                         <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
@@ -571,55 +571,57 @@
 
 
                                                         <td style="display:none;"><a>@item.PalabrasClave</a></td>
-                                                        @*Estado*@
-                                                        @*@if (item.prestamo == 1)
-                                                            {
-                                                                ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                                ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                                _notification.IdUsuario = Usuario.Id;
-                                                                _notification.IdDocumento = item.Id;
 
-                                                                var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                                if (Num.Ids >= 16)
-                                                                {
-                                                                    <td class="text-center">
-                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                            <i class="fa fa-flag f-20"
-                                                                               style="color: #2ECC71">
-                                                                            </i>
-                                                                        </a>
-                                                                    </td>
-                                                                }
-                                                                else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                                {
-                                                                    <td class="text-center">
-                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                            <i class="fa fa-flag f-20"
-                                                                               style="color: #F1C40F">
-                                                                            </i>
-                                                                        </a>
-                                                                    </td>
-                                                                }
-                                                                else if (Num.Ids <= 0)
-                                                                {
-                                                                    <td class="text-center">
-                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                            <i class="fa fa-flag f-20"
-                                                                               style="color: #E74C3C">
-                                                                            </i>
-                                                                        </a>
-                                                                    </td>
-                                                                }
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center"><a>No aplica</a></td>
-
-                                                            }*@
 
                                                         @*VAMOS A DESCARGAR PDF*@
                                                         <td class="text-center"><a onclick="ConsultarPdf('@item.Id','@item.NmOriginal','@item.Nombre')"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
+                                                        @*//EXPERIMENTAL*@
+                                                        @*Estado*@
+                                                        @if (item.prestamo == 1)
+                                                        {
+                                                            ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                            ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                            _notification.IdUsuario = Usuario.Id;
+                                                            _notification.IdDocumento = item.Id;
+
+                                                            var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                            if (Num.Ids >= 16)
+                                                            {
+                                                                <td class="text-center">
+                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                        <i class="fa fa-flag f-20"
+                                                                           style="color: #2ECC71">
+                                                                        </i>
+                                                                    </a>
+                                                                </td>
+                                                            }
+                                                            else if (Num.Ids <= 15 && Num.Ids >= 1)
+                                                            {
+                                                                <td class="text-center">
+                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                        <i class="fa fa-flag f-20"
+                                                                           style="color: #F1C40F">
+                                                                        </i>
+                                                                    </a>
+                                                                </td>
+                                                            }
+                                                            else if (Num.Ids <= 0)
+                                                            {
+                                                                <td class="text-center">
+                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                        <i class="fa fa-flag f-20"
+                                                                           style="color: #E74C3C">
+                                                                        </i>
+                                                                    </a>
+                                                                </td>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><a>No aplica</a></td>
+
+                                                        }
                                                     </tr>
 
                                                 }

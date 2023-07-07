@@ -491,6 +491,9 @@
                                                     <th scope="col" class="text-center col-1" style="color:white">Eliminar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Editar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
+                                                    @*EXPERIMENTAL*@
+                                                    <th class="text-center" style="color:white">Almacen físico</th>
+                                                    <th class="text-center" style="color:white">Prestamo</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
@@ -642,6 +645,80 @@
 
                                                             /////VAMOS A DESCARGAR PDF
                                                             <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmOriginal&nom=@item.Nombre"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
+
+                                                            //EXPERIMENTAL
+
+
+                                                            //CONTROL ALMACEN FÍSICO
+                                                            if (item.IdTipoArchivo == 1)
+                                                            {
+                                                                <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20" style="color: #b1967a"></i></a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><a>No aplica</a></td>
+
+                                                            }
+
+
+                                                            //CONTROL PRESTAMO
+                                                            if (item.IdTipoArchivo == 1)
+                                                            {
+                                                                if (item.IdMedioAlmacenamiento == 0)
+                                                                {
+                                                                    <td class="text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20" style="color: #80151a"></i></a></td>
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                    ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                    _notification.IdUsuario = Usuario.Id;
+                                                                    _notification.IdDocumento = item.Id;
+
+                                                                    var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                    if (Num.Ids >= 16)
+                                                                    {
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #2ECC71">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
+                                                                    }
+                                                                    else if (Num.Ids <= 15 && Num.Ids >= 1)
+                                                                    {
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #F1C40F">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
+                                                                    }
+                                                                    else if (Num.Ids <= 0)
+                                                                    {
+                                                                        <td class="text-center">
+                                                                            <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                                <i class="fa fa-flag f-20"
+                                                                                   style="color: #E74C3C">
+                                                                                </i>
+                                                                            </a>
+                                                                        </td>
+                                                                    }
+
+
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><a>No aplica</a></td>
+                                                            }
 
                                                         }
 
@@ -1096,32 +1173,7 @@
         });
     }
 
-    function VerDetalle(Id) {
 
-        var obj = {};
-
-        obj['UrlVaible'] = Id;
-
-        var jsonObject = {
-            "URL": obj
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("URL_Cifrar", "URLS")",
-            async: false,
-            data: JSON.stringify(jsonObject),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                window.location.href = '@Url.Action("VistaDetalle", "Documentos")?Id=' + result.Url;
-            },
-            error: function () {
-                alert("intentalo mas tarde");
-            }
-        });
-
-    }
 
     function SeleccionarPorId(id) {
 
@@ -1585,12 +1637,39 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (result) {
-            window.location.href = '@Url.Action("EditarCustodia", "Documentos")?Id=' + result.Url;            },
+                window.location.href = '@Url.Action("EditarCustodia", "Documentos")?Id=' + result.Url;
+            },
             error: function () {
                 alert("intentalo mas tarde");
             }
         });
 
+
+    }
+        function VerDetalle(Id) {
+
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaDetalle", "Documentos")?Id=' + result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
 
     }
 
