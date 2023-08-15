@@ -1,5 +1,111 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-users"></i>  Administración de Grupos </h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Registrar Usuarios</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+
+                <div class="col-xl-6 col-md-6">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Mis Grupos</h5>
+                            <span>Selecciona un grupo</span>
+                        </div>
+
+                        <div class="p-15">
+
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="largeInput"> Grupo</label>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="AEmpresa" onclick="CrearEmpresa();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Grupo"><i class="fa fa-plus"></i></button>
+                                            </div>
+                                            <select class="form-control" id="Select-Empresa" onchange="ConsultaDepartamento(this.value)">
+                                                <option value="0">Seleccionar </option>
+                                                @*@foreach (var item1 in ViewBag.empresaLis)
+                                        {
+                                            <option value="@item1.Id">@item1.Nombre</option>
+                                        }*@
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-xl-6 col-md-6">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Descripción</h5>
+                            <span>Resumen Grupo</span>
+                        </div>
+
+                        <div class="p-15">
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="largeInput">Nombre </label>
+                                        <input type="text" class="form-control" id="nombre">
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+    </div>
+    </div>
+</div>
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+
+<script>$('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#Grupos').addClass("active");</script>

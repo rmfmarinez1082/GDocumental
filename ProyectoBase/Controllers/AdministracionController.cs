@@ -29,11 +29,6 @@ namespace ProyectoBase.Controllers
    
 
 
-                _list_Doc.IdSesion = Usuario.Id;
-                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocAdmin();
-                ViewBag.Docs = dtList_Doc;
-
-
 
 
                 _notification.IdUsuario = Usuario.Id;
