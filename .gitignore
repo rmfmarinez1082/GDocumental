@@ -367,3 +367,4 @@ FodyWeavers.xsd
 *.xlsx
 *.pptx
 *.docx
+ProyectoBase.Application/UrlCifrardo.cs

@@ -824,7 +824,7 @@
                 <div class="col-md-12 col-lg-12">
                     <div class="form-group">
                         <label for="largeInput">Entidad </label>
-                        <select class="form-control" id="Entidad" onchange="Selecionar(),mostrar1(),mostrar2(),mostrar3(),mostrar4()">
+                        <select class="form-control" id="Entidad" onchange="Selecionar(),mostrar1(),mostrar2(),mostrar3(),mostrar4(),mostrarGrupos()">
                             <option value="0">Seleccionar </option>
                             @foreach (var item1 in ViewBag.dtEntidad)
                             {
@@ -918,6 +918,32 @@
                         </select>
                     </div>
 
+                </div>
+
+                <div class="col-md-12 col-lg-12">
+                    <div class="row" id="GruposHide">
+
+                        <div class="col">
+                            <label for="largeInput">Empresa </label>
+                            <select class="form-control" id="EmpresaGrupo" onchange="ConsultaGrupos(this.value, this.text)">
+                                <option value="0">Seleccionar </option>
+                                @foreach (var item1 in ViewBag.dtEmpresasListado)
+                                {
+                                    <option value="@item1.Id">@item1.Nombre</option>
+
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <input type="text" id="txtvalue5" style="border:none;margin:3px;" />
+                            <select class="form-control" id="Grupo">
+                                <option value="0">Seleccionar </option>
+                            </select>
+                        </div>
+
+                    </div>
                 </div>
                 <br />
                 <div class="modal-footer">
@@ -1111,6 +1137,7 @@
     $("#EmpleadosHide").hide();
     $("#Empresahide").hide();
     $("#Provedorhide").hide();
+    $("#GruposHide").hide();
     //Funcion detalles del documento
     function Bloquear(Id) {
 
@@ -1342,6 +1369,8 @@
         $('#empresaEmpleado').css("border", "1px solid #ff0049");
         $('#Empleado').css("border", "1px solid #ff0049");
         $('#proveedor').css("border", "1px solid #ff0049");
+        $('#Grupo').css("border", "1px solid #ff0049");
+        
 
         if ($("#Entidad option:selected").val() > 0) {
             $('#Entidad').css("border", "1px solid #cccccc");
@@ -1363,6 +1392,9 @@
         }
         if ($("#proveedor option:selected").val() > 0) {
             $('#proveedor').css("border", "1px solid #cccccc");
+        }
+        if ($("#Grupo option:selected").val() > 0) {
+            $('#Grupo').css("border", "1px solid #cccccc");
         }
 
 
@@ -1388,6 +1420,10 @@
             }
         } if ($("#Entidad option:selected").val() == 1002) {
             if ($("#proveedor option:selected").val() > 0) {
+                result = true;
+            }
+        } if ($("#Entidad option:selected").val() == 1003) {
+            if ($("#Grupo option:selected").val() > 0) {
                 result = true;
             }
         }
@@ -1465,6 +1501,7 @@
         document.getElementById("txtvalue2").value = display;
         document.getElementById("txtvalue3").value = display;
         document.getElementById("txtvalue4").value = display;
+        document.getElementById("txtvalue5").value = display;
 
         $("#empresa").val("0");
         $("#empresaDep").val("0");
@@ -1472,6 +1509,8 @@
         $("#empresaEmpleado").val("0");
         $("#Empleado").val("0");
         $("#proveedor").val("0");
+        $("#EmpresaGrupo").val("0");
+
     }
 
     function mostrar1() {
@@ -1509,13 +1548,24 @@
 
     function mostrar4() {
 
-    let txtvalue = document.getElementById("txtvalue4").value;
+        let txtvalue = document.getElementById("txtvalue4").value;
 
-    if (txtvalue === "Provedores") {
-            $("#Provedorhide").show();
-        } else {
-            $("#Provedorhide").hide();
+        if (txtvalue === "Provedores") {
+                $("#Provedorhide").show();
+            } else {
+                $("#Provedorhide").hide();
+        }
     }
+
+    function mostrarGrupos() {
+
+        let txtvalue = document.getElementById("txtvalue5").value;
+
+        if (txtvalue === "Grupos") {
+            $("#GruposHide").show();
+        } else {
+            $("#GruposHide").hide();
+        }
     }
 
 
@@ -1570,6 +1620,53 @@
         });
     }
 
+    function ConsultaGrupos(Id) {
+        $('#Grupo').empty();
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = {
+            "Grupo": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Grupo_Listar", "Documentos")",
+            type: "POST",
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            error: function (resultado) {
+                alert("MANDAR MENSAJE SE ERROR");
+
+                var option = $(document.createElement('option'));
+                option.text("Seleccionar");
+                option.val(0);
+
+                $("#Grupo").append(option);
+            },
+            success: function (resultado) {
+
+                var option = $(document.createElement('option'));
+
+                option.text("Seleccionar");
+                option.val(0);
+
+
+                $("#Grupo").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#Grupo").append(option);
+
+                });
+
+            }
+        });
+
+    }
 
     function ConsultaUsuario (Id){
 
@@ -1620,6 +1717,8 @@
         });
     }
 
+
+
     function Ruta(Id) {
         var obj = {};
 
@@ -1646,7 +1745,8 @@
 
 
     }
-        function VerDetalle(Id) {
+
+    function VerDetalle(Id) {
 
         var obj = {};
 
@@ -1890,6 +1990,7 @@
                 }
             });
     }
+
     function MoreInfo(Id) {
         if (validacompartir()) {
 
@@ -1912,12 +2013,16 @@
             } else if (entidad == "Provedores") {
                 obj['IdAsignacion'] = $("#proveedor option:selected").val();
             }
-
+            else if (entidad == "Grupos") {
+                obj['IdAsignacion'] = $("#Grupo option:selected").val();
+            }
 
 
             var jsonObject = {
                 "list_User": obj
             };
+
+            //console.log(jsonObject);
 
             $.ajax({
                 url: "@Url.Action("UsuarioPosCompartir", "Documentos")",

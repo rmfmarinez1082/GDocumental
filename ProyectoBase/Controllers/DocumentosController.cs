@@ -1195,5 +1195,14 @@ namespace ProyectoBase.Controllers
             Models.Documento Res = ADoc.InsertarSolicitud(Documento);
             return Json(Res);
         }
+
+
+        ///IMPLEMENTACION COMPARTIR POR GRUPOS
+        public JsonResult Grupo_Listar(Models.Cat_ListadoDepartamentos Grupo, Application.Cat_ListadoDepartamentos APgrupo)
+        {
+            List<Models.Cat_ListadoDepartamentos> resultado = APgrupo.EmpresaGrupo_Listar(Grupo);
+            return Json(resultado);
+        }
+
     }
 }
