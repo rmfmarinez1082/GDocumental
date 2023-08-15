@@ -14,6 +14,38 @@ namespace ProyectoBase.Controllers
     public class AdministracionController : Controller
     {
 
+        public ActionResult AdminGrupos(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
+          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Usuario = Usuario;
+
+   
+
+
+                _list_Doc.IdSesion = Usuario.Id;
+                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocAdmin();
+                ViewBag.Docs = dtList_Doc;
+
+
+
+
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }  
         public ActionResult VisualizarDocumentoSAdmin(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
           Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
         {
