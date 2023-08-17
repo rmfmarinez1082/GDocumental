@@ -14,7 +14,7 @@ namespace ProyectoBase.Controllers
     public class AdministracionController : Controller
     {
 
-        public ActionResult AdminGrupos(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
+        public ActionResult AdminGrupos(Application.EmpresasListado empresasListado,
           Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -26,7 +26,10 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
 
-   
+                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
+                ViewBag.dtEmpresasListado = dtEmpresasListado;
+
+
 
 
 
@@ -735,8 +738,6 @@ namespace ProyectoBase.Controllers
             Models.Documento Res = ADoc.SolicitudNegar(Documento);
             return Json(Res);
         }
-
-
         [HttpPost]
         public JsonResult DocVersion(Application.Documentos ApDocumentos, Models.Documento Adoc)
         {
@@ -744,6 +745,65 @@ namespace ProyectoBase.Controllers
 
             return Json(Ndocumento);
         }
+
+        [HttpPost]
+        public JsonResult Grupo_ListarPor_Id(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.Grupo_ListarPor_Id(Datagrupo);
+            return Json(Respuesta);
+        }
+
+
+        [HttpPost]
+        public JsonResult GrupoPersona_listar(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.GrupoPersona_listar(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult GrupoPersona_listarFaltante(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.GrupoPersona_listarFaltante(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
+
+        [HttpPost]
+        public JsonResult InsertarGrupoPersona(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            Models.Grupo Respuesta = APPGrupo.InsertarGrupoPersona(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
+
+        [HttpPost]
+        public JsonResult EliminarGrupoPersona(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            Models.Grupo Respuesta = APPGrupo.EliminarGrupoPersona(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult EmpresaGrupo_Agregar(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            Models.Grupo Respuesta = APPGrupo.EmpresaGrupo_Agregar(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult EmpresaGrupo_Eliminar(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
+        {
+            Models.Grupo Respuesta = APPGrupo.EmpresaGrupo_Eliminar(Datagrupo);
+
+            return Json(Respuesta);
+        }
+
     }
 
 }
