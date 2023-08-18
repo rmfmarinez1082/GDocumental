@@ -81,6 +81,14 @@
         var timeSlide = 500;
         $('#timer').hide(0);
         $('#timer').css('display', 'none');
+
+        $('#Password').keypress(function (event) {
+            if (event.keyCode === 13) { 
+                event.preventDefault();
+                $('#BtnRegistrar').click(); 
+            }
+        });
+
         $('#BtnRegistrar').click(function () {
             $('.box-success,.box-error').slideUp(timeSlide);
             setTimeout(function () {
