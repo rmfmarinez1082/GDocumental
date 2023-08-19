@@ -791,6 +791,9 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult EmpresaGrupo_Agregar(Models.Grupo Datagrupo, Application.Grupo APPGrupo)
         {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            Datagrupo.IdP = Usuario.Id;
             Models.Grupo Respuesta = APPGrupo.EmpresaGrupo_Agregar(Datagrupo);
 
             return Json(Respuesta);

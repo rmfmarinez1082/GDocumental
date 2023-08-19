@@ -129,21 +129,30 @@
 
                             <div class="row">
 
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
-                                        <label for="largeInput">Nombre </label>
+                                        <label for="largeInput">Nombre del grupo</label>
                                         <input type="text" class="form-control" id="nombre" disabled>
 
                                     </div>
                                 </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label for="largeInput">Nombre Creador</label>
+                                        <input type="text" class="form-control" id="nombreP" disabled>
 
-                                <div class="col-md-6 col-lg-6">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-lg-4">
                                     <div class="form-group">
                                         <label for="largeInput">Fecha Creación </label>
                                         <input type="text" class="form-control" id="fecha" disabled>
 
                                     </div>
                                 </div>
+
+                                
 
                                 <div class="col-md-12 col-lg-12">
                                     <br />
@@ -188,7 +197,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="CompartirTitulo"></h5>
+                <h6 class="modal-title" id="TituloModal"></h6>
                 <input type="hidden" id="Idcompartir" />
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
             </div>
@@ -197,7 +206,7 @@
 
                 <div class="form-group">
                     <label for="largeInput">Nombre </label>
-                    <input type="text" class="form-control" id="nombreGrupo">
+                    <input type="text" class="form-control" id="nombreGrupo" placeholder="E.J: Mi Nuevo Grupo">
 
                 </div>
                 <br />
@@ -212,12 +221,86 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
 
 <script>
+    $(document).ready(function () {
+        $('#TDisponibles').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        }).on('init.dt', function () {
+            $('.dataTables_filter input').attr('placeholder', 'Buscar usuarios');
+        });
+        $('#TableEngrupo').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        }).on('init.dt', function () {
+            $('.dataTables_filter input').attr('placeholder', 'Buscar usuarios');
+        });
+    });
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Grupos').addClass("active");
 
+    //LimpiarDATA
+    function T1() {
+        var table = $('#TableEngrupo').DataTable();
+        table.destroy();
+        Contenido.innerHTML = "";
+
+        Contenido.innerHTML += `
+
+                    <tr>
+                    <td></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                </tr>
+            `
+
+        $('#TableEngrupo').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+
+        $('#nombre').val("");
+        $('#fecha').val("");
+    }
+    function T2() {
+        var tableDisponible = $('#TDisponibles').DataTable();
+        tableDisponible.destroy();
+        CDisponible.innerHTML = "";
+
+        CDisponible.innerHTML += `
+
+                     <tr>
+                        <td></td>
+                        <td class="text-center"></td>
+                         <td class="text-center"></td>
+                    </tr>
+                `
+
+        $('#TDisponibles').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+        $('#nombre').val("");
+        $('#fecha').val("");
+    }
+
+    //Consulta de DATOS
     function ConsultaGrupos(Id) {
         $('#Grupo').empty();
 
@@ -259,11 +342,12 @@
 
                 });
 
+
+
             }
         });
 
     }
-
     function InformacionGrupo(Id) {
 
         var obj = {};
@@ -282,6 +366,7 @@
             success: function (data) {
                 $('#nombre').val(data[0].Nombre);
                 $('#fecha').val(data[0].Fecha);
+                $('#nombreP').val(data[0].NombrePersona);
             },
             error: function (error) {
                 swal({
@@ -293,7 +378,6 @@
             }
         });
     }
-
 
     function NoGrupo(Id) {
         var obj = {};
@@ -355,7 +439,6 @@
 
 
     }
-
     function EnGrupo(Id) {
         var obj = {};
         obj['Id'] = Id;
@@ -416,6 +499,7 @@
 
     }
 
+    //Administracion de Personas
     function agregar(Id) {
         swal({
             title: "Agregar persona",
@@ -441,7 +525,6 @@
                 }
             });
     }
-
     function SeguroAgregar(id) {
 
         var obj = {};
@@ -504,7 +587,6 @@
                 }
             });
     }
-
     function SeguroEliminar(id) {
 
         var obj = {};
@@ -542,12 +624,21 @@
         });
     }
 
+
+    //Administracion de GRUPOS
     function CrearGrupo() {
 
         let tamal = $('#EmpresaGrupo').val();
+        var selectedOptionText = $("#EmpresaGrupo option:selected").text();
+        var nuevoTitulo = "Nuevo grupo para:  " + selectedOptionText;
+        $("#TituloModal").text(nuevoTitulo);
+
 
         if (tamal !== "" && tamal !== "0") {
             $('#ModalGrupo').modal('show');
+            $('#nombreGrupo').val("");
+
+
         } else {
             swal({
                 title: "¡Selecciona una empresa para crear un grupo!",
@@ -557,7 +648,6 @@
             });
         }
     }
-
     function guardarGrupo() {
         $('#ModalGrupo').modal('hide');
         var obj = {};
@@ -567,6 +657,9 @@
         var jsonObject = {
             "Datagrupo": obj
         };
+
+        let idEmpresa = $("#EmpresaGrupo option:selected").val();
+
 
         $.ajax({
             url: "@Url.Action("EmpresaGrupo_Agregar", "Administracion")",
@@ -582,8 +675,17 @@
                         icon: "success",
                         button: "Aceptar",
                     }).then((value) => {
-                        location.reload();
+                        ConsultaGrupos(idEmpresa);
+                        T1();
+                        T2();
                     });
+
+
+                //var options = $("#Grupo option");
+                //var penultimateOptionValue = $(options[options.length - 1]).val();
+                //var lastOptionValue = parseInt(penultimateOptionValue) + 1;
+                //$("#Grupo").trigger("click").val(lastOptionValue);
+
             },
             error: function (data) {
                 alert("Escribe un nombre ");
@@ -633,17 +735,18 @@
 
 
 }
-
-
     function SeguroEliminarGrupo() {
-        
+
         var obj = {};
-        
+
         obj['Id'] = $("#Grupo option:selected").val();;
 
         var jsonObject = {
             "Datagrupo": obj
         };
+
+        let idEmpresa = $("#EmpresaGrupo option:selected").val();
+
 
         $.ajax({
             url: "@Url.Action("EmpresaGrupo_Eliminar", "Administracion")",
@@ -659,7 +762,9 @@
                         icon: "success",
                         button: "Aceptar",
                     }).then((value) => {
-                        location.reload();
+                        ConsultaGrupos(idEmpresa);
+                        T1();
+                        T2();
                     });
             },
             error: function (data) {
