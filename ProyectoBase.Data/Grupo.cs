@@ -23,8 +23,8 @@ namespace ProyectoBase.Data
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
                     Nombre = reader["Nombre"].ToString(),
-                    Fecha = reader["Fecha"].ToString()
-
+                    Fecha = reader["Fecha"].ToString(),
+                    NombrePersona = reader["NombrePersona"].ToString()
                 };
                 resultado.Add(item);
             }
@@ -127,6 +127,7 @@ namespace ProyectoBase.Data
         {
             b.ExecuteCommandSP("EmpresaGrupo_Agregar");
             b.AddParameter("@IdEmpresa", grupo.Id, SqlDbType.Int);
+            b.AddParameter("@IdUser", grupo.IdP, SqlDbType.Int);
             b.AddParameter("@Nombre", grupo.Nombre, SqlDbType.NVarChar);
 
             Models.Grupo resultado = new Models.Grupo();

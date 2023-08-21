@@ -6,6 +6,7 @@ namespace ProyectoBase.Models
         public int Id { get; set; }
         public int IdP { get; set; }
         public string Nombre { get; set; }
+        public string NombrePersona { get; set; }
         public string Empresa { get; set; }
         public string Fecha { get; set; }
     }
