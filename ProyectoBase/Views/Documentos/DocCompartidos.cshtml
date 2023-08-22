@@ -422,259 +422,376 @@
                 <div class="page-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row justify-content-between">
-                                        <div class="col-8">
-                                            <h5>Documentos Compartidos/Prestamos </h5>
-                                        </div>
-                                        <div class="col-4 text-center">
-                                            <p><b>Simbología Prestamos</b></p>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row justify-content-between">
-                                        <div class="col-8">
-                                            <span>Observa los documentos a los que tienes acceso</span>
-                                        </div>
-
-                                        <div class="col-4 d-flex d-flex justify-content-center">
-                                            <a><i class="fa fa-flag f-20" style="color: #2ECC71"></i>&nbsp;&nbsp;Vigente</a>
-                                            &nbsp;&nbsp;
-                                            <a><i class="fa fa-flag f-20" style="color: #F1C40F"></i>&nbsp;&nbsp;Por terminar</a>
-                                            &nbsp;&nbsp;
-                                            <a><i class="fa fa-flag f-20" style="color: #E74C3C"></i>&nbsp;&nbsp;Vencido</a>
+                            @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 2)
+                            {
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row justify-content-between">
+                                            <div class="col-8">
+                                                <h5>Documentos Compartidos/Prestamos </h5>
+                                            </div>
                                         </div>
                                     </div>
 
+                                    <div class="card-block">
 
-                                </div>
-
-                                <div class="card-block">
-
-                                    <div class="table-responsive">
-                                        <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                            <thead style="background-color: #0d6efd">
-                                                <tr>
-                                                    <th style="color:white">Nombre</th>
-                                                    <th class="text-center" style="color:white">Propietario</th>
-                                                    @*<th style="color:white">Entrada en vigor</th>
-                                                     <th style="color:white">Vencimiento</th>*@
-                                                    <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
-                                                    <th scope="col" class="text-center col-1" style="color:white">Editar</th>
-                                                    <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
-                                                    <th style="display:none;" class="text-center">palabras clave</th>
-                                                    <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
-                                                    <th class="text-center" style="color:white">Estado</th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody class="table-group-divider">
-                                                @foreach (var item in ViewBag.Compartir)
-                                                {
+                                        <div class="table-responsive">
+                                            <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                                <thead style="background-color: #0d6efd">
                                                     <tr>
-                                                        @if (item.prestamo == 0)
-                                                        {
-                                                            <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-
-                                                        }
-                                                        @*<td>@item.FechaEntradaVigor</td>
-                                                         <td>@item.FechaVencimiento</td>*@
-                                                        <td class="text-center"> <a>@item.Propietario</a></td>
-
-                                                        <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
-
-                                                        @{
-                                                            ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
-                                                            editor.IdDocumento = item.Id;
-                                                            var Nombre = ProyectoBase.Models.Test.Editor(editor);
-
-                                                            ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
-                                                            Estatus.IdDocumento = item.Id;
-                                                            Estatus.IdUsuario = @ViewBag.IdUser;
-                                                            var Disponibilidad = ProyectoBase.Models.Test.VerificarEditable(Estatus);
-
-
-                                                        }
-                                                        @*DESCARGA*@
-
-                                                        @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
-                                                        @if (item.IdTipoDocumento == 8)
-                                                        {
-                                                            //AQUI SE VERIFICA SOLO POR LA GFUNCION DE PRESTAMOS
-                                                            if (item.Compartido == 1 && item.prestamo == 0)
+                                                        <th style="color:white">Nombre</th>
+                                                        <th class="text-center" style="color:white">Propietario</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
+                                                        <th style="display:none;" class="text-center">palabras clave</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+                                                    @foreach (var item in ViewBag.Compartir)
+                                                    {
+                                                        <tr>
+                                                            @if (item.prestamo == 0)
                                                             {
-                                                                if (Disponibilidad.Id == 1)
-                                                                {
+                                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
-                                                                    <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
-                                                                }
-                                                                else
+                                                            }
+                                             
+                                                            <td class="text-center"> <a>@item.Propietario</a></td>
+
+                                                            <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
+
+                                                            @{
+                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                                editor.IdDocumento = item.Id;
+                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+                                                                ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
+                                                                Estatus.IdDocumento = item.Id;
+                                                                Estatus.IdUsuario = @ViewBag.IdUser;
+                                                                var Disponibilidad = ProyectoBase.Models.Test.VerificarEditable(Estatus);
+
+                                                            }
+                                                            @*DESCARGA*@
+
+                                                            @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
+                                                            @if (item.IdTipoDocumento == 8)
+                                                            {
+                                                                //AQUI SE VERIFICA SOLO POR LA GFUNCION DE PRESTAMOS
+                                                                if (item.Compartido == 1 && item.prestamo == 0)
                                                                 {
-                                                                    if (item.Editable == 1 && item.NombreWord != "")
+                                                                    if (Disponibilidad.Id == 1)
                                                                     {
 
-                                                                        <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
 
+                                                                        <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td class="text-center">Editando por: @Nombre.Nombre</td>
+                                                                        if (item.Editable == 1 && item.NombreWord != "")
+                                                                        {
+
+                                                                            <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td class="text-center">Editando por: @Nombre.Nombre</td>
+                                                                        }
                                                                     }
                                                                 }
+                                                                else
+                                                                {
+                                                                    <td class="text-center">No aplica</td>
+                                                                }
+
+
+                                                            }
+                                                            @*Si NO archivo de trabajo Trato BASICO*@
+                                                            else if (!(item.NombreWord == "" || item.NombreWord == null))
+                                                            {
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center">No aplica</td>
+                                                                <td>Sin editable</td>
                                                             }
+                                                            <td style="display:none;"><a>@item.PalabrasClave</a></td>
+                                                        </tr>
 
+                                                    }
+                                                </tbody>
+                                            </table>
 
-                                                        }
-                                                        @*Si NO archivo de trabajo Trato BASICO*@
-                                                        else if (!(item.NombreWord == "" || item.NombreWord == null))
-                                                        {
-                                                            <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+                                        </div>
 
-                                                        }
-                                                        else
-                                                        {
-                                                            <td>Sin editable</td>
-                                                        }
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="row justify-content-between">
+                                            <div class="col-8">
+                                                <h5>Documentos Compartidos/Prestamos </h5>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <p><b>Simbología Prestamos</b></p>
+                                            </div>
 
+                                        </div>
 
+                                        <div class="row justify-content-between">
+                                            <div class="col-8">
+                                                <span>Observa los documentos a los que tienes acceso</span>
+                                            </div>
 
-                                                        @*EDITAR*@
-                                                        @if (item.Compartido == 1 && item.prestamo == 0 && (item.NombreWord == "" || item.NombreWord == null))
-                                                        {
-                                                            <td class="text-center">No aplica</td>
-
-                                                        }
-                                                        else
-                                                        {
-                                                            if (item.Editable == 1 && item.NombreWord != null && item.NombreWord != "")
-                                                            {
-                                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
-                                                            }
-                                                            else
-                                                            {
-                                                                <td class="text-center"><a><i></i></a>No Disponible</td>
-                                                            }
-                                                        }
-
-
-                                                        <td style="display:none;"><a>@item.PalabrasClave</a></td>
-
-
-                                                        @*VAMOS A DESCARGAR PDF*@
-                                                        <td class="text-center"><a onclick="ConsultarPdf('@item.Id','@item.NmOriginal','@item.Nombre')"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
-                                                        @*//EXPERIMENTAL*@
-                                                        @*Estado*@
-                                                        @if (item.prestamo == 1)
-                                                        {
-                                                            ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
-                                                            ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-                                                            _notification.IdUsuario = Usuario.Id;
-                                                            _notification.IdDocumento = item.Id;
-
-                                                            var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
-
-                                                            if (Num.Ids >= 16)
-                                                            {
-                                                                <td class="text-center">
-                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                        <i class="fa fa-flag f-20"
-                                                                           style="color: #2ECC71">
-                                                                        </i>
-                                                                    </a>
-                                                                </td>
-                                                            }
-                                                            else if (Num.Ids <= 15 && Num.Ids >= 1)
-                                                            {
-                                                                <td class="text-center">
-                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                        <i class="fa fa-flag f-20"
-                                                                           style="color: #F1C40F">
-                                                                        </i>
-                                                                    </a>
-                                                                </td>
-                                                            }
-                                                            else if (Num.Ids <= 0)
-                                                            {
-                                                                <td class="text-center">
-                                                                    <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
-                                                                        <i class="fa fa-flag f-20"
-                                                                           style="color: #E74C3C">
-                                                                        </i>
-                                                                    </a>
-                                                                </td>
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            <td class="text-center"><a>No aplica</a></td>
-
-                                                        }
-                                                    </tr>
-
-                                                }
-                                            </tbody>
-                                        </table>
-
-
-
-
-
-
-                                        <!-- VIEW registro -->
-                                        <div class="modal fade" id="ModalPDF" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h3 class="modal-title" id="ModalTitulo"></h3>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body" style="height:420px;">
-
-                                                        <div class="col-md-12">
-
-                                                            <div class="row">
-
-                                                                <div class="col-md-12" style="height:420px;">
-
-                                                                    <!--pantalla de visualización-->
-                                                                    <div style="width: 100%; height: 100%">
-                                                                        <!--documento aquí-->
-                                                                        <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0" style="pointer-events: none" onload="disableContextMenu();"></iframe>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                                    </div>
-                                                </div>
+                                            <div class="col-4 d-flex d-flex justify-content-center">
+                                                <a><i class="fa fa-flag f-20" style="color: #2ECC71"></i>&nbsp;&nbsp;Vigente</a>
+                                                &nbsp;&nbsp;
+                                                <a><i class="fa fa-flag f-20" style="color: #F1C40F"></i>&nbsp;&nbsp;Por terminar</a>
+                                                &nbsp;&nbsp;
+                                                <a><i class="fa fa-flag f-20" style="color: #E74C3C"></i>&nbsp;&nbsp;Vencido</a>
                                             </div>
                                         </div>
 
 
                                     </div>
 
+                                    <div class="card-block">
+
+                                        <div class="table-responsive">
+                                            <table id="Notificacion" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                                <thead style="background-color: #0d6efd">
+                                                    <tr>
+                                                        <th style="color:white">Nombre</th>
+                                                        <th class="text-center" style="color:white">Propietario</th>
+                                                        @*<th style="color:white">Entrada en vigor</th>
+                                    <th style="color:white">Vencimiento</th>*@
+                                                        <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Editar</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
+                                                        <th style="display:none;" class="text-center">palabras clave</th>
+                                                        <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
+                                                        <th class="text-center" style="color:white">Estado</th>
+
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-group-divider">
+                                                    @foreach (var item in ViewBag.Compartir)
+                                                    {
+                                                        <tr>
+                                                            @if (item.prestamo == 0)
+                                                            {
+                                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+
+                                                            }
+                                                            @*<td>@item.FechaEntradaVigor</td>
+                                        <td>@item.FechaVencimiento</td>*@
+                                                            <td class="text-center"> <a>@item.Propietario</a></td>
+
+                                                            <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
+
+                                                            @{
+                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
+                                                                editor.IdDocumento = item.Id;
+                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
+
+                                                                ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
+                                                                Estatus.IdDocumento = item.Id;
+                                                                Estatus.IdUsuario = @ViewBag.IdUser;
+                                                                var Disponibilidad = ProyectoBase.Models.Test.VerificarEditable(Estatus);
+
+
+                                                            }
+                                                            @*DESCARGA*@
+
+                                                            @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
+                                                            @if (item.IdTipoDocumento == 8)
+                                                            {
+                                                                //AQUI SE VERIFICA SOLO POR LA GFUNCION DE PRESTAMOS
+                                                                if (item.Compartido == 1 && item.prestamo == 0)
+                                                                {
+                                                                    if (Disponibilidad.Id == 1)
+                                                                    {
+
+
+                                                                        <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (item.Editable == 1 && item.NombreWord != "")
+                                                                        {
+
+                                                                            <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <td class="text-center">Editando por: @Nombre.Nombre</td>
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-center">No aplica</td>
+                                                                }
+
+
+                                                            }
+                                                            @*Si NO archivo de trabajo Trato BASICO*@
+                                                            else if (!(item.NombreWord == "" || item.NombreWord == null))
+                                                            {
+                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>Sin editable</td>
+                                                            }
+
+
+
+                                                            @*EDITAR*@
+                                                            @if (item.Compartido == 1 && item.prestamo == 0 && (item.NombreWord == "" || item.NombreWord == null))
+                                                            {
+                                                                <td class="text-center">No aplica</td>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                if (item.Editable == 1 && item.NombreWord != null && item.NombreWord != "")
+                                                                {
+                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-pencil-square-o f-20"></i></a></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td class="text-center"><a><i></i></a>No Disponible</td>
+                                                                }
+                                                            }
+
+
+                                                            <td style="display:none;"><a>@item.PalabrasClave</a></td>
+
+
+                                                            @*VAMOS A DESCARGAR PDF*@
+                                                            <td class="text-center"><a onclick="ConsultarPdf('@item.Id','@item.NmOriginal','@item.Nombre')"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
+                                                            @*//EXPERIMENTAL*@
+                                                            @*Estado*@
+                                                            @if (item.prestamo == 1)
+                                                            {
+                                                                ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
+                                                                ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+                                                                _notification.IdUsuario = Usuario.Id;
+                                                                _notification.IdDocumento = item.Id;
+
+                                                                var Num = ProyectoBase.Models.Test.SP_EstadoPrestasmo(_notification);
+
+                                                                if (Num.Ids >= 16)
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #2ECC71">
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                                else if (Num.Ids <= 15 && Num.Ids >= 1)
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #F1C40F">
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                                else if (Num.Ids <= 0)
+                                                                {
+                                                                    <td class="text-center">
+                                                                        <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
+                                                                            <i class="fa fa-flag f-20"
+                                                                               style="color: #E74C3C">
+                                                                            </i>
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-center"><a>No aplica</a></td>
+
+                                                            }
+                                                        </tr>
+
+                                                    }
+                                                </tbody>
+                                            </table>
+
+
+
+
+
+
+                                            <!-- VIEW registro -->
+                                            <div class="modal fade" id="ModalPDF" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h3 class="modal-title" id="ModalTitulo"></h3>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body" style="height:420px;">
+
+                                                            <div class="col-md-12">
+
+                                                                <div class="row">
+
+                                                                    <div class="col-md-12" style="height:420px;">
+
+                                                                        <!--pantalla de visualización-->
+                                                                        <div style="width: 100%; height: 100%">
+                                                                            <!--documento aquí-->
+                                                                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0" style="pointer-events: none" onload="disableContextMenu();"></iframe>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
+                            }
+
+
+
                         </div>
                     </div>
 

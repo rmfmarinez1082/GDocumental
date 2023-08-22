@@ -26,7 +26,7 @@ namespace ProyectoBase.Controllers
                                 return RedirectToAction("PrincipalA", "Administracion");
                             case 2:
                                  // code block
-                                 return RedirectToAction("PrincipalU", "Administracion");
+                                 return RedirectToAction("DocCompartidos", "Documentos");
                              case 3:
                                   //code block
                                 return RedirectToAction("PrincipalA", "Administracion");
