@@ -1300,6 +1300,7 @@
     <Content Include="Views\Administracion\AdminGrupos.cshtml" />
     <Content Include="assets\js\fSelect.js" />
     <Content Include="assets\css\fSelect.css" />
+    <Content Include="Views\Administracion\AdminCarpetas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
