@@ -13,6 +13,10 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : Controller
     {
+        public ActionResult AdminCarpetas()
+        {
+            return view();
+        }
 
         public ActionResult AdminGrupos(Application.EmpresasListado empresasListado,
           Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
