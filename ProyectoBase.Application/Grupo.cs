@@ -41,6 +41,35 @@ namespace ProyectoBase.Application
         {
             return _Grupo.EmpresaGrupo_Eliminar(grupo);
         }
+
+
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Id(Models.Grupo Datacarpeta)
+        {
+            return _Grupo.Cat_ClasificacionArchivo_Listar_Id(Datacarpeta);
+        }
+
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Faltante(Models.Grupo Datacarpeta)
+        {
+            return _Grupo.Cat_ClasificacionArchivo_Listar_Faltante(Datacarpeta);
+        }
+
+
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Permiso(Models.Grupo Datacarpeta)
+        {
+            return _Grupo.Cat_ClasificacionArchivo_Listar_Permiso(Datacarpeta);
+        }
+        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP, Models.Grupo Datacarpeta)
+        {
+            return _Grupo.Usuario_Carpeta_Insertar(DataIdP,Datacarpeta);
+        }
+        public Models.Grupo Usuario_Carpeta_Borrar(Models.Grupo grupo)
+        {
+            return _Grupo.Usuario_Carpeta_Borrar(grupo);
+        }
     }
+
 }
 

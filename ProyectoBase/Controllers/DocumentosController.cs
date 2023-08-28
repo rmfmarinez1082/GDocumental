@@ -182,8 +182,19 @@ namespace ProyectoBase.Controllers
                 ViewBag.lisnotifi = notificar;
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
-                string Carpetas = getParents();
-                ViewBag.carpetas = Carpetas;
+
+                if(((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                {
+                    string Carpetas = getParents();
+                    ViewBag.carpetas = Carpetas;
+                }
+                else
+                {
+                    string Carpetas = ListadoPerfil();
+                    ViewBag.carpetas = Carpetas;
+                }
+
+
 
                 return View();
             }
@@ -383,7 +394,32 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
+        public string ListadoPerfil()
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Models.Cat_ClasificacionArchivo carpeta = new Models.Cat_ClasificacionArchivo();
+            carpeta.Id= Usuario.Id;
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_ListarPorIdUsuario(carpeta);
+            string resulCarpetas = "";
 
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
         public string getParents()
         {
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
