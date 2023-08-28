@@ -274,41 +274,67 @@
 
     }
     //AGREGAR PERMISO USUARIO
-    function AgregarUsers() {
+function AgregarUsers() {
+    let selectedNode = $('#jstree').jstree('get_selected', true)[0];
 
-        var obj = {};
-        obj['Id'] = $('#jstree').jstree('get_selected', true)[0].id;
-        obj['IdPlist'] = $("#TestSelect").val();
-
-        let Id = $('#jstree').jstree('get_selected', true)[0].id;
-
-        var jsonObject = {
-            "Datacarpeta": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                swal({
-                    title: "Usuario(s) Agregados !",
-                    text: " ",
-                    icon: "success",
-                    button: "Aceptar",
-                }).then((value) => {
-                    ConPermiso(Id);
-                    ConsultaFselect(Id);
-                });
-            },
-            error: function (resultado) {
-                console.log(resultado);
-                alert("Error funcion ");
-            }
+    if (!selectedNode || !selectedNode.id) {
+        swal({
+            title: "Error",
+            text: "Seleccione una carpeta antes de agregar usuarios.",
+            icon: "error",
+            button: "Aceptar",
         });
+        return;
     }
+
+    var obj = {};
+    obj['Id'] = selectedNode.id;
+
+    let IdPlistValue = $("#TestSelect").val();
+    if (IdPlistValue.length === 0) {
+        swal({
+            title: "Error",
+            text: "No se a seleccionado ningun usuario",
+            icon: "error",
+            button: "Aceptar",
+        });
+        return;
+    }
+    obj['IdPlist'] = IdPlistValue;
+
+    let Id = selectedNode.id;
+
+    console.log(IdPlistValue);
+
+    var jsonObject = {
+        "Datacarpeta": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            swal({
+                title: "Usuario(s) Agregados !",
+                text: " ",
+                icon: "success",
+                button: "Aceptar",
+            }).then((value) => {
+                ConPermiso(Id);
+                ConsultaFselect(Id);
+            });
+        },
+        error: function (resultado) {
+            console.log(resultado);
+            alert("Error funcion ");
+        }
+    });
+}
+
+
 
 
 
