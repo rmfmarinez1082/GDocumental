@@ -124,6 +124,11 @@ namespace ProyectoBase.Application
             return _cat_ClasificacionArchivo.SP_DNDocumento(NdN);
         }
 
+
+        public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_ListarPorIdUsuario(carpeta);
+        }
     }
 
 

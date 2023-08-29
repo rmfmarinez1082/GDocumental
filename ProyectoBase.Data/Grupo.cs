@@ -164,6 +164,119 @@ namespace ProyectoBase.Data
         }
 
 
+
+
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Id(Models.Grupo Datacarpeta)
+        {
+            b.ExecuteCommandSP("Cat_ClasificacionArchivo_Listar_Id");
+            b.AddParameter("@Id", Datacarpeta.Id, SqlDbType.Int);
+
+            List<Models.Grupo> resultado = new List<Models.Grupo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Grupo item = new Models.Grupo()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString()
+                   
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Faltante(Models.Grupo Datacarpeta)
+        {
+            b.ExecuteCommandSP("Cat_ClasificacionArchivo_Listar_Faltante");
+            b.AddParameter("@Id", Datacarpeta.Id, SqlDbType.Int);
+
+            List<Models.Grupo> resultado = new List<Models.Grupo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Grupo item = new Models.Grupo()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    Empresa = reader["Empresa"].ToString()
+
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public List<Models.Grupo> Cat_ClasificacionArchivo_Listar_Permiso(Models.Grupo Datacarpeta)
+        {
+            b.ExecuteCommandSP("Cat_ClasificacionArchivo_Listar_Permiso");
+            b.AddParameter("@Id", Datacarpeta.Id, SqlDbType.Int);
+
+            List<Models.Grupo> resultado = new List<Models.Grupo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Grupo item = new Models.Grupo()
+                {
+                    Id = Convert.ToInt32(reader["Id"].ToString()),
+                    Nombre = reader["Nombre"].ToString(),
+                    email = reader["EMail"].ToString(),
+                    Empresa = reader["Alias"].ToString(),
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP,Models.Grupo Datacarpeta)
+
+        {
+            b.ExecuteCommandSP("Usuario_Carpeta_Insertar");
+            b.AddParameter("@UserId", DataIdP, SqlDbType.Int);
+            b.AddParameter("@Idcarpeta", Datacarpeta.Id, SqlDbType.Int);
+
+
+            Models.Grupo resultado = new Models.Grupo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Grupo Usuario_Carpeta_Borrar(Models.Grupo grupo)
+
+        {
+            b.ExecuteCommandSP("Usuario_Carpeta_Borrar");
+            b.AddParameter("@UserId", grupo.IdP, SqlDbType.Int);
+            b.AddParameter("@Idcarpeta ", grupo.Id, SqlDbType.Int);
+
+
+            Models.Grupo resultado = new Models.Grupo();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }
 

@@ -1,6 +1,10 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
+<link rel="stylesheet" href="~/assets/css/fSelect.css">
+
+
+
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -52,7 +56,7 @@
                                             @*<div class="input-group-prepend">
                                                     <button class="btn btn-default waves-effect" type="button" id="AEmpresa" onclick="CrearEmpresa();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Crear Empresa"><i class="fa fa-plus"></i></button>
                                                 </div>*@
-                                            <select class="form-control" id="EmpresaGrupo" onchange="ConsultaGrupos(this.value)">
+                                            <select class="form-control" id="EmpresaGrupo" onchange="ConsultaGrupos(this.value); ConsultaFselect(this.value);">
                                                 <option value="0">Seleccionar </option>
                                                 @foreach (var item1 in ViewBag.dtEmpresasListado)
                                                 {
@@ -77,12 +81,17 @@
                                         </div>
                                     </div>
 
-
-
-
-
-
                                 </div>
+
+                                @*SELECT DE PRUEBA*@
+                                @*<div class="col-md-12 col-lg-12">
+                                    <div class="form-group">
+                                        <label for="largeInput"> SELECT CON FSELECT</label>
+                                        <div class="input-group">
+                                            <select  id="TestSelect" multiple="multiple"></select>
+                                        </div>
+                                    </div>
+                                </div>*@
                                 <div class="col-md-12 col-lg-12">
                                     <br />
 
@@ -152,7 +161,7 @@
                                     </div>
                                 </div>
 
-                                
+
 
                                 <div class="col-md-12 col-lg-12">
                                     <br />
@@ -177,6 +186,7 @@
 
                                             <button class="btn btn-danger" onclick="eliminarGrupo()">Eliminar Grupo</button>
 
+                                            @*<button class="btn btn-success" onclick="cosulta()">consulta selects</button>*@
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +232,7 @@
 
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
-
+<script src="~/assets/js/fSelect.js"></script>
 <script>
     $(document).ready(function () {
         $('#TDisponibles').DataTable({
@@ -243,6 +253,8 @@
         }).on('init.dt', function () {
             $('.dataTables_filter input').attr('placeholder', 'Buscar usuarios');
         });
+
+    //    $('#TestSelect').fSelect({ placeholder: 'Selecciona usuarios', numDisplayed: 3, overflowText: '{n} seleccionadas', noResultsText: 'Nada por aquí', searchText: 'Buscar', showSearch: true });
     });
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Grupos').addClass("active");
@@ -772,4 +784,58 @@
             }
         });
     }
+
+
+    //Rellenar un FSELECT
+    function ConsultaFselect(Id) {
+        $('#TestSelect').empty();
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = {
+            "Grupo": obj
+        };
+
+     $.ajax({
+        url: "@Url.Action("Grupo_Listar", "Documentos")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+            error: function (resultado) {
+                var option = $(document.createElement('option'));
+                option.text("Seleccionar");
+                option.val(0);
+
+                $("#TestSelect").append(option);
+            },
+            success: function (resultado) {
+                
+                var option = $(document.createElement('option'));
+
+                $("#TestSelect").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#TestSelect").append(option);
+
+                });
+
+                $('#TestSelect').fSelect('reload');
+            }
+      });
+
+    }
+
+
+    function cosulta() {
+        alert(1);
+        var selectedIds = $("#TestSelect").val();
+        console.log("IDs seleccionados:", selectedIds);
+    }
+
+
 </script>

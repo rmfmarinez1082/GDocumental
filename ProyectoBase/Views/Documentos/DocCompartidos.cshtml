@@ -443,7 +443,6 @@
                                                         <th class="text-center" style="color:white">Propietario</th>
                                                         <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
                                                         <th style="display:none;" class="text-center">palabras clave</th>
-                                                        <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-group-divider">
@@ -464,63 +463,7 @@
                                                             <td class="text-center"> <a>@item.Propietario</a></td>
 
                                                             <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
-
-                                                            @{
-                                                                ProyectoBase.Models.Notification editor = new ProyectoBase.Models.Notification();
-                                                                editor.IdDocumento = item.Id;
-                                                                var Nombre = ProyectoBase.Models.Test.Editor(editor);
-
-                                                                ProyectoBase.Models.Notification Estatus = new ProyectoBase.Models.Notification();
-                                                                Estatus.IdDocumento = item.Id;
-                                                                Estatus.IdUsuario = @ViewBag.IdUser;
-                                                                var Disponibilidad = ProyectoBase.Models.Test.VerificarEditable(Estatus);
-
-                                                            }
-                                                            @*DESCARGA*@
-
-                                                            @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
-                                                            @if (item.IdTipoDocumento == 8)
-                                                            {
-                                                                //AQUI SE VERIFICA SOLO POR LA GFUNCION DE PRESTAMOS
-                                                                if (item.Compartido == 1 && item.prestamo == 0)
-                                                                {
-                                                                    if (Disponibilidad.Id == 1)
-                                                                    {
-
-
-                                                                        <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        if (item.Editable == 1 && item.NombreWord != "")
-                                                                        {
-
-                                                                            <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
-
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td class="text-center">Editando por: @Nombre.Nombre</td>
-                                                                        }
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    <td class="text-center">No aplica</td>
-                                                                }
-
-
-                                                            }
-                                                            @*Si NO archivo de trabajo Trato BASICO*@
-                                                            else if (!(item.NombreWord == "" || item.NombreWord == null))
-                                                            {
-                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
-
-                                                            }
-                                                            else
-                                                            {
-                                                                <td>Sin editable</td>
-                                                            }
+                                                          
                                                             <td style="display:none;"><a>@item.PalabrasClave</a></td>
                                                         </tr>
 

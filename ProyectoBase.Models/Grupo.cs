@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace ProyectoBase.Models
 {
 	public class Grupo
@@ -9,6 +11,8 @@ namespace ProyectoBase.Models
         public string NombrePersona { get; set; }
         public string Empresa { get; set; }
         public string Fecha { get; set; }
+        public string email { get; set; }
+        public List<int> IdPlist { get; set; } // Cambio a List<int>
     }
 }
 

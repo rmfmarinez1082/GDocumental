@@ -13,6 +13,31 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : Controller
     {
+        public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+        {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            if (Usuario != null)
+            {
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Usuario = Usuario;
+                _notification.IdUsuario = Usuario.Id;
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+
+
+
+                string Carpetas = CarpetasPadre();
+                ViewBag.carpetas = Carpetas;
+
+                return View();
+            }
+            else { return RedirectToAction("Index", "Home"); }
+        }
 
         public ActionResult AdminGrupos(Application.EmpresasListado empresasListado,
           Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
@@ -109,8 +134,7 @@ namespace ProyectoBase.Controllers
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
-            //if (menu.ValidacionPagina(Usuario, url))
-            //{
+    
             if (Usuario != null)
             {
 
@@ -137,11 +161,7 @@ namespace ProyectoBase.Controllers
             {
                 return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
             }
-            //}
-            //else
-            //{
-            //    return RedirectToAction("Index", "Home", new { @rd = Application.UrlCifrardo.Encrypt(cadena), @rdv = Application.UrlCifrardo.Encrypt(url) });
-            //}
+  
         }
 
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
@@ -488,7 +508,7 @@ namespace ProyectoBase.Controllers
             return View();
         }
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
-            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema)
+            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -503,6 +523,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
 
+                List<Models.LisUser> usuarios = AlisUser.ListadoUsuariosGral();
+                ViewBag.lisuser = usuarios;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -644,6 +666,31 @@ namespace ProyectoBase.Controllers
 
             return resulDoc;
         }
+
+
+        public string CarpetasPadre()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+
+                    resulCarpetas += "<li id='" + dt.Id + "' onclick='ConsultarCarpeta(" + dt.Id + ", event)'>" + dt.Nombre;
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+
         [HttpPost]
         public JsonResult desactivarNoti(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
         {
@@ -807,6 +854,58 @@ namespace ProyectoBase.Controllers
             return Json(Respuesta);
         }
 
+
+        [HttpPost]
+        public JsonResult Cat_ClasificacionArchivo_Listar_Id(Models.Grupo Datacarpeta, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.Cat_ClasificacionArchivo_Listar_Id(Datacarpeta);
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult Cat_ClasificacionArchivo_Listar_Faltante(Models.Grupo Datacarpeta, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.Cat_ClasificacionArchivo_Listar_Faltante(Datacarpeta);
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult Cat_ClasificacionArchivo_Listar_Permiso(Models.Grupo Datacarpeta, Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> Respuesta = APPGrupo.Cat_ClasificacionArchivo_Listar_Permiso(Datacarpeta);
+
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult Usuario_Carpeta_Insertar(Models.Grupo Datacarpeta , Application.Grupo APPGrupo)
+        {
+            List<Models.Grupo> respuestas = new List<Models.Grupo>();
+
+            foreach (var dt in Datacarpeta.IdPlist)
+            {
+                Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Insertar(dt, Datacarpeta);
+                respuestas.Add(Respuesta);
+            }
+
+            return Json(respuestas);
+        }
+
+        [HttpPost]
+        public JsonResult Usuario_Carpeta_Borrar(Models.Grupo Datacarpeta, Application.Grupo APPGrupo)
+        {
+            Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Borrar(Datacarpeta);
+
+            return Json(Respuesta);
+        }
+
+        [HttpPost]
+        public JsonResult Resetearpassword(Models.LisUser Usuario, Application.LisUser ApplisUser)
+        {
+            Models.LisUser Respuesta = ApplisUser.Resetearpassword(Usuario);
+
+            return Json(Respuesta);
+        }
     }
 
 }

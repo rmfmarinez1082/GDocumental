@@ -1,0 +1,465 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+
+<link rel="stylesheet" href="~/assets/css/fSelect.css">
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-folder-open"></i>  Administración de Carpetas </h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">Administrar carpetas</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-6 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>DIRECTORIO</h5>
+
+                            <p style="font-size: 14px; color: #888; margin-top:10px; margin-bottom:-6px;">¡Bienvenido! Para empezar a gestionar tus carpetas, simplemente selecciona la carpeta que deseas administrar haciendo clic en ella. </p>
+
+                        </div>
+
+                        <div class="row justify-content-around">
+
+                            <div class="col-11 p-15 p-b-0">
+                                <form class="form-material" onsubmit="return false;">
+                                    <div class="form-group form-primary">
+                                        <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
+                                        <span class="form-bar"></span>
+                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+                            <div id="jstree">
+                                @Html.Raw(ViewBag.carpetas);
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-12" id="permiso">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5 id="Titulo"></h5>
+                            <p id="Descripcion" style="font-size: 14px; color: #888; margin-top:10px; margin-bottom:-6px;"> </p>
+
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="form-group">
+                                        <label for="largeInput">Usuarios Disponibles</label>
+                                        <div class="input-group">
+                                            <select id="TestSelect" multiple="multiple"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                </div>
+                                <div class="col-4">
+                                    <button style="margin-top: 10%;" class="btn btn-success" onclick="AgregarUsers()">Agregar usuarios</button>
+                                </div>
+
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <br />
+
+                                    <div class="container">
+                                        <p class="text-center"><b>Da clic en <i class="fa fa-minus-square" aria-hidden="true"></i> para eliminar el acceso a la carpeta</b></p>
+
+                                        <div class="row justify-content-center">
+                                            <div class="table-responsive">
+                                                <table id="TableEngrupo" class="table table-hover" style="width: 100%; cursor: pointer">
+                                                    <thead style="background-color: #0d6efd">
+                                                        <tr>
+                                                            <th style="color:white">Nombre</th>
+                                                            <th class="text-center" style="color:white">Empresa</th>
+                                                            <th class="text-center" style="color:white">Eliminar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-group-divider" id="Contenido">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/assets/js/fSelect.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#IdAdministrador').addClass("active pcoded-trigger");
+        $('#Permisos').addClass("active");
+
+        $(function () {
+            $('#jstree').jstree({
+                'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+
+                    'check_callback': true,
+
+                    'multiple': false,
+                },
+                'plugins': ['search', 'checkbox'],
+            });
+
+        });
+
+        $(function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var nombreDocumento = decodeURIComponent(urlParams.get('Doc'));
+
+            var campoBusqueda = $('#plugins4_q');
+            if (nombreDocumento && nombreDocumento !== 'null') {
+                campoBusqueda.val(nombreDocumento);
+
+                $('#jstree').jstree(true).search(nombreDocumento);
+            }
+
+            campoBusqueda.keyup(function () {
+                var v = $(this).val();
+                $('#jstree').jstree(true).search(v);
+            });
+        });
+
+        $('#TestSelect').fSelect({ placeholder: 'Selecciona usuarios', numDisplayed: 3, overflowText: '{n} seleccionadas', noResultsText: 'Nada por aquí', searchText: 'Buscar', showSearch: true });
+
+        $('#TableEngrupo').DataTable({
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        }).on('init.dt', function () {
+            $('.dataTables_filter input').attr('placeholder', 'Buscar usuarios');
+        });
+    });
+
+    //CONSULTAR DATOS DE LA CARPETA AL DAR CLIC
+    function ConsultarCarpeta(id, event) {
+        event.stopPropagation();
+        var treeInstance = $('#jstree').jstree(true);
+        treeInstance.deselect_all();
+        treeInstance.select_node(id);
+
+
+         var obj = {};
+        obj['Id'] = id;
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+
+        $.ajax({
+            url: '@Url.Action("Cat_ClasificacionArchivo_Listar_Id", "Administracion")',
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                $('#Titulo').text('Carpeta: ' + data[0].Nombre);
+                $('#Descripcion').text('Edita los permisos de la carpeta ');
+                ConsultaFselect(id);
+                ConPermiso(id);
+            },
+            error: function (error) {
+                swal({
+                    title: "Intenta más tarde",
+                    text: "No se pudo obtener información del grupo",
+                    icon: "error",
+                    button: "Aceptar",
+                })
+            }
+        });
+    }
+    //Rellenar EL SELECT DE PERSONAS
+    function ConsultaFselect(Id) {
+        $('#TestSelect').empty();
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+     $.ajax({
+        url: "@Url.Action("Cat_ClasificacionArchivo_Listar_Faltante", "Administracion")",
+        type: "POST",
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+            error: function (resultado) {
+                var option = $(document.createElement('option'));
+                option.text("Seleccionar");
+                option.val(0);
+
+                $("#TestSelect").append(option);
+            },
+            success: function (resultado) {
+
+                var option = $(document.createElement('option'));
+
+                $("#TestSelect").append(option);
+
+                $(resultado).each(function () {
+                var option = $(document.createElement('option'));
+                option.text(this.Nombre);
+                option.val(this.Id);
+
+                    $("#TestSelect").append(option);
+
+                });
+
+                $('#TestSelect').fSelect('reload');
+            }
+      });
+
+    }
+    //AGREGAR PERMISO USUARIO
+function AgregarUsers() {
+    let selectedNode = $('#jstree').jstree('get_selected', true)[0];
+
+    if (!selectedNode || !selectedNode.id) {
+        swal({
+            title: "Error",
+            text: "Seleccione una carpeta antes de agregar usuarios.",
+            icon: "error",
+            button: "Aceptar",
+        });
+        return;
+    }
+
+    var obj = {};
+    obj['Id'] = selectedNode.id;
+
+    let IdPlistValue = $("#TestSelect").val();
+    if (IdPlistValue.length === 0) {
+        swal({
+            title: "Error",
+            text: "No se a seleccionado ningun usuario",
+            icon: "error",
+            button: "Aceptar",
+        });
+        return;
+    }
+    obj['IdPlist'] = IdPlistValue;
+
+    let Id = selectedNode.id;
+
+    console.log(IdPlistValue);
+
+    var jsonObject = {
+        "Datacarpeta": obj
+    };
+
+    $.ajax({
+        url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
+        data: JSON.stringify(jsonObject),
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function (data) {
+            swal({
+                title: "Usuario(s) Agregados !",
+                text: " ",
+                icon: "success",
+                button: "Aceptar",
+            }).then((value) => {
+                ConPermiso(Id);
+                ConsultaFselect(Id);
+            });
+        },
+        error: function (resultado) {
+            console.log(resultado);
+            alert("Error funcion ");
+        }
+    });
+}
+
+
+
+
+
+    //Listar  usaurios con permiso
+     function ConPermiso(Id) {
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+
+        $.ajax({
+            url: "@Url.Action("Cat_ClasificacionArchivo_Listar_Permiso", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function (resultado) {
+                tabla(resultado);
+            },
+            error: function (resultado) {
+                alert("Error funcion En grupo ");
+            }
+        });
+
+        function tabla(datos) {
+            var table = $('#TableEngrupo').DataTable();
+            table.destroy();
+            //console.log(datos);
+            Contenido.innerHTML = "";
+
+
+            for (let valor of datos) {
+
+                Contenido.innerHTML += `
+
+                     <tr>
+                        <td>${valor.Nombre}</td>
+                        <td class="text-center">${valor.Empresa}</td>
+
+                         <td class="text-center" onclick="eliminar(${valor.Id});">
+                            <i class="fa fa-minus-square" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                `
+            }
+
+            $('#TableEngrupo').DataTable({
+
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                }
+            });
+
+
+        }
+
+     }
+
+     //Eliminar usuarios
+    function eliminar(id) {
+swal({
+    title: "Eliminar usuario",
+    text: "¿Deseas eliminar el acceso a este usuario?",
+    icon: "error",
+    buttons: {
+        Si: {
+            text: "Sí, eliminar",
+            value: "si"
+
+        },
+        cancel: "Cancelar"
+    },
+    dangerMode: true,
+})
+    .then((willDelete) => {
+
+        switch (willDelete) {
+
+            case "si":
+                SeguroEliminar(id);
+                break;
+        }
+    });
+}
+    function SeguroEliminar(id) {
+
+        var obj = {};
+        obj['IdP'] = id;
+        obj['Id'] = $('#jstree').jstree('get_selected', true)[0].id;
+
+
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+        let IdC = $('#jstree').jstree('get_selected', true)[0].id;
+
+        $.ajax({
+            url: "@Url.Action("Usuario_Carpeta_Borrar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Persona Eliminada !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    }).then((value) => {
+                        ConPermiso(IdC);
+                        ConsultaFselect(IdC);
+                    });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
+</script>

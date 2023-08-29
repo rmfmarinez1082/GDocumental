@@ -2,6 +2,10 @@
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
+
+<link rel="stylesheet" href="~/assets/css/fSelect.css">
+
+
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -9,7 +13,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="page-header-title">
-                        <h5 class="m-b-10"><i class="fa fa-pencil-square-o"></i>   Registrar Nuevos Usuarios </h5>
+                        <h5 class="m-b-10"><i class="fa fa-pencil-square-o"></i>Administración de cuentas de Usuario </h5>
                         <p class="m-b-0"> </p>
                     </div>
                 </div>
@@ -19,7 +23,7 @@
                             <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="#!">Registrar Usuarios</a>
+                            <a href="#!">cuentas de Usuario</a>
                         </li>
                     </ul>
                 </div>
@@ -34,11 +38,11 @@
         <div class="page-body">
             <div class="row">
 
-                <div class="col-xl-12 col-md-12">
+                <div class="col-xl-6 col-md-6">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Registro</h5>
-                            <span>Completa los campos marcados *</span>
+                            <span>Completa los campos marcados * para registrar un nuevo usuario</span>
                         </div>
 
                         <div class="p-15">
@@ -48,57 +52,50 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Nombre </label>
                                         <input type="text" name="nombre" class="form-control form-control input-number" id="Nombre">
 
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Apellido paterno </label>
                                         <input type="text" name="apellidoP" class="form-control form-control input-number" id="apellidoP">
 
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Apellido materno </label>
                                         <input type="text" name="ApellidoM" class="form-control form-control input-number" id="ApellidoM">
 
                                     </div>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Correo </label>
                                         <input type="email" name="correo" class="form-control" id="correo" onblur="validateEmail()">
 
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Contraseña </label>
                                         <input type="password" class="form-control" id="contrasenia">
 
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Confirma Contraseña </label>
                                         <input type="password" class="form-control" id="contrasenia2" onblur="validatepass()">
 
                                     </div>
                                 </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Empresa</label>
 
@@ -116,7 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Departamento</label>
 
@@ -130,7 +127,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label for="largeInput">* Puesto</label>
                                         <div class="input-group">
@@ -144,17 +148,58 @@
                                     </div>
                                 </div>
 
+
+
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-4 offset-md-4">
                                     <button class="btn waves-effect waves-light btn-success" onclick="Registrar()" id="registar">Registrar</button>
                                     @*<a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger">Cancelar</a>*@
                                 </div>
-
                             </div>
                         </div>
 
                     </div>
                 </div>
 
+                <div class="col-xl-6 col-md-6">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Restablecer cuenta</h5>
+                            <span>selecciona a un usuario para restablecer su contraseña</span>
+                        </div>
+
+                        <div class="p-15">
+
+                            <div class="col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="largeInput">Usuarios</label>
+                                    <div class="input-group">
+                                        <select id="TestSelect">
+                                            <option value="">Seleccionar </option>
+                                            @foreach (var item1 in ViewBag.lisuser)
+                                            {
+                                                <option value="@item1.Id">
+                                                    @item1.Nombre ----- (@item1.EMail)
+                                                </option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 offset-md-4 text-center">
+                                    <button class="btn waves-effect waves-light btn-success" onclick="Resetear()" id="resetear">Restablecer contraseña</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -162,13 +207,18 @@
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/assets/js/fSelect.js"></script>
 
 
 
 <script>
+    $(document).ready(function () {
+       $('#TestSelect').fSelect({ placeholder: 'Seleccionar', numDisplayed: 3, overflowText: '{n} seleccionadas', noResultsText: 'Nada por aquí', searchText: 'Buscar', showSearch: true });
+
+    });
     function Registrar() {
         if (Valida()) {
-            if (validatepass()) { 
+            if (validatepass()) {
                 if (validateEmail()) {
                     $("#registar").prop('disabled', true);
 
@@ -210,8 +260,8 @@
                                     icon: "warning",
                                     button: "Aceptar",
                                 });
-                            } 
-                            
+                            }
+
                         },
                         error: function () {
                             alert("error");
@@ -307,7 +357,7 @@
 
                             }
 
-                        }    
+                        }
                     }
                 }
             }
@@ -457,4 +507,73 @@
 
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#registrar').addClass("active");
+
+
+
+    function Resetear() {
+        var selectedValue = document.getElementById("TestSelect").value;
+
+        if (selectedValue === "") {
+            swal({
+                title: "Error",
+                text: "No se ha seleccionado ningún usuario",
+                icon: "error",
+                button: "Aceptar"
+            });
+        } else {
+            swal({
+                title: "Restaurar Contraseña",
+                text: "¿Estás seguro de restaurar la contraseña de este usuario?",
+                icon: "info",
+                buttons: {
+                    Si: {
+                        text: "Sí, Restaurar",
+                        value: "si"
+                    },
+                    cancel: "Cancelar"
+                },
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    switch (willDelete) {
+                        case "si":
+                            Restaurar();
+                            break;
+                    }
+                });
+        }
+    }
+
+    function Restaurar() {
+
+        var obj = {};
+        
+        obj['Id'] = $("#TestSelect").val();
+
+        var jsonObject = {
+            "Usuario": obj
+        };
+
+
+        $.ajax({
+            url: "@Url.Action("Resetearpassword", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                swal({
+                    title: "Usuario Restaurado !",
+                    text: "Contraseña por defecto: asae2023",
+                    icon: "success",
+                    button: "Aceptar",
+                });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
 </script>

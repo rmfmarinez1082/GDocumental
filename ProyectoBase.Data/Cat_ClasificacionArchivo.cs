@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProyectoBase.Models;
 
 namespace ProyectoBase.Data
 {
@@ -483,6 +484,29 @@ namespace ProyectoBase.Data
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
 
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+
+        public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            b.ExecuteCommandSP("Cat_ClasificacionArchivo_ListarPorIdUsuario");
+            b.AddParameter("@UserId", carpeta.Id, SqlDbType.Int);
+
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+                };
+                resultado.Add(item);
             }
             reader = null;
             b.ConnectionCloseToTransaction();
