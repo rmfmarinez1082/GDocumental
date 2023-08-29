@@ -508,7 +508,7 @@ namespace ProyectoBase.Controllers
             return View();
         }
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
-            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema)
+            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -523,6 +523,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
 
+                List<Models.LisUser> usuarios = AlisUser.ListadoUsuariosGral();
+                ViewBag.lisuser = usuarios;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -897,6 +899,13 @@ namespace ProyectoBase.Controllers
             return Json(Respuesta);
         }
 
+        [HttpPost]
+        public JsonResult Resetearpassword(Models.LisUser Usuario, Application.LisUser ApplisUser)
+        {
+            Models.LisUser Respuesta = ApplisUser.Resetearpassword(Usuario);
+
+            return Json(Respuesta);
+        }
     }
 
 }

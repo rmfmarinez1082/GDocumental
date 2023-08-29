@@ -84,14 +84,14 @@
                                 </div>
 
                                 @*SELECT DE PRUEBA*@
-                                <div class="col-md-12 col-lg-12">
+                                @*<div class="col-md-12 col-lg-12">
                                     <div class="form-group">
                                         <label for="largeInput"> SELECT CON FSELECT</label>
                                         <div class="input-group">
                                             <select  id="TestSelect" multiple="multiple"></select>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                                 <div class="col-md-12 col-lg-12">
                                     <br />
 
@@ -186,7 +186,7 @@
 
                                             <button class="btn btn-danger" onclick="eliminarGrupo()">Eliminar Grupo</button>
 
-                                            <button class="btn btn-success" onclick="cosulta()">consulta selects</button>
+                                            @*<button class="btn btn-success" onclick="cosulta()">consulta selects</button>*@
                                         </div>
                                     </div>
                                 </div>
@@ -254,7 +254,7 @@
             $('.dataTables_filter input').attr('placeholder', 'Buscar usuarios');
         });
 
-        $('#TestSelect').fSelect({ placeholder: 'Selecciona usuarios', numDisplayed: 3, overflowText: '{n} seleccionadas', noResultsText: 'Nada por aquí', searchText: 'Buscar', showSearch: true });
+    //    $('#TestSelect').fSelect({ placeholder: 'Selecciona usuarios', numDisplayed: 3, overflowText: '{n} seleccionadas', noResultsText: 'Nada por aquí', searchText: 'Buscar', showSearch: true });
     });
     $('#IdAdministrador').addClass("active pcoded-trigger");
     $('#Grupos').addClass("active");
