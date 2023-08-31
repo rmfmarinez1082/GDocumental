@@ -667,30 +667,6 @@ namespace ProyectoBase.Controllers
             return resulDoc;
         }
 
-
-        public string CarpetasPadre()
-        {
-            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
-            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
-            string resulCarpetas = "";
-
-            if (dtClasificacionArchivo.Count > 0)
-            {
-                resulCarpetas += "<ul>";
-
-                foreach (var dt in dtClasificacionArchivo)
-                {
-
-                    resulCarpetas += "<li id='" + dt.Id + "' onclick='ConsultarCarpeta(" + dt.Id + ", event)'>" + dt.Nombre;
-                    resulCarpetas += "</li>";
-
-                }
-                resulCarpetas += "</ul>";
-            }
-
-            return resulCarpetas;
-        }
-
         [HttpPost]
         public JsonResult desactivarNoti(Models.Notification Dnotificacion, Application.Notification Apnotificacion)
         {
@@ -882,13 +858,16 @@ namespace ProyectoBase.Controllers
         {
             List<Models.Grupo> respuestas = new List<Models.Grupo>();
 
-            foreach (var dt in Datacarpeta.IdPlist)
+            foreach (var carpetaId in Datacarpeta.IdClist)
             {
-                Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Insertar(dt, Datacarpeta);
-                respuestas.Add(Respuesta);
+                foreach (var usuarioId in Datacarpeta.IdPlist)
+                {
+                    Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Insertar(usuarioId, carpetaId);
+                    respuestas.Add(Respuesta);
+                }
             }
-
             return Json(respuestas);
+
         }
 
         [HttpPost]
@@ -906,6 +885,55 @@ namespace ProyectoBase.Controllers
 
             return Json(Respuesta);
         }
+
+
+
+
+
+
+
+        public string CarpetasPadre()
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id + "' data-consultar>" + dt.Nombre;
+                    resulCarpetas += Subcarpeta(dt);
+                    resulCarpetas += "</li>";
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+        public string Subcarpeta(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(cat_ClasificacionDoc);
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id + "' data-consultar>" + dt.Nombre; resulCarpetas += Subcarpeta(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
     }
+
+
 
 }

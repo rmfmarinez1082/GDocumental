@@ -512,5 +512,31 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
+
+
+
+
+        public List<Models.Cat_ClasificacionArchivo> Cat_SubClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            b.ExecuteCommandSP("Cat_SubClasificacionArchivo_ListarPorIdUsuario");
+            b.AddParameter("@UserId", carpeta.IdUser, SqlDbType.Int);
+            b.AddParameter("@IdPadre", carpeta.Id, SqlDbType.Int);
+
+
+            List<Models.Cat_ClasificacionArchivo> resultado = new List<Models.Cat_ClasificacionArchivo>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Cat_ClasificacionArchivo item = new Models.Cat_ClasificacionArchivo()
+                {
+                    Nombre = reader["Nombre"].ToString(),
+                    Id = Convert.ToInt32(reader["Id"].ToString())
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
     }
 }
