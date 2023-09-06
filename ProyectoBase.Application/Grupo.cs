@@ -61,7 +61,7 @@ namespace ProyectoBase.Application
         {
             return _Grupo.Cat_ClasificacionArchivo_Listar_Permiso(Datacarpeta);
         }
-        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP, Models.Grupo Datacarpeta)
+        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP, int  Datacarpeta)
         {
             return _Grupo.Usuario_Carpeta_Insertar(DataIdP,Datacarpeta);
         }

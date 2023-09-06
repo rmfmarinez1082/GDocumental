@@ -94,7 +94,7 @@
                                 <div class="col-1">
                                 </div>
                                 <div class="col-4">
-                                    <button style="margin-top: 10%;" class="btn btn-success" onclick="AgregarUsers()">Agregar usuarios</button>
+                                    <button style="margin-top: 10%;" class="btn btn-success" onclick="AgregarUsers();">Agregar usuarios</button>
                                 </div>
 
                             </div>
@@ -156,9 +156,47 @@
 
                     'check_callback': true,
 
-                    'multiple': false,
+                    'multiple': true,
                 },
-                'plugins': ['search', 'checkbox'],
+                'plugins': ['search','checkbox'],
+            });
+
+
+            $('#jstree').on('select_node.jstree', function (e, data) {
+                var id = data.node.id;
+
+                //CONSULTAR DATOS DE LA CARPETA AL DAR CLIC
+               
+                    var obj = {};
+                    obj['Id'] = id;
+                    var jsonObject = {
+                        "Datacarpeta": obj
+                    };
+
+
+                    $.ajax({
+                        url: '@Url.Action("Cat_ClasificacionArchivo_Listar_Id", "Administracion")',
+                        data: JSON.stringify(jsonObject),
+                        type: "POST",
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (data) {
+                            $('#Titulo').text('Carpeta: ' + data[0].Nombre);
+                            $('#Descripcion').text('Edita los permisos de la carpeta ');
+                            ConsultaFselect(id);
+                            ConPermiso(id);
+                        },
+                        error: function (error) {
+                            swal({
+                                title: "Intenta más tarde",
+                                text: "No se pudo obtener información del grupo",
+                                icon: "error",
+                                button: "Aceptar",
+                            })
+                        }
+                    });
+                
+
             });
 
         });
@@ -193,43 +231,7 @@
         });
     });
 
-    //CONSULTAR DATOS DE LA CARPETA AL DAR CLIC
-    function ConsultarCarpeta(id, event) {
-        event.stopPropagation();
-        var treeInstance = $('#jstree').jstree(true);
-        treeInstance.deselect_all();
-        treeInstance.select_node(id);
 
-
-         var obj = {};
-        obj['Id'] = id;
-        var jsonObject = {
-            "Datacarpeta": obj
-        };
-
-
-        $.ajax({
-            url: '@Url.Action("Cat_ClasificacionArchivo_Listar_Id", "Administracion")',
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                $('#Titulo').text('Carpeta: ' + data[0].Nombre);
-                $('#Descripcion').text('Edita los permisos de la carpeta ');
-                ConsultaFselect(id);
-                ConPermiso(id);
-            },
-            error: function (error) {
-                swal({
-                    title: "Intenta más tarde",
-                    text: "No se pudo obtener información del grupo",
-                    icon: "error",
-                    button: "Aceptar",
-                })
-            }
-        });
-    }
     //Rellenar EL SELECT DE PERSONAS
     function ConsultaFselect(Id) {
         $('#TestSelect').empty();
@@ -274,69 +276,67 @@
 
     }
     //AGREGAR PERMISO USUARIO
-function AgregarUsers() {
-    let selectedNode = $('#jstree').jstree('get_selected', true)[0];
+    function AgregarUsers() {
+        let selectedNodes = $('#jstree').jstree('get_selected', true);
 
-    if (!selectedNode || !selectedNode.id) {
-        swal({
-            title: "Error",
-            text: "Seleccione una carpeta antes de agregar usuarios.",
-            icon: "error",
-            button: "Aceptar",
-        });
-        return;
-    }
-
-    var obj = {};
-    obj['Id'] = selectedNode.id;
-
-    let IdPlistValue = $("#TestSelect").val();
-    if (IdPlistValue.length === 0) {
-        swal({
-            title: "Error",
-            text: "No se a seleccionado ningun usuario",
-            icon: "error",
-            button: "Aceptar",
-        });
-        return;
-    }
-    obj['IdPlist'] = IdPlistValue;
-
-    let Id = selectedNode.id;
-
-    console.log(IdPlistValue);
-
-    var jsonObject = {
-        "Datacarpeta": obj
-    };
-
-    $.ajax({
-        url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
-        data: JSON.stringify(jsonObject),
-        type: "POST",
-        contentType: "application/json",
-        dataType: "json",
-        success: function (data) {
+        if (selectedNodes.length === 0 || !selectedNodes[0].id) {
             swal({
-                title: "Usuario(s) Agregados !",
-                text: " ",
-                icon: "success",
+                title: "Error",
+                text: "Seleccione una carpeta antes de agregar usuarios.",
+                icon: "error",
                 button: "Aceptar",
-            }).then((value) => {
-                ConPermiso(Id);
-                ConsultaFselect(Id);
             });
-        },
-        error: function (resultado) {
-            console.log(resultado);
-            alert("Error funcion ");
+            return;
         }
-    });
-}
+
+        let selectedNode = selectedNodes[0];
+        let Id = selectedNode.id;
+
+        let IdPlistValue = $("#TestSelect").val();
+        if (IdPlistValue.length === 0) {
+            swal({
+                title: "Error",
+                text: "No se a seleccionado ningun usuario",
+                icon: "error",
+                button: "Aceptar",
+            });
+            return;
+        }
+
+        let IdClist = Carpetas();
+        
+        var obj = {};
+        obj['IdClist'] = IdClist;
+        obj['IdPlist'] = IdPlistValue;
+        
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
 
 
-
-
+        $.ajax({
+            url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                swal({
+                    title: "Usuario(s) Agregados !",
+                    text: " ",
+                    icon: "success",
+                    button: "Aceptar",
+                }).then((value) => {
+                    ConPermiso(Id);
+                    ConsultaFselect(Id);
+                });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
 
     //Listar  usaurios con permiso
      function ConPermiso(Id) {
@@ -462,4 +462,36 @@ swal({
             }
         });
     }
+
+
+
+
+
+    // Función para obtener los IDs de nodos seleccionados y sus padres
+    function Carpetas() {
+        var selectedNodes = $('#jstree').jstree('get_selected', true);
+        var parentIds = [];
+
+        selectedNodes.forEach(function (node) {
+            // Agregar el ID del nodo actual a la lista de IDs
+            parentIds.push(node.id);
+
+            // Agregar los IDs de los nodos padres del nodo actual
+            parentIds = parentIds.concat(node.parents);
+        });
+
+        // Eliminar duplicados de IDs de nodos padres
+        var uniqueParentIds = [...new Set(parentIds)];
+
+        // Filtrar y eliminar el valor "#" si está presente
+        var filteredParentIds = uniqueParentIds.filter(id => id !== "#");
+
+        return filteredParentIds;
+    }
+
+
+
+
+
+   
 </script>

@@ -13,6 +13,7 @@ namespace ProyectoBase.Models
         public string Fecha { get; set; }
         public string email { get; set; }
         public List<int> IdPlist { get; set; } // Cambio a List<int>
+        public List<int> IdClist { get; set; }
     }
 }
 

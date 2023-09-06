@@ -237,12 +237,12 @@ namespace ProyectoBase.Data
         }
 
 
-        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP,Models.Grupo Datacarpeta)
+        public Models.Grupo Usuario_Carpeta_Insertar(int DataIdP,int Datacarpeta)
 
         {
             b.ExecuteCommandSP("Usuario_Carpeta_Insertar");
             b.AddParameter("@UserId", DataIdP, SqlDbType.Int);
-            b.AddParameter("@Idcarpeta", Datacarpeta.Id, SqlDbType.Int);
+            b.AddParameter("@Idcarpeta", Datacarpeta, SqlDbType.Int);
 
 
             Models.Grupo resultado = new Models.Grupo();

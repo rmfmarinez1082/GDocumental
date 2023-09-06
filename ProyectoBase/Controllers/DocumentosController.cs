@@ -411,7 +411,7 @@ namespace ProyectoBase.Controllers
                 {
 
                     resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
-                    resulCarpetas += getChildren(dt);
+                    resulCarpetas += ListadoPerfilSub(dt);
                     resulCarpetas += "</li>";
 
                 }
@@ -420,6 +420,35 @@ namespace ProyectoBase.Controllers
 
             return resulCarpetas;
         }
+
+        public string ListadoPerfilSub(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Models.Cat_ClasificacionArchivo carpeta = new Models.Cat_ClasificacionArchivo();
+            cat_ClasificacionDoc.IdUser = Usuario.Id;
+
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_ListarPorIdUsuario(cat_ClasificacionDoc);
+
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += ListadoPerfilSub(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+
         public string getParents()
         {
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();

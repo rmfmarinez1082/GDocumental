@@ -129,6 +129,12 @@ namespace ProyectoBase.Application
         {
             return _cat_ClasificacionArchivo.Cat_ClasificacionArchivo_ListarPorIdUsuario(carpeta);
         }
+
+
+        public List<Models.Cat_ClasificacionArchivo> Cat_SubClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
+        {
+            return _cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_ListarPorIdUsuario(carpeta);
+        }
     }
 
 
