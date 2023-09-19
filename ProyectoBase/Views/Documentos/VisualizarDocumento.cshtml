@@ -1319,6 +1319,9 @@
             } else if (entidad == "Provedores") {
                 obj['IdAsignacion'] = $("#proveedor option:selected").val();
             }
+            else if (entidad == "Grupos") {
+                obj['IdAsignacion'] = $("#Grupo option:selected").val();
+            }
 
             var jsonObject = {
                 "NCompartir": obj
