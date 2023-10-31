@@ -135,7 +135,7 @@
                     </a>
                 </div>
 
-                <div class="col">
+                <div class="col" id="cardVigente">
                     <a href="#">
                         <div class="card" onclick="VDocVigente();" style="cursor:pointer">
                             <div class="card-block">
@@ -202,7 +202,7 @@
                     </a>
                 </div>
 
-                <div class="col" onclick="ModalSolicitud();">
+                <div class="col" onclick="ModalSolicitud();" id="cardSolicitud">
                     <a href="#">
                         <div class="card" style="cursor:pointer">
                             <div class="card-block">
@@ -473,6 +473,11 @@
             $('#gif-icon').addClass('block');
         } else {
             $('#gif-icon').removeClass('block');
+        }
+
+        if (@ViewBag.Sistema.Versionamiento== 2) {
+            $("#cardSolicitud").css("display", "none");
+            $("#cardVigente").css("display", "none");
         }
 
     });

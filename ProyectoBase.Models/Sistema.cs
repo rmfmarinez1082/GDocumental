@@ -15,7 +15,7 @@ namespace ProyectoBase.Models
         public string url_Imagen { get; set; }
         public string url_Sitio { get; set; }
 
-
+        public int Versionamiento { get; set; }
         public string initVector { get; set; }
 
         public string passPhrase { get; set; }

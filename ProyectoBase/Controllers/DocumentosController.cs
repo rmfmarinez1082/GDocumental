@@ -759,7 +759,6 @@ namespace ProyectoBase.Controllers
                 ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
                 ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
 
-
                 nuevoDocumento.NmArchivo = ListaDocumentos[0].NmArchivo;
                 nuevoDocumento.NmArchivoword = ListaDocumentoword[0].NmArchivoword;
                 nuevoDocumento.NmOriginal = ListaDocumentos[0].NmOriginal;
@@ -767,28 +766,8 @@ namespace ProyectoBase.Controllers
 
                 Models.Documento Ndocumento = ApDocumentos.Documento_Agregar(nuevoDocumento);
 
-
                 Models.Cat_ClasificacionArchivo NewCat_ClasificacionArchivo = new Models.Cat_ClasificacionArchivo();
 
-                //if (nuevoDocumento.IdClasificacionArchivo > 0)
-                //{
-                //    if (nuevoDocumento.IdSubClasificacionArchivo > 0)
-                //    {
-                //        if (nuevoDocumento.IdNombre3 > 0)
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdNombre3;
-                //        }
-                //        else
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdSubClasificacionArchivo;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdClasificacionArchivo;
-                //    }
-
-                //}
 
                 Models.Cat_ClasificacionArchivo ListaClasificacion = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Seleccionar(NewCat_ClasificacionArchivo);
 
@@ -805,32 +784,9 @@ namespace ProyectoBase.Controllers
 
                 if (ListaClasificacion.NombreClasificacion.Length > 0)
                 {
-                    //if (ListaClasificacion.NombreSubcalsificacion.Length > 0)
-                    //{
-                    //    if (ListaClasificacion.Nombre3.Length > 0)
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //    else
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //}
-                    //else
-                    //{
+
                         string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion, nuevoDocumento.NmArchivo);
                         System.IO.File.Copy(sourceFile, destFile, true);
-                    //}
                 }
 
                 Session["NuevoDocumento"] = null;
@@ -852,25 +808,6 @@ namespace ProyectoBase.Controllers
 
                 Models.Cat_ClasificacionArchivo NewCat_ClasificacionArchivo = new Models.Cat_ClasificacionArchivo();
 
-                //if (nuevoDocumento.IdClasificacionArchivo > 0)
-                //{
-                //    if (nuevoDocumento.IdSubClasificacionArchivo > 0)
-                //    {
-                //        if (nuevoDocumento.IdNombre3 > 0)
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdNombre3;
-                //        }
-                //        else
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdSubClasificacionArchivo;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdClasificacionArchivo;
-                //    }
-
-                //}
 
                 Models.Cat_ClasificacionArchivo ListaClasificacion = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Seleccionar(NewCat_ClasificacionArchivo);
 
@@ -887,32 +824,8 @@ namespace ProyectoBase.Controllers
 
                 if (ListaClasificacion.NombreClasificacion.Length > 0)
                 {
-                    //if (ListaClasificacion.NombreSubcalsificacion.Length > 0)
-                    //{
-                    //    if (ListaClasificacion.Nombre3.Length > 0)
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //    else
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //}
-                    //else
-                    //{
                         string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion, nuevoDocumento.NmArchivo);
                         System.IO.File.Copy(sourceFile, destFile, true);
-                    //}
                 }
 
                 Session["NuevoDocumento"] = null;
