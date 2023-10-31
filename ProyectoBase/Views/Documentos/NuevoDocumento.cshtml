@@ -489,7 +489,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Documento </label>
-                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value)">
+                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
                                                                     <option value="0">Seleccionar</option>
                                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                                     {
@@ -532,35 +532,35 @@
                                                     </div>
                                                     <br />
                                                     <div class="row">
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FPublicacion">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FEntradaVigor">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
                                                                 <input type="text" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FProximaRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FVencimiento">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
@@ -1792,7 +1792,7 @@
         return result;
     }
 
-    
+
     function ValidaTDoc(Id) {
 
         var obj = {};
@@ -1822,6 +1822,54 @@
                     $("#Rpdf").addClass("col-md-12");
                 }
 
+            }
+
+        });
+    }
+
+
+    function Fechas(Id) {
+        var obj = {};
+
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "documento": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("FechaInterfaz", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data[0].FRevision == 1) {
+                    $("#FRevision").css("display", "block");
+                } else {
+                    $("#FRevision").css("display", "none");
+                }
+                if (data[0].FEntradaVigor == 1) {
+                    $("#FEntradaVigor").css("display", "block");
+                } else {
+                    $("#FEntradaVigor").css("display", "none");
+                }
+                if (data[0].FPublicacion == 1) {
+                    $("#FPublicacion").css("display", "block");
+                } else {
+                    $("#FPublicacion").css("display", "none");
+                }
+                if (data[0].FProximaRevision == 1) {
+                    $("#FProximaRevision").css("display", "block");
+                } else {
+                    $("#FProximaRevision").css("display", "none");
+                }
+                if (data[0].FVencimiento == 1) {
+                    $("#FVencimiento").css("display", "block");
+                } else {
+                    $("#FVencimiento").css("display", "none");
+                }
             }
 
         });
@@ -2220,9 +2268,9 @@
         return result;
     }
 
-    
-    
-   
+
+
+
 
     function validatodasfechas() {
 

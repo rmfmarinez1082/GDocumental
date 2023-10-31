@@ -674,5 +674,32 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+
+
+
+        public List<Models.Documento> FechaInterfaz(Models.Documento documento)
+        {
+            b.ExecuteCommandSP("FechasDocumento_Seleccionar");
+            b.AddParameter("@Id", documento.Id, SqlDbType.VarChar);
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    FRevision = Convert.ToInt32(reader["FechaRevision"].ToString()),
+                    FPublicacion = Convert.ToInt32(reader["FechaPublicacion"].ToString()),
+                    FEntradaVigor = Convert.ToInt32(reader["FechaEntradaVigor"].ToString()),
+                    FProximaRevision = Convert.ToInt32(reader["FechaProximaRevision"].ToString()),
+                    FVencimiento = Convert.ToInt32(reader["FechaVencimiento"].ToString()),
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
     }
 }

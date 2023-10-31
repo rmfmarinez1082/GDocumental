@@ -53,6 +53,16 @@ namespace ProyectoBase.Models
         public string MedioAlmacenamiento { get; set; }
         public string Extension { get; set; }
 
-        public int Entrega { get; set; } 
+        public int Entrega { get; set; }
+
+
+
+
+
+        public int FRevision { get; set; }
+        public int FEntradaVigor { get; set; }
+        public int FPublicacion { get; set; }
+        public int FVencimiento { get; set; }
+        public int FProximaRevision { get; set; }
     }
 }

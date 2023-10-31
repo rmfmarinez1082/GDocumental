@@ -254,4 +254,23 @@
         }
         return respuesta;
     }
+
+
+    function CorreoLogin() {
+        var respuesta = "";
+        object = document.getElementById("EmailLogin");
+        valueForm = object.value;
+
+        var patronTelefono = new RegExp("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$");
+        if ($(object).val() == "") {
+            var respuesta = "";
+
+        } else if (valueForm.search(patronTelefono)) {
+            var respuesta = "";
+            return;
+        } else {
+            var respuesta = "ok";
+        }
+        return respuesta;
+    }
 </script>

@@ -1269,5 +1269,14 @@ namespace ProyectoBase.Controllers
             return Json(resultado);
         }
 
+
+        ////VALIDACION FECHAS
+        ///
+        public JsonResult FechaInterfaz(Models.Documento documento, Application.Documentos Adocumento)
+        {
+            List<Models.Documento> Res = Adocumento.FechaInterfaz(documento);
+            return Json(Res);
+        }
+
     }
 }
