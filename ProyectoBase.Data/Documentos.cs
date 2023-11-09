@@ -158,6 +158,7 @@ namespace ProyectoBase.Data
                 resultado.FechaVencimiento = reader["FechaVencimiento"].ToString();
                 resultado.FechaProximaRevision = reader["FechaProximaRevision"].ToString();
 
+                resultado.IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString());
                 resultado.TipoDoc = reader["TipoDoc"].ToString();
                 resultado.ClasificacionDoc = reader["ClasificacionDoc"].ToString();
                 resultado.Registro = reader["Registrado"].ToString();

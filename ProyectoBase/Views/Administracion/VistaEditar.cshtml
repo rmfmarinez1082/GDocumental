@@ -508,33 +508,33 @@
                                 <div class="card-block">
                                     @*FECHAS*@
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-4" id="FRevision">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Revision: </label>
                                                 <input id="FechaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaRevision">
 
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4" id="FPublicacion">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Publicacion	: </label>
                                                 <input id="FechaPublicacion" type="text" class="form-control form-control" value="@ViewBag.FechaPublicacion">
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4" id="FEntradaVigor">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha vigor: </label>
                                                 <input id="FechaEntradaVigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
                                             </div>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4" id="FProximaRevision">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Proxima Revisión: </label>
                                                 <input id="FechaProximaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-4" id="FVencimiento">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha Vencimiento	: </label>
                                                 <input id="FechaVencimiento" type="text" class="form-control form-control" value="@ViewBag.FechaVencimiento">
@@ -649,7 +649,7 @@
                                             }
                                         </div>
                                         <div class="col-md-6" id="colbtn">
-                                            <button class="btn waves-effect waves-light btn-success col-12" onclick="validatodasfechas()" id="BtnGuardar">Guardar</button>
+                                            <button class="btn waves-effect waves-light btn-success col-12" id="BtnGuardar">Guardar</button>
                                         </div>
                                         <div class="col-md-6">
                                             <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
@@ -766,7 +766,55 @@
     </div>
     <script src="~/assets/js/jquery/jquery.min.js"></script>
 
+
+
     <script>
+
+        $(document).ready(function () {
+
+              let Id = @ViewBag.dtTipoDocumento;
+              var obj = {};
+              obj['Id'] = Id;
+              var jsonObject = { "documento": obj };
+
+              $.ajax({
+                  type: "POST",
+                  url: "@Url.Action("FechaInterfaz", "Documentos")",
+                  async: false,
+                  data: JSON.stringify(jsonObject),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (data) {
+                      if (data[0].FRevision == 1) {
+                          $("#FRevision").css("display", "block");
+                      } else {
+                          $("#FRevision").css("display", "none");
+                      }
+                      if (data[0].FEntradaVigor == 1) {
+                          $("#FEntradaVigor").css("display", "block");
+                      } else {
+                          $("#FEntradaVigor").css("display", "none");
+                      }
+                      if (data[0].FPublicacion == 1) {
+                          $("#FPublicacion").css("display", "block");
+                      } else {
+                          $("#FPublicacion").css("display", "none");
+                      }
+                      if (data[0].FProximaRevision == 1) {
+                          $("#FProximaRevision").css("display", "block");
+                      } else {
+                          $("#FProximaRevision").css("display", "none");
+                      }
+                      if (data[0].FVencimiento == 1) {
+                          $("#FVencimiento").css("display", "block");
+                      } else {
+                          $("#FVencimiento").css("display", "none");
+                      }
+                  }
+              });
+
+          });
+
         $(document).ready(function () {
 
 
@@ -1625,7 +1673,7 @@
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
                     if (validaClasificacionArchivo()) {
-                        if (validatodasfechasEdit()) {
+                        if (ValidaControl()) {
                             if (ValidaDocumento()) {
 
                                 $("#BtnGuardarEdit").prop('disabled', true);
@@ -1711,7 +1759,50 @@
             }
         };
 
+        function ValidaControl() {
+            var result = true;
 
+            var obj = {};
+            obj['Id'] = $("#TipoDocumento option:selected").val();
+            var jsonObject = { "documento": obj };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FechaInterfaz", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    // Reset the border color for all fields
+                    $('#FechaRevision, #Fechadeentradaenvigor, #FechaPublicacion, #FechaVencimiento, #FechaProximaRevision')
+                        .css("border", "1px solid #cccccc");
+
+                    if (data[0].FRevision === 1 && $('#FechaRevision').val().length === 0) {
+                        $('#FechaRevision').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FEntradaVigor === 1 && $('#Fechadeentradaenvigor').val().length === 0) {
+                        $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FPublicacion === 1 && $('#FechaPublicacion').val().length === 0) {
+                        $('#FechaPublicacion').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FProximaRevision === 1 && $('#FechaProximaRevision').val().length === 0) {
+                        $('#FechaProximaRevision').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FVencimiento === 1 && $('#FechaVencimiento').val().length === 0) {
+                        $('#FechaVencimiento').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                }
+            });
+
+            return result;
+        }
 
         function habilitar() {
 
@@ -1770,7 +1861,7 @@
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
                     if (validaClasificacionArchivo()) {
-                        if (validatodasfechasEdit()) {
+                        if (ValidaControl()) {
                             if (ValidaDocumento()) {
                                 if (ValidaDocumentoWord()) {
 
