@@ -1239,10 +1239,11 @@
     });
     }
 
-    function Ver(documento) {
+    function Ver(Id) {
+
         var obj = {};
 
-        obj['UrlVaible'] = documento;
+        obj['UrlVaible'] = Id;
 
         var jsonObject = {
             "URL": obj
@@ -1373,7 +1374,7 @@
         $('#Empleado').css("border", "1px solid #ff0049");
         $('#proveedor').css("border", "1px solid #ff0049");
         $('#Grupo').css("border", "1px solid #ff0049");
-        
+
 
         if ($("#Entidad option:selected").val() > 0) {
             $('#Entidad').css("border", "1px solid #cccccc");
