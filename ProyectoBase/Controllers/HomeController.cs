@@ -27,12 +27,15 @@ namespace ProyectoBase.Controllers
                             case 2:
                                  // code block
                                  return RedirectToAction("DocCompartidos", "Documentos");
-                             case 3:
+                            case 3:
                                   //code block
                                 return RedirectToAction("PrincipalA", "Administracion");
-                            default:
+                            case 1003:
+                                //code block
+                                return RedirectToAction("PrincipalA", "Administracion");
+                        default:
                         //code block
-                                break;
+                             break;
                         }
                 }
           

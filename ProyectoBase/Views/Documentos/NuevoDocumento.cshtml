@@ -465,6 +465,10 @@
                                                         <div class="col-md-12 text-center">
                                                             <h3>Descripción </h3>
 
+                                                            <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
+                                                                El tipo de documento seleccionado requiere de un archivo editable.
+                                                            </div>
+
                                                         </div>
                                                     </div>
                                                     <br />
@@ -1820,10 +1824,14 @@
                     $("#Rpdf").addClass("col-md-6");
                     $("#Rpdf").removeClass("col-md-12");
 
+                    //Mostrar mensaje 
+                    $("#mensaje").css("display", "block");
 
                 } else {
                     $("#Word").css("display", "none");
                     $("#Rpdf").addClass("col-md-12");
+
+                    $("#mensaje").css("display", "none");
                 }
 
             }

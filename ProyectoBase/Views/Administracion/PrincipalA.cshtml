@@ -169,7 +169,7 @@
                     </a>
                 </div>
 
-                <div class="col">
+                <div class="col" id="dashboardCardVencido">
                     <a href="#">
                         <div class="card" onclick="VDocVencido();" style="cursor:pointer">
                             <div class="card-block">
@@ -466,7 +466,22 @@
 
 <script>
 
-    @*$(document).ready(function () {
+    $(document).ready(function () {
+        // Obtener la lista de elementos del ViewBag
+        var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
+
+        // Recorrer la lista y aplicar el ocultamiento
+        elementosOcultos.forEach(function (elemento) {
+            var elementId = elemento.IdElemento;
+            var isVisible = elemento.Activo === 0;
+
+            if (!isVisible) {
+                $('#' + elementId).hide(); 
+            }
+        });
+
+
+
         var counter = parseInt($('#counter').text());
 
         if (counter > 0) {
@@ -475,12 +490,9 @@
             $('#gif-icon').removeClass('block');
         }
 
-        if (@ViewBag.Sistema.Versionamiento== 2) {
-            $("#cardSolicitud").css("display", "none");
-            $("#cardVigente").css("display", "none");
-        }
 
-    });*@
+
+    });
 
         var data = [{
       data: [@ViewBag.Visto ,@ViewBag.NVisto],

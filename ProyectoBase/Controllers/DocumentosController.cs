@@ -183,7 +183,7 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
-                if(((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3 || ((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 1003)
                 {
                     string Carpetas = getParents();
                     ViewBag.carpetas = Carpetas;
@@ -193,6 +193,7 @@ namespace ProyectoBase.Controllers
                     string Carpetas = ListadoPerfil();
                     ViewBag.carpetas = Carpetas;
                 }
+
 
 
 

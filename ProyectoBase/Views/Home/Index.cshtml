@@ -200,6 +200,17 @@
 
                                     });
                                     break;
+                                case 1003:
+                                    swal({
+                                        title: "Administrador Mabe",
+                                        text: response.Nombre + " " + response.Apellidos,
+                                        icon: "success",
+                                        button: "Aceptar",
+                                    }).then((value) => {
+                                        window.location.href = '' + response.RutaAcceso + '';
+
+                                    });
+                                    break;
                             }
                         }
                     });

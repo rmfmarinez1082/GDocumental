@@ -169,7 +169,7 @@ namespace ProyectoBase.Controllers
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
             Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema,
-            Models.Documento documento)
+            Models.Documento documento, Application.PermisosRolElementos APPpermisosRolElementos)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -178,6 +178,10 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
             if (Usuario != null)
             {
                 List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
