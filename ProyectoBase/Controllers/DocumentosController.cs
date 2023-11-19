@@ -13,7 +13,7 @@ namespace ProyectoBase.Controllers
     {
         public ActionResult Gestionar(Models.Notification _notification, Application.Notification Anotification,
            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-           Application.List_Doc ADetails, Application.Sistema ApSistema)
+           Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -23,6 +23,9 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
 
             if (Usuario != null)
             {
@@ -67,11 +70,13 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET2();
@@ -98,11 +103,13 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Sistema ApSistema)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
@@ -144,11 +151,18 @@ namespace ProyectoBase.Controllers
         public ActionResult NuevoDocumento(Application.Cat_Tipo_Documento cat_Tipo_Documento,
             Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
             Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-             Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+             Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
+
+
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
             if (Usuario != null)
             {
                 Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
@@ -206,11 +220,13 @@ namespace ProyectoBase.Controllers
         public ActionResult VisualizarDocumento(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
             Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
             Application.ProvedorListado provedoresListado, Models.Notification _notification, Application.Notification Anotification
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
@@ -245,12 +261,14 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
-            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
 
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
@@ -276,7 +294,7 @@ namespace ProyectoBase.Controllers
 
         public ActionResult VistaDetalle(Models.Notification _notification, Application.Notification Anotification,
             Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails, Application.Sistema ApSistema)
+            Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -286,7 +304,8 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
@@ -333,7 +352,7 @@ namespace ProyectoBase.Controllers
 
         public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
             Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails, Application.Sistema ApSistema)
+            Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -343,7 +362,8 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
@@ -395,6 +415,17 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
+
+
+
+
+
+
+
+
+
+
+
         public string ListadoPerfil()
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];

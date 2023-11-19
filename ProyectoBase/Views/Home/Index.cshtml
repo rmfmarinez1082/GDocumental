@@ -13,7 +13,6 @@
                 <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                     <div class="card card-plain mt-8">
                         <div class="card-header pb-0 text-left bg-transparent">
-                            @*<h1>Centro de Información Corporativa de ASAE (CICA)</h1>*@
                             <h1>@ViewBag.Sistema.NombreSistema @ViewBag.Sistema.Acronimo</h1>
                             <br />
                             <h3 class="font-weight-bolder text-info text-gradient"><strong>Bienvenido</strong></h3>
@@ -169,7 +168,7 @@
                                     break;
                                 case 1:
                                     swal({
-                                        title: "Bienvenido. !",
+                                        title: "Operador Asae",
                                         text: response.Nombre + " " + response.Apellidos,
                                         icon: "success",
                                         button: "Aceptar",
@@ -180,7 +179,7 @@
                                     break;
                                 case 2:
                                     swal({
-                                        title: "Invitado. !",
+                                        title: "Invitado",
                                         text: response.Nombre + " " + response.Apellidos,
                                         icon: "success",
                                         button: "Aceptar",
@@ -191,7 +190,7 @@
                                     break;
                                 case 3:
                                     swal({
-                                        title: "Administrador",
+                                        title: "Administrador Asae",
                                         text: response.Nombre + " " + response.Apellidos,
                                         icon: "success",
                                         button: "Aceptar",

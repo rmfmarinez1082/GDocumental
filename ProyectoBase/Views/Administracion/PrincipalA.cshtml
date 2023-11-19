@@ -238,7 +238,7 @@
 
             <div class="row">
                 <!-- Docs Proximos a vencer -->
-                <div class="col-xl-6 col-md-12" id="ProxVencer" style="display: block;">
+                <div class="col-xl-7 col-md-12" id="ProxVencer" style="display: block;">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Documentos Proximos a vencer</h5>
@@ -250,8 +250,8 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
-                                            <th class="text-center">Fecha de vencimiento</th>
                                             <th class="text-center">Días Restantes</th>
+                                            <th class="text-center">Fecha de vencimiento</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -260,8 +260,8 @@
 
                                             <tr>
                                                 <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center">@item.FechaVencimiento</td>
                                                 <td class="text-center">@item.DiasRestantes</td>
+                                                <td class="text-center">@item.FechaVencimiento</td>
                                             </tr>
 
                                         }
@@ -273,7 +273,7 @@
                 </div>
 
                 <!-- GRAFICO -->
-                <div class="col-xl-6 col-md-12">
+                <div class="col-xl-5 col-md-12">
                     <div class="card">
                         <div class="card-block">
                             <div class="row">
@@ -467,21 +467,6 @@
 <script>
 
     $(document).ready(function () {
-        // Obtener la lista de elementos del ViewBag
-        var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
-
-        // Recorrer la lista y aplicar el ocultamiento
-        elementosOcultos.forEach(function (elemento) {
-            var elementId = elemento.IdElemento;
-            var isVisible = elemento.Activo === 0;
-
-            if (!isVisible) {
-                $('#' + elementId).hide(); 
-            }
-        });
-
-
-
         var counter = parseInt($('#counter').text());
 
         if (counter > 0) {
