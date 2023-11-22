@@ -4,6 +4,7 @@ using ProyectoBase.Application;
 using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -643,13 +644,16 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
 
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
 
-                }
+                    
+
+            }
                 resulCarpetas += "</ul>";
             }
 
@@ -667,9 +671,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre; resulCarpetas += getChildren(dt);
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
 
@@ -691,9 +695,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text\"}'";
                     resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
-
                     resulDoc += "</li>";
 
                 }
