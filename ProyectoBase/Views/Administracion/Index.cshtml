@@ -3,6 +3,44 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+<style>
+    /* Personalizar el estilo del menú contextual */
+    .vakata-context,
+    .vakata-context ul {
+        background-color: #fff; /* Fondo blanco */
+        border: 1px solid #ccc; /* Borde gris */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    }
+
+        .vakata-context a {
+            padding: 8px 12px;
+            color: #333; /* Color de texto oscuro */
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+            .vakata-context a:hover {
+                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+            }
+
+        /* Estilo específico para los íconos en el menú contextual */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+            margin-right: 8px;
+        }
+
+        /* Estilo específico para la línea divisoria entre elementos del menú */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 6px 0;
+        }
+    .fa-folder:before {
+        color: #f3bb22;
+        font-size: 16px;
+    }
+</style>
 
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
@@ -136,6 +174,7 @@
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
 
+
 <script>
     $(document).ready(function () {
         $('#Detalle').DataTable({
@@ -184,14 +223,23 @@
             $('#jstree').jstree({
 
                 'core': {
-                    'check_callback': true
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'check_callback': true,
                 },
 
                 'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
 
                  "contextmenu": {
-                    items: {
-                        "ccp": false,
+                     items: function (node) {
+                         // Determinar si el nodo es una carpeta o un documento
+                         var isDocument = node.icon === 'fa fa-file-text';
+
+                         // Menú contextual para carpetas
+                         var folderMenu = {
+                                                     "ccp": false,
                         "create": {
                             "label": "Crear carpeta",
                             "action":
@@ -343,7 +391,111 @@
                                  });
                              }
                          }
-                    }
+                         };
+
+                         // Menú contextual para documentos
+                         var documentMenu = {
+                             //"renombrarDocumento": {
+                             //    "label": "Renombrar Documento",
+                             //    "action": function () {
+                             //        // Lógica para renombrar documento
+                             //    }
+                             //},
+                             "eliminarDocumento": {
+                                 "label": "Eliminar Documento",
+                                 "action": function node_delete() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    var obj = { "Id": sel[0] };
+                                    var jsonObject = {
+                                        "documento": obj
+                                    };
+                                     swal({
+                                         title: "Eliminación de Archivos",
+                                         text: "¿Está seguro de querer eliminar este archivo?",
+                                         icon: "error",
+                                         buttons: {
+                                             Si: {
+                                                 text: "Sí, eliminar",
+                                                 value: "si"
+
+                                             },
+                                             cancel: "Cancelar"
+                                         },
+                                         dangerMode: true,
+                                     })
+                                         .then((willDelete) => {
+
+                                             switch (willDelete) {
+
+                                                 case "si":
+                                                  $.ajax({
+                                                        url: "@Url.Action("QuitarArchivo", "Documentos")",
+                                                        data: JSON.stringify(jsonObject),
+                                                        type: "POST",
+                                                        contentType: "application/json",
+                                                        dataType: "json",
+                                                        success: function (data) {
+
+                                                                swal({
+                                                                    title: "Documento Eliminado !",
+                                                                    text: " ",
+                                                                    icon: "success",
+                                                                    button: "Aceptar",
+                                                                }).then((value) => {
+                                                                    sel = sel[0];
+
+                                                                    ref.delete_node(sel);
+                                                                    $.notify("Documento eliminado!", "success");
+                                                                });
+                                                        },
+                                                        error: function (resultado) {
+                                                            console.log(resultado);
+                                                            alert("Error funcion ");
+                                                        }
+                                                    });
+                                                                                             break;
+                                             }
+                                         });
+                                    @*$.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+
+                                            if (data.Id == 1) {
+                                                sel = sel[0];
+
+                                                ref.delete_node(sel);
+                                                $.notify("Carpeta eliminada!", "success");
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+                                            }
+
+                                        }
+
+                                    });*@
+
+
+
+                                 }
+                             }
+                         };
+
+                         // Devolver el menú adecuado según el tipo de nodo
+                         return isDocument ? documentMenu : folderMenu;
+                     }
                  },
 
             });
@@ -505,5 +657,31 @@
         });
     });
 
+    @*function SeguroEliminarArchivo(documento) {
+         $.ajax({
+            url: "@Url.Action("QuitarArchivo", "Documentos")",
+            data: JSON.stringify(documento),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
 
+                    swal({
+                        title: "Documento Eliminado !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    }).then((value) => {
+                        sel = sel[0];
+
+                        ref.delete_node(sel);
+                        $.notify("Carpeta eliminada!", "success");
+                    });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    //}*@
 </script>

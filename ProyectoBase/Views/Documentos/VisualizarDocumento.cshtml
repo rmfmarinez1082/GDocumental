@@ -519,7 +519,6 @@
                                                             ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
-
                                                             ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -534,7 +533,7 @@
                                                             }
 
                                                             //FUNCION DE BUSCAR Directorio SOLO ADMIN(RUTA)
-                                                            if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            if (ViewBag.PermisoRutaPresente != null)
                                                             {
                                                                 <td class="text-center" onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                             }
@@ -667,7 +666,7 @@
                                                             {
                                                                 if (item.IdMedioAlmacenamiento == 0)
                                                                 {
-                                                                    <td class="tdPrestamoMisDocumentos text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20" style="color: #80151a"></i></a></td>
+                                                                    <td class="tdPrestamoMisdocumentos text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20" style="color: #80151a"></i></a></td>
 
                                                                 }
                                                                 else
@@ -682,7 +681,7 @@
 
                                                                     if (Num.Ids >= 16)
                                                                     {
-                                                                        <td class="tdPrestamoMisDocumentos text-center">
+                                                                        <td class="tdPrestamoMisdocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #2ECC71">
@@ -692,7 +691,7 @@
                                                                     }
                                                                     else if (Num.Ids <= 15 && Num.Ids >= 1)
                                                                     {
-                                                                        <td class="tdPrestamoMisDocumentos text-center">
+                                                                        <td class="tdPrestamoMisdocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #F1C40F">
@@ -702,7 +701,7 @@
                                                                     }
                                                                     else if (Num.Ids <= 0)
                                                                     {
-                                                                        <td class="tdPrestamoMisDocumentos text-center">
+                                                                        <td class="tdPrestamoMisdocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #E74C3C">
@@ -717,7 +716,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <td class="tdPrestamoMisDocumentos text-center"><a>No aplica</a></td>
+                                                                <td class="tdPrestamoMisdocumentos text-center"><a>No aplica</a></td>
                                                             }
 
                                                         }
@@ -1087,6 +1086,8 @@
 
 
     $(document).ready(function () {
+
+        Console.log(PermisosRuta);
 
         $('#Notificacion').DataTable({
             pageLength: 10,
