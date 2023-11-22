@@ -587,67 +587,101 @@
                                                             //Detalles
                                                             <td class="tdDetallesMisDocumentos text-center"><a onclick="gestionar(@item.Id);"><i class="fa fa-info f-20" style="color: #9C27B0 "></i></a></td>
 
-                                                            //EDITAR  LOGICA
-                                                            if (Resultado.Id == 2)
-                                                            {
-                                                                <td class="tdEditarMisDocumentos text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20"></i></a></td>
-                                                                <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Función no disponible</td>
 
+
+
+
+
+
+
+
+
+
+
+
+                                                            //Actualizar  con eliminar
+                                                            if (Resultado.Id == 2)
+
+                                                            {
+                                                                //Cuando se esta editando por ti
+                                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20"></i></a></td>
+                                                                <td class="text-center"><a><i></i></a>Función no disponible</td>
                                                             }
                                                             else
                                                             {
                                                                 if (Resultado.Id == 1)
 
                                                                 {
-                                                                    <td class="tdEditarMisDocumentos text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
-                                                                    <td class="tdEditarMisDocumentos text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                    //Status Normal
+                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
+                                                                    <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
-                                                                    <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Función no disponible</td>
+                                                                    //Cundo se esta editando por otra persona
+                                                                    <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
+                                                                    <td class="text-center"><a><i></i></a>Función no disponible</td>
                                                                 }
                                                             }
-                                                            //DescargarEditable
+
+
+
+                                                             //Procesos de edicion ARCHIVOS DE TRABAJO
                                                             if (item.IdClasificacionArchivo == 8)
                                                             {
                                                                 if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 2)
                                                                 {
-                                                                    <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
-
-                                                                    @*<td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:blue"></i></a></td>*@
-                                                                }
+                                                                    <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="tdEditarMisDocumentos text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>                                                                }
                                                                 else
                                                                 {
                                                                     if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 1)
 
                                                                     {
-                                                                        <td onclick="Bloquear(@item.Id);" class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+                                                                        <td onclick="Bloquear(@item.Id);" class="tdEditarMisDocumentos text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
 
                                                                     }
                                                                     else
                                                                     {
-                                                                        <td class="text-center"><a><i></i></a>No disponible</td>
+                                                                        <td class="tdEditarMisDocumentos text-center"><a><i></i></a>No disponible</td>
                                                                     }
                                                                 }
                                                             }
                                                             else if (!(item.NmArchivo == "" || item.NmArchivo == null))
                                                             {
-                                                                <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
+                                                                <td class="tdEditarMisDocumentos text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
 
                                                             }
                                                             else
                                                             {
-                                                                <td>Sin editable</td>
+                                                                <td class="tdEditarMisDocumentos text-center">Sin editable</td>
                                                             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                                             /////VAMOS A DESCARGAR PDF
                                                             <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmOriginal&nom=@item.Nombre"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
-
-                                                            //EXPERIMENTAL
-
-
                                                             //CONTROL ALMACEN FÍSICO
                                                             if (item.IdTipoArchivo == 1)
                                                             {
@@ -659,14 +693,12 @@
                                                                 <td class="tdAlmacenFisicoMisDocumentos text-center"><a>No aplica</a></td>
 
                                                             }
-
-
                                                             //CONTROL PRESTAMO
                                                             if (item.IdTipoArchivo == 1)
                                                             {
                                                                 if (item.IdMedioAlmacenamiento == 0)
                                                                 {
-                                                                    <td class="tdPrestamoMisdocumentos text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20" style="color: #80151a"></i></a></td>
+                                                                    <td class="tdPrestamoMisDocumentos text-center"><a onclick="Prestar(@item.Id);"><i class="fa fa-exchange f-20" style="color: #80151a"></i></a></td>
 
                                                                 }
                                                                 else
@@ -681,7 +713,7 @@
 
                                                                     if (Num.Ids >= 16)
                                                                     {
-                                                                        <td class="tdPrestamoMisdocumentos text-center">
+                                                                        <td class="tdPrestamoMisDocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #2ECC71">
@@ -691,7 +723,7 @@
                                                                     }
                                                                     else if (Num.Ids <= 15 && Num.Ids >= 1)
                                                                     {
-                                                                        <td class="tdPrestamoMisdocumentos text-center">
+                                                                        <td class="tdPrestamoMisDocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #F1C40F">
@@ -701,7 +733,7 @@
                                                                     }
                                                                     else if (Num.Ids <= 0)
                                                                     {
-                                                                        <td class="tdPrestamoMisdocumentos text-center">
+                                                                        <td class="tdPrestamoMisDocumentos text-center">
                                                                             <a title="Marcar documento devuelto" onclick="devuelto(@item.Id);">
                                                                                 <i class="fa fa-flag f-20"
                                                                                    style="color: #E74C3C">
@@ -716,7 +748,7 @@
                                                             }
                                                             else
                                                             {
-                                                                <td class="tdPrestamoMisdocumentos text-center"><a>No aplica</a></td>
+                                                                <td class="tdPrestamoMisDocumentos text-center"><a>No aplica</a></td>
                                                             }
 
                                                         }
@@ -1054,9 +1086,27 @@
 <link href="~/Vendor/select2/dist/css/select2.css" rel="stylesheet" />
 <script src="~/Vendor/select2/dist/js/select2.js"></script>
 
+    <script>
+        $(document).ready(function () {
+        // Obtener la lista de elementos del ViewBag
+            var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
+
+            // Recorrer la lista y aplicar el ocultamiento
+            elementosOcultos.forEach(function (elemento) {
+                var elementId = elemento.IdElemento;
+                var isVisible = elemento.Activo === 0;
+
+                if (!isVisible) {
+                    $('.' + elementId).hide();
+                }
+            });
+
+        });
+    </script>
 <script type="text/javascript">
     let IdTemporal;
     let IdVersion;
+
     function gestionar(Id) {
 
         var obj = {};
@@ -1087,7 +1137,7 @@
 
     $(document).ready(function () {
 
-        Console.log(PermisosRuta);
+
 
         $('#Notificacion').DataTable({
             pageLength: 10,
