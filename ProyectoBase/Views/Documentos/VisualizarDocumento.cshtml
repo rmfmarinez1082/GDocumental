@@ -486,14 +486,14 @@
                                                     <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
                                                     <th style="display:none;" class="text-center">palabrasclave</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Compartir</th>
-                                                    <th scope="col" class="text-center col-1" style="color:white">Detalles</th>
+                                                    <th id="thDetallesMisDocumentos" scope="col" class="text-center col-1" style="color:white">Detalles</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Eliminar</th>
-                                                    <th scope="col" class="text-center col-1" style="color:white">Editar</th>
+                                                    <th id="thEditarMisDocumentos" scope="col" class="text-center col-1" style="color:white">Editar</th>
                                                     <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
                                                     @*EXPERIMENTAL*@
-                                                    <th class="text-center" style="color:white">Almacen físico</th>
-                                                    <th class="text-center" style="color:white">Prestamo</th>
+                                                    <th id="thAlmacenFisicoMisDocumentos" class="text-center" style="color:white">Almacen físico</th>
+                                                    <th id="thPrestamoMisDocumentos" class="text-center" style="color:white">Prestamo</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="table-group-divider">
@@ -585,13 +585,13 @@
 
                                                             }
                                                             //Detalles
-                                                            <td class="text-center"><a onclick="gestionar(@item.Id);"><i class="fa fa-info f-20" style="color: #9C27B0 "></i></a></td>
+                                                            <td class="tdDetallesMisDocumentos text-center"><a onclick="gestionar(@item.Id);"><i class="fa fa-info f-20" style="color: #9C27B0 "></i></a></td>
 
                                                             //EDITAR  LOGICA
                                                             if (Resultado.Id == 2)
                                                             {
-                                                                <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20"></i></a></td>
-                                                                <td class="text-center"><a><i></i></a>Función no disponible</td>
+                                                                <td class="tdEditarMisDocumentos text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20"></i></a></td>
+                                                                <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Función no disponible</td>
 
                                                             }
                                                             else
@@ -599,13 +599,13 @@
                                                                 if (Resultado.Id == 1)
 
                                                                 {
-                                                                    <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
-                                                                    <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                    <td class="tdEditarMisDocumentos text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
+                                                                    <td class="tdEditarMisDocumentos text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <td class="text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
-                                                                    <td class="text-center"><a><i></i></a>Función no disponible</td>
+                                                                    <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Editando por: @Nombre.Nombre</td>
+                                                                    <td class="tdEditarMisDocumentos text-center"><a><i></i></a>Función no disponible</td>
                                                                 }
                                                             }
                                                             //DescargarEditable
@@ -651,12 +651,12 @@
                                                             //CONTROL ALMACEN FÍSICO
                                                             if (item.IdTipoArchivo == 1)
                                                             {
-                                                                <td class="text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20" style="color: #b1967a"></i></a></td>
+                                                                <td class="tdAlmacenFisicoMisDocumentos text-center"><a onclick="Ruta(@item.Id);"><i class="fa fa-map-signs f-20" style="color: #b1967a"></i></a></td>
 
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center"><a>No aplica</a></td>
+                                                                <td class="tdAlmacenFisicoMisDocumentos text-center"><a>No aplica</a></td>
 
                                                             }
 
