@@ -501,8 +501,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
 
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -524,7 +525,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -632,8 +635,10 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
                     //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
@@ -657,7 +662,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'"; 
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -682,7 +689,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text\"}'";
+                    //string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
                     resulDoc += "<li id='" + dt.Id + "'  " + variable + "onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
                     resulDoc += "</li>";
 

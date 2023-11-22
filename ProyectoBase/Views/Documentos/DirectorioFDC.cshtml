@@ -2,7 +2,46 @@
 @{
     ViewBag.Title = "DirectorioFDC";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
-}
+}  
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+<style>
+    /* Personalizar el estilo del menú contextual */
+    .vakata-context,
+    .vakata-context ul {
+        background-color: #fff; /* Fondo blanco */
+        border: 1px solid #ccc; /* Borde gris */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    }
+
+        .vakata-context a {
+            padding: 8px 12px;
+            color: #333; /* Color de texto oscuro */
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+            .vakata-context a:hover {
+                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+            }
+
+        /* Estilo específico para los íconos en el menú contextual */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+            margin-right: 8px;
+        }
+
+        /* Estilo específico para la línea divisoria entre elementos del menú */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 6px 0;
+        }
+
+    .fa-folder:before {
+        color: #f3bb22;
+        font-size: 16px;
+    }
+</style> 
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
     <div class="page-header">
@@ -105,6 +144,10 @@
             $('#jstree').jstree({
 
                 'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
                     'check_callback': true
                 },
 
