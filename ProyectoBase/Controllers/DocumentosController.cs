@@ -227,6 +227,14 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
             ViewBag.ElementoOculto = PermisosRolElementos;
+
+            // Verificar si la propiedad persisoRuta está presente
+            if (PermisosRolElementos.Any(item => item.IdElemento == "RutaArbol"))
+            {
+                // Si "RutaArbol" está presente, configurar un nuevo ViewBag con el valor 1
+                ViewBag.PermisoRutaPresente = 1;
+            }
+
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;

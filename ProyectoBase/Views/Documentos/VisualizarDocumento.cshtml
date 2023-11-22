@@ -519,7 +519,6 @@
                                                             ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
                                                             NRuta.IdDocumento = item.Id;
                                                             var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
-
                                                             ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -534,7 +533,7 @@
                                                             }
 
                                                             //FUNCION DE BUSCAR Directorio SOLO ADMIN(RUTA)
-                                                            if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            if (ViewBag.PermisoRutaPresente != null)
                                                             {
                                                                 <td class="text-center" onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open-o" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
                                                             }
@@ -1087,6 +1086,8 @@
 
 
     $(document).ready(function () {
+
+        Console.log(PermisosRuta);
 
         $('#Notificacion').DataTable({
             pageLength: 10,
