@@ -406,7 +406,7 @@
             </div>
         </div>
     </div>
-
+</div>
 
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -452,14 +452,14 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="largeInput">* Versión: </label>
-                                                <input id="Version" type="number" class="form-control form-control" value="@ViewBag.version" disabled>
+                                                <input id="Version" type="number" class="form-control form-control" value="@ViewBag.version">
                                             </div>
                                         </div>
 
                                         <div class="col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label for="largeInput">* Tipo Documento </label>
-                                                <select class="form-control" id="TipoDocumento" onchange="ValidaSelect('TipoDocumento')" disabled>
+                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
                                                     <option value="0">Seleccionar</option>
                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                     {
@@ -682,7 +682,6 @@
 
                                         <div class="col-md-12 text-left">
                                             <div style="width: 100%; height: 100vh">
-                                                @*<iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
                                                 <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                                             </div>
                                         </div>
@@ -1803,7 +1802,6 @@
 
             return result;
         }
-
         function habilitar() {
 
             var obj = {};
@@ -2059,12 +2057,173 @@
 
         $('#menuDocumentos').addClass("active pcoded-trigger");
         $('#visaulizarDocumento').addClass("active");
-        const versionamiento = document.getElementById("Version");
-        versionamiento.onchange = function () {
-            $("#versionamiento").show();
-            $("#btnEdit").show();
-            $("#colbtn").hide();
+
+
+
+
+
+
+        //const versionamiento = document.getElementById("Version");
+        //versionamiento.onchange = function () {
+        //    $("#versionamiento").show();
+        //    $("#btnEdit").show();
+        //    $("#colbtn").hide();
+        //}
+
+        //Control para solicitar documento
+         function ValidaTDoc(Id) {
+
+             var obj = {};
+
+             obj['Id'] = Id;
+
+             var jsonObject = {
+                 "TDoc": obj
+             };
+
+             $.ajax({
+                 type: "POST",
+                 url: "@Url.Action("RequiereEditable", "Documentos")",
+                 async: false,
+                 data: JSON.stringify(jsonObject),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                     if (data.Id === 1) {
+                         $("#Word").css("display", "block");
+                         $("#Rpdf").addClass("col-md-6");
+                         $("#Rpdf").removeClass("col-md-12");
+
+                         //Mostrar mensaje
+                         $("#mensaje").css("display", "block");
+
+                     } else {
+                         $("#Word").css("display", "none");
+                         $("#Rpdf").addClass("col-md-12");
+
+                         $("#mensaje").css("display", "none");
+                     }
+
+                 }
+
+             });
+         }
+         //INICIO Consultar fechas requeribles
+            function Fechas(Id) {
+
+                $("#FechaRevision").val("");
+                $("#Fechadeentradaenvigor").val("");
+                $("#FechaPublicacion").val("");
+                $("#FechaProximaRevision").val("");
+                $("#FechaVencimiento").val("");
+
+                var obj = {};
+                obj['Id'] = Id;
+                var jsonObject = { "documento": obj };
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("FechaInterfaz", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data[0].FRevision == 1) {
+                            $("#FechaRevisionC").css("display", "block");
+                            $("#FRevision").css("display", "block");
+
+                        } else {
+                            $("#FechaRevisionC").css("display", "none");
+                            $("#FRevision").css("display", "none");
+                        }
+                        if (data[0].FEntradaVigor == 1) {
+                            $("#FechadeentradaenvigorC").css("display", "block");
+                            $("#FEntradaVigor").css("display", "block");
+                        } else {
+                            $("#FechadeentradaenvigorC").css("display", "none");
+                            $("#FEntradaVigor").css("display", "none");
+
+                        }
+                        if (data[0].FPublicacion == 1) {
+                            $("#FechaPublicacionC").css("display", "block");
+                            $("#FPublicacion").css("display", "block");
+                        } else {
+                            $("#FechaPublicacionC").css("display", "none");
+                            $("#FPublicacion").css("display", "none");
+
+
+                        }
+                        if (data[0].FProximaRevision == 1) {
+                            $("#FechaProximaRevisionC").css("display", "block");
+                            $("#FProximaRevision").css("display", "block");
+
+                        } else {
+                            $("#FechaProximaRevisionC").css("display", "none");
+                            $("#FProximaRevision").css("display", "none");
+
+                        }
+                        if (data[0].FVencimiento == 1) {
+                            $("#FechaVencimientoC").css("display", "block");
+                            $("#FVencimiento").css("display", "block");
+
+                        } else {
+                            $("#FechaVencimientoC").css("display", "none");
+                            $("#FVencimiento").css("display", "none");
+
+                        }
+                    }
+                });
+            }
+        //FIN Consultar fechas requeribles
+
+        // INICIO VALIDAR FECHAS REQUERIDAS
+        function ValidaControl() {
+            var result = true;
+
+            var obj = {};
+            obj['Id'] = $("#TipoDocumento option:selected").val();
+            var jsonObject = { "documento": obj };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FechaInterfaz", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    // Reset the border color for all fields
+                    $('#FechaRevision, #Fechadeentradaenvigor, #FechaPublicacion, #FechaVencimiento, #FechaProximaRevision')
+                        .css("border", "1px solid #cccccc");
+
+                    if (data[0].FRevision === 1 && $('#FechaRevision').val().length === 0) {
+                        $('#FechaRevision').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FEntradaVigor === 1 && $('#Fechadeentradaenvigor').val().length === 0) {
+                        $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FPublicacion === 1 && $('#FechaPublicacion').val().length === 0) {
+                        $('#FechaPublicacion').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FProximaRevision === 1 && $('#FechaProximaRevision').val().length === 0) {
+                        $('#FechaProximaRevision').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                    if (data[0].FVencimiento === 1 && $('#FechaVencimiento').val().length === 0) {
+                        $('#FechaVencimiento').css("border", "1px solid #ff0049");
+                        result = false;
+                    }
+                }
+            });
+
+            return result;
         }
+        // FIN VALIDAR FECHAS REQUERIDAS
+
     </script>
 
 
