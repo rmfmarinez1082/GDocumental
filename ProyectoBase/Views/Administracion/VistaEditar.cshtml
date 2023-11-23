@@ -428,6 +428,10 @@
                                         </ul>
                                     </div>
                                     <span>Para subir una actualizacion del documento sera necesario cambiar la versión del documento.</span>
+                                    <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
+                                        El tipo de documento seleccionado requiere de un archivo editable.
+                                    </div>
+
                                 </div>
                                 <br />
                                 <div class="row">
@@ -524,7 +528,7 @@
                                         <div class="col-4" id="FEntradaVigor">
                                             <div class="form-group">
                                                 <label for="largeInput">* Fecha vigor: </label>
-                                                <input id="FechaEntradaVigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
+                                                <input id="Fechadeentradaenvigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
                                             </div>
                                         </div>
                                         <div class="col-4" id="FProximaRevision">
@@ -2094,9 +2098,10 @@
                          $("#Rpdf").addClass("col-md-6");
                          $("#Rpdf").removeClass("col-md-12");
 
-                         //Mostrar mensaje
+                         ////Mostrar mensaje
                          $("#mensaje").css("display", "block");
-
+                         
+                         $("#versionamiento").css("display", "block");
                      } else {
                          $("#Word").css("display", "none");
                          $("#Rpdf").addClass("col-md-12");
