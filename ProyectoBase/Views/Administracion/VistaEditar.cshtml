@@ -709,9 +709,9 @@
                                 <div class="row">
 
                                     <div class="col-md-6" id="colbtn">
-                                        <button id="BtnGuardar" class="btn waves-effect waves-light btn-success col-12" onclick="Guardar(@ViewBag.Id)">Guardar Datos</button>
-                                        <button id="BtnGuardarEdit" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">GUardar WORD,PDF y datos</button>
-                                        <button id="BtnGuardarPdf" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()" id="BtnGuardarEdit">Guardar PDF Y DATOS</button>
+                                        <button id="BtnGuardar" class="btn waves-effect waves-light btn-success col-12" onclick="Guardar(@ViewBag.Id)"><i class="fa fa-floppy-o"></i> Guardar Información</button>
+                                        <button id="BtnGuardarEdit" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" ><i class="fa fa-file-archive-o"></i> Guardar Datos</button>
+                                        <button id="BtnGuardarPdf" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()"><i class="fa fa-file"></i> Guardar Datos</button>
                                     </div>
 
 
@@ -760,7 +760,7 @@
                             <div class="card-header">
                                 <h5>Archivos</h5>
                                 <br />
-                                <a>Para Subir un archivo, por favor, asegúrate de activar el interruptor (switch) correspondiente haciendo clic en él</a>
+                                <a>Para Subir un archivo, por favor, asegúrate de activar el interruptor (switch) correspondiente haciendo clic en él.</a>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -770,7 +770,7 @@
                                             <input type="checkbox" id="miSwitch">
                                             <span class="slider"></span>
                                         </label>
-                                        <div class="row justify-content-center">
+                                        <div id="SubirarchivoTarjetas" class="row justify-content-center" style="display:none">
                                             @*APARIENCIA DE SUBIDA DOCUMENTO*@
                                             <div>
                                                 <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
@@ -798,8 +798,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
 
                                         </div>
                                         @*BARRA DE PROGRESO Y EL input de documento*@
@@ -838,11 +836,38 @@
     $(document).ready(function () {
         $('#miSwitch').change(function () {
             if ($(this).is(':checked')) {
-                alert('Switch activado');
-                // Aquí puedes realizar acciones cuando el switch está activado
+                //Mostrar recuadros de subida de archivo
+                    var obj = {};
+                obj['Id'] = $("#TipoDocumento").val();;
+                    var jsonObject = {
+                        "TDoc": obj
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("RequiereEditable", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.Id === 1) {
+                                $("#BtnGuardarEdit").css("display", "block");
+                                $("#BtnGuardar").css("display", "none");
+                                $("#BtnGuardarPdf").css("display", "none");
+                            } else {
+                                $("#BtnGuardarEdit").css("display", "none");
+                                $("#BtnGuardar").css("display", "none");
+                                $("#BtnGuardarPdf").css("display", "block");
+                            }
+
+                        }
+
+                    });
+                $("#SubirarchivoTarjetas").css("display", "flex");
             } else {
-                alert('Switch desactivado');
-                // Aquí puedes realizar acciones cuando el switch está desactivado
+                //Ocultar recuadros de subida de archivo
+                $("#SubirarchivoTarjetas").css("display", "none");
             }
         });
     });
@@ -929,9 +954,6 @@
 
           });
         $(document).ready(function () {
-
-
-
             $.datepicker.regional['es'] = {
                 closeText: 'Cerrar',
                 prevText: '< Ant',
@@ -2147,22 +2169,28 @@
                  dataType: "json",
                  success: function (data) {
                      if (data.Id === 1) {
+                         let check = $("#miSwitch");
+                         check.prop("checked", true);
                          $("#Word").css("display", "block");
                          $("#Rpdf").addClass("col-md-6");
                          $("#Rpdf").removeClass("col-md-12");
                          ////Mostrar mensaje
                          $("#mensaje").css("display", "block");
-
-
+                         $("#SubirarchivoTarjetas").css("display", "flex");
+                         
                          $("#BtnGuardarEdit").css("display", "block");
                          $("#BtnGuardar").css("display", "none");
                          $("#BtnGuardarPdf").css("display", "none");
 
                      } else {
+                         //Lo agregamos ya que al cambiar a un archivo que requiera pdf tiene que solicitarlo
+                         let check = $("#miSwitch");
+                         check.prop("checked", true);
+                         $("#SubirarchivoTarjetas").css("display", "flex");
+
                          $("#Word").css("display", "none");
                          $("#Rpdf").addClass("col-md-12");
                          $("#mensaje").css("display", "none");
-
                          $("#BtnGuardarEdit").css("display", "none");
                          $("#BtnGuardar").css("display", "none");
                          $("#BtnGuardarPdf").css("display", "block");
