@@ -386,6 +386,62 @@
         border-color: #ffe100;
         color: #ffe100;
     }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-border-radius: 34px;
+        border-radius: 34px;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
 </style>
 
 <div class="@*pcoded-content*@">
@@ -651,7 +707,7 @@
                             @*BOTONES PARA GUARDAR INFORMACION aparecer dependiendo la situacion*@
                             <div class="card-block">
                                 <div class="row">
-                                    
+
                                     <div class="col-md-6" id="colbtn">
                                         <button id="BtnGuardar" class="btn waves-effect waves-light btn-success col-12" onclick="Guardar(@ViewBag.Id)">Guardar Datos</button>
                                         <button id="BtnGuardarEdit" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">GUardar WORD,PDF y datos</button>
@@ -702,12 +758,18 @@
 
                         <div class="card table-card">
                             <div class="card-header">
-                                <h5>Archivos</h5>                                
+                                <h5>Archivos</h5>
+                                <br />
+                                <a>Para Subir un archivo, por favor, asegúrate de activar el interruptor (switch) correspondiente haciendo clic en él</a>
                             </div>
                             <div class="card-body">
                                 <div class="row">
 
                                     <div class="col-md-12">
+                                        <label class="switch">
+                                            <input type="checkbox" id="miSwitch">
+                                            <span class="slider"></span>
+                                        </label>
                                         <div class="row justify-content-center">
                                             @*APARIENCIA DE SUBIDA DOCUMENTO*@
                                             <div>
@@ -772,6 +834,19 @@
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
 
+<script>
+    $(document).ready(function () {
+        $('#miSwitch').change(function () {
+            if ($(this).is(':checked')) {
+                alert('Switch activado');
+                // Aquí puedes realizar acciones cuando el switch está activado
+            } else {
+                alert('Switch desactivado');
+                // Aquí puedes realizar acciones cuando el switch está desactivado
+            }
+        });
+    });
+</script>
 
 <script>
         $(document).ready(function () {
@@ -838,30 +913,19 @@
                          $("#Word").css("display", "block");
                          $("#Rpdf").addClass("col-md-6");
                          $("#Rpdf").removeClass("col-md-12");
-                         ////Mostrar mensaje
-                         $("#mensaje").css("display", "block");
-                         $("#versionamiento").css("display", "block");
 
-
-                         $("#BtnGuardarEdit").css("display", "block");
-                         $("#BtnGuardar").css("display", "none");
-                         $("#BtnGuardarPdf").css("display", "none");
 
                      } else {
                          $("#Word").css("display", "none");
                          $("#Rpdf").addClass("col-md-12");
-                         $("#mensaje").css("display", "none");
 
-                         $("#BtnGuardarEdit").css("display", "none");
-                         $("#BtnGuardar").css("display", "none");
-                         $("#BtnGuardarPdf").css("display", "block");
                      }
 
                  }
 
              });
 
-            
+
 
           });
         $(document).ready(function () {
@@ -2088,7 +2152,6 @@
                          $("#Rpdf").removeClass("col-md-12");
                          ////Mostrar mensaje
                          $("#mensaje").css("display", "block");
-                         $("#versionamiento").css("display", "block");
 
 
                          $("#BtnGuardarEdit").css("display", "block");
