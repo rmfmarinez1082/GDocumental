@@ -380,6 +380,12 @@
     .table td, .table th {
         padding: 0.25rem 0.75rem;
     }
+
+    .alert-warning {
+        background-color: #ffdf7854;
+        border-color: #ffe100;
+        color: #ffe100;
+    }
 </style>
 
 <div class="@*pcoded-content*@">
@@ -408,373 +414,367 @@
     </div>
 </div>
 
-    <div class="pcoded-inner-content">
-        <div class="main-body">
+<div class="pcoded-inner-content">
+    <div class="main-body">
 
-            <div class="page-wrapper">
-                <div class="page-body">
-                    <div class="row">
-                        <div class="col-md-12 col-xl-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Información del Documento: </h5>
-                                    <div class="card-header-right">
-                                        <ul class="list-unstyled card-option">
-                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                            <li><i class="fa fa-window-maximize full-card"></i></li>
-                                            <li><i class="fa fa-minus minimize-card"></i></li>
-                                            <li><i class="fa fa-refresh reload-card"></i></li>
-                                            <li><i class="fa fa-trash close-card"></i></li>
-                                        </ul>
-                                    </div>
-                                    <span>Para subir una actualizacion del documento sera necesario cambiar la versión del documento.</span>
-                                    <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
-                                        El tipo de documento seleccionado requiere de un archivo editable.
-                                    </div>
-
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h3>Descripción </h3>
-                                    </div>
+        <div class="page-wrapper">
+            <div class="page-body">
+                <div class="row">
+                    <div class="col-md-12 col-xl-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Información del Documento: </h5>
+                                <div class="card-header-right">
+                                    <ul class="list-unstyled card-option">
+                                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                                        <li><i class="fa fa-minus minimize-card"></i></li>
+                                        <li><i class="fa fa-refresh reload-card"></i></li>
+                                        <li><i class="fa fa-trash close-card"></i></li>
+                                    </ul>
                                 </div>
 
-                                <div class="card-block">
-                                    <div class="row">
-
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Nombre (titulo): </label>
-                                                <input id="NombreDocumento" type="text" onkeyup="countChars(this)" ; class="form-control form-control" value="@ViewBag.nombredoc">
-                                                <p id="charNum"></p>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Versión: </label>
-                                                <input id="Version" type="number" class="form-control form-control" value="@ViewBag.version">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Tipo Documento </label>
-                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
-                                                    <option value="0">Seleccionar</option>
-                                                    @foreach (var item1 in ViewBag.dtTipoDocumentos)
-                                                    {
-                                                        if (ViewBag.dtTipoDocumento == item1.Id)
-                                                        {
-                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item1.Id">@item1.Nombre</option>
-                                                        }
-
-
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Palabra Clave </label>
-                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" value="@ViewBag.PalabraClave">
-                                            </div>
-                                        </div>
-
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Descripcion: </label>
-                                                <textarea id="Descripcion" class="form-control">@ViewBag.Descripcion</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h3>Control</h3>
-                                    </div>
-                                </div>
-
-
-                                <div class="card-block">
-                                    @*FECHAS*@
-                                    <div class="row">
-                                        <div class="col-4" id="FRevision">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Fecha Revision: </label>
-                                                <input id="FechaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaRevision">
-
-                                            </div>
-                                        </div>
-                                        <div class="col-4" id="FPublicacion">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Fecha Publicacion	: </label>
-                                                <input id="FechaPublicacion" type="text" class="form-control form-control" value="@ViewBag.FechaPublicacion">
-                                            </div>
-                                        </div>
-                                        <div class="col-4" id="FEntradaVigor">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Fecha vigor: </label>
-                                                <input id="Fechadeentradaenvigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
-                                            </div>
-                                        </div>
-                                        <div class="col-4" id="FProximaRevision">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Fecha Proxima Revisión: </label>
-                                                <input id="FechaProximaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4" id="FVencimiento">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Fecha Vencimiento	: </label>
-                                                <input id="FechaVencimiento" type="text" class="form-control form-control" value="@ViewBag.FechaVencimiento">
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h3>Distribución</h3>
-                                    </div>
-                                </div>
-
-                                <div class="card-block">
-                                    <div class="row">
-
-                                        <div class="col-md-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Tipo Archivo </label>
-                                                <select class="form-control" id="Select_TipoArchivo">
-                                                    <option value="0">Seleccionar </option>
-                                                    @foreach (var item1 in ViewBag.dtTipoArchivo)
-                                                    {
-                                                        if (ViewBag.IdTipoArchivo == item1.Id)
-                                                        {
-                                                            <option value="@item1.Id" selected> @item1.Extension </option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item1.Id"> @item1.Extension </option>
-                                                        }
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-6">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Almacenamiento </label>
-                                                <select class="form-control" id="Select_MedioAlmacenamiento">
-                                                    <option value="0">Seleccionar </option>
-                                                    @foreach (var item1 in ViewBag.dtAlmacenamiento)
-                                                    {
-                                                        if (ViewBag.IdMedioAlmacenamiento == item1.Id)
-                                                        {
-                                                            <option value="@item1.Id" selected> @item1.Nombre </option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item1.Id"> @item1.Nombre </option>
-                                                        }
-
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12 text-center">
-                                        <h3>Clasificación de Archivo</h3>
-                                    </div>
-                                </div>
-
-                                <div class="card-block">
-                                    <div class="row">
-
-
-                                        <div class="col-md-4 col-lg-4">
-                                            <div class="form-group">
-                                                <label for="largeInput">*Clasificación </label>
-                                                <select class="form-control" id="Clasificacion">
-                                                    <option value="0">Seleccionar </option>
-                                                    @foreach (var item1 in ViewBag.dtClasificacion)
-                                                    {
-                                                        if (ViewBag.IdClasificacion == item1.Id)
-                                                        {
-                                                            <option value="@item1.Id" selected>@item1.Nombre</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item1.Id">@item1.Nombre</option>
-                                                        }
-
-
-                                                    }
-                                                </select>
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                </div>
-
-                                <div class="card-block">
-                                    <div class="row">
-                                        <div id="btnEdit" class="col-md-6" style="display:none">
-                                            @if (ViewBag.editable != "")
-                                            {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">Actualizar</button>
-                                            }
-                                            else
-                                            {
-                                                <button class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()" id="BtnGuardarEdit">Actualizar</button>
-                                            }
-                                        </div>
-                                        <div class="col-md-6" id="colbtn">
-                                            <button class="btn waves-effect waves-light btn-success col-12" id="BtnGuardar">Guardar</button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
-                                        </div>
-                                    </div>
-                                    </div>
 
                             </div>
-                        </div>
+                            <div class="row">
 
-
-
-
-                        <div class="col-xl-6 col-md-12">
-                            <div class="card table-card">
-                                <div class="card-header">
-                                    <h5>@ViewBag.nombredoc</h5>
-                                    <div class="card-header-right">
-                                        <ul class="list-unstyled card-option">
-                                            <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                            <li><i class="fa fa-window-maximize full-card"></i></li>
-                                            <li><i class="fa fa-minus minimize-card"></i></li>
-                                            <li><i class="fa fa-refresh reload-card"></i></li>
-                                            <li><i class="fa fa-trash close-card"></i></li>
-                                        </ul>
+                                <div class="col-md-12 text-center">
+                                    <div id="mensaje" class="alert alert-warning" role="alert" style="display:none">
+                                        <p style="font-size: 13px; color: black; font-weight: bold;">
+                                            El tipo de documento seleccionado requiere de un archivo editable, para proseguir suba los documentos solicitados.
+                                        </p>
                                     </div>
-                                </div>
-                                <div class="card-block">
-                                    <div class="row">
-
-                                        <div class="col-md-12 text-left">
-                                            <div style="width: 100%; height: 100vh">
-                                                <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    <h3>Descripción </h3>
                                 </div>
                             </div>
 
+                            <div class="card-block">
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Nombre (titulo): </label>
+                                            <input id="NombreDocumento" type="text" onkeyup="countChars(this)" ; class="form-control form-control" value="@ViewBag.nombredoc">
+                                            <p id="charNum"></p>
+                                        </div>
+                                    </div>
 
 
-                            <div class="card table-card" style="display:none" id="versionamiento">
-                                <div class="card-header">
-                                    <h5>Archivos</h5>
 
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Versión: </label>
+                                            <input id="Version" type="number" class="form-control form-control" value="@ViewBag.version">
+                                        </div>
+                                    </div>
 
-                                        <div class="col-md-12">
-                                            <div class="row justify-content-center">
-                                                @*APARIENCIA DE SUBIDA DOCUMENTO*@
-                                                <div>
-                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                        <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                            <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Archivo <br />
-                                                                <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                @if (ViewBag.editable != "")
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Tipo Documento </label>
+                                            <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
+                                                <option value="0">Seleccionar</option>
+                                                @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                 {
-                                                    @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                                    <div>
-                                                        <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
-                                                            <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
-                                                                    <div class="row">
-                                                                        <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                        <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                                        <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                                    </div>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    if (ViewBag.dtTipoDocumento == item1.Id)
+                                                    {
+                                                        <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item1.Id">@item1.Nombre</option>
+                                                    }
+
+
                                                 }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Palabra Clave </label>
+                                            <input type="text" class="form-control form-control input-number" id="PalabraClave" value="@ViewBag.PalabraClave">
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Descripcion: </label>
+                                            <textarea id="Descripcion" class="form-control">@ViewBag.Descripcion</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
 
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3>Control</h3>
+                                </div>
+                            </div>
+
+
+                            <div class="card-block">
+                                @*FECHAS*@
+                                <div class="row">
+                                    <div class="col-4" id="FRevision">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Fecha Revision: </label>
+                                            <input id="FechaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaRevision">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-4" id="FPublicacion">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Fecha Publicacion	: </label>
+                                            <input id="FechaPublicacion" type="text" class="form-control form-control" value="@ViewBag.FechaPublicacion">
+                                        </div>
+                                    </div>
+                                    <div class="col-4" id="FEntradaVigor">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Fecha vigor: </label>
+                                            <input id="Fechadeentradaenvigor" type="text" class="form-control form-control" value="@ViewBag.Fechadeentradaenvigor">
+                                        </div>
+                                    </div>
+                                    <div class="col-4" id="FProximaRevision">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Fecha Proxima Revisión: </label>
+                                            <input id="FechaProximaRevision" type="text" class="form-control form-control" value="@ViewBag.FechaProximaRevision">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4" id="FVencimiento">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Fecha Vencimiento	: </label>
+                                            <input id="FechaVencimiento" type="text" class="form-control form-control" value="@ViewBag.FechaVencimiento">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3>Distribución</h3>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <div class="row">
+
+                                    <div class="col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Tipo Archivo </label>
+                                            <select class="form-control" id="Select_TipoArchivo">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.dtTipoArchivo)
+                                                {
+                                                    if (ViewBag.IdTipoArchivo == item1.Id)
+                                                    {
+                                                        <option value="@item1.Id" selected> @item1.Extension </option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item1.Id"> @item1.Extension </option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="largeInput">* Almacenamiento </label>
+                                            <select class="form-control" id="Select_MedioAlmacenamiento">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.dtAlmacenamiento)
+                                                {
+                                                    if (ViewBag.IdMedioAlmacenamiento == item1.Id)
+                                                    {
+                                                        <option value="@item1.Id" selected> @item1.Nombre </option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item1.Id"> @item1.Nombre </option>
+                                                    }
+
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <h3>Clasificación de Archivo</h3>
+                                </div>
+                            </div>
+
+                            <div class="card-block">
+                                <div class="row">
+
+
+                                    <div class="col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            <label for="largeInput">*Clasificación </label>
+                                            <select class="form-control" id="Clasificacion">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.dtClasificacion)
+                                                {
+                                                    if (ViewBag.IdClasificacion == item1.Id)
+                                                    {
+                                                        <option value="@item1.Id" selected>@item1.Nombre</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item1.Id">@item1.Nombre</option>
+                                                    }
+
+
+                                                }
+                                            </select>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            @*BOTONES PARA GUARDAR INFORMACION aparecer dependiendo la situacion*@
+                            <div class="card-block">
+                                <div class="row">
+                                    
+                                    <div class="col-md-6" id="colbtn">
+                                        <button id="BtnGuardar" class="btn waves-effect waves-light btn-success col-12" onclick="Guardar(@ViewBag.Id)">Guardar Datos</button>
+                                        <button id="BtnGuardarEdit" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitarEdit()" id="BtnGuardarEditable">GUardar WORD,PDF y datos</button>
+                                        <button id="BtnGuardarPdf" style="display:none" class="btn waves-effect waves-light btn-success col-md-12" onclick="habilitar()" id="BtnGuardarEdit">Guardar PDF Y DATOS</button>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <a href="/Documentos/VisualizarDocumento" class="btn waves-effect waves-light btn-danger col-12">Cancelar</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-xl-6 col-md-12">
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <h5>@ViewBag.nombredoc</h5>
+                                <div class="card-header-right">
+                                    <ul class="list-unstyled card-option">
+                                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                                        <li><i class="fa fa-minus minimize-card"></i></li>
+                                        <li><i class="fa fa-refresh reload-card"></i></li>
+                                        <li><i class="fa fa-trash close-card"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-left">
+                                        <div style="width: 100%; height: 100vh">
+                                            <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <h5>Archivos</h5>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div class="row justify-content-center">
+                                            @*APARIENCIA DE SUBIDA DOCUMENTO*@
+                                            <div>
+                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                    <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                        <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Archivo <br />
+                                                            <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            @*BARRA DE PROGRESO Y EL input de documento*@
-                                            <div class="row">
-                                                <input id="fileInput2" type="file" multiple style="visibility:hidden">
-                                                <input id="fileInputword" type="file" multiple style="visibility:hidden">
 
-                                                <div class="col-md-12">
-                                                    <progress id="fileProgress" style="display: none; width:100%"></progress>
+                                            @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                            <div>
+                                                <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                    <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                        <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
+                                                            <div class="row">
+                                                                <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                            </div>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
 
 
 
                                         </div>
+                                        @*BARRA DE PROGRESO Y EL input de documento*@
+                                        <div class="row">
+                                            <input id="fileInput2" type="file" multiple style="visibility:hidden">
+                                            <input id="fileInputword" type="file" multiple style="visibility:hidden">
+
+                                            <div class="col-md-12">
+                                                <progress id="fileProgress" style="display: none; width:100%"></progress>
+                                            </div>
+                                        </div>
+
+
 
                                     </div>
+
                                 </div>
                             </div>
-
-
-                            
-
                         </div>
+
+
+
 
                     </div>
-                </div>
 
+                </div>
             </div>
+
         </div>
     </div>
-    <script src="~/assets/js/jquery/jquery.min.js"></script>
+</div>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
 
 
 
-    <script>
-
+<script>
         $(document).ready(function () {
-
               let Id = @ViewBag.dtTipoDocumento;
               var obj = {};
               obj['Id'] = Id;
@@ -816,8 +816,54 @@
                   }
               });
 
-          });
 
+
+            var obj = {};
+
+            obj['Id'] = @ViewBag.dtTipoDocumento;
+
+             var jsonObject = {
+                 "TDoc": obj
+             };
+
+             $.ajax({
+                 type: "POST",
+                 url: "@Url.Action("RequiereEditable", "Documentos")",
+                 async: false,
+                 data: JSON.stringify(jsonObject),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                     if (data.Id === 1) {
+                         $("#Word").css("display", "block");
+                         $("#Rpdf").addClass("col-md-6");
+                         $("#Rpdf").removeClass("col-md-12");
+                         ////Mostrar mensaje
+                         $("#mensaje").css("display", "block");
+                         $("#versionamiento").css("display", "block");
+
+
+                         $("#BtnGuardarEdit").css("display", "block");
+                         $("#BtnGuardar").css("display", "none");
+                         $("#BtnGuardarPdf").css("display", "none");
+
+                     } else {
+                         $("#Word").css("display", "none");
+                         $("#Rpdf").addClass("col-md-12");
+                         $("#mensaje").css("display", "none");
+
+                         $("#BtnGuardarEdit").css("display", "none");
+                         $("#BtnGuardar").css("display", "none");
+                         $("#BtnGuardarPdf").css("display", "block");
+                     }
+
+                 }
+
+             });
+
+            
+
+          });
         $(document).ready(function () {
 
 
@@ -847,12 +893,10 @@
 
             $("#FechaVencimiento").datepicker();
             $("#FechaProximaRevision").datepicker();
-            $("#FechaEntradaVigor").datepicker();
+            $("#Fechadeentradaenvigor").datepicker();
             $("#FechaPublicacion").datepicker();
             $("#FechaRevision").datepicker();
         });
-
-
 
         function ConsultaSubClasificacion(Id) {
             $('#SubClasificacionArchivo').empty();
@@ -953,8 +997,6 @@
         });
     }
         /*SCRIPS Validación*/
-        /*SCRIPS Validación*/
-
         function validarFechaRevision() {
             var result = false;
 
@@ -988,14 +1030,9 @@
                 $.notify("La Fecha de Revisión debe ser menor a la Fecha de Publicación.", "warn");
             }
 
-            console.log(fechaRevision);
-            console.log(fechaPublicacion);
-            console.log(fechaEntradaEnVigor);
-            console.log(fechaVencimiento);
 
             return result;
         }
-
         function validarFechaPublicacion() {
             var result = false;
 
@@ -1031,8 +1068,6 @@
 
             return result;
         }
-
-
         function validarFechadeentradaenvigor() {
             var result = false;
 
@@ -1068,7 +1103,6 @@
 
             return result;
         }
-
         function validarFechaVencimiento() {
             var result = false;
 
@@ -1131,8 +1165,6 @@
 
             return result;
         }
-
-
         function validatodasfechas() {
 
             if (validarFechaRevision()) {
@@ -1249,9 +1281,6 @@
             }
             return result;
         }
-
-
-
         function ValidaDescripcion() {
 
             var result = false;
@@ -1352,8 +1381,30 @@
                 document.getElementById("charNum").innerHTML = charRemain + ' Carácteres restantes';
             }
         }
+        const Nombre = document.getElementById('NombreDocumento');
+        Nombre.addEventListener('keyup', function () {
+            const text = Nombre.value;
+            const uppercaseText = text.toUpperCase();
+            Nombre.value = uppercaseText;
+        });
+        const PalabraClave = document.getElementById('PalabraClave');
+        PalabraClave.addEventListener('keyup', function () {
+            const text = PalabraClave.value;
+            const uppercaseText = text.toUpperCase();
+            PalabraClave.value = uppercaseText;
+        });
+        const Descripciones = document.getElementById('Descripcion');
+        Descripciones.addEventListener('keyup', function () {
+            const text = Descripciones.value;
+            const uppercaseText = text.toUpperCase();
+            Descripciones.value = uppercaseText;
+        });
+        $('#menuDocumentos').addClass("active pcoded-trigger");
+        $('#visaulizarDocumento').addClass("active");
 
-        //Funcion para cargar documento
+
+
+        //Funcion para cargar documento PDF
         function BtnCargarPDF() {
             $("#fileInput2").click();
         };
@@ -1486,7 +1537,6 @@
                 }
             });
         }
-
         function ValidaDocumento() {
         var result = false;
 
@@ -1645,7 +1695,6 @@
                 }
             });
         }
-
         function ValidaDocumentoWord() {
         var result = false;
 
@@ -1670,9 +1719,32 @@
     }
 
 
-        //FUNCION Guardar Datos
-        function GuardarDocumentos() {
+        //FUNCION CUANDO SE ACTUALIZA PDF
+        function habilitar() {
+            var obj = {};
+            obj['Id'] = @ViewBag.Id;;
 
+            var jsonObject = {
+                "Doc": obj
+            };
+
+            $.ajax({
+                url: "@Url.Action("HabilitarPermisos", "Documentos")",
+                data: JSON.stringify(jsonObject),
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+
+                    GuardarDocumentos();
+                },
+                error: function (resultado) {
+
+
+                }
+            });
+        }
+        function GuardarDocumentos() {
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
                     if (validaClasificacionArchivo()) {
@@ -1732,7 +1804,14 @@
                                     button: "Aceptar"
                                 });
                             }
-                        } else { }
+                        } else {
+                            swal({
+                                title: "Información incompleta.",
+                                text: 'Las fechas requeridas para este documento estan incompletas',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        }
 
                     } else {
                         swal({
@@ -1762,78 +1841,7 @@
             }
         };
 
-        function ValidaControl() {
-            var result = true;
-
-            var obj = {};
-            obj['Id'] = $("#TipoDocumento option:selected").val();
-            var jsonObject = { "documento": obj };
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("FechaInterfaz", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    // Reset the border color for all fields
-                    $('#FechaRevision, #Fechadeentradaenvigor, #FechaPublicacion, #FechaVencimiento, #FechaProximaRevision')
-                        .css("border", "1px solid #cccccc");
-
-                    if (data[0].FRevision === 1 && $('#FechaRevision').val().length === 0) {
-                        $('#FechaRevision').css("border", "1px solid #ff0049");
-                        result = false;
-                    }
-                    if (data[0].FEntradaVigor === 1 && $('#Fechadeentradaenvigor').val().length === 0) {
-                        $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
-                        result = false;
-                    }
-                    if (data[0].FPublicacion === 1 && $('#FechaPublicacion').val().length === 0) {
-                        $('#FechaPublicacion').css("border", "1px solid #ff0049");
-                        result = false;
-                    }
-                    if (data[0].FProximaRevision === 1 && $('#FechaProximaRevision').val().length === 0) {
-                        $('#FechaProximaRevision').css("border", "1px solid #ff0049");
-                        result = false;
-                    }
-                    if (data[0].FVencimiento === 1 && $('#FechaVencimiento').val().length === 0) {
-                        $('#FechaVencimiento').css("border", "1px solid #ff0049");
-                        result = false;
-                    }
-                }
-            });
-
-            return result;
-        }
-        function habilitar() {
-
-            var obj = {};
-            obj['Id'] = @ViewBag.Id;;
-
-            var jsonObject = {
-                "Doc": obj
-            };
-
-            $.ajax({
-                url: "@Url.Action("HabilitarPermisos", "Documentos")",
-                data: JSON.stringify(jsonObject),
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-
-                    GuardarDocumentos();
-                },
-                error: function (resultado) {
-
-
-                }
-            });
-        }
-
-
-
+        //FUNCION CUANDO SE ACTUALIZA PDF Y WORD
         function habilitarEdit() {
 
             var obj = {};
@@ -1931,7 +1939,14 @@
                                     button: "Aceptar"
                                 });
                             }
-                        } else { }
+                        } else {
+                            swal({
+                                title: "Información incompleta.",
+                                text: 'Las fechas requeridas para este documento estan incompletas',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        }
 
                     } else {
                         swal({
@@ -1963,17 +1978,20 @@
 
 
         };
+
+        //FUNCION CUANDO SE guarda sin tocar archivos
         function Guardar(id) {
             if (ValidaDescripcion()) {
                 if (ValidaDistribucion()) {
                     if (validaClasificacionArchivo()) {
+                        if (ValidaControl()) {
                              $("#BtnGuardar").prop('disabled', true);
                                 var obj = {};
                                 obj['Id'] = id;
                                 obj['Nombre'] = $("#NombreDocumento").val();
                                 obj['PalabraClave'] = $("#PalabraClave").val();
                                 obj['FechaRevision'] = $("#FechaRevision").val();
-                                obj['FechaEntradaVigor'] = $("#FechaEntradaVigor").val();
+                                obj['FechaEntradaVigor'] = $("#Fechadeentradaenvigor").val();
                                 obj['FechaPublicacion'] = $("#FechaPublicacion").val();
                                 obj['FechaVencimiento'] = $("#FechaVencimiento").val();
                                 obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
@@ -1986,6 +2004,7 @@
                                 var jsonObject = {
                                     "Adoc": obj
                                 };
+
                                 $.ajax({
                                     url: "@Url.Action("DocumentoActualizar", "Administracion")",
                                     data: JSON.stringify(jsonObject),
@@ -2005,11 +2024,18 @@
                                     },
                                     error: function (resultado) {
                                         console.log(resultado);
-                                        alert("Error funcion ");
                                     }
 
                                 });
-                                $("#BtnGuardar").prop('disabled', false);
+                                 $("#BtnGuardar").prop('disabled', false);
+                        } else {
+                            swal({
+                                title: "Fechas incompletas",
+                                text: '',
+                                icon: "warning",
+                                button: "Aceptar",
+                            });
+                        }
                     } else {
                         swal({
                             title: "Debes completar el formulario de información.",
@@ -2033,46 +2059,9 @@
                     icon: "warning",
                     button: "Aceptar",
                 });
-}
+            }
 
-        };
-
-
-        const Nombre = document.getElementById('NombreDocumento');
-        Nombre.addEventListener('keyup', function () {
-            const text = Nombre.value;
-            const uppercaseText = text.toUpperCase();
-            Nombre.value = uppercaseText;
-        });
-
-        const PalabraClave = document.getElementById('PalabraClave');
-        PalabraClave.addEventListener('keyup', function () {
-            const text = PalabraClave.value;
-            const uppercaseText = text.toUpperCase();
-            PalabraClave.value = uppercaseText;
-        });
-
-        const Descripciones = document.getElementById('Descripcion');
-        Descripciones.addEventListener('keyup', function () {
-            const text = Descripciones.value;
-            const uppercaseText = text.toUpperCase();
-            Descripciones.value = uppercaseText;
-        });
-
-        $('#menuDocumentos').addClass("active pcoded-trigger");
-        $('#visaulizarDocumento').addClass("active");
-
-
-
-
-
-
-        //const versionamiento = document.getElementById("Version");
-        //versionamiento.onchange = function () {
-        //    $("#versionamiento").show();
-        //    $("#btnEdit").show();
-        //    $("#colbtn").hide();
-        //}
+    };
 
         //Control para solicitar documento
          function ValidaTDoc(Id) {
@@ -2097,16 +2086,23 @@
                          $("#Word").css("display", "block");
                          $("#Rpdf").addClass("col-md-6");
                          $("#Rpdf").removeClass("col-md-12");
-
                          ////Mostrar mensaje
                          $("#mensaje").css("display", "block");
-                         
                          $("#versionamiento").css("display", "block");
+
+
+                         $("#BtnGuardarEdit").css("display", "block");
+                         $("#BtnGuardar").css("display", "none");
+                         $("#BtnGuardarPdf").css("display", "none");
+
                      } else {
                          $("#Word").css("display", "none");
                          $("#Rpdf").addClass("col-md-12");
-
                          $("#mensaje").css("display", "none");
+
+                         $("#BtnGuardarEdit").css("display", "none");
+                         $("#BtnGuardar").css("display", "none");
+                         $("#BtnGuardarPdf").css("display", "block");
                      }
 
                  }
@@ -2114,7 +2110,7 @@
              });
          }
          //INICIO Consultar fechas requeribles
-            function Fechas(Id) {
+         function Fechas(Id) {
 
                 $("#FechaRevision").val("");
                 $("#Fechadeentradaenvigor").val("");
@@ -2229,7 +2225,8 @@
         }
         // FIN VALIDAR FECHAS REQUERIDAS
 
-    </script>
 
+
+</script>
 
 
