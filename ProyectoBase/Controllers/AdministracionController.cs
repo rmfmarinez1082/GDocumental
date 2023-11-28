@@ -25,6 +25,7 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
                 ViewBag.Usuario = Usuario;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
@@ -55,7 +56,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
                 ViewBag.dtEmpresasListado = dtEmpresasListado;
 
@@ -87,8 +88,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
+                ViewBag.Foto = Usuario.Inicial;
 
-   
 
 
                 _list_Doc.IdSesion = Usuario.Id;
@@ -127,7 +128,7 @@ namespace ProyectoBase.Controllers
             ViewBag.lisnotifi = notificar;
             Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
             ViewBag.CountNoti = CountNoti;
-            
+            ViewBag.Foto = Usuario.Inicial;
             return View();
         }
         // GET: Administracion
@@ -151,7 +152,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Id = Usuario.Id;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -200,13 +201,15 @@ namespace ProyectoBase.Controllers
                 foreach (var dtUsuario in lisUser)
                 {
                     correo.EnvioCorreoExpira(dtUsuario);
-
+                     
                 }
 
                 Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
+
 
                 _documento_Versiones.IdUsuario = Usuario.Id;
                 List<Models.Documento_Versiones> conteo = Adocumento_Versiones.SP_ConteoMisDoc(_documento_Versiones);
@@ -278,7 +281,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -342,8 +345,8 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
 
-        
 
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
@@ -431,7 +434,7 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -515,7 +518,7 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -543,7 +546,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.LisUser> usuarios = AlisUser.ListadoUsuariosGral();
                 ViewBag.lisuser = usuarios;
                 _notification.IdUsuario = Usuario.Id;
@@ -580,7 +583,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;

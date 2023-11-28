@@ -50,6 +50,7 @@ namespace ProyectoBase.Controllers
         {
             if (NuevoUsuario != null)
             {
+                // inicio de sesion
                 Models.Usuarios DataUser = usuario.Iniciar(NuevoUsuario.usuarios);
                 if (DataUser.Id > 0)
                 {

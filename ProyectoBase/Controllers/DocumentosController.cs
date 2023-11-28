@@ -33,7 +33,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -83,7 +83,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -114,7 +114,7 @@ namespace ProyectoBase.Controllers
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 //DATOS DEL DOCUMENTO
                 int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                 Models.Documento doc = new Documento();
@@ -158,7 +158,7 @@ namespace ProyectoBase.Controllers
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            ViewBag.Foto = Usuario.Inicial;
 
             List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
             ViewBag.ElementoOculto = PermisosRolElementos;
@@ -241,7 +241,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
                 ViewBag.dtEntidad = dtEntidades;
 
@@ -283,7 +283,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.IdUser = Usuario.Id;
                 _listarCompartir.IdUsuario = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
                 ViewBag.Compartir = Lcompartir;
 
@@ -320,7 +320,7 @@ namespace ProyectoBase.Controllers
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                  ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -377,7 +377,7 @@ namespace ProyectoBase.Controllers
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
