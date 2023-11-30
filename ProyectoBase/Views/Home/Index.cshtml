@@ -141,11 +141,11 @@
                             $('.box-error').hide(0).html('');
                             $('.box-error').slideDown(timeSlide);
 
-                            switch (response.IdRol) {
-                                case -1:
+                            switch (true) {
+                                case response.IdRol === -1:
                                     swal({
-                                        title: "¡Tu usuario un no está activado! ",
-                                        text: "Se envió un correo a  " + $('#EmailLogin').val() + "  para activar tu usuario. \n\n ¿Deseas que volvamos a mandar un correo de confirmación de usuario?. \n\n Si no recibes el correo electrónico de verificación, \n\n  es posible que se encuentre en la carpeta Spam o correo no deseado.",
+                                        title: "¡Tu usuario aún no está activado!",
+                                        text: "Se envió un correo a " + $('#EmailLogin').val() + " para activar tu usuario. \n\n ¿Deseas que volvamos a mandar un correo de confirmación de usuario?. \n\n Si no recibes el correo electrónico de verificación, \n\n es posible que se encuentre en la carpeta Spam o correo no deseado.",
                                         icon: "warning",
                                         buttons: true,
                                         dangerMode: true,
@@ -153,64 +153,30 @@
                                     })
                                         .then((willDelete) => {
                                             if (willDelete) {
-                                                alert('metodo de envio de correo');
+                                                alert('método de envío de correo');
                                             }
                                         });
                                     break;
-                                case 0:
+                                case response.IdRol === 0:
                                     swal({
-                                        title: "Algo ocurrió !",
+                                        title: "Algo ocurrió!",
                                         text: response.Mensaje,
                                         icon: "warning",
                                         button: "Aceptar",
                                     });
-
                                     break;
-                                case 1:
+                                case response.IdRol >= 1:
                                     swal({
-                                        title: "Operador Asae",
+                                        title: response.NombreRol,
                                         text: response.Nombre + " " + response.Apellidos,
                                         icon: "success",
                                         button: "Aceptar",
                                     }).then((value) => {
                                         window.location.href = '' + response.RutaAcceso + '';
-
-                                    });
-                                    break;
-                                case 2:
-                                    swal({
-                                        title: "Invitado",
-                                        text: response.Nombre + " " + response.Apellidos,
-                                        icon: "success",
-                                        button: "Aceptar",
-                                    }).then((value) => {
-                                        window.location.href = '' + response.RutaAcceso + '';
-
-                                    });
-                                    break;
-                                case 3:
-                                    swal({
-                                        title: "Administrador Asae",
-                                        text: response.Nombre + " " + response.Apellidos,
-                                        icon: "success",
-                                        button: "Aceptar",
-                                    }).then((value) => {
-                                        window.location.href = '' + response.RutaAcceso + '';
-
-                                    });
-                                    break;
-                                case 1003:
-                                    swal({
-                                        title: "Administrador Mabe",
-                                        text: response.Nombre + " " + response.Apellidos,
-                                        icon: "success",
-                                        button: "Aceptar",
-                                    }).then((value) => {
-                                        window.location.href = '' + response.RutaAcceso + '';
-
                                     });
                                     break;
                             }
+
                         }
                     });
                 }
