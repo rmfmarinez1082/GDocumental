@@ -507,7 +507,11 @@
                                                             <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
                                                                 El tipo de documento seleccionado requiere de un archivo editable.
                                                             </div>
-
+                                                            <a id="FechaRevisionCC"><strong>Fecha Revisión</strong></a>
+                                                            <a id="FechaPublicacionCC"><strong>Fecha Publicacion</strong></a>
+                                                            <a id="FechadeentradaenvigorCC"><strong>Fecha de entrada en vigor</strong></a>
+                                                            <a id="FechaProximaRevisionCC"><strong>Fecha Proxima Revisión</strong></a>
+                                                            <a id="FechaVencimientoCC"><strong>Fecha Vencimiento</strong></a>
                                                         </div>
                                                     </div>
                                                     <br />
@@ -2718,45 +2722,48 @@
                 if (data[0].FRevision == 1) {
                     $("#FechaRevisionC").css("display", "block");
                     $("#FRevision").css("display", "block");
-
+                    $("#FechaRevisionCC").css("display", "block");
                 } else {
                     $("#FechaRevisionC").css("display", "none");
                     $("#FRevision").css("display", "none");
+                    $("#FechaRevisionCC").css("display", "none");
                 }
                 if (data[0].FEntradaVigor == 1) {
                     $("#FechadeentradaenvigorC").css("display", "block");
                     $("#FEntradaVigor").css("display", "block");
+                    $("#FechadeentradaenvigorCC").css("display", "block");
                 } else {
                     $("#FechadeentradaenvigorC").css("display", "none");
                     $("#FEntradaVigor").css("display", "none");
-
+                    $("#FechadeentradaenvigorCC").css("display", "none");
                 }
                 if (data[0].FPublicacion == 1) {
                     $("#FechaPublicacionC").css("display", "block");
                     $("#FPublicacion").css("display", "block");
+                    $("#FechaPublicacionCC").css("display", "block");
                 } else {
                     $("#FechaPublicacionC").css("display", "none");
                     $("#FPublicacion").css("display", "none");
-
-
+                    $("#FechaPublicacionCC").css("display", "none");
                 }
                 if (data[0].FProximaRevision == 1) {
                     $("#FechaProximaRevisionC").css("display", "block");
                     $("#FProximaRevision").css("display", "block");
-
+                    $("#FechaProximaRevisionCC").css("display", "block");
                 } else {
                     $("#FechaProximaRevisionC").css("display", "none");
                     $("#FProximaRevision").css("display", "none");
-
+                    $("#FechaProximaRevisionCC").css("display", "none");
                 }
                 if (data[0].FVencimiento == 1) {
                     $("#FechaVencimientoC").css("display", "block");
                     $("#FVencimiento").css("display", "block");
+                    $("#FechaVencimientoCC").css("display", "block");
 
                 } else {
                     $("#FechaVencimientoC").css("display", "none");
                     $("#FVencimiento").css("display", "none");
-
+                    $("#FechaVencimientoCC").css("display", "none");
                 }
             }
         });
