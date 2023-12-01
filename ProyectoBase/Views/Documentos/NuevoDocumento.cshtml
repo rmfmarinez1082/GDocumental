@@ -418,12 +418,20 @@
         border-radius: 2px;
     }
 
-        select.form-control:not([size]):not([multiple]) {
-            height: 36px;
-        }
+    select.form-control:not([size]):not([multiple]) {
+        height: 36px;
+    }
 
     .table td, .table th {
         padding: 0.25rem 0.75rem;
+    }
+    .alert-warning {
+        background-color: #78beff54;
+        border-color: #00aeff;
+        color: #ffe100;
+        font-weight: bold;
+        font-size: 13px;
+        color: black;
     }
 </style>
 
@@ -503,15 +511,35 @@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Descripción </h3>
+                                                            <div id="DatosRequeridos" class="alert alert-warning" role="alert" style="display:none">
+                                                                <p>
+                                                                    El tipo de documento seleccionado requiere los siguientes datos:
+                                                                </p>
 
-                                                            <div id="mensaje" class="alert alert-info" role="alert" style="display:none">
-                                                                El tipo de documento seleccionado requiere de un archivo editable.
+                                                                <div class="row">
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-files-o" aria-hidden="true"></i> Archivos</p>
+                                                                            <a id="mensaje"><strong>* Archivo editable</strong></a>
+                                                                            <a ><strong>* Archivo PDF</strong></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-2"></div>
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Fechas</p>
+                                                                            <a id="FechaRevisionCC"><strong>* Revisión</strong></a>
+                                                                            <a id="FechaPublicacionCC"><strong>* Publicacion</strong></a>
+                                                                            <a id="FechadeentradaenvigorCC"><strong>* Entrada en vigor</strong></a>
+                                                                            <a id="FechaProximaRevisionCC"><strong>* Proxima Revisión</strong></a>
+                                                                            <a id="FechaVencimientoCC"><strong>* Vencimiento</strong></a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>                                                             
                                                             </div>
-                                                            <a id="FechaRevisionCC"><strong>Fecha Revisión</strong></a>
-                                                            <a id="FechaPublicacionCC"><strong>Fecha Publicacion</strong></a>
-                                                            <a id="FechadeentradaenvigorCC"><strong>Fecha de entrada en vigor</strong></a>
-                                                            <a id="FechaProximaRevisionCC"><strong>Fecha Proxima Revisión</strong></a>
-                                                            <a id="FechaVencimientoCC"><strong>Fecha Vencimiento</strong></a>
+
+                                                                
                                                         </div>
                                                     </div>
                                                     <br />
@@ -1845,7 +1873,8 @@
 
 
     function ValidaTDoc(Id) {
-
+        
+        $("#DatosRequeridos").css("display", "block");
         var obj = {};
 
         obj['Id'] = Id;
