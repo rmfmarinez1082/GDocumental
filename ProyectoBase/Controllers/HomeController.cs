@@ -18,25 +18,22 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuairo = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
                 if (Usuairo != null)
-                    {
-                        switch (Usuairo.IdRol)
-                        {
-                            case 1:
-                                // code block
-                                return RedirectToAction("PrincipalA", "Administracion");
-                            case 2:
-                                 // code block
-                                 return RedirectToAction("DocCompartidos", "Documentos");
-                            case 3:
-                                  //code block
-                                return RedirectToAction("PrincipalA", "Administracion");
-                            case 1003:
-                                //code block
-                                return RedirectToAction("PrincipalA", "Administracion");
-                        default:
-                        //code block
-                             break;
-                        }
+                {
+                    if (Usuairo.IdRol >= 1) {
+                     return RedirectToAction("PrincipalA", "Administracion");
+                    }
+                        //switch (Usuairo.IdRol)
+                        //{
+                        //    //case 2:
+                        //    //    // code block
+                        //    //    return RedirectToAction("DocCompartidos", "Documentos");
+                        //    case > 0:
+                        //        // code block
+                        //        return RedirectToAction("PrincipalA", "Administracion");
+                        //default:
+                        ////code block
+                        //     break;
+                        //}
                 }
           
             ViewBag.rd = Request.QueryString["rd"];
