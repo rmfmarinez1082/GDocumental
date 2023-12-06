@@ -626,18 +626,20 @@
 
 
 
-                                                             //Procesos de edicion ARCHIVOS DE TRABAJO
+                                                            //Procesos de edicion ARCHIVOS DE TRABAJO
                                                             if (item.IdClasificacionArchivo == 8)
                                                             {
                                                                 if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 2)
                                                                 {
-                                                                    <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="tdEditarMisDocumentos text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>                                                                }
+                                                                    <td onclick="SubirDoc('@item.Id','@item.Version')" title="Sube el el documento actualizado" class="tdEditarMisDocumentos text-center"><i class="fa fa-cloud-upload f-20" aria-hidden="true" style="color:#8679"></i></td>
+ }
                                                                 else
                                                                 {
                                                                     if (!(item.NmArchivo == "" || item.NmArchivo == null) && Resultado.Id == 1)
 
                                                                     {
-                                                                        <td onclick="Bloquear(@item.Id);" class="tdEditarMisDocumentos text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+                                                                        @*<td onclick="Bloquear(@item.Id);" class="tdEditarMisDocumentos text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>*@
+                                                                        <td onclick="Consultar('@item.Id','@item.NmArchivo','@item.Nombre')" class="tdEditarMisDocumentos text-center"><a><i class="fa fa-download f-20" style="color:red"></i></a></td>
 
                                                                     }
                                                                     else
@@ -1103,9 +1105,27 @@
 
         });
     </script>
-<script type="text/javascript">
+    <script type="text/javascript">
     let IdTemporal;
     let IdVersion;
+
+    function Consultar(Id, Word, Nombre) {
+        swal({
+        title: "Descargar Documento",
+        text: "Tenga en cuenta que esta acción desactivará las funciones de edición y descarga para todos los usuarios con acceso a este archivo.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                window.location.href = "/Documentos/descargar?doc=" + Word + "&nom=" + Nombre;
+                Bloquear(Id);
+            } else {
+              
+                swal("Cancelado", "La descarga del archivo a sido cancelada", "info");
+            }
+        });
+    }
 
     function gestionar(Id) {
 
@@ -2569,6 +2589,6 @@
         };
 
 
-</script>
+    </script>
 
 
