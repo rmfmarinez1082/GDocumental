@@ -158,6 +158,7 @@ namespace ProyectoBase.Data
                 resultado.FechaVencimiento = reader["FechaVencimiento"].ToString();
                 resultado.FechaProximaRevision = reader["FechaProximaRevision"].ToString();
 
+                resultado.IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString());
                 resultado.TipoDoc = reader["TipoDoc"].ToString();
                 resultado.ClasificacionDoc = reader["ClasificacionDoc"].ToString();
                 resultado.Registro = reader["Registrado"].ToString();
@@ -668,6 +669,33 @@ namespace ProyectoBase.Data
             while (reader.Read())
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+
+
+        public List<Models.Documento> FechaInterfaz(Models.Documento documento)
+        {
+            b.ExecuteCommandSP("FechasDocumento_Seleccionar");
+            b.AddParameter("@Id", documento.Id, SqlDbType.VarChar);
+
+            List<Models.Documento> resultado = new List<Models.Documento>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.Documento item = new Models.Documento()
+                {
+                    FRevision = Convert.ToInt32(reader["FechaRevision"].ToString()),
+                    FPublicacion = Convert.ToInt32(reader["FechaPublicacion"].ToString()),
+                    FEntradaVigor = Convert.ToInt32(reader["FechaEntradaVigor"].ToString()),
+                    FProximaRevision = Convert.ToInt32(reader["FechaProximaRevision"].ToString()),
+                    FVencimiento = Convert.ToInt32(reader["FechaVencimiento"].ToString()),
+                };
+                resultado.Add(item);
             }
             reader = null;
             b.ConnectionCloseToTransaction();

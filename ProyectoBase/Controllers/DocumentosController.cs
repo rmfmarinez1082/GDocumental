@@ -13,7 +13,7 @@ namespace ProyectoBase.Controllers
     {
         public ActionResult Gestionar(Models.Notification _notification, Application.Notification Anotification,
            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-           Application.List_Doc ADetails, Application.Sistema ApSistema)
+           Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -24,13 +24,16 @@ namespace ProyectoBase.Controllers
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -67,18 +70,20 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult DirectorioFDC(Models.Notification _notification, Application.Notification Anotification, Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET2();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -98,16 +103,18 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult EditarCustodia(Models.Notification _notification, Application.Notification Anotification, Application.Documentos documentos,
-            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Sistema ApSistema)
+            Models.Cat_ClasificacionArchivo cat_ClasificacionDoc, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 //DATOS DEL DOCUMENTO
                 int Id = Convert.ToInt32(Application.Cifrado.Desencriptar(Request.QueryString["Id"]));
                 Models.Documento doc = new Documento();
@@ -144,11 +151,18 @@ namespace ProyectoBase.Controllers
         public ActionResult NuevoDocumento(Application.Cat_Tipo_Documento cat_Tipo_Documento,
             Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
             Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-             Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+             Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
+
+
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            ViewBag.Foto = Usuario.Inicial;
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
             if (Usuario != null)
             {
                 Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
@@ -183,7 +197,7 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
-                if(((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3 || ((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 1003)
                 {
                     string Carpetas = getParents();
                     ViewBag.carpetas = Carpetas;
@@ -196,6 +210,7 @@ namespace ProyectoBase.Controllers
 
 
 
+
                 return View();
             }
             else { return RedirectToAction("Index", "Home"); }
@@ -205,18 +220,28 @@ namespace ProyectoBase.Controllers
         public ActionResult VisualizarDocumento(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
             Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
             Application.ProvedorListado provedoresListado, Models.Notification _notification, Application.Notification Anotification
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
+            // Verificar si la propiedad persisoRuta está presente
+            if (PermisosRolElementos.Any(item => item.IdElemento == "RutaArbol"))
+            {
+                // Si "RutaArbol" está presente, configurar un nuevo ViewBag con el valor 1
+                ViewBag.PermisoRutaPresente = 1;
+            }
+
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
                 ViewBag.dtEntidad = dtEntidades;
 
@@ -244,19 +269,21 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
-            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
 
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.IdUser = Usuario.Id;
                 _listarCompartir.IdUsuario = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
                 ViewBag.Compartir = Lcompartir;
 
@@ -275,7 +302,7 @@ namespace ProyectoBase.Controllers
 
         public ActionResult VistaDetalle(Models.Notification _notification, Application.Notification Anotification,
             Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails, Application.Sistema ApSistema)
+            Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -285,14 +312,15 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                  ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.UsuarioId = Usuario.Id;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -332,7 +360,7 @@ namespace ProyectoBase.Controllers
 
         public ActionResult VistaDetalleAdmin(Models.Notification _notification, Application.Notification Anotification,
             Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
-            Application.List_Doc ADetails, Application.Sistema ApSistema)
+            Application.List_Doc ADetails, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -342,13 +370,14 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -394,6 +423,17 @@ namespace ProyectoBase.Controllers
             }
             else { return RedirectToAction("PrincipalA", "Administracion"); }
         }
+
+
+
+
+
+
+
+
+
+
+
         public string ListadoPerfil()
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -461,8 +501,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
 
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -484,7 +525,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += "</li>";
 
@@ -592,8 +635,10 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
                     //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
@@ -617,7 +662,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'"; 
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += ObtenerHCustodia2(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
@@ -642,7 +689,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text\"}'";
+                    //string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
                     resulDoc += "<li id='" + dt.Id + "'  " + variable + "onclick='SeleccionarPorId(" + dt.Id + ")'>" + dt.Nombre; //Cambio para identificar el tipo de documento
                     resulDoc += "</li>";
 
@@ -759,7 +807,6 @@ namespace ProyectoBase.Controllers
                 ListaDocumentos = (List<Models.Documento>)Session["NuevoDocumento"];
                 ListaDocumentoword = (List<Models.Documento>)Session["NuevoDocumentoword"];
 
-
                 nuevoDocumento.NmArchivo = ListaDocumentos[0].NmArchivo;
                 nuevoDocumento.NmArchivoword = ListaDocumentoword[0].NmArchivoword;
                 nuevoDocumento.NmOriginal = ListaDocumentos[0].NmOriginal;
@@ -767,28 +814,8 @@ namespace ProyectoBase.Controllers
 
                 Models.Documento Ndocumento = ApDocumentos.Documento_Agregar(nuevoDocumento);
 
-
                 Models.Cat_ClasificacionArchivo NewCat_ClasificacionArchivo = new Models.Cat_ClasificacionArchivo();
 
-                //if (nuevoDocumento.IdClasificacionArchivo > 0)
-                //{
-                //    if (nuevoDocumento.IdSubClasificacionArchivo > 0)
-                //    {
-                //        if (nuevoDocumento.IdNombre3 > 0)
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdNombre3;
-                //        }
-                //        else
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdSubClasificacionArchivo;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdClasificacionArchivo;
-                //    }
-
-                //}
 
                 Models.Cat_ClasificacionArchivo ListaClasificacion = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Seleccionar(NewCat_ClasificacionArchivo);
 
@@ -805,32 +832,9 @@ namespace ProyectoBase.Controllers
 
                 if (ListaClasificacion.NombreClasificacion.Length > 0)
                 {
-                    //if (ListaClasificacion.NombreSubcalsificacion.Length > 0)
-                    //{
-                    //    if (ListaClasificacion.Nombre3.Length > 0)
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //    else
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //}
-                    //else
-                    //{
+
                         string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion, nuevoDocumento.NmArchivo);
                         System.IO.File.Copy(sourceFile, destFile, true);
-                    //}
                 }
 
                 Session["NuevoDocumento"] = null;
@@ -852,25 +856,6 @@ namespace ProyectoBase.Controllers
 
                 Models.Cat_ClasificacionArchivo NewCat_ClasificacionArchivo = new Models.Cat_ClasificacionArchivo();
 
-                //if (nuevoDocumento.IdClasificacionArchivo > 0)
-                //{
-                //    if (nuevoDocumento.IdSubClasificacionArchivo > 0)
-                //    {
-                //        if (nuevoDocumento.IdNombre3 > 0)
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdNombre3;
-                //        }
-                //        else
-                //        {
-                //            NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdSubClasificacionArchivo;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        NewCat_ClasificacionArchivo.Id = nuevoDocumento.IdClasificacionArchivo;
-                //    }
-
-                //}
 
                 Models.Cat_ClasificacionArchivo ListaClasificacion = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Seleccionar(NewCat_ClasificacionArchivo);
 
@@ -887,32 +872,8 @@ namespace ProyectoBase.Controllers
 
                 if (ListaClasificacion.NombreClasificacion.Length > 0)
                 {
-                    //if (ListaClasificacion.NombreSubcalsificacion.Length > 0)
-                    //{
-                    //    if (ListaClasificacion.Nombre3.Length > 0)
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion + @"\" + ListaClasificacion.Nombre3, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //    else
-                    //    {
-                    //        if (!Directory.Exists(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion))
-                    //        {
-                    //            Directory.CreateDirectory(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion);
-                    //        }
-                    //        string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion + @"\" + ListaClasificacion.NombreSubcalsificacion, nuevoDocumento.NmArchivo);
-                    //        System.IO.File.Copy(sourceFile, destFile, true);
-                    //    }
-                    //}
-                    //else
-                    //{
                         string destFile = System.IO.Path.Combine(folderPath + @"\" + ListaClasificacion.NombreClasificacion, nuevoDocumento.NmArchivo);
                         System.IO.File.Copy(sourceFile, destFile, true);
-                    //}
                 }
 
                 Session["NuevoDocumento"] = null;
@@ -1267,6 +1228,15 @@ namespace ProyectoBase.Controllers
         {
             List<Models.Cat_ListadoDepartamentos> resultado = APgrupo.EmpresaGrupo_Listar(Grupo);
             return Json(resultado);
+        }
+
+
+        ////VALIDACION FECHAS
+        ///
+        public JsonResult FechaInterfaz(Models.Documento documento, Application.Documentos Adocumento)
+        {
+            List<Models.Documento> Res = Adocumento.FechaInterfaz(documento);
+            return Json(Res);
         }
 
     }

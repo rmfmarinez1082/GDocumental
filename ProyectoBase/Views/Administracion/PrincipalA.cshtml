@@ -135,7 +135,7 @@
                     </a>
                 </div>
 
-                <div class="col">
+                <div class="col" id="cardVigente">
                     <a href="#">
                         <div class="card" onclick="VDocVigente();" style="cursor:pointer">
                             <div class="card-block">
@@ -169,7 +169,7 @@
                     </a>
                 </div>
 
-                <div class="col">
+                <div class="col" id="dashboardCardVencido">
                     <a href="#">
                         <div class="card" onclick="VDocVencido();" style="cursor:pointer">
                             <div class="card-block">
@@ -202,7 +202,7 @@
                     </a>
                 </div>
 
-                <div class="col" onclick="ModalSolicitud();">
+                <div class="col" onclick="ModalSolicitud();" id="cardSolicitud">
                     <a href="#">
                         <div class="card" style="cursor:pointer">
                             <div class="card-block">
@@ -215,7 +215,7 @@
                                     </div>
                                     <div class="col-4 text-right">
                                         @*<i class="fa fa-check-square-o f-28"></i>*@
-                                        <img id="gif-icon" src="~/Images/Headers/Email.gif" style="height:53px; width:auto;" />
+                                        <img id="gif-icon" src="~/Images/Headers/Email.gif" style="height:100%; width:auto;" />
 
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@
 
             <div class="row">
                 <!-- Docs Proximos a vencer -->
-                <div class="col-xl-6 col-md-12" id="ProxVencer" style="display: block;">
+                <div class="col-xl-7 col-md-12" id="ProxVencer" style="display: block;">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Documentos Proximos a vencer</h5>
@@ -250,8 +250,8 @@
                                     <thead>
                                         <tr>
                                             <th>Nombre</th>
-                                            <th class="text-center">Fecha de vencimiento</th>
                                             <th class="text-center">Días Restantes</th>
+                                            <th class="text-center">Fecha de vencimiento</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -260,8 +260,8 @@
 
                                             <tr>
                                                 <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center">@item.FechaVencimiento</td>
                                                 <td class="text-center">@item.DiasRestantes</td>
+                                                <td class="text-center">@item.FechaVencimiento</td>
                                             </tr>
 
                                         }
@@ -273,7 +273,7 @@
                 </div>
 
                 <!-- GRAFICO -->
-                <div class="col-xl-6 col-md-12">
+                <div class="col-xl-5 col-md-12">
                     <div class="card">
                         <div class="card-block">
                             <div class="row">
@@ -474,6 +474,8 @@
         } else {
             $('#gif-icon').removeClass('block');
         }
+
+
 
     });
 

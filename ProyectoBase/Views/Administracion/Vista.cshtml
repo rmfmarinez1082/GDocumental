@@ -62,14 +62,13 @@
 
                                         <div class="col-md-4">
                                             <h4>CONTROL</h4>
-
                                             <div class="resumen">
-                                                <p><strong>Fecha Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaRevision</span></p>
-                                                <p><strong>Fecha Proxima Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaProximaRevision</span></p>
+                                                <p id="FRevision"><strong>Fecha Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaRevision</span></p>
+                                                <p id="FProximaRevision"><strong>Fecha Proxima Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaProximaRevision</span></p>
 
-                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span>@ViewBag.InfoDoc.FechaEntradaVigor</span></p>
-                                                <p><strong>Fecha Publicacion</strong> <br /> <span>@ViewBag.InfoDoc.FechaPublicacion</span></p>
-                                                <p><strong>Fecha Vencimiento</strong> <br /> <span>@ViewBag.InfoDoc.FechaVencimiento</span></p>
+                                                <p id="FEntradaVigor"><strong>Fecha de entrada en vigor</strong> <br /> <span>@ViewBag.InfoDoc.FechaEntradaVigor</span></p>
+                                                <p id="FPublicacion"><strong>Fecha Publicacion</strong> <br /> <span>@ViewBag.InfoDoc.FechaPublicacion</span></p>
+                                                <p id="FVencimiento"><strong>Fecha Vencimiento</strong> <br /> <span>@ViewBag.InfoDoc.FechaVencimiento</span></p>
 
                                             </div>
 
@@ -147,6 +146,54 @@
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+        $(document).ready(function () {
+
+            let Id = @ViewBag.InfoDoc.IdTipoDocumento;
+
+            var obj = {};
+            obj['Id'] = Id;
+            var jsonObject = { "documento": obj };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FechaInterfaz", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data[0].FRevision == 1) {
+                        $("#FRevision").css("display", "block");
+                    } else {
+                        $("#FRevision").css("display", "none");
+                    }
+                    if (data[0].FEntradaVigor == 1) {
+                        $("#FEntradaVigor").css("display", "block");
+                    } else {
+                        $("#FEntradaVigor").css("display", "none");
+                    }
+                    if (data[0].FPublicacion == 1) {
+                        $("#FPublicacion").css("display", "block");
+                    } else {
+                        $("#FPublicacion").css("display", "none");
+                    }
+                    if (data[0].FProximaRevision == 1) {
+                        $("#FProximaRevision").css("display", "block");
+                    } else {
+                        $("#FProximaRevision").css("display", "none");
+                    }
+                    if (data[0].FVencimiento == 1) {
+                        $("#FVencimiento").css("display", "block");
+                    } else {
+                        $("#FVencimiento").css("display", "none");
+                    }
+                }
+            });
+
+        });
+
+
+
     $('#menuDocumentos').addClass("active pcoded-trigger");
     $('#DocumentoCompartido').addClass("active");
 </script>

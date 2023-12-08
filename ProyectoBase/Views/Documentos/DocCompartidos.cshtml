@@ -459,11 +459,11 @@
                                                                 <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
                                                             }
-                                             
+
                                                             <td class="text-center"> <a>@item.Propietario</a></td>
 
                                                             <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
-                                                          
+
                                                             <td style="display:none;"><a>@item.PalabrasClave</a></td>
                                                         </tr>
 
@@ -484,13 +484,13 @@
                                             <div class="col-8">
                                                 <h5>Documentos Compartidos/Prestamos </h5>
                                             </div>
-                                            <div class="col-4 text-center">
+                                            <div class="col-4 text-center SimbologiaPrestamo">
                                                 <p><b>Simbología Prestamos</b></p>
                                             </div>
 
                                         </div>
 
-                                        <div class="row justify-content-between">
+                                        <div class="row justify-content-between SimbologiaPrestamo">
                                             <div class="col-8">
                                                 <span>Observa los documentos a los que tienes acceso</span>
                                             </div>
@@ -515,8 +515,6 @@
                                                     <tr>
                                                         <th style="color:white">Nombre</th>
                                                         <th class="text-center" style="color:white">Propietario</th>
-                                                        @*<th style="color:white">Entrada en vigor</th>
-                                    <th style="color:white">Vencimiento</th>*@
                                                         <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
                                                         <th scope="col" class="text-center col-1" style="color:white">Editar</th>
                                                         <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
@@ -541,8 +539,7 @@
                                                                 <td><i class="fa fa-handshake-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
 
                                                             }
-                                                            @*<td>@item.FechaEntradaVigor</td>
-                                        <td>@item.FechaVencimiento</td>*@
+
                                                             <td class="text-center"> <a>@item.Propietario</a></td>
 
                                                             <td class="text-center"><a onclick=" VerCompartir(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
@@ -564,7 +561,7 @@
                                                             @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
                                                             @if (item.IdTipoDocumento == 8)
                                                             {
-                                                                //AQUI SE VERIFICA SOLO POR LA GFUNCION DE PRESTAMOS
+                                                                //AQUI SE VERIFICA SOLO POR LA FUNCION DE PRESTAMOS
                                                                 if (item.Compartido == 1 && item.prestamo == 0)
                                                                 {
                                                                     if (Disponibilidad.Id == 1)
@@ -578,7 +575,7 @@
                                                                         if (item.Editable == 1 && item.NombreWord != "")
                                                                         {
 
-                                                                            <td class="text-center"><a onclick="Bloquear(@item.Id);" href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:red"></i></a></td>
+                                                                            <td onclick="Consultar('@item.Id','@item.NombreWord','@item.Nombre')" class="tdEditarMisDocumentos text-center"><a><i class="fa fa-download f-20" style="color:red"></i></a></td>
 
                                                                         }
                                                                         else
@@ -602,12 +599,12 @@
                                                             }
                                                             else
                                                             {
-                                                                <td>Sin editable</td>
+                                                                <td class="text-center">Sin editable</td>
                                                             }
 
 
 
-                                                            @*EDITAR*@
+                                                            @*EDITAR  RECORDAR COMO SE LLEVABA ESTE CONTROL*@
                                                             @if (item.Compartido == 1 && item.prestamo == 0 && (item.NombreWord == "" || item.NombreWord == null))
                                                             {
                                                                 <td class="text-center">No aplica</td>
@@ -770,23 +767,23 @@
                                         </div>
                                     </div>
                                 </div>
-                            
-                                    @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
-                                    <div>
-                                        <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
-                                            <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
-                                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
-                                                    <div class="row">
-                                                        <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                        <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
-                                                        <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
-                                                    </div>
-                                                </button>
-                                            </div>
+
+                                @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                <div>
+                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                        <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                            <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Actualizar Editable
+                                                <div class="row">
+                                                    <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                    <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                    <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                </div>
+                                            </button>
                                         </div>
                                     </div>
-                               
+                                </div>
+
 
                             </div>
                             @*BARRA DE PROGRESO Y EL input de documento*@
@@ -816,7 +813,23 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+        $(document).ready(function () {
+        // Obtener la lista de elementos del ViewBag
+            var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
 
+            // Recorrer la lista y aplicar el ocultamiento
+            elementosOcultos.forEach(function (elemento) {
+                var elementId = elemento.IdElemento;
+                var isVisible = elemento.Activo === 0;
+
+                if (!isVisible) {
+                    $('.' + elementId).hide();
+                }
+            });
+
+        });
+</script>
 <script type="text/javascript">
     let IdTemporal;
     let IdVersion;
@@ -888,7 +901,23 @@
 
         }
     }
+    function Consultar(Id, Word, Nombre) {
+        swal({
+            title: "Descargar Documento",
+            text: "Tenga en cuenta que esta acción desactivará las funciones de edición y descarga para todos los usuarios con acceso a este archivo.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                window.location.href = "/Documentos/descargar?doc=" + Word + "&nom=" + Nombre;
+                Bloquear(Id);
+            } else {
 
+                swal("Cancelado", "La descarga del archivo a sido cancelada", "info");
+            }
+        });
+    }
     $(document).ready(function () {
         $('#Notificacion').DataTable({
 
@@ -1591,5 +1620,6 @@
 
 </script>
 
-<script>$('#menuDocumentos').addClass("active pcoded-trigger");
+<script>
+    $('#menuDocumentos').addClass("active pcoded-trigger");
     $('#DocumentoCompartido').addClass("active");</script>

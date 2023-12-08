@@ -31,6 +31,7 @@ namespace ProyectoBase.Data
                 resultado.RutaAcceso = reader["RutaAcceso"].ToString();
                 resultado.Mensaje = reader["Mensaje"].ToString();
                 resultado.ClaveCoo = reader["ClaveCoo"].ToString();
+                resultado.Inicial = reader["Inicial"].ToString();
             }
             reader = null;
             b.ConnectionCloseToTransaction();

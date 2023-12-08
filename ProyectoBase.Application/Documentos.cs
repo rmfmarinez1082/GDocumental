@@ -137,5 +137,14 @@ namespace ProyectoBase.Application
         {
             return _Documentos.DocVersion(Adoc);
         }
+
+
+
+
+
+        public List<Models.Documento> FechaInterfaz(Models.Documento Documento)
+        {
+            return _Documentos.FechaInterfaz(Documento);
+        }
     }
 }

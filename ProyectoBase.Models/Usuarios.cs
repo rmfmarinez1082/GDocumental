@@ -19,6 +19,7 @@ namespace ProyectoBase.Models
         public string Password { get; set; }
         public int IdPuesto { get; set; }
 
+        public string Inicial { get; set; }
 
         public int IdRol { get; set; }
         public string NombreRol { get; set; }
@@ -28,5 +29,6 @@ namespace ProyectoBase.Models
         public string RutaCompleta { get; set; }
         public string ClaveCoo { get; set; }
         public bool Session { get; set; }
+
     }
 }

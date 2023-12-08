@@ -13,7 +13,6 @@
                 <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                     <div class="card card-plain mt-8">
                         <div class="card-header pb-0 text-left bg-transparent">
-                            @*<h1>Centro de Información Corporativa de ASAE (CICA)</h1>*@
                             <h1>@ViewBag.Sistema.NombreSistema @ViewBag.Sistema.Acronimo</h1>
                             <br />
                             <h3 class="font-weight-bolder text-info text-gradient"><strong>Bienvenido</strong></h3>
@@ -142,11 +141,11 @@
                             $('.box-error').hide(0).html('');
                             $('.box-error').slideDown(timeSlide);
 
-                            switch (response.IdRol) {
-                                case -1:
+                            switch (true) {
+                                case response.IdRol === -1:
                                     swal({
-                                        title: "¡Tu usuario un no está activado! ",
-                                        text: "Se envió un correo a  " + $('#EmailLogin').val() + "  para activar tu usuario. \n\n ¿Deseas que volvamos a mandar un correo de confirmación de usuario?. \n\n Si no recibes el correo electrónico de verificación, \n\n  es posible que se encuentre en la carpeta Spam o correo no deseado.",
+                                        title: "¡Tu usuario aún no está activado!",
+                                        text: "Se envió un correo a " + $('#EmailLogin').val() + " para activar tu usuario. \n\n ¿Deseas que volvamos a mandar un correo de confirmación de usuario?. \n\n Si no recibes el correo electrónico de verificación, \n\n es posible que se encuentre en la carpeta Spam o correo no deseado.",
                                         icon: "warning",
                                         buttons: true,
                                         dangerMode: true,
@@ -154,53 +153,30 @@
                                     })
                                         .then((willDelete) => {
                                             if (willDelete) {
-                                                alert('metodo de envio de correo');
+                                                alert('método de envío de correo');
                                             }
                                         });
                                     break;
-                                case 0:
+                                case response.IdRol === 0:
                                     swal({
-                                        title: "Algo ocurrió !",
+                                        title: "Algo ocurrió!",
                                         text: response.Mensaje,
                                         icon: "warning",
                                         button: "Aceptar",
                                     });
-
                                     break;
-                                case 1:
+                                case response.IdRol >= 1:
                                     swal({
-                                        title: "Bienvenido. !",
+                                        title: response.NombreRol,
                                         text: response.Nombre + " " + response.Apellidos,
                                         icon: "success",
                                         button: "Aceptar",
                                     }).then((value) => {
                                         window.location.href = '' + response.RutaAcceso + '';
-
-                                    });
-                                    break;
-                                case 2:
-                                    swal({
-                                        title: "Invitado. !",
-                                        text: response.Nombre + " " + response.Apellidos,
-                                        icon: "success",
-                                        button: "Aceptar",
-                                    }).then((value) => {
-                                        window.location.href = '' + response.RutaAcceso + '';
-
-                                    });
-                                    break;
-                                case 3:
-                                    swal({
-                                        title: "Administrador",
-                                        text: response.Nombre + " " + response.Apellidos,
-                                        icon: "success",
-                                        button: "Aceptar",
-                                    }).then((value) => {
-                                        window.location.href = '' + response.RutaAcceso + '';
-
                                     });
                                     break;
                             }
+
                         }
                     });
                 }
@@ -251,6 +227,25 @@
         } else {
             $('#EmailLogin').css("border", "1px solid red");
             respuesta = "Coloca tu email";
+        }
+        return respuesta;
+    }
+
+
+    function CorreoLogin() {
+        var respuesta = "";
+        object = document.getElementById("EmailLogin");
+        valueForm = object.value;
+
+        var patronTelefono = new RegExp("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$");
+        if ($(object).val() == "") {
+            var respuesta = "";
+
+        } else if (valueForm.search(patronTelefono)) {
+            var respuesta = "";
+            return;
+        } else {
+            var respuesta = "ok";
         }
         return respuesta;
     }

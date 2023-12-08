@@ -2,8 +2,47 @@
 @{
     ViewBag.Title = "Nuevo Documento";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
-}
+} 
 
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+<style>
+    /* Personalizar el estilo del menú contextual */
+    .vakata-context,
+    .vakata-context ul {
+        background-color: #fff; /* Fondo blanco */
+        border: 1px solid #ccc; /* Borde gris */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    }
+
+        .vakata-context a {
+            padding: 8px 12px;
+            color: #333; /* Color de texto oscuro */
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+            .vakata-context a:hover {
+                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+            }
+
+        /* Estilo específico para los íconos en el menú contextual */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+            margin-right: 8px;
+        }
+
+        /* Estilo específico para la línea divisoria entre elementos del menú */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 6px 0;
+        }
+
+    .fa-folder:before {
+        color: #f3bb22;
+        font-size: 16px;
+    }
+</style>
 <style>
 
 
@@ -379,12 +418,20 @@
         border-radius: 2px;
     }
 
-        select.form-control:not([size]):not([multiple]) {
-            height: 36px;
-        }
+    select.form-control:not([size]):not([multiple]) {
+        height: 36px;
+    }
 
     .table td, .table th {
         padding: 0.25rem 0.75rem;
+    }
+    .alert-warning {
+        background-color: #78beff54;
+        border-color: #00aeff;
+        color: #ffe100;
+        font-weight: bold;
+        font-size: 13px;
+        color: black;
     }
 </style>
 
@@ -464,7 +511,35 @@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Descripción </h3>
+                                                            <div id="DatosRequeridos" class="alert alert-warning" role="alert" style="display:none">
+                                                                <p>
+                                                                    El tipo de documento seleccionado requiere los siguientes datos:
+                                                                </p>
 
+                                                                <div class="row">
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-files-o" aria-hidden="true"></i> Archivos</p>
+                                                                            <a id="mensaje"><strong>* Archivo editable</strong></a>
+                                                                            <a ><strong>* Archivo PDF</strong></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-2"></div>
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Fechas</p>
+                                                                            <a id="FechaRevisionCC"><strong>* Revisión</strong></a>
+                                                                            <a id="FechaPublicacionCC"><strong>* Publicacion</strong></a>
+                                                                            <a id="FechadeentradaenvigorCC"><strong>* Entrada en vigor</strong></a>
+                                                                            <a id="FechaProximaRevisionCC"><strong>* Proxima Revisión</strong></a>
+                                                                            <a id="FechaVencimientoCC"><strong>* Vencimiento</strong></a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>                                                             
+                                                            </div>
+
+                                                                
                                                         </div>
                                                     </div>
                                                     <br />
@@ -489,7 +564,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Documento </label>
-                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value)">
+                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
                                                                     <option value="0">Seleccionar</option>
                                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                                     {
@@ -532,35 +607,35 @@
                                                     </div>
                                                     <br />
                                                     <div class="row">
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FPublicacion">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FEntradaVigor">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
                                                                 <input type="text" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FProximaRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FVencimiento">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
                                                                 <input type="text" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
@@ -573,8 +648,9 @@
 
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
+                                                            @*validatodasfechas(), se quito la validacion de las fechas*@
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
-                                                            <button class="btn waves-effect waves-light btn-primary col-md-2" onclick="validatodasfechas(),Control()">  Siguiente   <i class="fa fa-chevron-right"></i></button>
+                                                            <button class="btn waves-effect waves-light btn-primary col-md-2" onclick="Control()">  Siguiente   <i class="fa fa-chevron-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -800,11 +876,11 @@
                                                             <h4><strong class="TextoColor">CONTROL </strong></h4>
 
                                                             <div class="resumen">
-                                                                <p><strong>Fecha Revisión</strong> <br /> <span id="SP_FechaRevision"></span></p>
-                                                                <p><strong>Fecha Publicacion</strong> <br /> <span id="SP_FechaPublicacion"></span></p>
-                                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
-                                                                <p><strong>Fecha Proxima Revisión</strong> <br /> <span id="SP_FechaProximaRevision"></span></p>
-                                                                <p><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
+                                                                <p id="FechaRevisionC"><strong>Fecha Revisión</strong> <br /> <span id="SP_FechaRevision"></span></p>
+                                                                <p id="FechaPublicacionC"><strong>Fecha Publicacion</strong> <br /> <span id="SP_FechaPublicacion"></span></p>
+                                                                <p id="FechadeentradaenvigorC"><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
+                                                                <p id="FechaProximaRevisionC"><strong>Fecha Proxima Revisión</strong> <br /> <span id="SP_FechaProximaRevision"></span></p>
+                                                                <p id="FechaVencimientoC"><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
 
 
                                                             </div>
@@ -891,6 +967,8 @@
                                             obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
                                             obj['PalabraClave'] = $("#PalabraClave").val();
                                             obj['Descripcion'] = $("#Descripcion").val();
+
+
 
                                             obj['FechaRevision'] = $("#FechaRevision").val();
                                             obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
@@ -999,6 +1077,8 @@
                                         obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
                                         obj['PalabraClave'] = $("#PalabraClave").val();
                                         obj['Descripcion'] = $("#Descripcion").val();
+
+
 
                                         obj['FechaRevision'] = $("#FechaRevision").val();
                                         obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
@@ -1759,7 +1839,6 @@
 
         return result;
     }
-
     function RequiereEditable() {
         var result = false;
 
@@ -1792,9 +1871,10 @@
         return result;
     }
 
-    
-    function ValidaTDoc(Id) {
 
+    function ValidaTDoc(Id) {
+        
+        $("#DatosRequeridos").css("display", "block");
         var obj = {};
 
         obj['Id'] = Id;
@@ -1816,16 +1896,22 @@
                     $("#Rpdf").addClass("col-md-6");
                     $("#Rpdf").removeClass("col-md-12");
 
+                    //Mostrar mensaje
+                    $("#mensaje").css("display", "block");
 
                 } else {
                     $("#Word").css("display", "none");
                     $("#Rpdf").addClass("col-md-12");
+
+                    $("#mensaje").css("display", "none");
                 }
 
             }
 
         });
     }
+
+
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
     {
@@ -1913,55 +1999,7 @@
 
             return result;
     }
-    function ValidaControl() {
-            var result = false;
 
-            if ($('#checkboxCaracteristasEnvio').prop('checked')) {
-                result = true;
-            } else {
-                $('#FechaRevision').css("border", "1px solid #ff0049");
-                $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
-                $('#FechaPublicacion').css("border", "1px solid #ff0049");
-                $('#FechaVencimiento').css("border", "1px solid #ff0049");
-                $('#FechaProximaRevision').css("border", "1px solid #ff0049");
-
-                if ($('#FechaRevision').val().length > 0) {
-                    $('#FechaRevision').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#Fechadeentradaenvigor').val().length > 0) {
-                    $('#Fechadeentradaenvigor').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#FechaPublicacion').val().length > 0) {
-                    $('#FechaPublicacion').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#FechaVencimiento').val().length > 0) {
-                    $('#FechaVencimiento').css("border", "1px solid #cccccc");
-                }
-                if ($('#FechaProximaRevision').val().length > 0) {
-                    $('#FechaProximaRevision').css("border", "1px solid #cccccc");
-                }
-
-
-
-                if ($('#FechaRevision').val().length > 0) {
-                    if ($('#Fechadeentradaenvigor').val().length > 0) {
-                        if ($('#FechaPublicacion').val().length > 0) {
-                            if ($('#FechaVencimiento').val().length > 0) {
-                                if ($('#FechaProximaRevision').val().length > 0) {
-
-                                    result = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
     function ValidaDistribucion() {
             var result = false;
 
@@ -2041,229 +2079,6 @@
         return result;
     }
 
-    /*SCRIPS Validación*/
-
-    function validarFechaRevision() {
-        var result = false;
-
-        var fechaRevisionInput = $('#FechaRevision').val();
-        var fechaRevisionParts = fechaRevisionInput.split('/');
-        var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
-
-        var fechaPublicacionInput = $('#FechaPublicacion').val();
-        var fechaPublicacionParts = fechaPublicacionInput.split('/');
-        var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
-
-        var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
-        var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
-        var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
-
-        var fechaVencimientoInput = $('#FechaVencimiento').val();
-        var fechaVencimientoParts = fechaVencimientoInput.split('/');
-        var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
-
-        if (fechaRevision <= fechaPublicacion) {
-            if (fechaRevision < fechaEntradaEnVigor) {
-                if (fechaRevision < fechaVencimiento) {
-                    result = true;
-                } else {
-                    $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
-                }
-            } else {
-                $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
-            }
-        } else {
-            $.notify("La Fecha de Revisión debe ser menor a la Fecha de Publicación.", "warn");
-        }
-
-        console.log(fechaRevision);
-        console.log(fechaPublicacion);
-        console.log(fechaEntradaEnVigor);
-        console.log(fechaVencimiento);
-
-        return result;
-    }
-
-    function validarFechaPublicacion() {
-        var result = false;
-
-        var fechaPublicacionInput = $('#FechaPublicacion').val();
-        var fechaPublicacionParts = fechaPublicacionInput.split('/');
-        var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
-
-        var fechaRevisionInput = $('#FechaRevision').val();
-        var fechaRevisionParts = fechaRevisionInput.split('/');
-        var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
-
-        var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
-        var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
-        var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
-
-        var fechaVencimientoInput = $('#FechaVencimiento').val();
-        var fechaVencimientoParts = fechaVencimientoInput.split('/');
-        var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
-
-        if (fechaPublicacion.getTime() >= fechaRevision.getTime()) {
-            if (fechaPublicacion.getTime() < fechaEntradaEnVigor.getTime()) {
-                if (fechaPublicacion.getTime() < fechaVencimiento.getTime()) {
-                    result = true;
-                } else {
-                    $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
-                }
-            } else {
-                $.notify("La Fecha de Publicación debe ser menor a la Fecha de entrada en vigor.", "warn");
-            }
-        } else {
-            $.notify("La Fecha de Publicación debe ser mayor a la Fecha de Revisión.", "warn");
-        }
-
-        return result;
-    }
-
-
-    function validarFechadeentradaenvigor() {
-        var result = false;
-
-        var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
-        var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
-        var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
-
-        var fechaRevisionInput = $('#FechaRevision').val();
-        var fechaRevisionParts = fechaRevisionInput.split('/');
-        var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
-
-        var fechaPublicacionInput = $('#FechaPublicacion').val();
-        var fechaPublicacionParts = fechaPublicacionInput.split('/');
-        var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
-
-        var fechaVencimientoInput = $('#FechaVencimiento').val();
-        var fechaVencimientoParts = fechaVencimientoInput.split('/');
-        var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
-
-        if (fechaEntradaEnVigor > fechaRevision) {
-            if (fechaEntradaEnVigor > fechaPublicacion) {
-                if (fechaEntradaEnVigor < fechaVencimiento) {
-                    result = true;
-                } else {
-                    $.notify("La Fecha de entrada en vigor debe ser menor a la Fecha de Vencimiento.", "warn");
-                }
-            } else {
-                $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Publicación.", "warn");
-            }
-        } else {
-            $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Revisión.", "warn");
-        }
-
-        return result;
-    }
-
-    function validarFechaVencimiento() {
-        var result = false;
-
-        var fechaVencimientoInput = $('#FechaVencimiento').val();
-        var fechaVencimientoParts = fechaVencimientoInput.split('/');
-        var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
-
-        var fechaRevisionInput = $('#FechaRevision').val();
-        var fechaRevisionParts = fechaRevisionInput.split('/');
-        var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
-
-        var fechaPublicacionInput = $('#FechaPublicacion').val();
-        var fechaPublicacionParts = fechaPublicacionInput.split('/');
-        var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
-
-        var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
-        var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
-        var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
-
-        if (fechaVencimiento > fechaRevision) {
-            if (fechaVencimiento > fechaPublicacion) {
-                if (fechaVencimiento > fechaEntradaEnVigor) {
-                    result = true;
-                } else {
-                    $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
-                }
-            } else {
-                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
-            }
-        } else {
-            $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
-        }
-
-        return result;
-    }
-    function validarFechaProximaRevision() {
-        var result = false;
-
-        var fechaProximaRevisionInput = $('#FechaProximaRevision').val();
-        var fechaProximaRevisionParts = fechaProximaRevisionInput.split('/');
-        var fechaProximaRevision = new Date(fechaProximaRevisionParts[2], fechaProximaRevisionParts[1] - 1, fechaProximaRevisionParts[0]);
-
-        var fechaVencimientoInput = $('#FechaVencimiento').val();
-        var fechaVencimientoParts = fechaVencimientoInput.split('/');
-        var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
-
-        var fechaPublicacionInput = $('#FechaPublicacion').val();
-        var fechaPublicacionParts = fechaPublicacionInput.split('/');
-        var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
-
-        if (fechaProximaRevision < fechaVencimiento) {
-            if (fechaProximaRevision > fechaPublicacion) {
-                result = true;
-            } else {
-                $.notify("La Fecha de Proxima Revisión debe ser mayor a la Fecha de Publicación.", "warn");
-            }
-        } else {
-            $.notify("La Fecha de Proxima Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
-        }
-
-        return result;
-    }
-
-    
-    
-   
-
-    function validatodasfechas() {
-
-        if (validarFechaRevision()) {
-
-            if (validarFechaPublicacion()) {
-
-                if (validarFechadeentradaenvigor()) {
-
-                    if (validarFechaVencimiento()) {
-
-                        if (validarFechaProximaRevision()) {
-                            Next();
-
-
-                        } else {
-                            $.notify("Completa el formulario.", "error");
-                        }
-
-
-
-                    } else {
-
-                        $.notify("Completa el formulario.", "error");
-                    }
-
-                } else {
-
-                    $.notify("Completa el formulario.", "error");
-                }
-
-            } else {
-
-                $.notify("Completa el formulario.", "error");
-            }
-
-        } else {
-
-            $.notify("Completa el formulario.", "error");
-        }
-    }
 
     /*Consultar subclasificacion select*/
     function ConsultaSubClasificacion(Id) {
@@ -2585,22 +2400,18 @@
 
 
     });
-
-
     const Nombre = document.getElementById('NombreDocumento');
     Nombre.addEventListener('keyup', function () {
         const text = Nombre.value;
         const uppercaseText = text.toUpperCase();
         Nombre.value = uppercaseText;
     });
-
     const PalabraClave = document.getElementById('PalabraClave');
     PalabraClave.addEventListener('keyup', function () {
         const text = PalabraClave.value;
         const uppercaseText = text.toUpperCase();
         PalabraClave.value = uppercaseText;
     });
-
     const Descripciones = document.getElementById('Descripcion');
     Descripciones.addEventListener('keyup', function () {
         const text = Descripciones.value;
@@ -2610,289 +2421,647 @@
 </script>
 
 <!--ARBOL-->
-@if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
-{
-    <script>
-        $(function () {
+<script>
+    $(document).ready(function () {
+        var treeList = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
 
-            $('#jstree').jstree({
+        var treeAdminExists = treeList.some(function(item) {
+            return item.IdElemento === "TreeAdmin";
+        });
 
-                'core': {
-                    'check_callback': true
-                },
+        if (treeAdminExists) {
+            $(function () {
 
-                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
+                $('#jstree').jstree({
 
-                 "contextmenu": {
-                    items: {
-                        "ccp": false,
-                        "create": {
-                            "label": "Crear carpeta",
-                            "action":
-                                function node_create() {
+                    'core': { 
+                        'themes': {
+                            'name': 'proton',
+                            'responsive': true
+                        },
+                        'check_callback': true
+                    },
+
+                    'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
+
+                    "contextmenu": {
+                        items: {
+                            "ccp": false,
+                            "create": {
+                                "label": "Crear carpeta",
+                                "action":
+                                    function node_create() {
+                                        var ref = $("#jstree").jstree(true);
+                                        var sel = ref.get_selected();
+
+                                        if (!sel.length) {
+                                            alert("Seleccione primero un nodo");
+                                            return;
+                                        }
+                                        sel = sel[0];
+                                        sel = ref.create_node(sel);
+
+                                        var nuevo = $("#jstree").jstree(true).get_node(sel);
+
+                                        var obj = {
+                                            "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
+                                        };
+
+                                        var jsonObject = {
+                                            "nuevasubClas": obj
+                                        };
+
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                $("#BtnSubclas").trigger("click");
+
+                                                if (data.Id == 1) {
+
+
+                                                    if (sel) {
+                                                        ref.edit(sel);
+                                                    }
+                                                }
+                                                else {
+
+                                                    ref.delete_node(sel);
+                                                }
+
+                                            }
+
+                                        });
+
+
+                                    }
+                            },
+                            "renombrar": {
+                                "label": "Renombrar Carpeta",
+                                "action": function node_rename() {
+
                                     var ref = $("#jstree").jstree(true);
                                     var sel = ref.get_selected();
-
                                     if (!sel.length) {
                                         alert("Seleccione primero un nodo");
                                         return;
                                     }
                                     sel = sel[0];
-                                    sel = ref.create_node(sel);
+                                    ref.edit(sel);
+                                }
+                            },
+                            "eliminar": {
+                                "label": "Eliminar Carpeta",
+                                "action": function node_delete() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
 
-                                    var nuevo = $("#jstree").jstree(true).get_node(sel);
-
-                                    var obj = {
-                                        "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
-                                    };
-
+                                    var obj = { "Idtemporal": sel[0] };
                                     var jsonObject = {
-                                        "nuevasubClas": obj
+                                        "carpeta": obj
                                     };
 
-
-                                     $.ajax({
+                                    $.ajax({
                                         type: "POST",
-                                        url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
                                         async: false,
                                         data: JSON.stringify(jsonObject),
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
                                         success: function (data) {
 
-                                            $("#BtnSubclas").trigger("click");
 
                                             if (data.Id == 1) {
+                                                sel = sel[0];
 
-
-                                                if (sel) {
-                                                    ref.edit(sel);
-                                                }
+                                                ref.delete_node(sel);
+                                                $.notify("Carpeta eliminada!", "success");
                                             }
                                             else {
-
-                                             ref.delete_node(sel);
+                                                swal({
+                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
                                             }
 
                                         }
 
-                                     });
+                                    });
+
 
 
                                 }
-                        },
-                        "renombrar": {
-                            "label": "Renombrar Carpeta",
-                            "action": function node_rename() {
+                            },
+                            "carpetaRoot": {
+                                "label": "Crear carpeta principal",
+                                "action": function () {
+                                    $("#jstree").jstree("create_node", null, null, "last", function (node) {
 
-                                var ref = $("#jstree").jstree(true);
-                                var sel = ref.get_selected();
-                                if (!sel.length) {
-                                    alert("Seleccione primero un nodo");
-                                    return;
+                                        var obj = {
+                                            "Nombre": node.text, "Idtemporal": node.id
+                                        };
+
+                                        var jsonObject = {
+                                            "nuevaClas": obj
+                                        };
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                if (data.Id == 1) {
+
+
+                                                }
+                                                else {
+
+                                                    $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                                                }
+
+                                            }
+                                        });
+
+                                        this.edit(node);
+
+                                    });
                                 }
-                                sel = sel[0];
+                            }
+                        }
+                    },
+
+                });
+                var to = false;
+                $('#plugins4_q').keyup(function () {
+                    if (to) { clearTimeout(to); }
+                    to = setTimeout(function () {
+                        var v = $('#plugins4_q').val();
+                        $('#jstree').jstree(true).search(v);
+                    }, 250);
+                });
+
+                $('#jstree').on('rename_node.jstree', function (e, data) {
+
+                    const node = data.node;
+                    const newName = data.text.toUpperCase();
+                    node.text = newName;
+
+                    var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                    var jsonObject = {
+                        "carpeta": obj
+                    };
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Renombrar", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Cambios Realizados.", "success");
+                            }
+                            else {
+
+                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
                                 ref.edit(sel);
                             }
-                        },
-                        "eliminar": {
-                            "label": "Eliminar Carpeta",
-                            "action": function node_delete() {
-                                var ref = $("#jstree").jstree(true);
-                                var sel = ref.get_selected();
 
-                                var obj = { "Idtemporal": sel[0] };
-                                var jsonObject = {
-                                    "carpeta": obj
-                                };
+                        }
 
-                                $.ajax({
-                                    type: "POST",
-                                    url: "@Url.Action("EliminarCarpeta", "Documentos")",
-                                    async: false,
-                                    data: JSON.stringify(jsonObject),
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (data) {
+                    });
+                });
+
+                $('#jstree').bind('move_node.jstree', function (e, data) {
 
 
-                                        if (data.Id == 1) {
-                                            sel = sel[0];
-
-                                            ref.delete_node(sel);
-                                            $.notify("Carpeta eliminada!", "success");
-                                        }
-                                        else {
-                                            swal({
-                                                title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
-                                                text: '',
-                                                icon: "warning",
-                                                button: "Aceptar",
-                                            });
-                                        }
-
-                                    }
-
-                                });
+                    if (data.node.parent == '#') {
+                        var obj = { "Idtemporal": data.node.id, "IdPadre": '0' };
+                        var jsonObject = {
+                            "NdN": obj
+                        };
+                    }
+                    else {
+                        var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                        var jsonObject = {
+                            "NdN": obj
+                        };
+                    }
 
 
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("MoverRutasDocumentos", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
 
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Carpeta Reubicada.", "success");
                             }
-                         },
-                        "carpetaRoot": {
-                             "label": "Crear carpeta principal",
-                             "action": function () {
-                                 $("#jstree").jstree("create_node", null, null, "last", function (node) {
+                            else {
 
-                                     var obj = {
-                                         "Nombre": node.text, "Idtemporal": node.id
-                                     };
+                                $.notify("No es posible mover a esta ruta.", "error");
+                            }
 
-                                     var jsonObject = {
-                                         "nuevaClas": obj
-                                     };
-                                     $.ajax({
-                                        type: "POST",
-                                        url: "@Url.Action("RegistrarClas", "Documentos")",
-                                        async: false,
-                                        data: JSON.stringify(jsonObject),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-
-                                            if (data.Id == 1) {
-
-
-                                            }
-                                            else {
-
-                                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
-                                            }
-
-                                        }
-                                     });
-
-                                     this.edit(node);
-
-                                 });
-                             }
-                         }
-                    }
-                 },
-
-            });
-            var to = false;
-            $('#plugins4_q').keyup(function () {
-                if (to) { clearTimeout(to); }
-                to = setTimeout(function () {
-                    var v = $('#plugins4_q').val();
-                    $('#jstree').jstree(true).search(v);
-                }, 250);
-            });
-
-            $('#jstree').on('rename_node.jstree', function (e, data) {
-
-                const node = data.node;
-                const newName = data.text.toUpperCase();
-                node.text = newName;
-
-                var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
-                var jsonObject = {
-                    "carpeta": obj
-                };
-
-
-                 $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("Renombrar", "Documentos")",
-                    async: false,
-                    data: JSON.stringify(jsonObject),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-
-                        $("#BtnSubclas").trigger("click");
-
-                        if (data.Id == 1) {
-
-                            $.notify("Cambios Realizados.", "success");
-                        }
-                        else {
-
-                            $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
-                            ref.edit(sel);
                         }
 
-                    }
-
+                    });
                 });
             });
+        }
+        else {
+            $(function () {
 
-            $('#jstree').bind('move_node.jstree', function (e, data) {
+                $('#jstree').jstree({
 
+                    'core': { 
+                        'themes': {
+                            'name': 'proton',
+                            'responsive': true
+                        },
+                        'check_callback': true
+                    },
 
-                if (data.node.parent == '#') {
-                    var obj = { "Idtemporal": data.node.id, "IdPadre":  '0' };
-                    var jsonObject = {
-                        "NdN": obj
-                    };
-                }
-                else {
-                    var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
-                    var jsonObject = {
-                        "NdN": obj
-                    };
-                }
-
-
-                 $.ajax({
-                    type: "POST",
-                    url: "@Url.Action("MoverRutasDocumentos", "Documentos")",
-                    async: false,
-                    data: JSON.stringify(jsonObject),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-
-                        $("#BtnSubclas").trigger("click");
-
-                        if (data.Id == 1) {
-
-                            $.notify("Carpeta Reubicada.", "success");
-                        }
-                        else {
-
-                            $.notify("No es posible mover a esta ruta.", "error");
-                        }
-
-                    }
+                    'plugins': ['state', 'wholerow', 'search'],
 
                 });
+                var to = false;
+                $('#plugins4_q').keyup(function () {
+                    if (to) { clearTimeout(to); }
+                    to = setTimeout(function () {
+                        var v = $('#plugins4_q').val();
+                        $('#jstree').jstree(true).search(v);
+                    }, 250);
+                });
+
             });
+        }
+            
+        
+    });
+</script>
+
+
+
+<script>
+//INICIO Consultar fechas requeribles
+    function Fechas(Id) {
+
+        $("#FechaRevision").val("");
+        $("#Fechadeentradaenvigor").val("");
+        $("#FechaPublicacion").val("");
+        $("#FechaProximaRevision").val("");
+        $("#FechaVencimiento").val("");
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = { "documento": obj };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("FechaInterfaz", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data[0].FRevision == 1) {
+                    $("#FechaRevisionC").css("display", "block");
+                    $("#FRevision").css("display", "block");
+                    $("#FechaRevisionCC").css("display", "block");
+                } else {
+                    $("#FechaRevisionC").css("display", "none");
+                    $("#FRevision").css("display", "none");
+                    $("#FechaRevisionCC").css("display", "none");
+                }
+                if (data[0].FEntradaVigor == 1) {
+                    $("#FechadeentradaenvigorC").css("display", "block");
+                    $("#FEntradaVigor").css("display", "block");
+                    $("#FechadeentradaenvigorCC").css("display", "block");
+                } else {
+                    $("#FechadeentradaenvigorC").css("display", "none");
+                    $("#FEntradaVigor").css("display", "none");
+                    $("#FechadeentradaenvigorCC").css("display", "none");
+                }
+                if (data[0].FPublicacion == 1) {
+                    $("#FechaPublicacionC").css("display", "block");
+                    $("#FPublicacion").css("display", "block");
+                    $("#FechaPublicacionCC").css("display", "block");
+                } else {
+                    $("#FechaPublicacionC").css("display", "none");
+                    $("#FPublicacion").css("display", "none");
+                    $("#FechaPublicacionCC").css("display", "none");
+                }
+                if (data[0].FProximaRevision == 1) {
+                    $("#FechaProximaRevisionC").css("display", "block");
+                    $("#FProximaRevision").css("display", "block");
+                    $("#FechaProximaRevisionCC").css("display", "block");
+                } else {
+                    $("#FechaProximaRevisionC").css("display", "none");
+                    $("#FProximaRevision").css("display", "none");
+                    $("#FechaProximaRevisionCC").css("display", "none");
+                }
+                if (data[0].FVencimiento == 1) {
+                    $("#FechaVencimientoC").css("display", "block");
+                    $("#FVencimiento").css("display", "block");
+                    $("#FechaVencimientoCC").css("display", "block");
+
+                } else {
+                    $("#FechaVencimientoC").css("display", "none");
+                    $("#FVencimiento").css("display", "none");
+                    $("#FechaVencimientoCC").css("display", "none");
+                }
+            }
         });
-    </script>
+    }
+//FIN Consultar fechas requeribles
+
+// INICIO VALIDAR FECHAS REQUERIDAS
+function ValidaControl() {
+    var result = true;
+
+    var obj = {};
+    obj['Id'] = $("#TipoDocumento option:selected").val();
+    var jsonObject = { "documento": obj };
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("FechaInterfaz", "Documentos")",
+        async: false,
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            // Reset the border color for all fields
+            $('#FechaRevision, #Fechadeentradaenvigor, #FechaPublicacion, #FechaVencimiento, #FechaProximaRevision')
+                .css("border", "1px solid #cccccc");
+
+            if (data[0].FRevision === 1 && $('#FechaRevision').val().length === 0) {
+                $('#FechaRevision').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FEntradaVigor === 1 && $('#Fechadeentradaenvigor').val().length === 0) {
+                $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FPublicacion === 1 && $('#FechaPublicacion').val().length === 0) {
+                $('#FechaPublicacion').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FProximaRevision === 1 && $('#FechaProximaRevision').val().length === 0) {
+                $('#FechaProximaRevision').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FVencimiento === 1 && $('#FechaVencimiento').val().length === 0) {
+                $('#FechaVencimiento').css("border", "1px solid #ff0049");
+                result = false;
+            }
+        }
+    });
+
+    return result;
 }
-else
-{
-    <script>$(function () {
+// FIN VALIDAR FECHAS REQUERIDAS
 
-            $('#jstree').jstree({
 
-                'core': {
-                    'check_callback': true
-                },
 
-                'plugins': ['state', 'wholerow', 'search'],
+//INICIO VALIDAR FECHAS
+function validatodasfechas() {
 
-            });
-            var to = false;
-            $('#plugins4_q').keyup(function () {
-                if (to) { clearTimeout(to); }
-                to = setTimeout(function () {
-                    var v = $('#plugins4_q').val();
-                    $('#jstree').jstree(true).search(v);
-                }, 250);
-            });
+        if (validarFechaRevision()) {
 
-        });</script>
+            if (validarFechaPublicacion()) {
+
+                if (validarFechadeentradaenvigor()) {
+
+                    if (validarFechaVencimiento()) {
+
+                        if (validarFechaProximaRevision()) {
+                            Next();
+
+
+                        } else {
+                            $.notify("Completa el formulario.", "error");
+                        }
+
+
+
+                    } else {
+
+                        $.notify("Completa el formulario.", "error");
+                    }
+
+                } else {
+
+                    $.notify("Completa el formulario.", "error");
+                }
+
+            } else {
+
+                $.notify("Completa el formulario.", "error");
+            }
+
+        } else {
+
+            $.notify("Completa el formulario.", "error");
+        }
+    }
+
+function validarFechaRevision() {
+    var result = false;
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaRevision <= fechaPublicacion) {
+        if (fechaRevision < fechaEntradaEnVigor) {
+            if (fechaRevision < fechaVencimiento) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Revisión debe ser menor a la Fecha de Publicación.", "warn");
+    }
+
+    console.log(fechaRevision);
+    console.log(fechaPublicacion);
+    console.log(fechaEntradaEnVigor);
+    console.log(fechaVencimiento);
+
+    return result;
 }
+function validarFechaPublicacion() {
+    var result = false;
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaPublicacion.getTime() >= fechaRevision.getTime()) {
+        if (fechaPublicacion.getTime() < fechaEntradaEnVigor.getTime()) {
+            if (fechaPublicacion.getTime() < fechaVencimiento.getTime()) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Publicación debe ser menor a la Fecha de entrada en vigor.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Publicación debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechadeentradaenvigor() {
+    var result = false;
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaEntradaEnVigor > fechaRevision) {
+        if (fechaEntradaEnVigor > fechaPublicacion) {
+            if (fechaEntradaEnVigor < fechaVencimiento) {
+                result = true;
+            } else {
+                $.notify("La Fecha de entrada en vigor debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechaVencimiento() {
+    var result = false;
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    if (fechaVencimiento > fechaRevision) {
+        if (fechaVencimiento > fechaPublicacion) {
+            if (fechaVencimiento > fechaEntradaEnVigor) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechaProximaRevision() {
+    var result = false;
+
+    var fechaProximaRevisionInput = $('#FechaProximaRevision').val();
+    var fechaProximaRevisionParts = fechaProximaRevisionInput.split('/');
+    var fechaProximaRevision = new Date(fechaProximaRevisionParts[2], fechaProximaRevisionParts[1] - 1, fechaProximaRevisionParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    if (fechaProximaRevision < fechaVencimiento) {
+        if (fechaProximaRevision > fechaPublicacion) {
+            result = true;
+        } else {
+            $.notify("La Fecha de Proxima Revisión debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Proxima Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
+    }
+
+    return result;
+}
+//FIN VALIDAR FECHAS
+
+</script>

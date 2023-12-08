@@ -18,22 +18,22 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuairo = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
 
                 if (Usuairo != null)
-                    {
-                        switch (Usuairo.IdRol)
-                        {
-                            case 1:
-                                // code block
-                                return RedirectToAction("PrincipalA", "Administracion");
-                            case 2:
-                                 // code block
-                                 return RedirectToAction("DocCompartidos", "Documentos");
-                             case 3:
-                                  //code block
-                                return RedirectToAction("PrincipalA", "Administracion");
-                            default:
-                        //code block
-                                break;
-                        }
+                {
+                    if (Usuairo.IdRol >= 1) {
+                     return RedirectToAction("PrincipalA", "Administracion");
+                    }
+                        //switch (Usuairo.IdRol)
+                        //{
+                        //    //case 2:
+                        //    //    // code block
+                        //    //    return RedirectToAction("DocCompartidos", "Documentos");
+                        //    case > 0:
+                        //        // code block
+                        //        return RedirectToAction("PrincipalA", "Administracion");
+                        //default:
+                        ////code block
+                        //     break;
+                        //}
                 }
           
             ViewBag.rd = Request.QueryString["rd"];
@@ -47,6 +47,7 @@ namespace ProyectoBase.Controllers
         {
             if (NuevoUsuario != null)
             {
+                // inicio de sesion
                 Models.Usuarios DataUser = usuario.Iniciar(NuevoUsuario.usuarios);
                 if (DataUser.Id > 0)
                 {
@@ -63,7 +64,6 @@ namespace ProyectoBase.Controllers
                     string url = Application.Cifrado.Desencriptar(NuevoUsuario.usuarios.Ruta);
                     if (menu.ValidacionPagina(DataUser, url))
                     {
-                        //string Nu = Application.UrlCifrardo.Decrypt(NuevoUsuario.usuarios.RutaAcceso);
                         string Nu = Application.Cifrado.Desencriptar(NuevoUsuario.usuarios.RutaCompleta);
                         DataUser.RutaAcceso = Nu;
                     }

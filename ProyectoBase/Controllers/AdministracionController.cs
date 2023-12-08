@@ -4,6 +4,7 @@ using ProyectoBase.Application;
 using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,15 +14,18 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : Controller
     {
-        public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+        public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
                 ViewBag.Usuario = Usuario;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
@@ -40,17 +44,19 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult AdminGrupos(Application.EmpresasListado empresasListado,
-          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
                 ViewBag.dtEmpresasListado = dtEmpresasListado;
 
@@ -70,18 +76,20 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }  
         public ActionResult VisualizarDocumentoSAdmin(Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc,
-          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema)
+          Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Usuario = Usuario;
+                ViewBag.Foto = Usuario.Inicial;
 
-   
 
 
                 _list_Doc.IdSesion = Usuario.Id;
@@ -102,9 +110,11 @@ namespace ProyectoBase.Controllers
             else { return RedirectToAction("Index", "Home"); }
         }
         public ActionResult CheckDoc(Application.Documentos documentos, Models.Documento documento, Application.Notification Anotification, Models.Notification _notification
-            ,Application.Sistema ApSistema)
+            ,Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
@@ -118,12 +128,12 @@ namespace ProyectoBase.Controllers
             ViewBag.lisnotifi = notificar;
             Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
             ViewBag.CountNoti = CountNoti;
-            
+            ViewBag.Foto = Usuario.Inicial;
             return View();
         }
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-            Application.List_Doc listadoAdmin, Application.Sistema ApSistema)
+            Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -133,15 +143,16 @@ namespace ProyectoBase.Controllers
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
 
-    
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Id = Usuario.Id;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -169,7 +180,7 @@ namespace ProyectoBase.Controllers
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
             Models.listadoVigencia _listadoVigencia, Application.listadoVigencia AlistadoVigencia,
             Models.Notification _notification, Application.Notification Anotification, Application.LisUser APlisUser, Application.Correo correo, Application.Sistema ApSistema,
-            Models.Documento documento)
+            Models.Documento documento, Application.PermisosRolElementos APPpermisosRolElementos)
         {
 
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
@@ -178,6 +189,10 @@ namespace ProyectoBase.Controllers
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
             if (Usuario != null)
             {
                 List<Models.LisUser> lisUser = APlisUser.SP_UserExpirado();
@@ -186,13 +201,15 @@ namespace ProyectoBase.Controllers
                 foreach (var dtUsuario in lisUser)
                 {
                     correo.EnvioCorreoExpira(dtUsuario);
-
+                     
                 }
 
                 Models.Notification analisis = Anotification.SP_NotiFechaTermino();
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
+
 
                 _documento_Versiones.IdUsuario = Usuario.Id;
                 List<Models.Documento_Versiones> conteo = Adocumento_Versiones.SP_ConteoMisDoc(_documento_Versiones);
@@ -247,7 +264,7 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult Vista(Models.Notification _notification, Application.Notification Anotification,
-            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion, Application.Sistema ApSistema)
+            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -257,13 +274,14 @@ namespace ProyectoBase.Controllers
 
 
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (menu.ValidacionPagina(Usuario, url))
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -282,7 +300,6 @@ namespace ProyectoBase.Controllers
 
                     Models.Documento documento = documentos.SP_DocumentoInfo(doc);
                     ViewBag.InfoDoc = documento;
-                    //ViewBag.Ruta = "DocumentosTemporales";
                     Models.Documento documentoR = documentos.sp_NombreRutaDoc(doc);
                     ViewBag.Ruta = documentoR.Nombre;
 
@@ -313,7 +330,7 @@ namespace ProyectoBase.Controllers
         Application.Documentos documentos, Application.Cat_Tipo_Documento cat_Tipo_Documento,
         Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
         Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -321,12 +338,14 @@ namespace ProyectoBase.Controllers
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
 
-        
 
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
@@ -400,7 +419,7 @@ namespace ProyectoBase.Controllers
         Application.Documentos documentos, Application.Cat_Tipo_Documento cat_Tipo_Documento,
         Application.Cat_TipoArchivo cat_TipoArchivo, Application.Cat_Almacenamiento_Documento cat_Almacenamiento_Documento,
         Application.Cat_ClasificacionDoc cat_ClasificacionDoc, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
 
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -408,11 +427,13 @@ namespace ProyectoBase.Controllers
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -483,19 +504,20 @@ namespace ProyectoBase.Controllers
 
         }
         public ActionResult Micuenta(Models.Notification _notification, Application.Notification Anotification
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
             string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -508,7 +530,7 @@ namespace ProyectoBase.Controllers
             return View();
         }
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
-            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser)
+            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -516,13 +538,14 @@ namespace ProyectoBase.Controllers
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 List<Models.LisUser> usuarios = AlisUser.ListadoUsuariosGral();
                 ViewBag.lisuser = usuarios;
                 _notification.IdUsuario = Usuario.Id;
@@ -544,7 +567,7 @@ namespace ProyectoBase.Controllers
         }
         public ActionResult Estadisticas(Models.Notification _notification, Application.Notification Anotification,
         Application.List_Doc list_Doc, Application.Cat_ClasificacionDoc Acat_ClasificacionDoc, Application.Usuarios Ausuarios
-            , Application.Sistema ApSistema)
+            , Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -552,13 +575,14 @@ namespace ProyectoBase.Controllers
             string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
             string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
             if (Usuario != null)
             {
 
                 ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
                 ViewBag.Rol = Usuario.NombreRol;
-
+                ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
@@ -595,6 +619,21 @@ namespace ProyectoBase.Controllers
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public string getParents()
         {
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
@@ -607,13 +646,16 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtClasificacionArchivo)
                 {
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
 
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
 
-                }
+                    
+
+            }
                 resulCarpetas += "</ul>";
             }
 
@@ -631,9 +673,9 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    //string var = "data-jstree='{\"opened\":true,\"selected\":false}'";
-                    //resulCarpetas += "<li id='" + dt.Id + "'" + var + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre; resulCarpetas += getChildren(dt);
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre; resulCarpetas += getChildren(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
 
@@ -655,9 +697,8 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text-o\"}'";
+                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text\"}'";
                     resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
-
                     resulDoc += "</li>";
 
                 }

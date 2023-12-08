@@ -18,6 +18,7 @@ namespace ProyectoBase.Data
             var reader = b.ExecuteReader();
             while (reader.Read())
             {  
+                //resultado.Versionamiento = Convert.ToInt32(reader["Versionamiento"].ToString());
                 resultado.NombreSistema = reader["NombreSistema"].ToString();
                 resultado.Acronimo = reader["Acronimo"].ToString();
                 resultado.RutaLogo = reader["RutaLogo"].ToString();
