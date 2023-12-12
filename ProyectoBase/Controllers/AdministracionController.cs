@@ -530,7 +530,8 @@ namespace ProyectoBase.Controllers
             return View();
         }
         public ActionResult Registrar(Models.Notification _notification, Application.Notification Anotification,
-            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser, Application.PermisosRolElementos APPpermisosRolElementos)
+            Application.EmpresasListado AempresasListado, Application.Sistema ApSistema, Application.LisUser AlisUser, Application.PermisosRolElementos APPpermisosRolElementos,
+            Application.Cat_Roles APPcat_Roles)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -557,6 +558,11 @@ namespace ProyectoBase.Controllers
 
                 List<Models.EmpresasListado> empresasListados = AempresasListado.SP_EmpresasListado();
                 ViewBag.empresaLis = empresasListados;
+
+
+                List<Models.Cat_Roles> rolListado = APPcat_Roles.Cat_Roles_listar();
+                ViewBag.Roles = rolListado;
+
                 return View();
 
             }
