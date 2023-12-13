@@ -50,6 +50,7 @@
     <Compile Include="Cat_ClasificacionDoc.cs" />
     <Compile Include="Cat_ListadoDepartamentos.cs" />
     <Compile Include="Cat_listadoGeneral.cs" />
+    <Compile Include="Cat_Roles.cs" />
     <Compile Include="Cat_RutaAlmacenamiento.cs" />
     <Compile Include="Cat_TipoArchivo.cs" />
     <Compile Include="Cat_Tipo_Documento.cs" />

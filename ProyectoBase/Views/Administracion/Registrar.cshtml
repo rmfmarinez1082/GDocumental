@@ -134,7 +134,7 @@
 
                             <div class="row">
 
-                                <div class="col-md-12 col-lg-12">
+                                <div class="col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label for="largeInput">* Puesto</label>
                                         <div class="input-group">
@@ -148,7 +148,23 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="largeInput">* Rol</label>
+                                        <div class="input-group">
+                                            @*<div class="input-group-prepend">
+                                                <button class="btn btn-default waves-effect" type="button" id="APuesto" onclick="CrearPuesto();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Puesto"><i class="fa fa-plus"></i></button>
+                                            </div>*@
+                                            <select class="form-control" id="Select-Rol">
+                                                <option value="0">Seleccionar </option>
+                                                @foreach (var item1 in ViewBag.Roles)
+                                                {
+                                                    <option value="@item1.Id">@item1.Nombre</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -229,7 +245,7 @@
                     obj['Email'] = $("#correo").val();
                     obj['Password'] = $("#contrasenia").val();
                     obj['IdPuesto'] = $("#Select-Puesto option:selected").val();
-
+                    obj['IdRol'] = $("#Select-Rol option:selected").val();
                     var jsonObject = {
                         "NuevoUsuario": obj
                     };
@@ -309,6 +325,7 @@
         $('#Select-Puesto').css("border", "1px solid #ff0049");
         $('#Select-Empresa').css("border", "1px solid #ff0049");
         $('#Departamento').css("border", "1px solid #ff0049");
+        $('#Select-Rol').css("border", "1px solid #ff0049");
 
 
         if ($('#Nombre').val().length > 0) {
@@ -338,25 +355,29 @@
         if ($("#Departamento option:selected").val() > 0) {
             $('#Departamento').css("border", "1px solid #cccccc");
         }
+        if ($("#Select-Rol option:selected").val() > 0) {
+            $('#Select-Rol').css("border", "1px solid #cccccc");
+        }
 
 
-
-        if ($("#Select-Empresa option:selected").val() > 0) {
-            if ($("#Departamento option:selected").val() > 0) {
-                if ($("#Select-Puesto option:selected").val() > 0) {
-                    if ($('#contrasenia').val().length > 0) {
-                        if ($('#contrasenia2').val().length > 0) {
-                            if ($('#correo').val().length > 0) {
-                                if ($('#ApellidoM').val().length > 0) {
-                                    if ($('#apellidoP').val().length > 0) {
-                                        if ($('#Nombre').val().length > 0) {
-                                            result = true;
+        if ($("#Select-Rol option:selected").val() > 0) {
+            if ($("#Select-Empresa option:selected").val() > 0) {
+                if ($("#Departamento option:selected").val() > 0) {
+                    if ($("#Select-Puesto option:selected").val() > 0) {
+                        if ($('#contrasenia').val().length > 0) {
+                            if ($('#contrasenia2').val().length > 0) {
+                                if ($('#correo').val().length > 0) {
+                                    if ($('#ApellidoM').val().length > 0) {
+                                        if ($('#apellidoP').val().length > 0) {
+                                            if ($('#Nombre').val().length > 0) {
+                                                result = true;
+                                            }
                                         }
                                     }
+
                                 }
 
                             }
-
                         }
                     }
                 }

@@ -127,6 +127,7 @@ namespace ProyectoBase.Data
             b.AddParameter("@ApellidoM", Nusuario.ApellidoM, SqlDbType.NVarChar);
             b.AddParameter("@Correo", Nusuario.Email, SqlDbType.NVarChar);
             b.AddParameter("@Contraseña", Nusuario.Password, SqlDbType.NVarChar);
+            b.AddParameter("@Rol", Nusuario.IdRol, SqlDbType.Int);
             Models.Usuarios resultado = new Models.Usuarios();
             var reader = b.ExecuteReader();
             while (reader.Read())
