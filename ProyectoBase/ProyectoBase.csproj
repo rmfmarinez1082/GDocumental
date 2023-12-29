@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilerias\Comun.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\animate.css\css\animate.css" />

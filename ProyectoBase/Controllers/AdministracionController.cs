@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace ProyectoBase.Controllers
 {
-    public class AdministracionController : Controller
+    public class AdministracionController : BaseController
     {
         public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
