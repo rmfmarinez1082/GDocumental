@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace ProyectoBase.Controllers
 {
-    public class DocumentosController : Controller
+    public class DocumentosController : BaseController
     {
         public ActionResult Gestionar(Models.Notification _notification, Application.Notification Anotification,
            Application.Documentos documentos, Application.Menu menu, Models.Notification Dnotificacion, Application.Notification Apnotificacion,
