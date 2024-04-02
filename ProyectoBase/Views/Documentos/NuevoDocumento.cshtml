@@ -1577,7 +1577,7 @@
             for (i = 0; i < fileInput.files.length; i++) {
                 var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
 
-                if (filesize < 10) {
+                if (filesize < 60) {
                     CargaTam = true;
                 } else {
                     CargaTam = false;
@@ -1632,7 +1632,7 @@
                 } else {
                     swal({
                         title: "Intentas cargar una archivo muy pesada: " + Tam + " MG",
-                        text: "Límite permitido 10 MG",
+                        text: "Límite permitido 60 MB",
                         icon: "warning",
                         button: "Aceptar",
                     });
@@ -1694,10 +1694,9 @@
                 var ext = fileInput.files[i].name.split('.').pop();
                 Extencion = fileInput.files[i].name.split('.').pop();
 
-                // Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
                 ext = ext.toLowerCase();
 
-                if (ext == 'docx' || ext == 'pptx' || ext == 'xlsx') {
+                if (ext == 'docx' || ext == 'pptx' || ext == 'xlsx' || ext == 'dwg') {
 
                     Carga = true;
                 } else {
@@ -1710,7 +1709,9 @@
             for (i = 0; i < fileInput.files.length; i++) {
                 var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
 
-                if (filesize < 10) {
+                alert(filesize);
+
+                if (filesize < 61) {
                     CargaTam = true;
                 } else {
                     CargaTam = false;
@@ -1765,7 +1766,7 @@
                 } else {
                     swal({
                         title: "Intentas cargar un archivo muy pesado: " + Tam + " MG",
-                        text: "Límite permitido 10 MG",
+                        text: "Límite permitido 60 MB",
                         icon: "warning",
                         button: "Aceptar",
                     });
@@ -1773,7 +1774,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de documentos permitidos: .docx, .pptx, .xlsx ",
+                    text: "Formato de documentos permitidos: .docx, .pptx, .xlsx, .dwg ",
                     icon: "warning",
                     button: "Aceptar",
                 });
