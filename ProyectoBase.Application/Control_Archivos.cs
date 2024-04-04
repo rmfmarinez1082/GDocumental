@@ -56,7 +56,7 @@ namespace ProyectoBase.Application
                 Directory.CreateDirectory(DirectorioUsuario);
             }
 
-            if (".docx".Contains(FileExtension) ^ ".pptx".Contains(FileExtension) ^ ".xlsx".Contains(FileExtension))
+            if (".docx".Contains(FileExtension) ^ ".pptx".Contains(FileExtension) ^ ".xlsx".Contains(FileExtension) ^ ".dwg".Contains(FileExtension))
             {
 
                 Models.Control_Archivos NuevoArchivo = Control_Archivos_Id();
