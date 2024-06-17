@@ -8,19 +8,6 @@ using System.Threading.Tasks;
 
 namespace ProyectoBase.Application
 {
-    //public class DATA
-    //{
-    //    public void Consulta()
-    //    {
-    //        ProyectoBase.Models.Sistema EncriptData = ProyectoBase.Models.Test.RutaEncriptado();
-
-    //        string IV = EncriptData.initVector;
-    //        string PP = EncriptData.passPhrase;
-    //        string TFS = EncriptData.textFileSalt;
-
-    //    }
-
-    //}
 
     public static class Cifrado
     {
@@ -28,13 +15,13 @@ namespace ProyectoBase.Application
 
 #if DEBUG
         //MACOS
-        //static readonly string initVector = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileInitVector.config");
-        //static readonly string passPhrase = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFilePassPhrase.config");
-        //static readonly string textFileSalt = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileSalt.config");
+        static readonly string initVector = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileInitVector.config");
+        static readonly string passPhrase = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFilePassPhrase.config");
+        static readonly string textFileSalt = File.ReadAllText("/Users/luisantonio/Downloads/Data/textFileSalt.config");
 
-        static readonly string initVector = File.ReadAllText(@"C:\Data\textFileInitVector.config");
-        static readonly string passPhrase = File.ReadAllText(@"C:\Data\textFilePassPhrase.config");
-        static readonly string textFileSalt = File.ReadAllText(@"C:\Data\textFileSalt.config");
+        //static readonly string initVector = File.ReadAllText(@"C:\Data\textFileInitVector.config");
+        //static readonly string passPhrase = File.ReadAllText(@"C:\Data\textFilePassPhrase.config");
+        //static readonly string textFileSalt = File.ReadAllText(@"C:\Data\textFileSalt.config");
 
 #else
         //WINDOWS

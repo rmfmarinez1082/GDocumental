@@ -366,7 +366,6 @@
         function tabla(datos) {
             var table = $('#TableEngrupo').DataTable();
             table.destroy();
-            //console.log(datos);
             Contenido.innerHTML = "";
 
 
@@ -401,30 +400,30 @@
 
      //Eliminar usuarios
     function eliminar(id) {
-swal({
-    title: "Eliminar usuario",
-    text: "¿Deseas eliminar el acceso a este usuario?",
-    icon: "error",
-    buttons: {
-        Si: {
-            text: "Sí, eliminar",
-            value: "si"
+    swal({
+        title: "Eliminar usuario",
+        text: "¿Deseas eliminar el acceso a este usuario?",
+        icon: "error",
+        buttons: {
+            Si: {
+                text: "Sí, eliminar",
+                value: "si"
 
+            },
+            cancel: "Cancelar"
         },
-        cancel: "Cancelar"
-    },
-    dangerMode: true,
-})
-    .then((willDelete) => {
+        dangerMode: true,
+    })
+        .then((willDelete) => {
 
-        switch (willDelete) {
+            switch (willDelete) {
 
-            case "si":
-                SeguroEliminar(id);
-                break;
-        }
-    });
-}
+                case "si":
+                    SeguroEliminar(id);
+                    break;
+            }
+        });
+    }
     function SeguroEliminar(id) {
 
         var obj = {};
