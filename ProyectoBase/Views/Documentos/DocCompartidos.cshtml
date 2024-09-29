@@ -516,11 +516,11 @@
                                                         <th style="color:white">Nombre</th>
                                                         <th class="text-center" style="color:white">Propietario</th>
                                                         <th scope="col" class="text-center col-1" style="color:white">Visualizar</th>
-                                                        <th scope="col" class="text-center col-1" style="color:white">Editar</th>
+                                                        @*<th scope="col" class="text-center col-1" style="color:white">Editar</th>*@
                                                         <th scope="col" class="text-center col-1" style="color:white">Actualizar</th>
                                                         <th style="display:none;" class="text-center">palabras clave</th>
                                                         <th scope="col" class="text-center col-1" style="color:white">Descargar</th>
-                                                        <th class="text-center" style="color:white">Estado</th>
+                                                        @*<th class="text-center" style="color:white">Estado</th>*@
 
 
                                                     </tr>
@@ -559,7 +559,7 @@
                                                             @*DESCARGA*@
 
                                                             @*PRIMERO VERIFICAMOS QUE SEA UN ARCHIVO DE TRABAJO*@
-                                                            @if (item.IdTipoDocumento == 8)
+                                                            <!--@if (item.IdTipoDocumento == 8)
                                                             {
                                                                 //AQUI SE VERIFICA SOLO POR LA FUNCION DE PRESTAMOS
                                                                 if (item.Compartido == 1 && item.prestamo == 0)
@@ -590,9 +590,9 @@
                                                                 }
 
 
-                                                            }
+                                                            }-->
                                                             @*Si NO archivo de trabajo Trato BASICO*@
-                                                            else if (!(item.NombreWord == "" || item.NombreWord == null))
+                                                            <!--else if (!(item.NombreWord == "" || item.NombreWord == null))
                                                             {
                                                                 <td class="text-center"><a href="/Documentos/descargar?doc=@item.NombreWord&nom=@item.Nombre"><i class="fa fa-download f-20" style="color:green"></i></a></td>
 
@@ -600,7 +600,7 @@
                                                             else
                                                             {
                                                                 <td class="text-center">Sin editable</td>
-                                                            }
+                                                            }-->
 
 
 
@@ -630,7 +630,7 @@
                                                             <td class="text-center"><a onclick="ConsultarPdf('@item.Id','@item.NmOriginal','@item.Nombre')"><i class="fa fa-file-pdf-o f-20" style="color: #FF0000"></i></a></td>
                                                             @*//EXPERIMENTAL*@
                                                             @*Estado*@
-                                                            @if (item.prestamo == 1)
+                                                            @*@if (item.prestamo == 1)
                                                             {
                                                                 ProyectoBase.Models.Notification _notification = new ProyectoBase.Models.Notification();
                                                                 ProyectoBase.Models.Usuarios Usuario = (ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -674,7 +674,7 @@
                                                             {
                                                                 <td class="text-center"><a>No aplica</a></td>
 
-                                                            }
+                                                            }*@
                                                         </tr>
 
                                                     }
@@ -1621,4 +1621,5 @@
 
 <script>
     $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#DocumentoCompartido').addClass("active");</script>
+    $('#DocumentoCompartido').addClass("active");
+</script>
