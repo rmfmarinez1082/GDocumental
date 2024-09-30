@@ -14,6 +14,25 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : BaseController
     {
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    base.OnActionExecuting(filterContext);
+
+        //    // Obtener el usuario de la sesión
+        //    Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+
+        //    if (Usuario != null)
+        //    {
+        //        ViewBag.UserGlobal = Usuario;
+
+        //    }
+        //    else
+        //    {
+        //        // Si no hay usuario, redirige al login o página inicial
+        //        filterContext.Result = RedirectToAction("Index", "Home");
+        //    }
+        //}
+
         public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();

@@ -328,6 +328,7 @@
                                 <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">MENÚ</div>
                                 <ul class="pcoded-item pcoded-left-item">
 
+                                    @*@ViewBag.UserGlobal.IdRol*@
 
                                     <li id="IdMenuDashboard">
                                         <a href="/Administracion/PrincipalA" class="waves-effect waves-dark">
@@ -346,23 +347,22 @@
                                         <ul class="pcoded-submenu">
                                             <li class=" " id="agregardoc">
                                                 <a href="/Documentos/NuevoDocumento" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar Documentos</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Agregar Documentos</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
 
                                             <li class=" " id="visaulizarDocumento">
                                                 <a href="/Documentos/VisualizarDocumento" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Mis Documentos</span>
+                                                    <span class="pcoded-micon"></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i>  Mis Documentos</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
                                             <li class=" " id="DocumentoCompartido">
                                                 <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
-                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Doc Compartidos</span>
+                                                    <span class="pcoded-micon"></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Doc Compartidos</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
@@ -370,7 +370,7 @@
                                             <li class=" " id="Directorio">
                                                 <a href="/Administracion/Index" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Directorio digital</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Directorio digital</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
@@ -389,55 +389,52 @@
                                             <li class=" " id="DocsAdmin">
                                                 <a href="/Administracion/VisualizarDocumentoSAdmin" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Gestión de Archivos Compartidos</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
                                             <li class=" " id="estadisticas">
                                                 <a href="/Administracion/Estadisticas" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Estadisticas</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Estadisticas</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
-
-                                          
-
                                             <li class=" " id="DFDC">
                                                 <a href="/Documentos/DirectorioFDC" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Directorio físico de documentos en Custodia</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Directorio físico de documentos en Custodia</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
-
                                             <li class=" " id="registrar">
                                                 <a href="/Administracion/Registrar" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Administrar Usuarios</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Administrar Usuarios</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
-
                                             <li class=" " id="Grupos">
                                                 <a href="/Administracion/AdminGrupos" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Grupos</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Grupos</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
-
                                             <li class=" " id="Permisos">
                                                 <a href="/Administracion/AdminCarpetas" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Permisos Carpetas</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert"><i class="fa fa-chevron-right"></i> Permisos Carpetas</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
+
+
+
                                         </ul>
 
                                     </li>
-                                    
+
                                     <li id="IdMenuCuenta">
                                         <a href="/Administracion/Micuenta" class="waves-effect waves-dark">
                                             <span class="pcoded-micon"><i class="fa fa-user-circle" aria-hidden="true"></i><b>D</b></span>
@@ -445,6 +442,8 @@
                                             <span class="pcoded-mcaret"></span>
                                         </a>
                                     </li>
+
+                                    @*AYUDA A USUARIO*@
                                     <li>
                                         <a onclick="VerAyuda();">
                                             <span class="pcoded-micon"><i class="fa fa-question-circle-o f-20" aria-hidden="true"></i></span>
