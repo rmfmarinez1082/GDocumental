@@ -162,11 +162,11 @@
             });
 
 
-            $('#jstree').on('select_node.jstree', function (e, data) {
-                var id = data.node.id;
+            $('#jstree').on('select_node.jstree', function (e,info) {
+                var id = info.node.id;
 
                 //CONSULTAR DATOS DE LA CARPETA AL DAR CLIC
-               
+
                     var obj = {};
                     obj['Id'] = id;
                     var jsonObject = {
@@ -181,7 +181,7 @@
                         contentType: "application/json",
                         dataType: "json",
                         success: function (data) {
-                            $('#Titulo').text('Carpeta: ' + data[0].Nombre);
+                            $('#Titulo').text('Carpeta: ' + info.node.text);
                             $('#Descripcion').text('Edita los permisos de la carpeta ');
                             ConsultaFselect(id);
                             ConPermiso(id);
@@ -195,7 +195,7 @@
                             })
                         }
                     });
-                
+
 
             });
 
@@ -232,7 +232,174 @@
     });
 
 
-    //Rellenar EL SELECT DE PERSONAS
+
+
+
+    //AGREGAR PERMISO USUARIO
+    function AgregarUsers() {
+        let selectedNodes = $('#jstree').jstree('get_selected', true);
+
+        if (selectedNodes.length === 0 || !selectedNodes[0].id) {
+            swal({
+                title: "Error",
+                text: "Seleccione una carpeta antes de agregar usuarios.",
+                icon: "error",
+                button: "Aceptar",
+            });
+            return;
+        }
+
+        let selectedNode = selectedNodes[0];
+        let Id = selectedNode.id;
+
+        let IdPlistValue = $("#TestSelect").val();
+        if (IdPlistValue.length === 0) {
+            swal({
+                title: "Error",
+                text: "No se a seleccionado ningun usuario",
+                icon: "error",
+                button: "Aceptar",
+            });
+            return;
+        }
+
+        let IdClist = Carpetas();
+
+        var obj = {};
+        obj['IdClist'] = IdClist;
+        obj['IdPlist'] = IdPlistValue;
+
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                swal({
+                    title: "Usuario(s) Agregados !",
+                    text: " ",
+                    icon: "success",
+                    button: "Aceptar",
+                }).then((value) => {
+                    ConPermiso(Id);
+                    ConsultaFselect(Id);
+                });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
+
+     //Eliminar usuarios
+    function eliminar(id) {
+    swal({
+        title: "Eliminar usuario",
+        text: "¿Deseas eliminar el acceso a este usuario?",
+        icon: "error",
+        buttons: {
+            Si: {
+                text: "Sí, eliminar",
+                value: "si"
+
+            },
+            cancel: "Cancelar"
+        },
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+
+            switch (willDelete) {
+
+                case "si":
+                    SeguroEliminar(id);
+                    break;
+            }
+        });
+    }
+    function SeguroEliminar(id) {
+
+        let IdClist = Carpetas();
+
+
+        var obj = {};
+        obj['IdPlist'] = id;
+        obj['IdClist'] = IdClist;
+
+
+        var jsonObject = {
+            "Datacarpeta": obj
+        };
+
+
+
+        let IdC = $('#jstree').jstree('get_selected', true)[0].id;
+
+
+        $.ajax({
+            url: "@Url.Action("Usuario_Carpeta_Borrar", "Administracion")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Persona Eliminada !",
+                        text: " ",
+                        icon: "success",
+                        button: "Aceptar",
+                    }).then((value) => {
+                        ConPermiso(IdC);
+                        ConsultaFselect(IdC);
+                    });
+            },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+    }
+
+
+
+
+
+    // Función para obtener los IDs de nodos seleccionados y sus padres
+    function Carpetas() {
+        var selectedNodes = $('#jstree').jstree('get_selected', true);
+        var parentIds = [];
+
+        selectedNodes.forEach(function (node) {
+            // Agregar el ID del nodo actual a la lista de IDs
+            parentIds.push(node.id);
+
+            // Agregar los IDs de los nodos padres del nodo actual
+            parentIds = parentIds.concat(node.parents);
+        });
+
+        // Eliminar duplicados de IDs de nodos padres
+        var uniqueParentIds = [...new Set(parentIds)];
+
+        // Filtrar y eliminar el valor "#" si está presente
+        var filteredParentIds = uniqueParentIds.filter(id => id !== "#");
+
+        return filteredParentIds;
+    }
+
+
+
+
+
+
+
+        //SELECT DE PERSONAS DISPONIBLES
     function ConsultaFselect(Id) {
         $('#TestSelect').empty();
 
@@ -275,70 +442,7 @@
       });
 
     }
-    //AGREGAR PERMISO USUARIO
-    function AgregarUsers() {
-        let selectedNodes = $('#jstree').jstree('get_selected', true);
-
-        if (selectedNodes.length === 0 || !selectedNodes[0].id) {
-            swal({
-                title: "Error",
-                text: "Seleccione una carpeta antes de agregar usuarios.",
-                icon: "error",
-                button: "Aceptar",
-            });
-            return;
-        }
-
-        let selectedNode = selectedNodes[0];
-        let Id = selectedNode.id;
-
-        let IdPlistValue = $("#TestSelect").val();
-        if (IdPlistValue.length === 0) {
-            swal({
-                title: "Error",
-                text: "No se a seleccionado ningun usuario",
-                icon: "error",
-                button: "Aceptar",
-            });
-            return;
-        }
-
-        let IdClist = Carpetas();
-        
-        var obj = {};
-        obj['IdClist'] = IdClist;
-        obj['IdPlist'] = IdPlistValue;
-        
-        var jsonObject = {
-            "Datacarpeta": obj
-        };
-
-
-        $.ajax({
-            url: "@Url.Action("Usuario_Carpeta_Insertar", "Administracion")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-                swal({
-                    title: "Usuario(s) Agregados !",
-                    text: " ",
-                    icon: "success",
-                    button: "Aceptar",
-                }).then((value) => {
-                    ConPermiso(Id);
-                    ConsultaFselect(Id);
-                });
-            },
-            error: function (resultado) {
-                console.log(resultado);
-                alert("Error funcion ");
-            }
-        });
-    }
-
-    //Listar  usaurios con permiso
+        //TABLA DE USUARIOS EN CARPETAS
      function ConPermiso(Id) {
         var obj = {};
         obj['Id'] = Id;
@@ -398,99 +502,6 @@
 
      }
 
-     //Eliminar usuarios
-    function eliminar(id) {
-    swal({
-        title: "Eliminar usuario",
-        text: "¿Deseas eliminar el acceso a este usuario?",
-        icon: "error",
-        buttons: {
-            Si: {
-                text: "Sí, eliminar",
-                value: "si"
-
-            },
-            cancel: "Cancelar"
-        },
-        dangerMode: true,
-    })
-        .then((willDelete) => {
-
-            switch (willDelete) {
-
-                case "si":
-                    SeguroEliminar(id);
-                    break;
-            }
-        });
-    }
-    function SeguroEliminar(id) {
-
-        var obj = {};
-        obj['IdP'] = id;
-        obj['Id'] = $('#jstree').jstree('get_selected', true)[0].id;
 
 
-        var jsonObject = {
-            "Datacarpeta": obj
-        };
-
-        let IdC = $('#jstree').jstree('get_selected', true)[0].id;
-
-        $.ajax({
-            url: "@Url.Action("Usuario_Carpeta_Borrar", "Administracion")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
-                    swal({
-                        title: "Persona Eliminada !",
-                        text: " ",
-                        icon: "success",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        ConPermiso(IdC);
-                        ConsultaFselect(IdC);
-                    });
-            },
-            error: function (resultado) {
-                console.log(resultado);
-                alert("Error funcion ");
-            }
-        });
-    }
-
-
-
-
-
-    // Función para obtener los IDs de nodos seleccionados y sus padres
-    function Carpetas() {
-        var selectedNodes = $('#jstree').jstree('get_selected', true);
-        var parentIds = [];
-
-        selectedNodes.forEach(function (node) {
-            // Agregar el ID del nodo actual a la lista de IDs
-            parentIds.push(node.id);
-
-            // Agregar los IDs de los nodos padres del nodo actual
-            parentIds = parentIds.concat(node.parents);
-        });
-
-        // Eliminar duplicados de IDs de nodos padres
-        var uniqueParentIds = [...new Set(parentIds)];
-
-        // Filtrar y eliminar el valor "#" si está presente
-        var filteredParentIds = uniqueParentIds.filter(id => id !== "#");
-
-        return filteredParentIds;
-    }
-
-
-
-
-
-   
 </script>

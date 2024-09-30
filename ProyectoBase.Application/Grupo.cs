@@ -65,9 +65,10 @@ namespace ProyectoBase.Application
         {
             return _Grupo.Usuario_Carpeta_Insertar(DataIdP,Datacarpeta);
         }
-        public Models.Grupo Usuario_Carpeta_Borrar(Models.Grupo grupo)
+
+        public Models.Grupo Usuario_Carpeta_Borrar(int DataIdP, int Datacarpeta)
         {
-            return _Grupo.Usuario_Carpeta_Borrar(grupo);
+            return _Grupo.Usuario_Carpeta_Borrar(DataIdP, Datacarpeta);
         }
     }
 

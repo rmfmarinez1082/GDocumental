@@ -257,12 +257,13 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
-        public Models.Grupo Usuario_Carpeta_Borrar(Models.Grupo grupo)
+    
+        public Models.Grupo Usuario_Carpeta_Borrar(int DataIdP, int Datacarpeta)
 
         {
             b.ExecuteCommandSP("Usuario_Carpeta_Borrar");
-            b.AddParameter("@UserId", grupo.IdP, SqlDbType.Int);
-            b.AddParameter("@Idcarpeta ", grupo.Id, SqlDbType.Int);
+            b.AddParameter("@UserId", DataIdP, SqlDbType.Int);
+            b.AddParameter("@Idcarpeta", Datacarpeta, SqlDbType.Int);
 
 
             Models.Grupo resultado = new Models.Grupo();

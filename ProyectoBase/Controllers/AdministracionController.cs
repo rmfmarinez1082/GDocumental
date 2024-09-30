@@ -131,6 +131,10 @@ namespace ProyectoBase.Controllers
             ViewBag.Foto = Usuario.Inicial;
             return View();
         }
+
+
+
+
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
             Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
@@ -163,8 +167,18 @@ namespace ProyectoBase.Controllers
                 List<Models.List_Doc> Adoc = listadoAdmin.SP_ListarDocAdmin();
                 ViewBag.AdminDoc = Adoc;
 
-                string Carpetas = getParents();
-                ViewBag.carpetas = Carpetas;
+
+                //PARA HACER EL ARBOL POR USUARIO
+                if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3 || ((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 1003)
+                {
+                    string Carpetas = getParents();
+                    ViewBag.carpetas = Carpetas;
+                }
+                else
+                {
+                    string Carpetas = ListadoPerfil();
+                    ViewBag.carpetas = Carpetas;
+                }
 
                 return View();
             }
@@ -174,6 +188,71 @@ namespace ProyectoBase.Controllers
             }
   
         }
+
+        //PARA HACER EL ARBOL POR USUARIO
+        public string ListadoPerfil()
+        {
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Models.Cat_ClasificacionArchivo carpeta = new Models.Cat_ClasificacionArchivo();
+            carpeta.Id = Usuario.Id;
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_ListarPorIdUsuario(carpeta);
+            string resulCarpetas = "";
+
+            if (dtClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtClasificacionArchivo)
+                {
+
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += ListadoPerfilSub(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+
+            return resulCarpetas;
+        }
+        public string ListadoPerfilSub(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
+        {
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            Models.Cat_ClasificacionArchivo carpeta = new Models.Cat_ClasificacionArchivo();
+            cat_ClasificacionDoc.IdUser = Usuario.Id;
+
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_ListarPorIdUsuario(cat_ClasificacionDoc);
+
+
+            string resulCarpetas = "";
+            if (dtSClasificacionArchivo.Count > 0)
+            {
+                resulCarpetas += "<ul>";
+
+                foreach (var dt in dtSClasificacionArchivo)
+                {
+                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    resulCarpetas += ListadoPerfilSub(dt);
+                    resulCarpetas += getDocument(dt);
+                    resulCarpetas += "</li>";
+
+                }
+                resulCarpetas += "</ul>";
+            }
+            return resulCarpetas;
+        }
+
+
+
+
+
+
+
+
 
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
             Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
@@ -920,9 +999,16 @@ namespace ProyectoBase.Controllers
         [HttpPost]
         public JsonResult Usuario_Carpeta_Borrar(Models.Grupo Datacarpeta, Application.Grupo APPGrupo)
         {
-            Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Borrar(Datacarpeta);
-
-            return Json(Respuesta);
+            List<Models.Grupo> respuestas = new List<Models.Grupo>();
+            foreach (var carpetaId in Datacarpeta.IdClist)
+            {
+                foreach (var usuarioId in Datacarpeta.IdPlist)
+                {
+                    Models.Grupo Respuesta = APPGrupo.Usuario_Carpeta_Borrar(usuarioId, carpetaId);
+                    respuestas.Add(Respuesta);
+                }
+            }
+            return Json(respuestas);
         }
 
         [HttpPost]
