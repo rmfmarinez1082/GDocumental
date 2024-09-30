@@ -36,6 +36,7 @@
             background-color: #ccc;
             margin: 6px 0;
         }
+
     .fa-folder:before {
         color: #f3bb22;
         font-size: 16px;
@@ -110,7 +111,7 @@
                             <h5 id="Titulo"></h5>
                         </div>
 
-                        <div style="width: 100%; height: 71vh">
+                        <div style="width: 100%; height: 92vh">
 
                             <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                         </div>
@@ -120,106 +121,63 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-xl-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Documentos en el sistema:  </h5>
-                            <span>Detalle de documentos en el sistema y usuarios responsables</span>
-                        </div>
+            @*<div class="row">
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Documentos en el sistema:  </h5>
+                                <span>Detalle de documentos en el sistema y usuarios responsables</span>
+                            </div>
 
-                        <div class="card-block">
+                            <div class="card-block">
 
-                            <div class="table-responsive">
-                                <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                    <thead style="background-color: #0d6efd">
-                                        <tr>
-
-                                            <th style="color:white">Nombre</th>
-                                            <th class="text-center" style="color:white">Usuario</th>
-                                            <th class="text-center" style="color:white">Clasificacion</th>
-                                            <th class="text-center" style="color:white">Detalle</th>
-
-                                            <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
-
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        @foreach (var item in ViewBag.AdminDoc)
-                                        {
-
+                                <div class="table-responsive">
+                                    <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                        <thead style="background-color: #0d6efd">
                                             <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center"><a>@item.NombreUsuario</a></td>
-                                                <td class="text-center"><a>@item.Clasificacion</a></td>
-                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
 
-                                                <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
+                                                <th style="color:white">Nombre</th>
+                                                <th class="text-center" style="color:white">Usuario</th>
+                                                <th class="text-center" style="color:white">Clasificacion</th>
+                                                <th class="text-center" style="color:white">Detalle</th>
+
+                                                <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
+
+
+
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            @foreach (var item in ViewBag.AdminDoc)
+                                            {
+
+                                                <tr>
+                                                    <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                    <td class="text-center"><a>@item.NombreUsuario</a></td>
+                                                    <td class="text-center"><a>@item.Clasificacion</a></td>
+                                                    <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
+
+                                                    <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+                </div>*@
         </div>
     </div>
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
-
-
-<script>
-    $(document).ready(function () {
-        $('#Detalle').DataTable({
-
-            pageLength: 5,
-            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
-            }
-        });
-    });
-
-
-
-    function VerDetalle(Id) {
-        var obj = {};
-
-        obj['UrlVaible'] = Id;
-
-        var jsonObject = {
-            "URL": obj
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("URL_Cifrar","URLS")",
-            async: false,
-            data: JSON.stringify(jsonObject),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                window.location.href = '@Url.Action("VistaDetalleAdmin","Documentos")?Id='+result.Url;
-            },
-            error: function () {
-                alert("intentalo mas tarde");
-            }
-        });
-    }
-
-
-
-    $('#IdAdministrador').addClass("active pcoded-trigger");
-    $('#Directorio').addClass("active");
-
-    $(function () {
+@if (ViewBag.usuario.IdRol == 3)
+{
+    <script>
+          $(function () {
             $('#jstree').jstree({
 
                 'core': {
@@ -610,6 +568,85 @@
             });
 
     });
+    </script>
+}
+else
+{
+    <script>
+          $(function () {
+            $('#jstree').jstree({
+
+                'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'check_callback': true,
+                },
+
+                'plugins': ['state', 'wholerow', 'search'],
+
+            });
+    });
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#Detalle').DataTable({
+
+            pageLength: 5,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+    });
+
+
+
+    function VerDetalle(Id) {
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar","URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("VistaDetalleAdmin","Documentos")?Id='+result.Url;
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
+    }
+
+
+
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#Directorio').addClass("active");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function SeleccionarPorId(documento) {
         var obj = {};
@@ -638,8 +675,6 @@
             }
         });
     }
-
-
     $(function () {
         var urlParams = new URLSearchParams(window.location.search);
         var nombreDocumento = decodeURIComponent(urlParams.get('Doc'));
@@ -656,32 +691,4 @@
             $('#jstree').jstree(true).search(v);
         });
     });
-
-    @*function SeguroEliminarArchivo(documento) {
-         $.ajax({
-            url: "@Url.Action("QuitarArchivo", "Documentos")",
-            data: JSON.stringify(documento),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            success: function (data) {
-
-                    swal({
-                        title: "Documento Eliminado !",
-                        text: " ",
-                        icon: "success",
-                        button: "Aceptar",
-                    }).then((value) => {
-                        sel = sel[0];
-
-                        ref.delete_node(sel);
-                        $.notify("Carpeta eliminada!", "success");
-                    });
-            },
-            error: function (resultado) {
-                console.log(resultado);
-                alert("Error funcion ");
-            }
-        });
-    //}*@
 </script>

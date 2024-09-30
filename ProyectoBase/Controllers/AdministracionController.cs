@@ -158,6 +158,8 @@ namespace ProyectoBase.Controllers
                 ViewBag.Rol = Usuario.NombreRol;
                 ViewBag.Foto = Usuario.Inicial;
                 _notification.IdUsuario = Usuario.Id;
+                ViewBag.usuario = Usuario;
+
                 List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
                 ViewBag.lisnotifi = notificar;
 
