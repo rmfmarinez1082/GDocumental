@@ -158,7 +158,11 @@
 
                     'multiple': true,
                 },
-                'plugins': ['search','checkbox'],
+                'plugins': ['search', 'checkbox'],
+                "checkbox": {
+                    "three_state": false, // Desactiva el comportamiento por defecto de seleccionar los padres/hijos
+                    "cascade": "down+undetermined" // Solo afectará a los nodos hijos
+                }
             });
 
 
@@ -325,7 +329,7 @@
     }
     function SeguroEliminar(id) {
 
-        let IdClist = Carpetas();
+        let IdClist = CarpetasParaEliminar();
 
 
         var obj = {};
@@ -391,6 +395,20 @@
         var filteredParentIds = uniqueParentIds.filter(id => id !== "#");
 
         return filteredParentIds;
+    }
+
+
+    // Función para obtener solo los IDs de los nodos seleccionados
+    function CarpetasParaEliminar() {
+        var selectedNodes = $('#jstree').jstree('get_selected', true); // Obtiene los nodos seleccionados con detalles
+        var nodeIds = [];
+
+        selectedNodes.forEach(function (node) {
+            // Agregar solo el ID del nodo seleccionado, ignorando los padres
+            nodeIds.push(node.id);
+        });
+
+        return nodeIds; // Devuelve solo los nodos seleccionados, sin incluir los padres
     }
 
 
