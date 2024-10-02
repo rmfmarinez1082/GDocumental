@@ -570,7 +570,7 @@
     });
     </script>
 }
-else
+else if (ViewBag.usuario.IdRol == 1005)
 {
     <script>
           $(function () {
@@ -584,11 +584,405 @@ else
                     'check_callback': true,
                 },
 
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
+
+                 "contextmenu": {
+                     items: function (node) {
+                         // Determinar si el nodo es una carpeta o un documento
+                         var isDocument = node.icon === 'fa fa-file-text';
+
+                         // Menú contextual para carpetas
+                         var folderMenu = {
+                            "ccp": false,
+                            "create": {
+                                "label": "Crear carpeta",
+                                "action":
+                                    function node_create() {
+                                        var ref = $("#jstree").jstree(true);
+                                        var sel = ref.get_selected();
+
+                                        if (!sel.length) {
+                                            alert("Seleccione primero un nodo");
+                                            return;
+                                        }
+                                        sel = sel[0];
+                                        sel = ref.create_node(sel);
+
+                                        var nuevo = $("#jstree").jstree(true).get_node(sel);
+
+                                        var obj = {
+                                            "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
+                                        };
+
+                                        var jsonObject = {
+                                            "nuevasubClas": obj
+                                        };
+
+
+                                         $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                $("#BtnSubclas").trigger("click");
+
+                                                if (data.Id == 1) {
+
+
+                                                    if (sel) {
+                                                        ref.edit(sel);
+                                                    }
+                                                }
+                                                else {
+
+                                                 ref.delete_node(sel);
+                                                }
+
+                                            }
+
+                                         });
+
+
+                                    }
+                            },
+                            "renombrar": {
+                                "label": "Renombrar Carpeta",
+                                "action": function node_rename() {
+
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+                                    if (!sel.length) {
+                                        alert("Seleccione primero un nodo");
+                                        return;
+                                    }
+                                    sel = sel[0];
+                                    ref.edit(sel);
+                                }
+                            },
+                            "eliminar": {
+                                "label": "Eliminar Carpeta",
+                                "action": function node_delete() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    var obj = { "Idtemporal": sel[0] };
+                                    var jsonObject = {
+                                        "carpeta": obj
+                                    };
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+
+                                            if (data.Id == 1) {
+                                                sel = sel[0];
+
+                                                ref.delete_node(sel);
+                                                $.notify("Carpeta eliminada!", "success");
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+                                            }
+
+                                        }
+
+                                    });
+
+
+
+                                }
+                             },
+                            "carpetaRoot": {
+                                 "label": "Crear carpeta principal",
+                                 "action": function () {
+                                     $("#jstree").jstree("create_node", null, null, "last", function (node) {
+
+                                         var obj = {
+                                             "Nombre": node.text, "Idtemporal": node.id
+                                         };
+
+                                         var jsonObject = {
+                                             "nuevaClas": obj
+                                         };
+                                         $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                if (data.Id == 1) {
+
+
+                                                }
+                                                else {
+
+                                                    $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                                                }
+
+                                            }
+                                         });
+
+                                         this.edit(node);
+
+                                     });
+                                 }
+                             }
+                         };
+
+                         // Menú contextual para documentos
+                         var documentMenu = {
+                             //"renombrarDocumento": {
+                             //    "label": "Renombrar Documento",
+                             //    "action": function () {
+                             //        // Lógica para renombrar documento
+                             //    }
+                             //},
+                             "eliminarDocumento": {
+                                 "label": "Eliminar Documento",
+                                 "action": function node_delete() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    var obj = { "Id": sel[0] };
+                                    var jsonObject = {
+                                        "documento": obj
+                                    };
+                                     swal({
+                                         title: "Eliminación de Archivos",
+                                         text: "¿Está seguro de querer eliminar este archivo?",
+                                         icon: "error",
+                                         buttons: {
+                                             Si: {
+                                                 text: "Sí, eliminar",
+                                                 value: "si"
+
+                                             },
+                                             cancel: "Cancelar"
+                                         },
+                                         dangerMode: true,
+                                     })
+                                         .then((willDelete) => {
+
+                                             switch (willDelete) {
+
+                                                 case "si":
+                                                  $.ajax({
+                                                        url: "@Url.Action("QuitarArchivo", "Documentos")",
+                                                        data: JSON.stringify(jsonObject),
+                                                        type: "POST",
+                                                        contentType: "application/json",
+                                                        dataType: "json",
+                                                        success: function (data) {
+
+                                                                swal({
+                                                                    title: "Documento Eliminado !",
+                                                                    text: " ",
+                                                                    icon: "success",
+                                                                    button: "Aceptar",
+                                                                }).then((value) => {
+                                                                    sel = sel[0];
+
+                                                                    ref.delete_node(sel);
+                                                                    $.notify("Documento eliminado!", "success");
+                                                                });
+                                                        },
+                                                        error: function (resultado) {
+                                                            console.log(resultado);
+                                                            alert("Error funcion ");
+                                                        }
+                                                    });
+                                                                                             break;
+                                             }
+                                         });
+                                    @*$.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+
+                                            if (data.Id == 1) {
+                                                sel = sel[0];
+
+                                                ref.delete_node(sel);
+                                                $.notify("Carpeta eliminada!", "success");
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+                                            }
+
+                                        }
+
+                                    });*@
+
+
+
+                                 }
+                             }
+                         };
+
+                         // Devolver el menú adecuado según el tipo de nodo
+                         return isDocument ? documentMenu : folderMenu;
+                     }
+                 },
+
+            });
+
+            $('#jstree').on('rename_node.jstree', function (e, data) {
+
+                const node = data.node;
+                const newName = data.text.toUpperCase();
+                node.text = newName;
+
+                var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+
+
+                var jsonObject = {
+                    "carpeta": obj
+                };
+
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Renombrar", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                     success: function (data) {
+
+                         if (data.Id == 1) {
+
+                             $.notify("Cambios Realizados.", "success");
+                         }
+                         else if (data.Id == 2) {
+
+                                 $.notify("Elemento no editable.", "error");
+                                 ref.edit(sel);
+
+                              } else {
+                                 $.notify("Error al procesar tu solicitud.", "error");
+                                 ref.edit(sel);
+                              }
+
+                     }
+
+                });
+            });
+            $('#jstree').bind('move_node.jstree', function (e, data) {
+
+
+                if (data.node.parent == '#') {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre":  '0' };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+                else {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+
+                if (data.node.icon == "fa fa-file-text") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("MoverDocumento", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Documento Reubicado.", "success");
+                            }
+                            else {
+
+                                $.notify("No es posible mover a esta ruta.", "error");
+                            }
+
+                        }
+
+                    });
+                } else {
+                      $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("MoverRutasDocumentos", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Carpeta Reubicada.", "success");
+                            }
+                            else {
+
+                                $.notify("No es posible mover a esta ruta.", "error");
+                            }
+
+                        }
+
+                    });
+                }
+
+
+            });
+
+    });
+    </script>
+}
+else
+{
+    <script>$(function () {
+            $('#jstree').jstree({
+
+                'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'check_callback': true,
+                },
+
                 'plugins': ['state', 'wholerow', 'search'],
 
             });
-    });
-    </script>
+        });</script>
 }
 
 <script>
