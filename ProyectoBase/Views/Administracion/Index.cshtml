@@ -1023,7 +1023,7 @@ function SeleccionarPorId(documento) {
     };
 
     $.ajax({
-        url: "@Url.Action('SeleccionarPorId', 'Documentos')",
+        url: "@Url.Action("SeleccionarPorId", "Documentos")",
         data: JSON.stringify(jsonObject),
         type: "POST",
         contentType: "application/json",
