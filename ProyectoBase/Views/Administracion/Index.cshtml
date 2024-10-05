@@ -115,7 +115,7 @@
                         <div style="width: 100%; height: 92vh">
 
                             @*<iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
-                            <iframe id="iframepdf" src="/assets/ViewerJS/#" style="width:100%; height:600px;" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="iframepdf" src="" style="width:100%; height:600px;" frameborder="0" allowfullscreen></iframe>
                         </div>
 
                     </div>
@@ -1096,7 +1096,7 @@ else
             var rutaDocumento = '/DocumentosTemporales/' + resultado[0].NmArchivo;
 
             // Establecer la ruta de ViewerJS con el documento
-            $('#iframepdf').attr('src', '/ViewerJS/#' + rutaDocumento + '#toolbar=0');
+            $('#iframepdf').attr('src', '/assets/ViewerJS/#' + rutaDocumento);
         },
         error: function (resultado) {
             alert("Error de ejecución");
