@@ -1302,6 +1302,28 @@
     <Content Include="assets\js\fSelect.js" />
     <Content Include="assets\css\fSelect.css" />
     <Content Include="Views\Administracion\AdminCarpetas.cshtml" />
+    <Content Include="assets\ViewerJS\viewerTouch.css" />
+    <None Include="assets\ViewerJS\viewerjsversion.js.in" />
+    <None Include="assets\ViewerJS\viewerjs-plugin.php.in" />
+    <None Include="assets\ViewerJS\viewerjs-plugin-README.txt" />
+    <Content Include="assets\ViewerJS\viewer.js" />
+    <Content Include="assets\ViewerJS\viewer.css" />
+    <None Include="assets\ViewerJS\README.md" />
+    <None Include="assets\ViewerJS\README" />
+    <Content Include="assets\ViewerJS\PluginLoader.js" />
+    <Content Include="assets\ViewerJS\PDFViewerPlugin.js" />
+    <Content Include="assets\ViewerJS\PDFViewerPlugin.css" />
+    <Content Include="assets\ViewerJS\ODFViewerPlugin.js" />
+    <Content Include="assets\ViewerJS\ODFViewerPlugin.css" />
+    <Content Include="assets\ViewerJS\index.html" />
+    <Content Include="assets\ViewerJS\index-template.html" />
+    <Content Include="assets\ViewerJS\HeaderCompiled.js" />
+    <Content Include="assets\ViewerJS\HeaderCompiled.html" />
+    <Content Include="assets\ViewerJS\example.local.css" />
+    <None Include="assets\ViewerJS\CMakeLists.txt" />
+    <None Include="assets\ViewerJS\Apache-License-2.0.txt" />
+    <None Include="assets\ViewerJS\AGPL-3.0.txt" />
+    <None Include="assets\ViewerJS\pdfjsversion.js.in" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1309,6 +1331,7 @@
     <Folder Include="DocumentosTemporales\" />
     <Folder Include="Views\FileAPI\" />
     <Folder Include="Views\URLS\" />
+    <Folder Include="assets\ViewerJS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
