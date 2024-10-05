@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 <link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf_viewer.min.css" />
+<link rel="stylesheet" href="~/assets/pdfjs/web/pdf_viewer.css">
 
 
 <style>
@@ -43,17 +43,6 @@
         color: #f3bb22;
         font-size: 16px;
     }
-
-    #pdf-container {
-        border: 1px solid #ccc;
-        overflow: auto;
-    }
-
-    canvas {
-        display: block;
-        margin: 0 auto; /* Centra el canvas */
-    }
-
 </style>
 
 <div class="@*pcoded-content*@">
@@ -127,9 +116,7 @@
                         <div style="width: 100%; height: 92vh">
 
                             @*<iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
-                            <div id="pdf-container" style="width: 100%; height: 600px;">
-                                <canvas id="pdf-canvas" style="width: 100%; height: auto;"></canvas>
-                            </div>
+
                         </div>
 
                     </div>
@@ -142,9 +129,12 @@
     </div>
 </div>
 
-<script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
 
+
+
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+<script src="~/assets/pdfjs/build/pdf.js"></script> 
+<script src="~/assets/pdfjs/build/pdf.worker.js"></script>
 
 
 @if (ViewBag.usuario.IdRol == 3)
@@ -997,7 +987,7 @@ else
         });
     }
 
-    @*function SeleccionarPorId(documento) {
+    function SeleccionarPorId(documento) {
         var obj = {};
         obj['Id'] = documento;
 
@@ -1020,59 +1010,7 @@ else
                 alert("Error de ejecucion ");
             }
         });
-    }*@
-
-    function SeleccionarPorId(documento) {
-    var obj = {};
-    obj['Id'] = documento;
-
-    var jsonObject = {
-        "list_Doc": obj
-    };
-
-    $.ajax({
-        url: "@Url.Action("SeleccionarPorId", "Documentos")",
-        data: JSON.stringify(jsonObject),
-        type: "POST",
-        contentType: "application/json",
-        dataType: "json",
-
-        success: function (resultado) {
-            $('#Titulo').text('Documento: ' + resultado[0].Nombre);
-            var rutaDocumento = '/DocumentosTemporales/' + resultado[0].NmArchivo;
-
-            // Cargar el PDF en el canvas
-            cargarPDF(rutaDocumento);
-        },
-        error: function (resultado) {
-            alert("Error de ejecución");
-        }
-    });
-}
-
-function cargarPDF(url) {
-    const canvas = document.getElementById('pdf-canvas');
-    const context = canvas.getContext('2d');
-
-    // Usar PDF.js para cargar el documento
-    pdfjsLib.getDocument(url).promise.then(pdf => {
-        pdf.getPage(1).then(page => {
-            const viewport = page.getViewport({ scale: 1.5 }); // Ajustar el zoom si es necesario
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            const renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-
-            // Renderizar la página del PDF
-            page.render(renderContext);
-        });
-    }).catch(function (error) {
-        console.error('Error al cargar el PDF: ' + error);
-    });
-}
+    }
 
 
     $(function () {
