@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 <link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
-<link href="~/assets/ViewerJS/example.local.css" rel="stylesheet" />
+@*<link href="~/assets/ViewerJS/example.local.css" rel="stylesheet" />*@
 
 <style>
     /* Personalizar el estilo del menú contextual */
@@ -114,8 +114,8 @@
 
                         <div style="width: 100%; height: 92vh">
 
-                            @*<iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
-                            <iframe id="iframepdf" src="" style="width:100%; height:600px;" frameborder="0" allowfullscreen></iframe>
+                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                            @*<iframe id="iframepdf" src="" style="width:100%; height:600px;" frameborder="0" allowfullscreen></iframe>*@
                         </div>
 
                     </div>
@@ -175,7 +175,7 @@
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="~/assets/ViewerJS/compatibility"></script>
+@*<script src="~/assets/ViewerJS/compatibility"></script>*@
 
 
 @if (ViewBag.usuario.IdRol == 3)
@@ -1046,7 +1046,7 @@ else
 
 
 
-    @*function SeleccionarPorId(documento) {
+    function SeleccionarPorId(documento) {
         var obj = {};
         obj['Id'] = documento;
 
@@ -1064,7 +1064,7 @@ else
             success: function (resultado) {
 //                $('#IdRegistro').val(resultado[0].Id);
                   $('#Titulo').text('Documento: ' + resultado[0].Nombre);
-                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo);
 //                $('#eDescripcion').text(resultado[0].Descripcion);
 
             },
@@ -1072,8 +1072,8 @@ else
                 alert("Error de ejecucion ");
             }
         });
-    }*@
-    function SeleccionarPorId(documento) {
+    }
+    @*function SeleccionarPorId(documento) {
     var obj = {};
     obj['Id'] = documento;
 
@@ -1102,7 +1102,7 @@ else
             alert("Error de ejecución");
         }
     });
-}
+}*@
 
     $(function () {
         var urlParams = new URLSearchParams(window.location.search);
