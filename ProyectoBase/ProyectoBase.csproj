@@ -1302,15 +1302,6 @@
     <Content Include="assets\js\fSelect.js" />
     <Content Include="assets\css\fSelect.css" />
     <Content Include="Views\Administracion\AdminCarpetas.cshtml" />
-    <Content Include="assets\ViewerJS\webodf.js" />
-    <Content Include="assets\ViewerJS\ui_utils.js" />
-    <Content Include="assets\ViewerJS\text_layer_builder.js" />
-    <Content Include="assets\ViewerJS\pdfjsversion.js" />
-    <Content Include="assets\ViewerJS\pdf.worker.js" />
-    <Content Include="assets\ViewerJS\pdf.js" />
-    <Content Include="assets\ViewerJS\index.html" />
-    <Content Include="assets\ViewerJS\example.local.css" />
-    <Content Include="assets\ViewerJS\compatibility.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1318,7 +1309,6 @@
     <Folder Include="DocumentosTemporales\" />
     <Folder Include="Views\FileAPI\" />
     <Folder Include="Views\URLS\" />
-    <Folder Include="assets\ViewerJS\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

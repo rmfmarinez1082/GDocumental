@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 <link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
-@*<link href="~/assets/ViewerJS/example.local.css" rel="stylesheet" />*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf_viewer.min.css" />
+
 
 <style>
     /* Personalizar el estilo del menú contextual */
@@ -42,6 +43,17 @@
         color: #f3bb22;
         font-size: 16px;
     }
+
+    #pdf-container {
+        border: 1px solid #ccc;
+        overflow: auto;
+    }
+
+    canvas {
+        display: block;
+        margin: 0 auto; /* Centra el canvas */
+    }
+
 </style>
 
 <div class="@*pcoded-content*@">
@@ -114,8 +126,10 @@
 
                         <div style="width: 100%; height: 92vh">
 
-                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
-                            @*<iframe id="iframepdf" src="" style="width:100%; height:600px;" frameborder="0" allowfullscreen></iframe>*@
+                            @*<iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
+                            <div id="pdf-container" style="width: 100%; height: 600px;">
+                                <canvas id="pdf-canvas" style="width: 100%; height: auto;"></canvas>
+                            </div>
                         </div>
 
                     </div>
@@ -123,59 +137,14 @@
 
             </div>
 
-            @*<div class="row">
-                    <div class="col-xl-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5>Documentos en el sistema:  </h5>
-                                <span>Detalle de documentos en el sistema y usuarios responsables</span>
-                            </div>
 
-                            <div class="card-block">
-
-                                <div class="table-responsive">
-                                    <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                                        <thead style="background-color: #0d6efd">
-                                            <tr>
-
-                                                <th style="color:white">Nombre</th>
-                                                <th class="text-center" style="color:white">Usuario</th>
-                                                <th class="text-center" style="color:white">Clasificacion</th>
-                                                <th class="text-center" style="color:white">Detalle</th>
-
-                                                <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
-
-
-
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-group-divider">
-                                            @foreach (var item in ViewBag.AdminDoc)
-                                            {
-
-                                                <tr>
-                                                    <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                    <td class="text-center"><a>@item.NombreUsuario</a></td>
-                                                    <td class="text-center"><a>@item.Clasificacion</a></td>
-                                                    <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
-
-                                                    <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>*@
         </div>
     </div>
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
-@*<script src="~/assets/ViewerJS/compatibility"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+
 
 
 @if (ViewBag.usuario.IdRol == 3)
@@ -990,6 +959,8 @@ else
 }
 
 <script>
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#Directorio').addClass("active");
     $(document).ready(function () {
         $('#Detalle').DataTable({
 
@@ -1000,8 +971,6 @@ else
             }
         });
     });
-
-
 
     function VerDetalle(Id) {
         var obj = {};
@@ -1028,25 +997,7 @@ else
         });
     }
 
-
-
-    $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#Directorio').addClass("active");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function SeleccionarPorId(documento) {
+    @*function SeleccionarPorId(documento) {
         var obj = {};
         obj['Id'] = documento;
 
@@ -1062,18 +1013,16 @@ else
             dataType: "json",
 
             success: function (resultado) {
-//                $('#IdRegistro').val(resultado[0].Id);
                   $('#Titulo').text('Documento: ' + resultado[0].Nombre);
                   $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo);
-//                $('#eDescripcion').text(resultado[0].Descripcion);
-
             },
             error: function (resultado) {
                 alert("Error de ejecucion ");
             }
         });
-    }
-    @*function SeleccionarPorId(documento) {
+    }*@
+
+    function SeleccionarPorId(documento) {
     var obj = {};
     obj['Id'] = documento;
 
@@ -1089,20 +1038,42 @@ else
         dataType: "json",
 
         success: function (resultado) {
-            // Actualiza el título del documento
             $('#Titulo').text('Documento: ' + resultado[0].Nombre);
-
-            // Construimos la ruta al documento
             var rutaDocumento = '/DocumentosTemporales/' + resultado[0].NmArchivo;
 
-            // Establecer la ruta de ViewerJS con el documento
-            $('#iframepdf').attr('src', '/assets/ViewerJS/#' + rutaDocumento);
+            // Cargar el PDF en el canvas
+            cargarPDF(rutaDocumento);
         },
         error: function (resultado) {
             alert("Error de ejecución");
         }
     });
-}*@
+}
+
+function cargarPDF(url) {
+    const canvas = document.getElementById('pdf-canvas');
+    const context = canvas.getContext('2d');
+
+    // Usar PDF.js para cargar el documento
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+        pdf.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1.5 }); // Ajustar el zoom si es necesario
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+
+            // Renderizar la página del PDF
+            page.render(renderContext);
+        });
+    }).catch(function (error) {
+        console.error('Error al cargar el PDF: ' + error);
+    });
+}
+
 
     $(function () {
         var urlParams = new URLSearchParams(window.location.search);
@@ -1121,3 +1092,53 @@ else
         });
     });
 </script>
+
+
+
+@*<div class="row">
+        <div class="col-xl-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Documentos en el sistema:  </h5>
+                    <span>Detalle de documentos en el sistema y usuarios responsables</span>
+                </div>
+
+                <div class="card-block">
+
+                    <div class="table-responsive">
+                        <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
+                            <thead style="background-color: #0d6efd">
+                                <tr>
+
+                                    <th style="color:white">Nombre</th>
+                                    <th class="text-center" style="color:white">Usuario</th>
+                                    <th class="text-center" style="color:white">Clasificacion</th>
+                                    <th class="text-center" style="color:white">Detalle</th>
+
+                                    <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                @foreach (var item in ViewBag.AdminDoc)
+                                {
+
+                                    <tr>
+                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                        <td class="text-center"><a>@item.NombreUsuario</a></td>
+                                        <td class="text-center"><a>@item.Clasificacion</a></td>
+                                        <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
+
+                                        <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>*@
