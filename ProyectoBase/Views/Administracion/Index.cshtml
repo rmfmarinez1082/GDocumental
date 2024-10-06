@@ -4,7 +4,6 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 <link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
-<link rel="stylesheet" href="~/assets/pdfjs/web/pdf_viewer.css">
 
 
 <style>
@@ -110,13 +109,21 @@
                 <div class="col-xl-6 col-md-12" id="Directorio">
                     <div class="card table-card">
                         <div class="card-header">
-                            <h5 id="Titulo"></h5>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 id="Titulo"></h5>
+                                </div>
+                                <div class="col-4">
+                                    <div id="vistafull" style="margin-left: auto;"></div>
+                                </div>
+                                
+                            </div>
+                           
                         </div>
 
                         <div style="width: 100%; height: 92vh">
 
-                            @*<iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>*@
-                            <div id="pdfViewer" class="pdfViewer"></div>
+                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
 
                         </div>
 
@@ -134,8 +141,6 @@
 
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
-<script src="~/assets/pdfjs/build/pdf.js"></script> 
-<script src="~/assets/pdfjs/build/pdf.worker.js"></script>
 
 
 @if (ViewBag.usuario.IdRol == 3)
@@ -988,38 +993,12 @@ else
         });
     }
 
-    @*function SeleccionarPorId(documento) {
-        var obj = {};
-        obj['Id'] = documento;
-
-        var jsonObject = {
-            "list_Doc": obj
-        };
-
-        $.ajax({
-            url: "@Url.Action("SeleccionarPorId", "Documentos")",
-            data: JSON.stringify(jsonObject),
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-
-            success: function (resultado) {
-                  $('#Titulo').text('Documento: ' + resultado[0].Nombre);
-                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo);
-            },
-            error: function (resultado) {
-                alert("Error de ejecucion ");
-            }
-        });
-    }*@
-
-function SeleccionarPorId(documento) {
-    var obj = {
-        Id: documento
-    };
+function SeleccionarPorId(id) {
+    var obj = {};
+    obj['Id'] = id;
 
     var jsonObject = {
-        list_Doc: obj
+        "list_Doc": obj
     };
 
     $.ajax({
@@ -1030,43 +1009,50 @@ function SeleccionarPorId(documento) {
         dataType: "json",
 
         success: function (resultado) {
+            // Actualiza el título del documento
             $('#Titulo').text('Documento: ' + resultado[0].Nombre);
-            var pdfUrl = '/DocumentosTemporales/' + resultado[0].NmArchivo;
+            // Muestra el archivo PDF en el iframe
+            $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
 
-            // Cargar el PDF en el visor
-            var loadingTask = pdfjsLib.getDocument(pdfUrl);
-            loadingTask.promise.then(function(pdf) {
-                // PDF cargado, renderizamos la primera página
-                pdf.getPage(1).then(function(page) {
-                    var scale = 1.5; // Ajusta el escalado según lo necesario
-                    var viewport = page.getViewport({ scale: scale });
-
-                    // Preparar el canvas usando PDF.js
-                    var canvas = document.createElement('canvas');
-                    var context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    // Renderizar la página en el canvas
-                    var renderContext = {
-                        canvasContext: context,
-                        viewport: viewport
-                    };
-                    page.render(renderContext);
-
-                    // Añadir el canvas al contenedor del visor
-                    $('#pdfViewer').empty().append(canvas);
-                });
-            }, function (reason) {
-                console.error('Error al cargar el PDF: ' + reason);
-                alert("Error al cargar el PDF");
-            });
+            // Crea el botón de vista completa
+            var botonVistaCompleta = '<button class="btn waves-effect waves-light btn-info" onclick="vistaCompleta(' + id + ')"><i class="icofont icofont-eye-alt"></i>Vista Completa</button>';
+            // Añade el botón al contenedor con el id 'vistafull'
+            $('#vistafull').html(botonVistaCompleta);
         },
         error: function (resultado) {
-            alert("Error de ejecución ");
+            alert("Error de ejecución");
         }
     });
 }
+
+// Función que se ejecutará al hacer clic en el botón de "Vista Completa"
+function vistaCompleta(Id) {
+
+     var obj = {};
+
+     obj['UrlVaible'] = Id;
+
+     var jsonObject = {
+         "URL": obj
+     };
+
+     $.ajax({
+         type: "POST",
+         url: "@Url.Action("URL_Cifrar","URLS")",
+         async: false,
+         data: JSON.stringify(jsonObject),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+            window.open('@Url.Action("Index", "PDF")?Id=' + result.Url, '_blank');
+         },
+         error: function () {
+             alert("intentalo mas tarde");
+         }
+     });
+}
+
+
 
 
 
