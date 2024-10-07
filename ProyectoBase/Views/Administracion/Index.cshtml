@@ -116,9 +116,9 @@
                                 <div class="col-4">
                                     <div id="vistafull" style="margin-left: auto;"></div>
                                 </div>
-                                
+
                             </div>
-                           
+
                         </div>
 
                         <div style="width: 100%; height: 92vh">
@@ -322,12 +322,35 @@
 
                          // Menú contextual para documentos
                          var documentMenu = {
-                             //"renombrarDocumento": {
-                             //    "label": "Renombrar Documento",
-                             //    "action": function () {
-                             //        // Lógica para renombrar documento
-                             //    }
-                             //},
+                             "DescargarEditable": {
+                                 "label": "Descargar editable",
+                                 "action": function () {
+                                  var ref = $("#jstree").jstree(true);
+                                  var sel = ref.get_selected();
+
+                                  var obj = { "Id": sel[0] };
+                                  var jsonObject = {
+                                      "list_Doc": obj
+                                     };
+
+                                  $.ajax({
+                                        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+                                        data: JSON.stringify(jsonObject),
+                                        type: "POST",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            var archivo = data[0].editable;
+                                            var nombre = data[0].Nombre;
+                                            window.location.href = "/Documentos/descargar?doc=" + encodeURIComponent(archivo) + "&nom=" + encodeURIComponent(nombre);                                        },
+                                        error: function (resultado) {
+                                            console.log(resultado);
+                                            alert("Error funcion ");
+                                        }
+                                    });
+
+                                                                                                  }
+                             },
                              "eliminarDocumento": {
                                  "label": "Eliminar Documento",
                                  "action": function node_delete() {
@@ -385,40 +408,41 @@
                                                                                              break;
                                              }
                                          });
-                                    @*$.ajax({
-                                        type: "POST",
-                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
-                                        async: false,
-                                        data: JSON.stringify(jsonObject),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-
-
-                                            if (data.Id == 1) {
-                                                sel = sel[0];
-
-                                                ref.delete_node(sel);
-                                                $.notify("Carpeta eliminada!", "success");
-                                            }
-                                            else {
-                                                swal({
-                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
-                                                    text: '',
-                                                    icon: "warning",
-                                                    button: "Aceptar",
-                                                });
-                                            }
-
-                                        }
-
-                                    });*@
-
-
 
                                  }
                              }
                          };
+
+                          // Verificar si es un documento y si tiene un archivo editable antes de agregar al menú
+                            if (isDocument) {
+                                var ref = $("#jstree").jstree(true);
+                                var sel = ref.get_selected();
+                                var obj = { "Id": sel[0] };
+                                var jsonObject = {
+                                    "list_Doc": obj
+                                };
+
+                                // Verificar si el documento tiene un archivo editable antes de agregar al menú
+                                $.ajax({
+                                    url: "@Url.Action("SeleccionarPorId", "Documentos")",
+                                    data: JSON.stringify(jsonObject),
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (data) {
+                                        if (data[0].editable) {
+                                            documentMenu["DescargarEditable"] = documentMenu["DescargarEditable"];
+                                        } else {
+                                            delete documentMenu["DescargarEditable"];
+                                        }
+                                    },
+                                    error: function (resultado) {
+                                        console.log(resultado);
+                                        alert("Error en la verificación del archivo editable.");
+                                    }
+                                });
+                            }
 
                          // Devolver el menú adecuado según el tipo de nodo
                          return isDocument ? documentMenu : folderMenu;
@@ -541,7 +565,7 @@
 }
 else if (ViewBag.usuario.IdRol == 1005)
 {
-    <script>
+<script>
           $(function () {
             $('#jstree').jstree({
 
@@ -724,6 +748,36 @@ else if (ViewBag.usuario.IdRol == 1005)
                              //        // Lógica para renombrar documento
                              //    }
                              //},
+
+                              "DescargarEditable": {
+     "label": "Descargar editable",
+     "action": function () {
+      var ref = $("#jstree").jstree(true);
+      var sel = ref.get_selected();
+
+      var obj = { "Id": sel[0] };
+      var jsonObject = {
+          "list_Doc": obj
+         };
+
+      $.ajax({
+            url: "@Url.Action("SeleccionarPorId", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                var archivo = data[0].editable;
+                var nombre = data[0].Nombre;
+                window.location.href = "/Documentos/descargar?doc=" + encodeURIComponent(archivo) + "&nom=" + encodeURIComponent(nombre);                                        },
+            error: function (resultado) {
+                console.log(resultado);
+                alert("Error funcion ");
+            }
+        });
+
+                                                                      }
+ },
                              "eliminarDocumento": {
                                  "label": "Eliminar Documento",
                                  "action": function node_delete() {
@@ -815,7 +869,36 @@ else if (ViewBag.usuario.IdRol == 1005)
                                  }
                              }
                          };
+                          // Verificar si es un documento y si tiene un archivo editable antes de agregar al menú
+                            if (isDocument) {
+       var ref = $("#jstree").jstree(true);
+       var sel = ref.get_selected();
+       var obj = { "Id": sel[0] };
+       var jsonObject = {
+           "list_Doc": obj
+       };
 
+       // Verificar si el documento tiene un archivo editable antes de agregar al menú
+       $.ajax({
+           url: "@Url.Action("SeleccionarPorId", "Documentos")",
+           data: JSON.stringify(jsonObject),
+           type: "POST",
+           contentType: "application/json",
+           dataType: "json",
+           async: false,
+           success: function (data) {
+               if (data[0].editable) {
+                   documentMenu["DescargarEditable"] = documentMenu["DescargarEditable"];
+               } else {
+                   delete documentMenu["DescargarEditable"];
+               }
+           },
+           error: function (resultado) {
+               console.log(resultado);
+               alert("Error en la verificación del archivo editable.");
+           }
+       });
+   }
                          // Devolver el menú adecuado según el tipo de nodo
                          return isDocument ? documentMenu : folderMenu;
                      }
@@ -933,11 +1016,12 @@ else if (ViewBag.usuario.IdRol == 1005)
             });
 
     });
-    </script>
+</script>
 }
 else
 {
-    <script>$(function () {
+    <script>
+    $(function () {
             $('#jstree').jstree({
 
                 'core': {

@@ -34,6 +34,11 @@ namespace ProyectoBase.Models
 
         public string NombreUsuario { get; set; }
         public string NmOriginal { get; set; }
-        
+
+
+        public string editable { get; set; }
+
+
+
     }
 }

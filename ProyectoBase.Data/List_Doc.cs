@@ -108,8 +108,7 @@ namespace ProyectoBase.Data
                     Estatus = reader["Estatus"].ToString(),
                     Clasificacion = reader["Clasificacion"].ToString(),
                     TipoDocumento = reader["TipoDocumento"].ToString(),
-                    
-                   
+                    editable = reader["editable"].ToString()
                 };
                 resultado.Add(item);
             }
