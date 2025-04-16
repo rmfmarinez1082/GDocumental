@@ -289,7 +289,8 @@ namespace ProyectoBase.Controllers
         }
 
         public ActionResult DocCompartidos(Models.ListarCompartir _listarCompartir, Application.ListarCompartir AlistarCompartir
-            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
+            , Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos,
+             Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado, Application.ProvedorListado provedoresListado)
 
         {
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -314,7 +315,21 @@ namespace ProyectoBase.Controllers
                 Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
                 ViewBag.CountNoti = CountNoti;
 
+
+                List<Models.ProvedorListado> dtprovedorListados = provedoresListado.SP_ProvedoresListado();
+                ViewBag.dtprovedorListados = dtprovedorListados;
+
+                List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
+                ViewBag.dtEntidad = dtEntidades;
+
+                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
+                ViewBag.dtEmpresasListado = dtEmpresasListado;
+
+
+
                 return View();
+
+                
             }
             else { return RedirectToAction("Index", "Home"); }
         }
