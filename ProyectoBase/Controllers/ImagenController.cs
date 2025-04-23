@@ -11,8 +11,18 @@ namespace ProyectoBase.Controllers
     public class ImagenController : Controller
     {
         // GET: Imagen
-        public ActionResult Index()
+        public ActionResult GaleriaDeImagenes(Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification)
         {
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            ViewBag.Foto = Usuario.Inicial;
+            _notification.IdUsuario = Usuario.Id;
+            List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+            ViewBag.lisnotifi = notificar;
+            Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+            ViewBag.CountNoti = CountNoti;
+
             return View();
         }
 

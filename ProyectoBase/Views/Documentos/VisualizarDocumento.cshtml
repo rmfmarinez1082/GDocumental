@@ -567,7 +567,7 @@
                                                             //VISUALIZAR
                                                             if (item.IdClasificacionArchivo == 11)
                                                             {
-                                                                <td class="text-center"><p>en proceso</p></td>
+                                                                <td class="text-center"><p onclick="Vergaleria(@item.Id);">en proceso</p></td>
                                                             }
                                                             else
                                                             {
@@ -1930,6 +1930,14 @@
         });
 
     }
+
+
+
+        function Vergaleria(Id) {
+             window.location.href = '@Url.Action("GaleriaDeImagenes", "Imagen")?Id=' + Id;
+        }
+
+
 
 
     //INICIO PRESTAR
