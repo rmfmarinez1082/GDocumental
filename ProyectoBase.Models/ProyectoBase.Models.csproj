@@ -61,6 +61,7 @@
     <Compile Include="Documento_Versiones.cs" />
     <Compile Include="Cat_Entidades.cs" />
     <Compile Include="EmpresasListado.cs" />
+    <Compile Include="Img.cs" />
     <Compile Include="jstree.cs" />
     <Compile Include="listadoVigencia.cs" />
     <Compile Include="ListarDocumento.cs" />

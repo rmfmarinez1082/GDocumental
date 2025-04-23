@@ -18,7 +18,9 @@ namespace ProyectoBase.Application
         public Models.Documento Documento_AgregarPDF(Models.NuevoDocumento nuevoDocumento)
         {
             return _Documentos.Documento_AgregarPDF(nuevoDocumento);
-        }
+        } 
+        
+
 
         public Models.Documento SP_ActualizarDoc(Models.NuevoDocumento nuevoDocumento)
         {
@@ -138,13 +140,23 @@ namespace ProyectoBase.Application
             return _Documentos.DocVersion(Adoc);
         }
 
-
-
-
-
         public List<Models.Documento> FechaInterfaz(Models.Documento Documento)
         {
             return _Documentos.FechaInterfaz(Documento);
+        }
+
+
+
+
+
+
+        public Models.Documento DocumentoImagenAgregar(Models.NuevoDocumento nuevoDocumento)
+        {
+            return _Documentos.DocumentoImagenAgregar(nuevoDocumento);
+        }
+        public Models.Documento INSERTARImagenDocumento(Models.Img img)
+        {
+            return _Documentos.INSERTARImagenDocumento(img);
         }
     }
 }

@@ -492,9 +492,7 @@
 
                             <div class="col-md-12" style="height: 65vh;">
 
-                                <!--pantalla de visualización-->
                                 <div style="width: 100%; height: 100%">
-                                    <!--documento aquí-->
                                     <iframe id="iframepdf" src="/Documentos/ManualGD.pdf#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" toolbar="0"></iframe>
                                 </div>
                             </div>
@@ -531,7 +529,7 @@
     <script type="text/javascript" src="~/assets/js/script.js"></script>
 
     <!-- modernizr js -->
-    <script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>
+    @*<script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>*@
     <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
     <script src="~/assets/js/pcoded.min.js"></script>
     <script src="~/assets/js/vertical-layout.min.js "></script>
@@ -540,15 +538,11 @@
     <script src="~/vendor/sweetalert/sweetalert.min.js"></script>
 
     <!--=DATATABLE==============================================================================================-->
-    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>*@
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 
     <script>
             $(document).ready(function () {
-            // Obtener la lista de elementos del ViewBag
                 var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
-
-                // Recorrer la lista y aplicar el ocultamiento
                 elementosOcultos.forEach(function (elemento) {
                     var elementId = elemento.IdElemento;
                     var isVisible = elemento.Activo === 0;
