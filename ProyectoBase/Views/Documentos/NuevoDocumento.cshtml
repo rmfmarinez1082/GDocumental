@@ -971,15 +971,23 @@
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
                                                         </div>
                                                     </div>
-
-
                                                     <div class="row">
-                                                        <div class="col-md-12 col-lg-12">
-                                                            <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
-                                                            <button class="btn waves-effect waves-light btn-success col-md-2" onclick="Publicar()" id="BtnPublicar"> <i class="fa fa-check"></i> Publicar    </button>
-                                                            <button class="btn waves-effect waves-light btn-success col-md-2" onclick="GuardarIMG()" id="BtnPublicar"> <i class="fa fa-check"></i> Publicar Imagenes</button>
+                                                        <div class="col-md-12 d-flex flex-wrap gap-2">
+                                                            <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse" onclick="Previus()" style="margin-right: 10px">
+                                                                <i class="fa fa-chevron-left"></i> Atrás
+                                                            </button>
+
+                                                            <button class="btn waves-effect waves-light btn-success" onclick="Publicar()" id="BtnPublicar" style="display:none">
+                                                                <i class="fa fa-check"></i> Publicar
+                                                            </button>
+
+                                                            <button class="btn waves-effect waves-light btn-success" onclick="GuardarIMG()" id="BtnPublicarIMG" style="display:none">
+                                                                <i class="fa fa-check"></i> Publicar
+                                                            </button>
                                                         </div>
                                                     </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -2149,9 +2157,11 @@
             $("#Pdf").css("display", "none");
             $("#archivitos").css("display", "none");
             $("#Visualizacion").css("display", "none");
+            $("#BtnPublicar").css("display", "none");
 
             $("#imagenes").css("display", "block");
             $("#Cimagenes").css("display", "block");
+            $("#BtnPublicarIMG").css("display", "block");
 
         } else {
              var obj = {};
@@ -2179,9 +2189,11 @@
                          $("#mensaje").css("display", "block");
                          $("#imagenes").css("display", "none");
                          $("#Cimagenes").css("display", "none");
+                         $("#BtnPublicarIMG").css("display", "none");
                          $("#Pdf").css("display", "block");
                          $("#Visualizacion").css("display", "block");
                          $("#archivitos").css("display", "block");
+                         $("#BtnPublicar").css("display", "block");
                      } else {
                          $("#Word").css("display", "none");
                          $("#Rpdf").css("display", "block");
@@ -2192,7 +2204,8 @@
                          $("#Pdf").css("display", "block");
                          $("#Visualizacion").css("display", "block");
                          $("#archivitos").css("display", "block");
-
+                         $("#BtnPublicarIMG").css("display", "none");
+                         $("#BtnPublicar").css("display", "block");
                      }
 
                  }

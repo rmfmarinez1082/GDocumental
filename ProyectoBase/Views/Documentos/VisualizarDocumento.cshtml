@@ -567,11 +567,11 @@
                                                             //VISUALIZAR
                                                             if (item.IdClasificacionArchivo == 11)
                                                             {
-                                                                <td class="text-center"><p onclick="Vergaleria(@item.Id);">en proceso</p></td>
+                                                                <td class="text-center"><p onclick="Vergaleria(@item.Id);"><i class="fa fa-search f-20"></i></p></td>
                                                             }
                                                             else
                                                             {
-                                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-eye f-20"></i></a></td>
+                                                                <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-search f-20"></i></a></td>
                                                             }
                                                             <td style="display:none;"><a>@item.PalabrasClave</a></td>
 
@@ -627,8 +627,8 @@
                                                             //ACTUALIZAR Y ELIMINAR
                                                             if (item.IdClasificacionArchivo == 11)
                                                             {
-                                                                <td class="text-center"><p>en proceso</p></td>
-                                                                <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                <td class="text-center"><p>No Aplica</p></td>
+                                                                <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-minus-circle f-20" style="color: #E74C3C"></i></a></td>
 
                                                             }
                                                             else
@@ -647,7 +647,7 @@
                                                                     {
                                                                         //Status Normal
                                                                         <td class="text-center"><a onclick="Ver(@item.Id);"><i class="fa fa-refresh f-20" style="color: #007BFF"></i></a></td>
-                                                                        <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-trash f-20" style="color: #E74C3C"></i></a></td>
+                                                                        <td class="text-center"><a onclick="Eliminar(@item.Id);"><i class="fa fa-minus-circle f-20" style="color: #E74C3C"></i></a></td>
                                                                     }
                                                                     else
                                                                     {
@@ -700,7 +700,7 @@
                                                             /////DESCARGAR
                                                             if (item.IdClasificacionArchivo == 11)
                                                             {
-                                                                <td class="text-center"><p>en proceso</p></td>
+                                                                <td class="text-center"><p onclick="DescargarZip(@item.Id)"><i class="fa fa-file-archive-o f-20" style="color: #68217A "></i></p></td>
                                                             }
                                                             else
                                                             {
@@ -1146,53 +1146,69 @@
         });
     </script>
     <script type="text/javascript">
-    let IdTemporal;
-    let IdVersion;
+        let IdTemporal;
+        let IdVersion;
 
-    function Consultar(Id, Word, Nombre) {
-        swal({
-        title: "Descargar Documento",
-        text: "Tenga en cuenta que esta acción desactivará las funciones de edición y descarga para todos los usuarios con acceso a este archivo.",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                window.location.href = "/Documentos/descargar?doc=" + Word + "&nom=" + Nombre;
-                Bloquear(Id);
-            } else {
+        function Consultar(Id, Word, Nombre) {
+            swal({
+            title: "Descargar Documento",
+            text: "Tenga en cuenta que esta acción desactivará las funciones de edición y descarga para todos los usuarios con acceso a este archivo.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    window.location.href = "/Documentos/descargar?doc=" + Word + "&nom=" + Nombre;
+                    Bloquear(Id);
+                } else {
 
-                swal("Cancelado", "La descarga del archivo a sido cancelada", "info");
-            }
-        });
-    }
+                    swal("Cancelado", "La descarga del archivo a sido cancelada", "info");
+                }
+            });
+        }
 
-    function gestionar(Id) {
+        function gestionar(Id) {
 
-        var obj = {};
+            var obj = {};
 
-        obj['UrlVaible'] = Id;
+            obj['UrlVaible'] = Id;
 
-        var jsonObject = {
-            "URL": obj
-        };
+            var jsonObject = {
+                "URL": obj
+            };
 
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("URL_Cifrar", "URLS")",
-            async: false,
-            data: JSON.stringify(jsonObject),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                window.location.href = '@Url.Action("Gestionar", "Documentos")?Id=' + result.Url;
-            },
-            error: function () {
-                alert("intentalo mas tarde");
-            }
-        });
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("URL_Cifrar", "URLS")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    window.location.href = '@Url.Action("Gestionar", "Documentos")?Id=' + result.Url;
+                },
+                error: function () {
+                    alert("intentalo mas tarde");
+                }
+            });
 
-    }
+        }
+
+
+        function DescargarZip(id) {
+            fetch(`/Imagen/DescargarImagenesZip?id=${id}`)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `imagenes_${id}.zip`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                })
+                .catch(error => console.error('Error al descargar ZIP:', error));
+        }
 
 
     $(document).ready(function () {

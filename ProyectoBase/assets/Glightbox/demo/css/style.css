@@ -111,9 +111,9 @@ video {
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+/*    font-size: 100%;
+    font: inherit;*/
+    /*vertical-align: baseline;*/
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -132,7 +132,7 @@ section {
 }
 
 body {
-    line-height: 1;
+    /*line-height: 1;*/
 }
 
 ol,
@@ -141,7 +141,7 @@ ul {
 }
 
 li {
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
 }
 
 .section {
@@ -149,11 +149,11 @@ li {
 }
 
 body {
-    font-family: 'Gilroy', sans-serif;
+    /*font-family: 'Gilroy', sans-serif;*/
     background: #fff;
     color: #666;
     font-size: 16px;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif !important;
+    /*font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, '.SFNSText-Regular', sans-serif !important;*/
 }
 
 a,

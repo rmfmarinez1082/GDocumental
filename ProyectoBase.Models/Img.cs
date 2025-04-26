@@ -14,5 +14,7 @@ namespace ProyectoBase.Models
         public string NmOriginal { get; set; }     // nombre original
         public string Extension { get; set; }      // tipo .jpg, .png, etc.
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
+
+        public string RutaCompleta { get; set; }
     }
 }

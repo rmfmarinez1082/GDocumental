@@ -218,6 +218,8 @@ namespace ProyectoBase.Data
                     Nombre = reader["Nombre"].ToString(),
                     Id = Convert.ToInt32(reader["Id"].ToString()),
                     IdDoc = Convert.ToInt32(reader["IdDoc"].ToString())
+                    ,
+                    IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString())
                 };
                 resultado.Add(item);
             }

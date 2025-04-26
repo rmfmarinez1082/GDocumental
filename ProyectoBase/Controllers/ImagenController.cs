@@ -1,17 +1,20 @@
-﻿using ProyectoBase.Models;
+﻿using ProyectoBase.Application;
+using ProyectoBase.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO.Compression;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ProyectoBase.Controllers
 {
     public class ImagenController : Controller
     {
-        // GET: Imagen
-        public ActionResult GaleriaDeImagenes(Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification)
+        public ActionResult GaleriaDeImagenes(int Id,Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification, Application.ImgAplication imgAplication)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -22,6 +25,25 @@ namespace ProyectoBase.Controllers
             ViewBag.lisnotifi = notificar;
             Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
             ViewBag.CountNoti = CountNoti;
+            ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+            ViewBag.Rol = Usuario.NombreRol;
+
+
+            Img model = new Img();
+            model.Id = Id;
+            List<Img> listaImg = imgAplication.ObtenerImagenesPorDocumento(model);
+
+
+            if (listaImg != null && listaImg.Any())
+            {
+                foreach (var img in listaImg)
+                {
+                    img.RutaCompleta = Url.Action("VerImagen", "Imagen", new { nombre = img.NmArchivo });
+                }
+                ViewBag.Imagenes = listaImg;
+            }
+           
+            ViewBag.Imagenes = listaImg;
 
             return View();
         }
@@ -99,8 +121,7 @@ namespace ProyectoBase.Controllers
         }
 
         [HttpPost]
-        public JsonResult RegistrarImg(Models.NuevoDocumento Registro, Application.Documentos ApDocumentos, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-            Application.Cat_RutaAlmacenamiento APcat_RutaAlmacenamiento)
+        public JsonResult RegistrarImg(Models.NuevoDocumento Registro, Application.Documentos ApDocumentos, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,Application.Cat_RutaAlmacenamiento APcat_RutaAlmacenamiento)
         {
             var listaImg = Session["ImgList"] as List<Img> ?? new List<Img>();
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
@@ -117,6 +138,37 @@ namespace ProyectoBase.Controllers
             Session["ImgList"] = null;
             return Json(Ndocumento);
         }
+
+
+
+        public FileResult DescargarImagenesZip(int id, Application.ImgAplication imgAplication)
+        {
+            Img model = new Img { Id = id };
+            var listaImg = imgAplication.ObtenerImagenesPorDocumento(model);
+
+            using (var memoria = new MemoryStream())
+            {
+                using (var zip = new System.IO.Compression.ZipArchive(memoria, System.IO.Compression.ZipArchiveMode.Create, true))
+                {
+                    foreach (var img in listaImg)
+                    {
+                        var ruta = Path.Combine(@"C:\filesCID", img.NmArchivo);
+                        if (System.IO.File.Exists(ruta))
+                        {
+                            var entry = zip.CreateEntry(img.NmOriginal ?? img.NmArchivo);
+                            using (var entrada = entry.Open())
+                            using (var fileStream = System.IO.File.OpenRead(ruta))
+                            {
+                                fileStream.CopyTo(entrada);
+                            }
+                        }
+                    }
+                }
+
+                return File(memoria.ToArray(), "application/zip", $"imagenes_{id}.zip");
+            }
+        }
+
 
     }
 }

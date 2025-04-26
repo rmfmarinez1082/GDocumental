@@ -145,6 +145,7 @@
 
 @if (ViewBag.usuario.IdRol == 3)
 {
+    //Para usuarios Administradores
     <script>
           $(function () {
             $('#jstree').jstree({
@@ -566,6 +567,7 @@
 else if (ViewBag.usuario.IdRol == 1005)
 {
 <script>
+    //Para usuarios supervisores
           $(function () {
             $('#jstree').jstree({
 
@@ -1020,13 +1022,14 @@ else if (ViewBag.usuario.IdRol == 1005)
 }
 else
 {
+    //Para usuarios basicos
     <script>
     $(function () {
             $('#jstree').jstree({
 
-                'core': {
-                    'themes': {
-                        'name': 'proton',
+            'core': {
+                'themes': {
+                    'name': 'proton',
                         'responsive': true
                     },
                     'check_callback': true,
@@ -1035,7 +1038,8 @@ else
                 'plugins': ['state', 'wholerow', 'search'],
 
             });
-        });</script>
+    });
+    </script>
 }
 
 <script>
@@ -1077,7 +1081,7 @@ else
         });
     }
 
-function SeleccionarPorId(id) {
+    function SeleccionarPorId(id) {
     var obj = {};
     obj['Id'] = id;
 
@@ -1109,8 +1113,8 @@ function SeleccionarPorId(id) {
     });
 }
 
-// Función que se ejecutará al hacer clic en el botón de "Vista Completa"
-function vistaCompleta(Id) {
+    // Función que se ejecutará al hacer clic en el botón de "Vista Completa"
+    function vistaCompleta(Id) {
 
      var obj = {};
 
@@ -1136,6 +1140,9 @@ function vistaCompleta(Id) {
      });
 }
 
+    function verImagenes(Id) {
+      window.location.href = '@Url.Action("GaleriaDeImagenes", "Imagen")?Id=' + Id;
+ }
 
 
 

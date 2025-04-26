@@ -803,11 +803,14 @@ namespace ProyectoBase.Controllers
 
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    string variable = "data-jstree='{\"icon\":\"fa fa-file-text\"}'";
-                    resulDoc += "<li id='" + dt.IdDoc + "' " + variable + " onclick='SeleccionarPorId(" + dt.IdDoc + ")'>" + dt.Nombre;
-                    resulDoc += "</li>";
+                    string icono = dt.IdTipoDocumento == 11 ? "fa fa-picture-o" : "fa fa-file-text";
+                    string funcionOnClick = dt.IdTipoDocumento == 11
+                        ? $"onclick='verImagenes({dt.IdDoc})'"
+                        : $"onclick='SeleccionarPorId({dt.IdDoc})'";
 
+                    resulDoc += $"<li id='{dt.IdDoc}' data-jstree='{{\"icon\":\"{icono}\"}}' {funcionOnClick}>{dt.Nombre}</li>";
                 }
+
                 resulDoc += "</ul>";
             }
 
