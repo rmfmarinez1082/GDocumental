@@ -268,7 +268,7 @@
                                             else if (@item.Tnoti == 5)
                                             {
                                                 <li class="waves-effect waves-light">
-                                                    <a onclick="Vergaleria(@item.Id,@item.IdDocumento)">
+                                                    <a onclick="VergalerianOTI(@item.Id,@item.IdDocumento)">
                                                         <div class="media">
                                                             <i class="fa fa-picture-o" aria-hidden="true" style="margin-right:10px"></i>
                                                             <div class="media-body">
@@ -588,7 +588,7 @@
             });
         });
 
-        function Vergaleria(IdNoti,Id) {
+        function VergalerianOTI(IdNoti,Id) {
            var obj = {};
             obj['Id'] = IdNoti;
 
