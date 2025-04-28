@@ -14,7 +14,7 @@ namespace ProyectoBase.Controllers
 {
     public class ImagenController : Controller
     {
-        public ActionResult GaleriaDeImagenes(int Id,Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification, Application.ImgAplication imgAplication)
+        public ActionResult GaleriaDeImagenes(int Id,Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification, Application.ImgAplication imgAplication, Application.Documentos documentos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -28,6 +28,10 @@ namespace ProyectoBase.Controllers
             ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
             ViewBag.Rol = Usuario.NombreRol;
 
+            Documento doc = new Documento();
+            doc.Id = Id;
+            Models.Documento documento = documentos.SP_DocumentoInfo(doc);
+            ViewBag.InfoDoc = documento;
 
             Img model = new Img();
             model.Id = Id;
@@ -42,7 +46,9 @@ namespace ProyectoBase.Controllers
                 }
                 ViewBag.Imagenes = listaImg;
             }
-           
+
+            ViewBag.documento = Id;
+
             ViewBag.Imagenes = listaImg;
 
             return View();
@@ -81,7 +87,6 @@ namespace ProyectoBase.Controllers
 
             return Json(new { success = true });
         }
-
 
         [HttpGet]
         public ActionResult ObtenerImagenesSesion()
@@ -139,8 +144,6 @@ namespace ProyectoBase.Controllers
             return Json(Ndocumento);
         }
 
-
-
         public FileResult DescargarImagenesZip(int id, Application.ImgAplication imgAplication)
         {
             Img model = new Img { Id = id };
@@ -168,6 +171,69 @@ namespace ProyectoBase.Controllers
                 return File(memoria.ToArray(), "application/zip", $"imagenes_{id}.zip");
             }
         }
+
+        [HttpPost]
+        public JsonResult ImagenDocumentoEliminar(Img Model, Application.ImgAplication imgAplication)
+        {
+            Img R = imgAplication.ImagenDocumentoEliminar(Model);
+            return Json(R);
+        }
+
+        [HttpPost]
+        public JsonResult ObtenerImagenesPorDocumento(Img Model, Application.ImgAplication imgAplication)
+        {
+            List<Img> listaImg = imgAplication.ObtenerImagenesPorDocumento(Model);
+
+            if (listaImg != null && listaImg.Any())
+            {
+                foreach (var img in listaImg)
+                {
+                    img.RutaCompleta = Url.Action("VerImagen", "Imagen", new { nombre = img.NmArchivo });
+                }
+               
+            }
+            return Json(listaImg);
+        }
+
+        [HttpPost]
+        public ActionResult SubirImagenCocumento(IEnumerable<HttpPostedFileBase> files, int idDocumento, Application.Documentos ApDocumentos)
+        {
+            var listaImg = new List<Img>(); 
+
+            var carpetaDestino = @"C:\filesCID";
+            if (!Directory.Exists(carpetaDestino))
+                Directory.CreateDirectory(carpetaDestino);
+
+            foreach (var file in files)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    var ext = Path.GetExtension(file.FileName).ToLower();
+                    var nombreOriginal = Path.GetFileName(file.FileName);
+                    var nombreEncriptado = Guid.NewGuid().ToString() + ext;
+                    var rutaCompleta = Path.Combine(carpetaDestino, nombreEncriptado);
+
+                    file.SaveAs(rutaCompleta);
+
+                    listaImg.Add(new Img
+                    {
+                        NmArchivo = nombreEncriptado,
+                        NmOriginal = nombreOriginal,
+                        Extension = ext,
+                        IdDoc = idDocumento 
+                    });
+                }
+            }
+
+            // Ahora que tenemos la lista completa, insertamos en la BD
+            foreach (var img in listaImg)
+            {
+                ApDocumentos.INSERTARImagenDocumento(img);
+            }
+
+            return Json(new { success = true });
+        }
+
 
 
     }

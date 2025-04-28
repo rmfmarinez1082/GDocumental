@@ -30,5 +30,22 @@ namespace ProyectoBase.Data
             }
             return resultado;
         }
+        
+        public Img ImagenDocumentoEliminar(Img model)
+        {
+            b.ExecuteCommandSP("ImagenDocumentoEliminar");
+            b.AddParameter("@Id", model.Id, SqlDbType.Int);
+
+            Img resultado = new Img();
+
+            using (var reader = b.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    resultado = JsonConvert.DeserializeObject <Img>(reader.GetValue(0).ToString());
+                }
+            }
+            return resultado;
+        }
     }
 }

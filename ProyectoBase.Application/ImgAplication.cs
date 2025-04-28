@@ -15,5 +15,11 @@ namespace ProyectoBase.Application
             return _Data.ObtenerImagenesPorDocumento(model);
         }
 
+
+        public Img ImagenDocumentoEliminar(Img model)
+        {
+            return _Data.ImagenDocumentoEliminar(model);
+        }
+
     }
 }

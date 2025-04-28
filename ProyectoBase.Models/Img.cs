@@ -16,5 +16,7 @@ namespace ProyectoBase.Models
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
 
         public string RutaCompleta { get; set; }
+
+        public string Descripcion { get; set; }
     }
 }

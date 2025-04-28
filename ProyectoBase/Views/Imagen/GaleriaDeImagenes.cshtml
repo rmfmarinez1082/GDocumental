@@ -4,126 +4,486 @@
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
-
 <!-- CSS de LightGallery -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lightgallery.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-zoom.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-thumbnail.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/css/lg-video.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
-
-<!-- Estilo para mantener la apariencia similar a tu diseño original -->
 <style>
-    .box-container {
+    .heading-icon {
+        margin-right: 15px;
+        font-size: 1.8rem;
+    }
+
+    .breadcrumb-title {
         display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
+        list-style: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        border-radius: 30px;
+        margin: 0;
+        justify-content: flex-end;
+    }
+
+    .breadcrumb-item {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .breadcrumb-item:not(:last-child)::after {
+        content: '/';
+        margin-left: 10px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .breadcrumb-item a {
+        color: white;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .breadcrumb-item a:hover {
+        color: #f0f0f0;
+        text-decoration: underline;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+
+    /* Contenedor de la galería */
+    .box-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
         list-style: none;
         padding: 0;
         margin: 20px 0;
     }
 
-    .three-cols .box {
-        flex: 0 0 calc(33.333% - 14px);
-        margin-bottom: 20px;
+    .box {
+        height: 250px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        transform: translateY(10px);
+        opacity: 0;
+        animation: fadeInUp 0.6s forwards;
+    }
+
+    @@keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .box:hover {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        transform: translateY(-5px);
     }
 
     .box .inner {
-        border-radius: 5px;
-        overflow: hidden;
+        height: 100%;
+        width: 100%;
         position: relative;
+        overflow: hidden;
     }
 
     .box .inner img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.3s ease;
-        cursor: pointer;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+    .box:hover .inner img {
+        transform: scale(1.08);
     }
 
-    .box .inner img:hover {
-        transform: scale(1.05);
+    .box .overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+        color: white;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
-    .lg-custom-desc {
-        display: none;
+    .box:hover .overlay {
+        opacity: 1;
     }
 
+    .box .overlay h4 {
+        margin: 0 0 5px 0;
+        font-size: 18px;
+    }
 
-    .box {
-        width: 200px;
-        height: 200px;
-        overflow: hidden;
-        margin-bottom: 15px;
-        border-radius: 15px;
+    .box .overlay p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+
+    .box .zoom-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255,255,255,0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        font-size: 20px;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .box:hover .zoom-icon {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Estado de carga */
+    .loader {
+        display: flex;
+        justify-content: center;
+        margin: 40px 0;
+    }
+
+    .loader .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+    @@keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .box-container {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .page-header-title h3 {
+            font-size: 1.8rem;
+        }
+
+        .row.align-items-center {
+            flex-direction: column;
+        }
+
+        .col-md-4, .col-md-8 {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb-title {
+            justify-content: center;
+        }
+    }
+
+    /* Estilos para mensajes vacíos */
+    .empty-message {
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+        flex-direction: column;
+        height: 50vh;
+        text-align: center;
+        color: #333;
+        font-size: 1.5rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 10;
     }
 
-    .box img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-    transition: transform 0.3s ease; 
+    .empty-message i {
+        font-size: 6rem;
+        color: #aaa;
+        margin-bottom: 20px;
     }
 
-    .box img:hover {
-        transform: scale(1.05);
+    .empty-message h4 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: #333;
     }
 
+    .empty-message p {
+        font-size: 1.2rem;
+        color: #666;
+    }
+
+
+    /* Animaciones para cargar imágenes */
+    .box:nth-child(3n+1) {
+        animation-delay: 0.1s;
+    }
+
+    .box:nth-child(3n+2) {
+        animation-delay: 0.2s;
+    }
+
+    .box:nth-child(3n+3) {
+        animation-delay: 0.3s;
+    }
+
+    /* Estilos para lightgallery */
+    .lg-backdrop {
+        background-color: rgba(0, 0, 0, 0.85);
+    }
+
+    .lg-toolbar {
+        background-color: transparent;
+    }
+
+    .lg-counter {
+        color: #fff;
+    }
+
+    /* Efecto hover especial */
+    .box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(52, 152, 219, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .box:hover::before {
+        opacity: 1;
+    }
+
+    .delete-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgb(0 0 0 / 30%);
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        color: #ffffff;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 2;
+        transition: background 0.3s ease, opacity 0.3s ease;
+        opacity: 1;
+    }
+
+        .delete-icon:hover {
+            background: rgba(255, 0, 0, 1);
+            opacity: 1;
+        }
 </style>
 
-<br />
 
-<section class="section pair">
+<style>
+    #dropArea {
+        border: 2px dashed #0d6efd;
+        padding: 8px;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #dropArea.bg-light {
+        background-color: #f1f1f1;
+    }
+
+    .img-loader {
+        height: 100px;
+        width: 100px;
+        background: url('https://i.gifer.com/ZZ5H.gif') center center no-repeat;
+        background-size: 30px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    #preview {
+        display: flex;
+        flex-wrap: wrap; /* Permite que las imágenes se envuelvan en una nueva fila cuando no hay más espacio */
+        gap: 10px; /* Espacio entre las imágenes */
+    }
+
+    #dropArea:hover {
+        background-color: #e9f5ff;
+    }
+
+    .upload-icon {
+        margin-bottom: 15px;
+        transition: transform 0.2s ease;
+    }
+
+    #dropArea:hover .upload-icon {
+        transform: scale(1.1);
+    }
+</style>
+
+<div class="page-header">
+    <div class="page-block">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header-title">
+                    <h3>
+                        <i class="fa fa-camera-retro heading-icon" aria-hidden="true"></i>
+                        Galería de Imágenes
+                    </h3>
+                    <p class="m-b-0">
+                        Explora las imagenes realacionadas al registro.
+                        <strong>Haz clic en cualquier imagen para ampliarla</strong>.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="#!">Galeria de imagenes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section class="section">
     <div class="container">
+
         <div class="row">
             <div class="col-md-12">
-                <h3>
-                    <i class="fa fa-camera-retro heading-icon" aria-hidden="true"></i>
-                    Galería de Imágenes
-                </h3>
-                <p>
-                    Explora nuestra colección de fotografías.
-                    <strong>Haz clic en cualquier imagen para ampliarla</strong>.
-                </p>
+
+                <div class="mb-4">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4 class="text-primary mb-0">Información del Registro</h4>
+                            <button type="button" class="btn btn-outline-primary btn-sm" title="Agregar Imagen" id="toggleImageArea">
+                                <i class="fas fa-plus"></i> <i class="fas fa-image"></i>
+                            </button>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="me-4">
+                                <h5 id="registroNombre" class="mb-2">@ViewBag.InfoDoc.Nombre</h5>
+                                <p class="mb-0">
+                                    <strong>Versión:</strong> <span>@ViewBag.InfoDoc.Version</span><br>
+                                    <strong>Usuario:</strong> <span>@ViewBag.InfoDoc.Registro</span><br>
+                                    <strong>Descripción:</strong> <span>@ViewBag.InfoDoc.Descripcion</span>
+                                </p>
+                            </div>
+
+                            <!-- Contenedor para la imagen, inicialmente oculto -->
+                            <div class="container col-md-9" id="dropAreaContainer" style="display: none;">
+                                <div id="dropArea">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="#0d6efd" class="upload-icon" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0m-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0" />
+                                    </svg>
+                                    <p class="text-muted mb-0">Arrastra o haz clic para cargar las imágenes</p>
+                                    <input type="file" id="fileInput" multiple accept="image/*" class="d-none" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+
+
 
                 <!-- Contenedor de la galería con LightGallery -->
-                <div id="lightgallery" class="box-container three-cols">
+                <div id="lightgallery" class="box-container">
                     @if (ViewBag.Imagenes != null)
                     {
                         foreach (var item in ViewBag.Imagenes)
                         {
                             <div class="box">
                                 <div class="inner">
-                                    @*<p>@item.NmOriginal</p>*@
                                     <a href="@item.RutaCompleta"
                                        data-sub-html='@item.NmOriginal'>
                                         <img src="@item.RutaCompleta" alt="image" class="img-responsive" />
+
+                                        <div class="overlay">
+                                            <h4>@item.NmOriginal</h4>
+                                            <p>@item.Descripcion</p>
+                                        </div>
+                                        <div class="zoom-icon">
+                                            <i class="fas fa-search-plus"></i>
+                                        </div>
                                     </a>
+
+                                    <!-- Ícono de eliminar -->
+                                    <button class="delete-icon" onclick="confirmarEliminar(@item.Id)" title="Eliminar imagen">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         }
+
                     }
                     else
                     {
-                        <p>Sin imágenes</p>
+                        <!-- Mensaje si no hay imágenes -->
+                        <div class="empty-message">
+                            <i class="fa fa-image"></i>
+                            <h4>No hay imágenes disponibles</h4>
+                            <p>No se encontraron imágenes en este registro.</p>
+                        </div>
                     }
-
-
-
                 </div>
+
+
+
             </div>
         </div>
+
+
     </div>
 </section>
 
-
-
-
+<!-- JavaScript de jQuery -->
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
 <!-- JavaScript de LightGallery y plugins -->
@@ -133,37 +493,292 @@
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/video/lg-video.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery@2.7.1/plugins/fullscreen/lg-fullscreen.min.js"></script>
 
-<!-- Script para inicializar LightGallery -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Verificar que lightGallery esté disponible
-        if (typeof lightGallery === 'function') {
-            // Inicializar lightGallery
-            const lgContainer = document.getElementById('lightgallery');
-            if (lgContainer) {
-                lightGallery(lgContainer, {
-                    selector: 'a',
-                    speed: 500,
-                    plugins: [lgZoom, lgThumbnail, lgFullscreen],
-                    mode: 'lg-fade',
-                    download: true,
-                    counter: true,
-                    enableDrag: true,
-                    enableSwipe: true,
-                    subHtmlSelectorRelative: false,
-                    subHtmlSelectorAttribute: 'data-sub-html'
-                });
-                console.log('LightGallery inicializado correctamente');
-            } else {
-                console.error('Contenedor de galería no encontrado');
-            }
+   document.addEventListener('DOMContentLoaded', function () {
+        const lgContainer = document.getElementById('lightgallery');
+        if (lgContainer) {
+            const gallery = lightGallery(lgContainer, {
+                selector: 'a',
+                speed: 500,
+                plugins: [lgZoom, lgThumbnail, lgFullscreen],
+                mode: 'lg-fade',
+                download: true,
+                counter: true,
+                enableDrag: true,
+                enableSwipe: true,
+                subHtmlSelectorRelative: false,
+                subHtmlSelectorAttribute: 'data-sub-html'
+            });
+
+            // Animación de carga
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach((box, index) => {
+                setTimeout(() => {
+                    box.style.opacity = '1';
+                    box.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+
         } else {
-            console.error('LightGallery no está disponible. Verifica que la librería esté cargada.');
+            console.error('Contenedor de galería no encontrado');
         }
     });
 
+   function confirmarEliminar(id) {
+        swal({
+            title: "Eliminación de Archivos",
+            text: "¿Está seguro de querer eliminar este archivo?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí, eliminar",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        SeguroEliminarArchivo(id);
+                        break;
+                }
+            });
+    }
+
+   function SeguroEliminarArchivo(id) {
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "Model": obj
+        };
+
+        fetch('/Imagen/ImagenDocumentoEliminar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(jsonObject)
+        })
+            .then(response => {
+                if (!response.ok) {
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.Id == 1) {
+                    actualizarGaleria(@ViewBag.documento);
+                } else {
+                    alert('no es posible eliminar este archivo');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+   function actualizarGaleria(idDocumento) {
+        const lgContainer = document.getElementById('lightgallery');
+
+        if (lgContainer && lgContainer.lightGalleryInstance) {
+            lgContainer.lightGalleryInstance.destroy(true);
+        }
+
+        fetch('/Imagen/ObtenerImagenesPorDocumento', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ Id: idDocumento })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener imágenes');
+                }
+                // Revisar si la respuesta tiene contenido
+                return response.text().then(text => text ? JSON.parse(text) : []);
+            })
+            .then(data => {
+                console.log('Imágenes actualizadas:', data);
+
+                lgContainer.innerHTML = '';
+
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        const box = document.createElement('div');
+                        box.className = 'box';
+                        box.innerHTML = `
+                <div class="inner">
+                    <a href="${item.RutaCompleta}" data-sub-html="${item.NmOriginal}">
+                        <img src="${item.RutaCompleta}" alt="image" class="img-responsive" />
+                        <div class="overlay">
+                            <h4>${item.NmOriginal}</h4>
+                            <p>${item.Descripcion || ''}</p>
+                        </div>
+                        <div class="zoom-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </a>
+                    <button class="delete-icon" onclick="confirmarEliminar(${item.Id})" title="Eliminar imagen">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            `;
+                        lgContainer.appendChild(box);
+                    });
+
+                    const boxes = document.querySelectorAll('.box');
+                    boxes.forEach((box, index) => {
+                        setTimeout(() => {
+                            box.style.opacity = '1';
+                            box.style.transform = 'translateY(0)';
+                        }, 100 * index);
+                    });
+
+                    lightGallery(lgContainer, {
+                        selector: 'a',
+                        speed: 500,
+                        plugins: [lgZoom, lgThumbnail, lgFullscreen],
+                        mode: 'lg-fade',
+                        download: true,
+                        counter: true,
+                        enableDrag: true,
+                        enableSwipe: true,
+                        subHtmlSelectorRelative: false,
+                        subHtmlSelectorAttribute: 'data-sub-html'
+                    });
+                } else {
+                    lgContainer.innerHTML = `
+            <div class="empty-message">
+                <i class="fa fa-image"></i>
+                <h4>No hay imágenes disponibles</h4>
+                <p>No se encontraron imágenes en este registro.</p>
+            </div>
+        `;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    }
 </script>
 
 
 
+<script>
+    document.getElementById('toggleImageArea').addEventListener('click', function () {
+        const dropAreaContainer = document.getElementById('dropAreaContainer');
 
+        // Alternar visibilidad
+        if (dropAreaContainer.style.display === 'none' || dropAreaContainer.style.display === '') {
+            dropAreaContainer.style.display = 'block';
+        } else {
+            dropAreaContainer.style.display = 'none';
+        }
+    });
+
+    const dropArea = document.getElementById('dropArea');
+    const fileInput = document.getElementById('fileInput');
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg', 'image/bmp', 'image/tiff', 'image/webp'];
+
+    dropArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            showPreviewAndUpload(fileInput.files);
+        }
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.add('bg-light');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropArea.classList.remove('bg-light');
+        });
+    });
+
+    dropArea.addEventListener('drop', e => {
+        const files = e.dataTransfer.files;
+        fileInput.files = files;
+        if (files.length > 0) {
+            showPreviewAndUpload(files);
+        }
+    });
+
+    function showPreviewAndUpload(files) {
+        console.log(files);
+
+        const invalidFiles = Array.from(files).filter(file => !allowedTypes.includes(file.type));
+
+        if (invalidFiles.length > 0) {
+            swal({
+                title: "Revisar archivo(s)",
+                text: 'Algunos archivos no son imágenes y no pueden ser subidos.',
+                icon: "info",
+                button: "Aceptar",
+            });
+            return;
+        }
+
+        // Creamos el FormData
+        const formData = new FormData();
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files', files[i]);
+        }
+
+        formData.append('idDocumento', @ViewBag.documento); // Suponiendo que tienes este input en tu HTML
+
+        // Enviamos usando fetch
+        fetch('/Imagen/SubirImagenCocumento', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    swal({
+                        title: "Éxito",
+                        text: "Imágenes subidas correctamente",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+                    .then(() => {
+                        actualizarGaleria(@ViewBag.documento);
+                    });
+
+
+                } else {
+                    swal({
+                        title: "Error",
+                        text: "Hubo un problema al subir las imágenes",
+                        icon: "error",
+                        button: "Aceptar",
+                    });
+                }
+            })
+            .catch(error => {
+                swal({
+                    title: "Error",
+                    text: "No se pudo conectar con el servidor",
+                    icon: "error",
+                    button: "Aceptar",
+                });
+            });
+    }
+
+</script>
