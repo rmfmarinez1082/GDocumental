@@ -14,7 +14,7 @@ namespace ProyectoBase.Controllers
 {
     public class ImagenController : Controller
     {
-        public ActionResult GaleriaDeImagenes(int Id,Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification, Application.ImgAplication imgAplication, Application.Documentos documentos)
+        public ActionResult GaleriaDeImagenes(int Id,Application.Sistema ApSistema, Models.Notification _notification, Application.Notification Anotification, Application.ImgAplication imgAplication, Application.Documentos documentos, Application.PermisosRolElementos APPpermisosRolElementos)
         {
             Models.Sistema sistema = ApSistema.DataSystem();
             ViewBag.Sistema = sistema;
@@ -27,6 +27,9 @@ namespace ProyectoBase.Controllers
             ViewBag.CountNoti = CountNoti;
             ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
             ViewBag.Rol = Usuario.NombreRol;
+
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
 
             Documento doc = new Documento();
             doc.Id = Id;
