@@ -3411,7 +3411,6 @@ function validarFechaProximaRevision() {
 
 
     function showPreviewAndUpload(files) {
-        preview.innerHTML = '';
         const formData = new FormData();
 
         // Filtrar archivos no permitidos
@@ -3424,9 +3423,10 @@ function validarFechaProximaRevision() {
                 icon: "info",
                 button: "Aceptar",
             });
-            
-            return; 
+            return;  // 👈 No borramos preview, solo salimos
         }
+
+        preview.innerHTML = ''; // 🔥 Ahora SÍ limpiamos después de validar que todo está bien
 
         for (let file of files) {
             const col = document.createElement('div');
@@ -3443,8 +3443,9 @@ function validarFechaProximaRevision() {
             .then(resp => resp.json())
             .then(data => {
                 if (data.success) {
-                    cargarImagenesSesion(); 
+                    cargarImagenesSesion();
                 } else {
+                    resultado.innerHTML = '<div class="alert alert-danger">Error al subir imágenes.</div>';
                 }
             })
             .catch(err => {
