@@ -265,6 +265,23 @@
                                                     </a>
                                                 </li>
                                             }
+                                            else if (@item.Tnoti == 5)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="Vergaleria(@item.Id,@item.IdDocumento)">
+                                                        <div class="media">
+                                                            <i class="fa fa-picture-o" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Nueva Galeria compartida</h5>
+                                                                <p class="notification-msg">
+                                                                    El usuario <strong>@item.NombreEmisor,</strong> te a compartido la galeria:<strong> @item.Documento.</strong>
+                                                                </p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
 
                                         }
 
@@ -571,6 +588,27 @@
             });
         });
 
+        function Vergaleria(IdNoti,Id) {
+           var obj = {};
+            obj['Id'] = IdNoti;
+
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamo", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                      window.location.href = '@Url.Action("GaleriaDeImagenes", "Imagen")?Id=' + Id;
+                }
+            });
+        }
+
         function CerrarSesion() {
             swal({
               title: "Confirmación de cierre de sesión",
@@ -648,8 +686,8 @@
         }
 
         function Nvista(documento) {
-        var obj = {};
-        obj['Id'] = documento;
+           var obj = {};
+          obj['Id'] = documento;
 
             var jsonObject = {
                 "Dnotificacion": obj
