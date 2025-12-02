@@ -135,6 +135,18 @@ namespace ProyectoBase.Application
         {
             return _cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_ListarPorIdUsuario(carpeta);
         }
+
+        public List<Models.PermisosCarpetaArea> PermisosCarpetasAreas_Listar()
+        {
+            return _cat_ClasificacionArchivo.PermisosCarpetasAreas_Listar();
+        }
+
+        public Models.ResultadoOperacion PermisosCarpetasAreas_Guardar(string permisosJson)
+        {
+            return _cat_ClasificacionArchivo.PermisosCarpetasAreas_Guardar(permisosJson);
+        }
+
+
     }
 
 

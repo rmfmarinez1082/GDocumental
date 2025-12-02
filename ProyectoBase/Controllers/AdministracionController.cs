@@ -14,24 +14,7 @@ namespace ProyectoBase.Controllers
 {
     public class AdministracionController : BaseController
     {
-        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        //{
-        //    base.OnActionExecuting(filterContext);
 
-        //    // Obtener el usuario de la sesión
-        //    Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
-
-        //    if (Usuario != null)
-        //    {
-        //        ViewBag.UserGlobal = Usuario;
-
-        //    }
-        //    else
-        //    {
-        //        // Si no hay usuario, redirige al login o página inicial
-        //        filterContext.Result = RedirectToAction("Index", "Home");
-        //    }
-        //}
 
         public ActionResult AdminCarpetas(Models.Notification _notification, Application.Notification Anotification, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
         {
@@ -268,7 +251,50 @@ namespace ProyectoBase.Controllers
         }
 
 
+        public ActionResult AdminAreas(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
+            Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos, Application.Cat_ListadoDepartamentos cat_Listado )
+        {
+            Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
+            Models.Sistema sistema = ApSistema.DataSystem();
+            ViewBag.Sistema = sistema;
+            string url = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena = System.Web.HttpContext.Current.Request.Url.AbsolutePath;
+            string cadena2 = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
 
+
+            Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
+            List<Models.PermisosRolElementos> PermisosRolElementos = APPpermisosRolElementos.PermisosElementos(Usuario);
+            ViewBag.ElementoOculto = PermisosRolElementos;
+
+            if (Usuario != null)
+            {
+
+                ViewBag.Nombre = Usuario.Nombre + " " + Usuario.Apellidos;
+                ViewBag.Id = Usuario.Id;
+                ViewBag.Rol = Usuario.NombreRol;
+                ViewBag.Foto = Usuario.Inicial;
+                _notification.IdUsuario = Usuario.Id;
+                ViewBag.usuario = Usuario;
+
+                List<Models.Notification> notificar = Anotification.SP_listNotification(_notification);
+                ViewBag.lisnotifi = notificar;
+
+                Models.Notification CountNoti = Anotification.SP_ConteoNoti(_notification);
+                ViewBag.CountNoti = CountNoti;
+
+                // Primero las áreas (para saber cuántas son)
+                var areas = cat_Listado.EmpresasDepartamentoListar();
+                ViewBag.AreasJson = Newtonsoft.Json.JsonConvert.SerializeObject(areas);
+
+                // Después las carpetas (pasando la cantidad de áreas)
+                ViewBag.carpetasJson = getCarpetasJson(areas.Count);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home", new { @rd = Application.Cifrado.Encriptar(cadena), @rdv = Application.Cifrado.Encriptar(url) });
+            }
+        }
 
 
 
@@ -1089,6 +1115,96 @@ namespace ProyectoBase.Controllers
             }
             return resulCarpetas;
         }
+
+        public string getCarpetasJson(int cantidadAreas)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+            List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_Listar();
+
+            var carpetas = new List<object>();
+
+            foreach (var dt in dtClasificacionArchivo)
+            {
+                carpetas.Add(BuildFolderNode(dt, 0, cantidadAreas));
+            }
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(carpetas);
+        }
+
+        private object BuildFolderNode(Models.Cat_ClasificacionArchivo carpeta, int level, int cantidadAreas)
+        {
+            Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
+
+            List<Models.Cat_ClasificacionArchivo> subCarpetas = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_Listar(carpeta);
+            List<Models.Cat_ClasificacionArchivo> documentos = cat_ClasificacionArchivo.SP_DocPadre(carpeta);
+
+            var children = new List<object>();
+
+            foreach (var sub in subCarpetas)
+            {
+                children.Add(BuildFolderNode(sub, level + 1, cantidadAreas));
+            }
+
+            return new
+            {
+                id = carpeta.Id.ToString(),
+                name = carpeta.Nombre,
+                level = level,
+                type = "folder",
+                childrenCount = subCarpetas.Count,
+                documentsCount = documentos.Count,
+                children = children,
+                documents = documentos.Select(d => new
+                {
+                    id = d.IdDoc,
+                    name = d.Nombre,
+                    type = d.IdTipoDocumento == 11 ? "image" : "document",
+                    idTipoDocumento = d.IdTipoDocumento
+                }).ToList(),
+                permissions = new bool[cantidadAreas]
+            };
+        }
+
+
+
+        Application.Cat_ClasificacionArchivo cat_Clasificacion = new Application.Cat_ClasificacionArchivo();
+
+
+        // =====================================================
+        // MÉTODO: ObtenerPermisosAreas
+        // =====================================================
+        [HttpGet]
+        public JsonResult ObtenerPermisosAreas()
+        {
+            try
+            {
+                var permisos = cat_Clasificacion.PermisosCarpetasAreas_Listar();
+                return Json(new { success = true, data = permisos }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        // =====================================================
+        // MÉTODO: GuardarPermisosAreas
+        // =====================================================
+        [HttpPost]
+        public JsonResult GuardarPermisosAreas(string permisosJson)
+        {
+            try
+            {
+                var resultado = cat_Clasificacion.PermisosCarpetasAreas_Guardar(permisosJson);
+                return Json(new { success = resultado.Success, message = resultado.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
     }
 
 

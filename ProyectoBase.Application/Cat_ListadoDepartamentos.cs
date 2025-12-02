@@ -23,5 +23,11 @@ namespace ProyectoBase.Application
         {
             return _Cat_ListadoDepartamentos.EmpresaGrupo_Listar(cat_ListadoDepartamentos);
         }
+
+
+        public List<Models.Cat_ListadoDepartamentos> EmpresasDepartamentoListar()
+        {
+            return _Cat_ListadoDepartamentos.EmpresasDepartamentoListar();
+        }
     }
 }

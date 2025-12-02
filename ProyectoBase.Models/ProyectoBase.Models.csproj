@@ -83,11 +83,13 @@
     <Compile Include="Notification.cs" />
     <Compile Include="NuevoDocumento.cs" />
     <Compile Include="NuevoRegistro.cs" />
+    <Compile Include="PermisosCarpetaArea.cs" />
     <Compile Include="PermisosRolElementos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClasificacionDoc.cs" />
     <Compile Include="ListarCompartir.cs" />
     <Compile Include="ProvedorListado.cs" />
+    <Compile Include="ResultadoOperacion.cs" />
     <Compile Include="Sistema.cs" />
     <Compile Include="state.cs" />
     <Compile Include="Status.cs" />

@@ -566,7 +566,7 @@
 }
 else if (ViewBag.usuario.IdRol == 1005)
 {
-<script>
+    <script>
     //Para usuarios supervisores
           $(function () {
             $('#jstree').jstree({
@@ -1018,18 +1018,118 @@ else if (ViewBag.usuario.IdRol == 1005)
             });
 
     });
-</script>
+    </script>
+}
+else if (ViewBag.usuario.IdRol == 1)
+{
+    //Operadores de asae
+    <script>
+        // Para usuarios con rol 1 (por ejemplo: usuarios con permiso limitado pero pueden descargar editables)
+        $(function () {
+            $('#jstree').jstree({
+                'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'check_callback': true,
+                },
+                'plugins': ['contextmenu', 'state', 'wholerow', 'search'],
+                "contextmenu": {
+                    items: function (node) {
+
+                        // Determinar si el nodo es un documento
+                        var isDocument = node.icon === 'fa fa-file-text';
+
+                        // Menú contextual para documentos
+                        var documentMenu = {
+                            "DescargarEditable": {
+                                "label": "Descargar editable",
+                                "action": function () {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    if (!sel.length) {
+                                        alert("Seleccione un documento primero");
+                                        return;
+                                    }
+
+                                    var obj = { "Id": sel[0] };
+                                    var jsonObject = { "list_Doc": obj };
+
+                                    $.ajax({
+                                        url: "@Url.Action("SeleccionarPorId", "Documentos")",
+                                        data: JSON.stringify(jsonObject),
+                                        type: "POST",
+                                        contentType: "application/json",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data && data.length > 0) {
+                                                var archivo = data[0].editable;
+                                                var nombre = data[0].Nombre;
+                                                if (archivo) {
+                                                    window.location.href = "/Documentos/descargar?doc=" + encodeURIComponent(archivo) + "&nom=" + encodeURIComponent(nombre);
+                                                } else {
+                                                    $.notify("Este documento no tiene un editable disponible.", "warn");
+                                                }
+                                            } else {
+                                                $.notify("No se pudo obtener la información del documento.", "error");
+                                            }
+                                        },
+                                        error: function (resultado) {
+                                            console.log(resultado);
+                                            alert("Error al intentar descargar el archivo editable.");
+                                        }
+                                    });
+                                }
+                            }
+                        };
+
+                        // Verificar si el documento tiene un editable antes de mostrar el menú
+                        if (isDocument) {
+                            var ref = $("#jstree").jstree(true);
+                            var sel = ref.get_selected();
+                            if (!sel.length) return false;
+
+                            var obj = { "Id": sel[0] };
+                            var jsonObject = { "list_Doc": obj };
+
+                            $.ajax({
+                                url: "@Url.Action("SeleccionarPorId", "Documentos")",
+                                data: JSON.stringify(jsonObject),
+                                type: "POST",
+                                contentType: "application/json",
+                                dataType: "json",
+                                async: false,
+                                success: function (data) {
+                                    if (!data[0].editable) {
+                                        delete documentMenu["DescargarEditable"];
+                                    }
+                                },
+                                error: function () {
+                                    console.log("Error verificando archivo editable");
+                                }
+                            });
+                        }
+
+                        // Si es documento, devuelve su menú, si no, no muestra nada
+                        return isDocument ? documentMenu : {};
+                    }
+                },
+            });
+        });
+    </script>
 }
 else
 {
     //Para usuarios basicos
     <script>
-    $(function () {
+        $(function () {
             $('#jstree').jstree({
 
-            'core': {
-                'themes': {
-                    'name': 'proton',
+                'core': {
+                    'themes': {
+                        'name': 'proton',
                         'responsive': true
                     },
                     'check_callback': true,
@@ -1038,7 +1138,7 @@ else
                 'plugins': ['state', 'wholerow', 'search'],
 
             });
-    });
+        });
     </script>
 }
 

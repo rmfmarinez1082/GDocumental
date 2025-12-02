@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ProyectoBase.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProyectoBase.Models;
 
 namespace ProyectoBase.Data
 {
@@ -330,7 +331,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
         public Models.Cat_ClasificacionArchivo SP_AgregarSubCarpeta(Models.Cat_ClasificacionArchivo nuevasubclas)
 
         {
@@ -492,8 +492,6 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
-
-
         public List<Models.Cat_ClasificacionArchivo> Cat_ClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
         {
             b.ExecuteCommandSP("Cat_ClasificacionArchivo_ListarPorIdUsuario");
@@ -515,9 +513,6 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
-
-
-
         public List<Models.Cat_ClasificacionArchivo> Cat_SubClasificacionArchivo_ListarPorIdUsuario(Models.Cat_ClasificacionArchivo carpeta)
         {
             b.ExecuteCommandSP("Cat_SubClasificacionArchivo_ListarPorIdUsuario");
@@ -535,6 +530,52 @@ namespace ProyectoBase.Data
                     Id = Convert.ToInt32(reader["Id"].ToString())
                 };
                 resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        // =====================================================
+        // MÉTODO: PermisosCarpetasAreas_Listar
+        // DESCRIPCIÓN: Obtiene todos los permisos guardados
+        // =====================================================
+        public List<Models.PermisosCarpetaArea> PermisosCarpetasAreas_Listar()
+        {
+            b.ExecuteCommandSP("PermisosCarpetasAreas_Listar");
+
+            List<Models.PermisosCarpetaArea> resultado = new List<Models.PermisosCarpetaArea>();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                Models.PermisosCarpetaArea item = new Models.PermisosCarpetaArea()
+                {
+                    IdCarpeta = Convert.ToInt32(reader["IdCarpeta"]),
+                    IdArea = Convert.ToInt32(reader["IdArea"])
+                };
+                resultado.Add(item);
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
+        // =====================================================
+        // MÉTODO: PermisosCarpetasAreas_Guardar
+        // DESCRIPCIÓN: Guarda los permisos (recibe JSON string)
+        // =====================================================
+        public Models.ResultadoOperacion PermisosCarpetasAreas_Guardar(string permisosJson)
+        {
+            b.ExecuteCommandSP("PermisosCarpetasAreas_Guardar");
+            b.AddParameter("@PermisosJson", permisosJson, SqlDbType.NVarChar);
+
+            Models.ResultadoOperacion resultado = new Models.ResultadoOperacion();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Success = Convert.ToInt32(reader["Success"]) == 1;
+                resultado.Message = reader["Message"].ToString();
             }
             reader = null;
             b.ConnectionCloseToTransaction();
