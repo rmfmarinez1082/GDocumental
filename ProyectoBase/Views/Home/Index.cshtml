@@ -2,70 +2,490 @@
     ViewBag.Title = "Home Page";
 }
 
+<style>
+    /* Reset y configuración base */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+    }
 
-<!-- Top content -->
-<div class="top-content">
-    <div class="inner-bg">
-        <div class="container">
-            <div class="row">
-                
-                <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-                    <div class="card card-plain mt-8">
-                        <div class="card-header pb-0 text-left bg-transparent">
-                            <h1>@ViewBag.Sistema.NombreSistema @ViewBag.Sistema.Acronimo</h1>
-                            <br />
-                            <h3 class="font-weight-bolder text-info text-gradient"><strong>Bienvenido</strong></h3>
-                            <p class="mb-0">
-                                Iniciar sesión con tu   <strong> usuario y contraseña !</strong>
-                                <br />
-                        </div>
-                        <div class="card-body">
-                            <form role="form">
-                                <label>Email</label>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" onKeyUp="CorreofrM('EmailLogin')" placeholder="Email " id="EmailLogin" aria-label="Email" aria-describedby="email-addon">
-                                </div>
-                                <label>Password</label>
-                                <div class="mb-3">
-                                    <input class="form-control" type="password" name="Password" placeholder="Password " id="Password" aria-label="Password" aria-describedby="password-addon">
-                                </div>
-                                @*<div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" name="SesionCheck" id="primary">
-                                    <label class="form-check-label" for="primary">Recordar contraseña</label>
-                                </div>*@
-                                <div class="text-center">
-                                    <div id='alertBoxes'></div><span class='timer' id='timer'></span>
-                                </div>
-                                <div class="text-center">
-                                    <a id="BtnRegistrar" class="btn bg-gradient-info2 w-100 mt-4 mb-0" style="color:#FFF">Iniciar sesión </a>
-                                </div>
+    /* Contenedor principal */
+    .login-container {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+        background: #f5f5f5;
+    }
 
-                                <div class="text-center">
-                                    <a href="#" class="btn bg-gradient-info3 w-100 mt-4 mb-0">Registrar </a>
-                                </div>
-                            </form>
+    /* Panel izquierdo azul */
+    .left-panel {
+        position: relative;
+        flex: 1;
+        background: linear-gradient(135deg, #1e5ba8 0%, #2b6cb0 50%, #3182ce 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 40px;
+        color: white;
+        overflow: hidden;
+    }
 
-                        </div>
-                        <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                            <p class="mb-4 text-sm mx-auto">
-                                ¿No recuerdas tu contraseña?,
-                                <a href="#" class="text-info text-gradient font-weight-bold"> Recuperar</a>
-                            </p>
-                            <p>
-                                Al inciar sesión estás aceptando los  <br /> <a href="#" class="text-info text-gradient font-weight-bold"><strong>Términos y condiciones de Uso </strong></a>
+    /* Onda decorativa SVG */
+    .wave-decoration {
+        position: absolute;
+        right: -50px;
+        top: 0;
+        height: 100%;
+        width: 150px;
+        z-index: 1;
+    }
 
-                            </p>
-                            <br /><br />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                        <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image: url('../Images/Headers/7.jpeg') "></div>
-                    </div>
-                </div>
+    .wave-path {
+        fill: #f5f5f5;
+    }
+
+    /* Contenido del panel izquierdo */
+    .left-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 400px;
+    }
+
+    .welcome-text {
+        font-size: 1.8rem;
+        font-weight: 300;
+        margin-bottom: 40px;
+        opacity: 0.95;
+    }
+
+    .logo-container {
+        background: white;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .logo-container img {
+        width: 299px;
+        height: 202px;
+        border-radius: 11px;
+    }
+
+    .brand-name {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
+
+    .description-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        opacity: 0.9;
+        margin-bottom: 40px;
+    }
+
+    .bottom-links {
+        display: flex;
+        gap: 30px;
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+
+    .bottom-links a {
+        color: white;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: opacity 0.3s ease;
+    }
+
+    .bottom-links a:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+
+    /* Panel derecho - Formulario */
+    .right-panel {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 40px;
+        background: #f5f5f5;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .form-header {
+        margin-bottom: 40px;
+    }
+
+    .form-title {
+        font-size: 1.75rem;
+        color: #2d3748;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    /* Formulario */
+    .login-form {
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        color: #2d3748;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 35px 12px 0;
+        border: none;
+        border-bottom: 2px solid #e2e8f0;
+        background: transparent;
+        font-size: 0.95rem;
+        color: #2d3748;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    .form-input::placeholder {
+        color: #cbd5e0;
+        font-size: 0.9rem;
+    }
+
+    .form-input:focus {
+        border-bottom-color: #3182ce;
+    }
+
+    .input-icon {
+        position: absolute;
+        right: 8px;
+        bottom: 12px;
+        color: #cbd5e0;
+        font-size: 1rem;
+    }
+
+    /* Checkbox */
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        font-size: 0.85rem;
+        color: #718096;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        accent-color: #3182ce;
+        cursor: pointer;
+    }
+
+    .checkbox-group a {
+        color: #3182ce;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .checkbox-group a:hover {
+        text-decoration: underline;
+    }
+
+    /* Alertas */
+    .alert-container {
+        margin-bottom: 20px;
+        min-height: 20px;
+    }
+
+    .box-error {
+        background: #fff5f5;
+        border-left: 4px solid #f56565;
+        padding: 12px 15px;
+        border-radius: 6px;
+        color: #c53030;
+        font-size: 0.9rem;
+        display: none;
+    }
+
+    .box-success {
+        background: #f0fff4;
+        border-left: 4px solid #48bb78;
+        padding: 12px 15px;
+        border-radius: 6px;
+        color: #2f855a;
+        font-size: 0.9rem;
+        display: none;
+    }
+
+    /* Botones */
+    .button-group {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .btn-primary {
+        flex: 1;
+        background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 100%);
+        color: white;
+        border: none;
+        padding: 14px 30px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
+        text-transform: capitalize;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(49, 130, 206, 0.4);
+    }
+
+    .btn-secondary {
+        flex: 1;
+        background: white;
+        color: #718096;
+        border: 2px solid #e2e8f0;
+        padding: 14px 30px;
+        border-radius: 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: capitalize;
+    }
+
+    .btn-secondary:hover {
+        border-color: #cbd5e0;
+        color: #2d3748;
+    }
+
+    /* Footer del formulario */
+    .form-footer {
+        text-align: center;
+        font-size: 0.85rem;
+        color: #718096;
+    }
+
+    .form-footer a {
+        color: #3182ce;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .form-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .terms-text {
+        margin-top: 20px;
+        font-size: 0.8rem;
+        line-height: 1.5;
+    }
+
+    /* Responsive */
+    @@media (max-width: 991px) {
+        .login-container {
+            flex-direction: column;
+        }
+
+        .left-panel {
+            min-height: 40vh;
+            padding: 40px 30px;
+        }
+
+        .wave-decoration {
+            display: none;
+        }
+
+        .right-panel {
+            padding: 40px 30px;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+        }
+
+        .brand-name {
+            font-size: 1.75rem;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+        }
+
+        .logo-container img {
+            width: 75px;
+        }
+    }
+
+    @@media (max-width: 576px) {
+        .left-panel {
+            padding: 30px 20px;
+        }
+
+        .right-panel {
+            padding: 30px 20px;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .bottom-links {
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+    }
+
+    /* Animaciones de carga */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-container {
+        animation: fadeIn 0.6s ease;
+    }
+
+    .left-content {
+        animation: fadeIn 0.8s ease;
+    }
+</style>
+
+<div class="login-container">
+    <!-- Panel Izquierdo -->
+    <div class="left-panel">
+        <!-- Onda decorativa SVG -->
+        <svg class="wave-decoration" viewBox="0 0 100 1000" preserveAspectRatio="none">
+            <path class="wave-path" d="M0,0 Q50,100 0,200 T0,400 T0,600 T0,800 T0,1000 L100,1000 L100,0 Z"></path>
+        </svg>
+
+        <div class="left-content">
+            <div class="welcome-text">Bienvenido a</div>
+
+            <div class="logo-container">
+                <img src="~/Images/Headers/Gemini_Generated_Image_kmzmxfkmzmxfkmzm.png" alt="Centro de Información Digital" />
             </div>
+
+            <div class="brand-name">Centro de Información Digital</div>
+
+            <div class="description-text">
+                Plataforma integral para almacenar, organizar y consultar la documentación institucional.
+            </div>
+
+
+            Asae © 2025 — Versión 2.0
+
+        </div>
+    </div>
+
+    <!-- Panel Derecho - Formulario -->
+    <div class="right-panel">
+        <div class="form-container">
+            <div class="form-header">
+                <h1 class="form-title">Iniciar sesión</h1>
+            </div>
+
+            <form class="login-form" role="form">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="EmailLogin">E-mail</label>
+                    <input type="email"
+                           class="form-input"
+                           id="EmailLogin"
+                           placeholder="Ingresa tu correo electrónico"
+                           onKeyUp="CorreofrM('EmailLogin')"
+                           aria-label="Email">
+                    <i class="input-icon fa fa-check"></i>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="Password">Contraseña</label>
+                    <input type="password"
+                           class="form-input"
+                           id="Password"
+                           name="Password"
+                           placeholder="Ingresa tu contraseña"
+                           aria-label="Password">
+                    <i class="input-icon fa fa-check"></i>
+                </div>
+
+                <!-- Checkbox y términos -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" name="SesionCheck">
+                    <label for="terms" style="margin-bottom: 0; font-weight: normal;">
+                        Al iniciar sesión acepto los <a href="#">Términos y Condiciones</a>
+                    </label>
+                </div>
+
+                <!-- Alertas -->
+                <div class="alert-container">
+                    <div id='alertBoxes'></div>
+                    <span class='timer' id='timer'></span>
+                </div>
+
+                <!-- Botones -->
+                <div class="button-group">
+                    <button type="button" class="btn-primary" id="BtnRegistrar">Iniciar sesión</button>
+                    <button type="button" class="btn-secondary" onclick="window.location.href='#'">Registrarse</button>
+                </div>
+
+                <!-- Footer -->
+                <div class="form-footer">
+                    <p>
+                        ¿Olvidaste tu contraseña?
+                        <a href="#">Recuperar acceso</a>
+                    </p>
+                    <p class="terms-text">
+                        Al iniciar sesión estás aceptando los<br>
+                        <a href="#"><strong>Términos y condiciones de Uso</strong></a>
+                    </p>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -74,47 +494,53 @@
 <script src="~/Vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
 
 <script>
-
     $(document).ready(function () {
-
         var timeSlide = 500;
         $('#timer').hide(0);
         $('#timer').css('display', 'none');
 
+        // Enter key para submit
         $('#Password').keypress(function (event) {
-            if (event.keyCode === 13) { 
+            if (event.keyCode === 13) {
                 event.preventDefault();
-                $('#BtnRegistrar').click(); 
+                $('#BtnRegistrar').click();
             }
         });
 
+        // Mostrar/ocultar icono de check en inputs
+        $('.form-input').on('input', function() {
+            var icon = $(this).siblings('.input-icon');
+            if ($(this).val().length > 0) {
+                icon.css('color', '#48bb78');
+            } else {
+                icon.css('color', '#cbd5e0');
+            }
+        });
+
+        // Click en botón de login
         $('#BtnRegistrar').click(function () {
-            $('.box-success,.box-error').slideUp(timeSlide);
+            $('.box-success, .box-error').slideUp(timeSlide);
+
             setTimeout(function () {
                 if (validaLogin() == "ok") {
-                   $('#timer').fadeOut(300);
-                    $('#alertBoxes').html('<div class="box-error"></div>');
-                    $('.box-error').hide(0).html("Enviado <img src='/images/icons/loading.gif' width='20px' height='20px'/>");
-                    $('.box-error').slideDown(timeSlide);
+                    $('#timer').fadeOut(300);
+                    $('#alertBoxes').html('<div class="box-success" style="display: block;">Enviando <img src="/images/icons/loading.gif" width="20px" height="20px"/></div>');
 
                     var Session = false;
-
                     if ($('input:checkbox[name=SesionCheck]:checked').val()) {
                         Session = true;
                     }
 
-                    var obj = {};
-
-                    obj['Email'] = $('#EmailLogin').val();;
-                    obj['Password'] = $('#Password').val();
-                    obj['Ruta'] = '@ViewBag.rd';
-                    obj['RutaCompleta'] = '@ViewBag.cf';
-                    obj['RutaAcceso'] = '@ViewBag.rdv';
-                    obj['Session'] = Session;
-
-                    var jsonObject = {
-                        "Usuarios": obj
+                    var obj = {
+                        'Email': $('#EmailLogin').val(),
+                        'Password': $('#Password').val(),
+                        'Ruta': '@ViewBag.rd',
+                        'RutaCompleta': '@ViewBag.cf',
+                        'RutaAcceso': '@ViewBag.rdv',
+                        'Session': Session
                     };
+
+                    var jsonObject = { "Usuarios": obj };
 
                     $.ajax({
                         url: "@Url.Action("IniciarSesion", "Home")",
@@ -124,22 +550,18 @@
                         dataType: "json",
                         error: function (response) {
                             $('#timer').fadeOut(300);
-                            $('#alertBoxes').html('<div class="box-error"></div>');
-                            $('.box-error').hide(0).html('');
-                            $('.box-error').slideDown(timeSlide);
+                            $('#alertBoxes').html('<div class="box-error" style="display: block;">Ha ocurrido un error. Inténtalo más tarde.</div>');
 
                             swal({
-                              title: "Algo ocurrió !",
-                              text: "Ha ocurrido un problema, inténtalo mas tarde ",
-                              icon: "warning",
-                              button: "Aceptar",
+                                title: "Algo ocurrió!",
+                                text: "Ha ocurrido un problema, inténtalo más tarde",
+                                icon: "warning",
+                                button: "Aceptar",
                             });
                         },
                         success: function (response) {
                             $('#timer').fadeOut(300);
-                            $('#alertBoxes').html('<div class="box-error"></div>');
-                            $('.box-error').hide(0).html('');
-                            $('.box-error').slideDown(timeSlide);
+                            $('#alertBoxes').html('');
 
                             switch (true) {
                                 case response.IdRol === -1:
@@ -150,12 +572,11 @@
                                         buttons: true,
                                         dangerMode: true,
                                         buttons: ["Cancelar", "Enviar correo"],
-                                    })
-                                        .then((willDelete) => {
-                                            if (willDelete) {
-                                                alert('método de envío de correo');
-                                            }
-                                        });
+                                    }).then((willDelete) => {
+                                        if (willDelete) {
+                                            alert('método de envío de correo');
+                                        }
+                                    });
                                     break;
                                 case response.IdRol === 0:
                                     swal({
@@ -176,20 +597,15 @@
                                     });
                                     break;
                             }
-
                         }
                     });
-                }
-                else {
-
+                } else {
                     $('#timer').fadeOut(300);
-                    $('#alertBoxes').html('<div class="box-error"></div>');
-                    $('.box-error').hide(0).html(validaLogin());
-                    $('.box-error').slideDown(timeSlide);
+                    $('#alertBoxes').html('<div class="box-error" style="display: block;">' + validaLogin() + '</div>');
 
                     $.notify({
-                        icon: 'fa fa-paw',
-                        message: "Formulario incompleto ."
+                        icon: 'fa fa-exclamation-triangle',
+                        message: "Por favor completa el formulario correctamente."
                     }, {
                         type: 'danger',
                         allow_dismiss: false,
@@ -199,53 +615,48 @@
                         }
                     });
                 }
-
             }, timeSlide);
             return false;
         });
     });
 
-
     function validaLogin() {
         var respuesta = "";
-        $('#EmailLogin').css("border", "1px solid rgba(0,0,0,.15)");
-        $('#Password').css("border", "1px solid rgba(0,0,0,.15)");
+        $('#EmailLogin').css("border-bottom", "2px solid #e2e8f0");
+        $('#Password').css("border-bottom", "2px solid #e2e8f0");
 
         if ($('#EmailLogin').val().length > 0) {
             if ($('#Password').val().length > 0) {
                 if (CorreoLogin() == "ok") {
                     respuesta = "ok";
                 } else {
-                    $('#EmailLogin').css("border", "1px solid red");
-                    respuesta = "Coloca tu email correctamente";
+                    $('#EmailLogin').css("border-bottom", "2px solid #f56565");
+                    respuesta = "Por favor ingresa un email válido";
                 }
-            }
-            else {
-                $('#Password').css("border", "1px solid red");
-                respuesta = "Coloca tu password";
+            } else {
+                $('#Password').css("border-bottom", "2px solid #f56565");
+                respuesta = "Por favor ingresa tu contraseña";
             }
         } else {
-            $('#EmailLogin').css("border", "1px solid red");
-            respuesta = "Coloca tu email";
+            $('#EmailLogin').css("border-bottom", "2px solid #f56565");
+            respuesta = "Por favor ingresa tu email";
         }
         return respuesta;
     }
 
-
     function CorreoLogin() {
         var respuesta = "";
-        object = document.getElementById("EmailLogin");
-        valueForm = object.value;
+        var object = document.getElementById("EmailLogin");
+        var valueForm = object.value;
 
-        var patronTelefono = new RegExp("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$");
+        var patronEmail = new RegExp("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$");
+
         if ($(object).val() == "") {
-            var respuesta = "";
-
-        } else if (valueForm.search(patronTelefono)) {
-            var respuesta = "";
-            return;
+            respuesta = "";
+        } else if (valueForm.search(patronEmail)) {
+            respuesta = "";
         } else {
-            var respuesta = "ok";
+            respuesta = "ok";
         }
         return respuesta;
     }
