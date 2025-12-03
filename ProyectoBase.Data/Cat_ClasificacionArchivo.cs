@@ -536,6 +536,8 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
+
+
         // =====================================================
         // MÉTODO: PermisosCarpetasAreas_Listar
         // DESCRIPCIÓN: Obtiene todos los permisos guardados

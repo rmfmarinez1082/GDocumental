@@ -297,10 +297,6 @@ namespace ProyectoBase.Controllers
         }
 
 
-
-
-
-
         public ActionResult PrincipalA(Application.Menu menu, Application.Documento_Versiones Adocumento_Versiones,
             Models.Documento_Versiones _documento_Versiones, Application.Documentos Apdocumentos,
             Models.ConteoDocCompartidos _ConteoDocCompartidos, Application.ConteoDocCompartidos AConteoDocCompartidos,
