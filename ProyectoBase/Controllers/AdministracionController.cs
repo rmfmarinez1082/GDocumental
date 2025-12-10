@@ -202,54 +202,45 @@ namespace ProyectoBase.Controllers
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
             List<Models.Cat_ClasificacionArchivo> dtClasificacionArchivo = cat_ClasificacionArchivo.Cat_ClasificacionArchivo_ListarPorIdUsuario(carpeta);
             string resulCarpetas = "";
-
             if (dtClasificacionArchivo.Count > 0)
             {
                 resulCarpetas += "<ul>";
-
                 foreach (var dt in dtClasificacionArchivo)
                 {
-
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += ListadoPerfilSub(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
-
                 }
                 resulCarpetas += "</ul>";
             }
-
             return resulCarpetas;
         }
+
         public string ListadoPerfilSub(Models.Cat_ClasificacionArchivo cat_ClasificacionDoc)
         {
-
             Models.Usuarios Usuario = (Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"];
             Models.Cat_ClasificacionArchivo carpeta = new Models.Cat_ClasificacionArchivo();
             cat_ClasificacionDoc.IdUser = Usuario.Id;
-
             Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo = new Application.Cat_ClasificacionArchivo();
             List<Models.Cat_ClasificacionArchivo> dtSClasificacionArchivo = cat_ClasificacionArchivo.Cat_SubClasificacionArchivo_ListarPorIdUsuario(cat_ClasificacionDoc);
-
-
             string resulCarpetas = "";
             if (dtSClasificacionArchivo.Count > 0)
             {
                 resulCarpetas += "<ul>";
-
                 foreach (var dt in dtSClasificacionArchivo)
                 {
-                    resulCarpetas += "<li id='" + dt.Id + "'>" + dt.Nombre;
+                    string variable = "data-jstree='{\"icon\":\"fa fa-folder\"}'";
+                    resulCarpetas += "<li id='" + dt.Id + "' " + variable + ">" + dt.Nombre;
                     resulCarpetas += ListadoPerfilSub(dt);
                     resulCarpetas += getDocument(dt);
                     resulCarpetas += "</li>";
-
                 }
                 resulCarpetas += "</ul>";
             }
             return resulCarpetas;
         }
-
 
         public ActionResult AdminAreas(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
             Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos, Application.Cat_ListadoDepartamentos cat_Listado )

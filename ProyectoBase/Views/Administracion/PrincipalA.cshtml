@@ -1,395 +1,671 @@
-﻿
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
 }
 
 <style>
+    /* ========== ESTILOS DEL DASHBOARD ========== */
+
+    /* Variables */
+    :root {
+        --primary: #1e40af;
+        --primary-dark: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent: #06b6d4;
+        --bg: #f1f5f9;
+        --card: #ffffff;
+        --text: #0f172a;
+        --text-muted: #64748b;
+        --border: #e2e8f0;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --purple: #8b5cf6;
+    }
+
+    .dashboard-container {
+        padding: 24px;
+        background: var(--bg);
+        min-height: calc(100vh - 70px);
+    }
+
+    /* Header del Dashboard */
+    .dashboard-header {
+        margin-bottom: 28px;
+    }
+
+        .dashboard-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .dashboard-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin: 0;
+        }
+
+    /* Stats Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    .stat-card {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 14px;
+        min-height: 130px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card:nth-child(1)::after {
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        }
+
+        .stat-card:nth-child(2)::after {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+
+        .stat-card:nth-child(3)::after {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        .stat-card:nth-child(4)::after {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+        }
+
+        .stat-card:nth-child(5)::after {
+            background: linear-gradient(90deg, #ec4899, #f472b6);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+    .stat-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size:18px;
+    }
+
+    .stat-card:nth-child(1) .stat-icon {
+        background: #dbeafe;
+        color: #2563eb;
+    }
+
+    .stat-card:nth-child(2) .stat-icon {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .stat-card:nth-child(3) .stat-icon {
+        background: #d1fae5;
+        color: #059669;
+    }
+
+    .stat-card:nth-child(4) .stat-icon {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .stat-card:nth-child(5) .stat-icon {
+        background: #fce7f3;
+        color: #db2777;
+    }
+
+    .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    /* Content Grid */
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 24px;
+    }
+
+    .card-modern {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-header-modern {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .card-title-modern {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+    }
+
+        .card-title-modern i {
+            color: var(--primary-light);
+        }
+
+    /* Table Styles */
+    .data-table-modern {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .data-table-modern th {
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: var(--bg);
+        }
+
+            .data-table-modern th:first-child {
+                border-radius: 8px 0 0 8px;
+            }
+
+            .data-table-modern th:last-child {
+                border-radius: 0 8px 8px 0;
+            }
+
+        .data-table-modern td {
+            padding: 18px 16px;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .data-table-modern tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table-modern tbody tr:hover td {
+            background: rgba(59, 130, 246, 0.03);
+        }
+
+    .doc-cell {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .doc-icon-modern {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+        background: #dbeafe;
+        color: #2563eb;
+    }
+
+    .days-text {
+        font-weight: 700;
+    }
+
+        .days-text.danger {
+            color: #dc2626;
+        }
+
+        .days-text.warning {
+            color: #d97706;
+        }
+
+        .days-text.success {
+            color: #059669;
+        }
+
+    /* Chart Section */
+    .chart-container-modern {
+        position: relative;
+        height: 220px;
+        display: flex;
+        align-items: center; /* <— CENTRA VERTICAL */
+        justify-content: center; /* <— CENTRA HORIZONTAL */
+    }
+
+    .chart-center-info {
+        position: absolute;
+        top: 62%; /* <— POSICIONA AL CENTRO */
+        left: 51%;
+        transform: translate(-50%, -50%); /* <— AJUSTA EXACTO AL CENTRO */
+        text-align: center;
+    }
+
+        .chart-center-info .value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .chart-center-info .label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+    .chart-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .chart-stat {
+        padding: 12px;
+        border-radius: 12px;
+        background: var(--bg);
+        text-align: center;
+        border-left: 3px solid transparent;
+    }
+
+        .chart-stat .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .chart-stat .label {
+            font-size: 12px;
+            color: var(--text-muted) !important;
+            margin-top: 4px;
+        }
+
+        .chart-stat.green {
+            border-left-color: #10b981;
+        }
+
+        .chart-stat.yellow {
+            border-left-color: #f59e0b;
+        }
+
+    /* Tables ocultas (Vigentes/Vencidos) */
+    .hidden-section {
+        display: none;
+        margin-top: 24px;
+    }
+
+        .hidden-section.show {
+            display: block;
+        }
+
+    /* Status badges */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+        .status-badge.success {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-badge.danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+    /* GIF icon para solicitudes */
     #gif-icon {
         max-width: 100%;
         max-height: 100%;
-        margin: auto; /* Centra la imagen verticalmente y horizontalmente */
-    }
-
-    #gif-icon {
-        display: none; /* Inicialmente oculto */
+        display: none;
     }
 
         #gif-icon.block {
-            display: block; /* Mostrar la imagen si la clase .block está presente */
+            display: block;
         }
 
-    .swal-overlay {
-        z-index: 1060; /* Ajusta el z-index del swal */
+    /* Responsive */
+    @@media (max-width: 1400px) {
+        .stats-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
-    .modal {
-        z-index: 1050; /* Ajusta el z-index del modal */
+    @@media (max-width: 1200px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
     }
 
-    .bg-c-white {
-        background-color: #FFB6C1;
+    @@media (max-width: 992px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
+    @@media (max-width: 576px) {
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-container {
+            padding: 16px;
+        }
+    }
 </style>
 
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>Bienvenido 👋</h1>
+        <p>Aquí está el resumen de tu gestión documental</p>
+    </div>
 
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <!-- Mis Documentos -->
+        <a href="/Documentos/VisualizarDocumento" class="stat-card">
+            <div class="stat-top">
+                <div class="stat-icon">
+                    <i class="fa fa-file-text-o"></i>
+                </div>
+            </div>
+            <div class="stat-value">
+                @foreach (var item1 in ViewBag.Conteo)
+                {
+                    @item1.MisDocumnetos
+                }
+            </div>
+            <div class="stat-label">Mis Documentos</div>
+        </a>
 
-<div class="@*pcoded-content*@">
-    <!-- Page-header start -->
-    <div class="page-header">
-        <div class="page-block">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <div class="page-header-title">
-                        <h5 class="m-b-10"> BIENVENIDO</h5>
-                        <p class="m-b-0"> </p>
-                    </div>
+        <!-- Compartidos -->
+        <a href="/Documentos/DocCompartidos" class="stat-card">
+            <div class="stat-top">
+                <div class="stat-icon">
+                    <i class="fa fa-share-alt"></i>
                 </div>
-                <div class="col-md-4">
-                    <ul class="breadcrumb-title">
-                        <li class="breadcrumb-item">
-                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="#!">Inicio</a>
-                        </li>
-                    </ul>
+            </div>
+            <div class="stat-value">
+                @foreach (var item1 in ViewBag.ConteoC)
+                {
+                    @item1.compartidos
+                }
+            </div>
+            <div class="stat-label">Compartidos</div>
+        </a>
+
+        <!-- Vigentes -->
+        <div class="stat-card" onclick="VDocVigente();">
+            <div class="stat-top">
+                <div class="stat-icon">
+                    <i class="fa fa-calendar-check-o"></i>
                 </div>
+            </div>
+            <div class="stat-value">
+                @foreach (var item1 in ViewBag.ConteoV)
+                {
+                    @item1.TotalDocVigente
+                }
+            </div>
+            <div class="stat-label">Vigentes</div>
+        </div>
+
+        <!-- Vencidos -->
+        <div class="stat-card" onclick="VDocVencido();">
+            <div class="stat-top">
+                <div class="stat-icon">
+                    <i class="fa fa-calendar-times-o"></i>
+                </div>
+            </div>
+            <div class="stat-value">
+                @foreach (var item1 in ViewBag.ConteoVe)
+                {
+                    @item1.TotalDocVencido
+                }
+            </div>
+            <div class="stat-label">Vencidos</div>
+        </div>
+
+        <!-- Solicitudes -->
+        <div class="stat-card" onclick="ModalSolicitud();">
+            <div class="stat-top">
+                <div class="stat-icon">
+                    <i class="fa fa-inbox"></i>
+                    <img id="gif-icon" src="~/Images/Headers/Email.gif" style="height:52px; width:auto;" />
+                </div>
+            </div>
+            <div class="stat-value" id="counter">@ViewBag.Solicitud.Id</div>
+            <div class="stat-label">Solicitudes</div>
+        </div>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="content-grid">
+        <!-- Documentos Próximos a Vencer -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h3 class="card-title-modern">
+                    <i class="fa fa-clock-o"></i>
+                    
+                    Documentos Vigentes
+                </h3>
+            </div>
+            <div class="table-responsive">
+                <table id="TDocVigente" class="data-table-modern">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th class="text-center">Fecha de Vencimiento</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.lisvigente)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="doc-cell">
+                                        <div class="doc-icon-modern">
+                                            <i class="fa fa-file-text-o"></i>
+                                        </div>
+                                        <span>@item.Nombre</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">@item.FechaVencimiento</td>
+                                <td class="text-center">
+                                    <span class="status-badge success">Vigente</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gráfica de Estado -->
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h3 class="card-title-modern">
+                    <i class="fa fa-pie-chart"></i>
+                    Estado de Documentos
+                </h3>
+            </div>
+            <div class="chart-container-modern">
+                <canvas id="pie-chart"></canvas>
+                @{
+                    var total = ViewBag.Visto + ViewBag.NVisto;
+                    var porcentaje = total > 0 ? Math.Round((double)ViewBag.Visto / total * 100) : 0;
+                }
+                <div class="chart-center-info">
+                    <div class="value">@porcentaje%</div>
+                    <div class="label">Vistos</div>
+                </div>
+            </div>
+            <div class="chart-stats">
+                <div class="chart-stat green">
+                    <div class="value">@ViewBag.Visto</div>
+                    <div class="label">Documentos Vistos</div>
+                </div>
+                <div class="chart-stat yellow">
+                    <div class="value">@ViewBag.NVisto</div>
+                    <div class="label">Pendientes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Documentos Vigentes (oculta por defecto) -->
+    <div class="hidden-section" id="DocVigente">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h3 class="card-title-modern">
+                    <i class="fa fa-check-circle" style="color: #10b981;"></i>
+                    Documentos Próximos a Vencer
+                </h3>
+            </div>
+            <div class="table-responsive">
+ 
+
+                <table id="TDocPVencer" class="data-table-modern">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th class="text-center">Días Restantes</th>
+                            <th class="text-center">Vencimiento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.lisProx)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="doc-cell">
+                                        <div class="doc-icon-modern">
+                                            <i class="fa fa-file-text-o"></i>
+                                        </div>
+                                        <span>@item.Nombre</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @{
+                                        var dias = item.DiasRestantes;
+                                        var clase = dias <= 7 ? "danger" : (dias <= 15 ? "warning" : "success");
+                                    }
+                                    <span class="days-text @clase">@item.DiasRestantes días</span>
+                                </td>
+                                <td class="text-center">@item.FechaVencimiento</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Documentos Vencidos (oculta por defecto) -->
+    <div class="hidden-section" id="DocVencido">
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h3 class="card-title-modern">
+                    <i class="fa fa-times-circle" style="color: #ef4444;"></i>
+                    Documentos Vencidos
+                </h3>
+            </div>
+            <div class="table-responsive">
+                <table id="TDocVencido" class="data-table-modern">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th class="text-center">Fecha de Vencimiento</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.lisvencido)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="doc-cell">
+                                        <div class="doc-icon-modern">
+                                            <i class="fa fa-file-text-o"></i>
+                                        </div>
+                                        <span>@item.Nombre</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">@item.FechaVencimiento</td>
+                                <td class="text-center">
+                                    <span class="status-badge danger">Vencido</span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
 
-
-<div class="main-body">
-    <div class="page-wrapper">
-        <!-- Page-body start -->
-        <div class="page-body">
-            <div class="row">
-                <!-- task, page, download counter  start -->
-                <div class="col" id="MisDocumentos">
-                    <a href="/Documentos/VisualizarDocumento">
-                        <div class="card">
-                            <div class="card-block">
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 class="text-c-purple">
-                                            @foreach (var item1 in ViewBag.Conteo)
-                                            {
-                                                @item1.MisDocumnetos
-                                            }
-                                        </h4>
-                                        <h6 class="text-muted m-b-0">Mis Documentos cargados</h6>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                        <i class="fa fa-file-text-o f-28"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-c-purple">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <p class="text-white m-b-0"></p>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col">
-                    <a href="/Documentos/DocCompartidos">
-                        <div class="card">
-                            <div class="card-block">
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 class="text-c-yellow">
-
-                                            @foreach (var item1 in ViewBag.ConteoC)
-                                            {
-                                                @item1.compartidos
-                                            }
-                                        </h4>
-                                        <h6 class="text-muted m-b-0">Documentos Compartidos</h6>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                        <i class="fa fa-share-alt f-28"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-c-yellow">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <p class="text-white m-b-0"> </p>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col" id="cardVigente">
-                    <a href="#">
-                        <div class="card" onclick="VDocVigente();" style="cursor:pointer">
-                            <div class="card-block">
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 class="text-c-green">
-
-                                            @foreach (var item1 in ViewBag.ConteoV)
-                                            {
-                                                @item1.TotalDocVigente
-                                            }
-                                        </h4>
-                                        <h6 class="text-muted m-b-0">Documentos Vigentes</h6>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                        <i class="fa fa-calendar-check-o f-28"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-c-green">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <p class="text-white m-b-0"></p>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col" id="dashboardCardVencido">
-                    <a href="#DocVencido">
-                        <div class="card" onclick="VDocVencido();" style="cursor:pointer">
-                            <div class="card-block">
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 class="text-c-red">
-                                            @foreach (var item1 in ViewBag.ConteoVe)
-                                            {
-                                                @item1.TotalDocVencido
-                                            }
-                                        </h4>
-                                        <h6 class="text-muted m-b-0">Documentos vencidos</h6>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                        <i class="fa fa-calendar-times-o f-28"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-c-red">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <p class="text-white m-b-0"></p>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                         @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col" onclick="ModalSolicitud();" id="cardSolicitud">
-                    <a href="#">
-                        <div class="card" style="cursor:pointer">
-                            <div class="card-block">
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 id="counter" style="color: #FFB6C1">
-                                            @ViewBag.Solicitud.Id
-                                        </h4>
-                                        <h6 class="text-muted m-b-0">Solicitudes</h6>
-                                    </div>
-                                    <div class="col-4 text-right">
-                                        @*<i class="fa fa-check-square-o f-28"></i>*@
-                                        <img id="gif-icon" src="~/Images/Headers/Email.gif" style="height:100%; width:auto;" />
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-c-white">
-                                <div class="row align-items-center">
-                                    <div class="col-9">
-                                        <p class="text-white m-b-0"></p>
-                                    </div>
-                                    <div class="col-3 text-right">
-                                        @*<i class="fa fa-line-chart text-white f-16"></i>*@
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <!-- Docs Proximos a vencer -->
-                <div class="col-xl-7 col-md-12" id="ProxVencer" style="display: block;">
-                    <div class="card table-card">
-                        <div class="card-header">
-                            <h5>Documentos Proximos a vencer</h5>
-
-                        </div>
-                        <div class="p-15">
-                            <div class="table-responsive">
-                                <table id="TDocPVencer" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th class="text-center">Días Restantes</th>
-                                            <th class="text-center">Fecha de vencimiento</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.lisProx)
-                                        {
-
-                                            <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center">@item.DiasRestantes</td>
-                                                <td class="text-center">@item.FechaVencimiento</td>
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- GRAFICO -->
-                <div class="col-xl-5 col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Estado</h4>
-                                    <p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>
-                                </div>
-
-                                <canvas id="pie-chart" width="400" height="200"></canvas>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="row">
-                <!-- Docs Vigentes -->
-                <div class="col-xl-12 col-md-12" id="DocVigente" style="display: none;">
-                    <div class="card table-card">
-                        <div class="card-header">
-                            <h5>Documentos Vigentes</h5>
-                            <div class="card-header-right">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                    <li><i class="fa fa-window-maximize full-card"></i></li>
-                                    <li><i class="fa fa-minus minimize-card"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-block p-15" style="display: block;">
-                            <div class="table-responsive">
-
-                                <table id="TDocVigente" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th class="text-center">Fecha de vencimiento</th>
-                                            <th class="text-center">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.lisvigente)
-                                        {
-
-                                            <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center">@item.FechaVencimiento</td>
-                                                <td class="text-center"><label class="label label-success">Vigente</label></td>
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Docs Vencidos -->
-                <div class="col-xl-12 col-md-12" id="DocVencido" style="display: none;">
-                    <div class="card table-card">
-                        <div class="card-header">
-                            <h5>Documentos Vencidos</h5>
-                            <div class="card-header-right">
-                                <ul class="list-unstyled card-option">
-                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                    <li><i class="fa fa-window-maximize full-card"></i></li>
-                                    <li><i class="fa fa-minus minimize-card"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="card-block p-15 container">
-                            <div class="table-responsive">
-                                <table id="TDocVencido" class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Nombre</th>
-                                            <th class="text-center">Fecha de vencimiento</th>
-                                            <th class="text-center">Estado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in ViewBag.lisvencido)
-                                        {
-
-                                            <tr>
-                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                <td class="text-center">@item.FechaVencimiento</td>
-                                                <td class="text-center"><label class="label label-danger">Vencido</label></td>
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-        </div>
-        <!-- Page-body end -->
-    </div>
-    <div id="styleSelector"> </div>
-</div>
-
-
-
-
-<!---MODAL Solicitud--->
 <div class="modal fade" id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="overflow-y: auto;">
     <div class="modal-dialog modal-xl" style="max-width:750px">
         <div class="modal-content">
@@ -399,59 +675,56 @@
             </div>
             <div class="modal-body">
                 <p>Seleccione si desea permitir la descarga de los siguientes documentos.</p>
-
                 <div class="container-fluid">
                     <div class="row">
-                        <!--SOLICITUDES -->
                         <div class="col-12" id="Solicitud">
-                            <div class="card table-card">
-                                <div class="p-15">
-                                    <div class="table-responsive">
-                                        <table id="TDocSolicitud" class="table table-hover" cursor: pointer">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th class="text-center">Solicitante</th>
-                                                    <th class="text-center">Estado</th>
-                                                    <th class="text-center">Fecha de solicitud</th>
-                                                    <th class="text-center">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var item in ViewBag.ListSolicitud)
+                            <div class="table-responsive">
+                                <table id="TDocSolicitud" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th class="text-center">Solicitante</th>
+                                            <th class="text-center">Estado</th>
+                                            <th class="text-center">Fecha de solicitud</th>
+                                            <th class="text-center">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.ListSolicitud)
+                                        {
+                                            <tr style="background-color:
+                                                @if (item.IdClasificacion == 1)
                                                 {
-                                                    <tr style="background-color: 
-                                                            @if (item.IdClasificacion == 1)
-                                                            {
-                                                                <text>rgba(255,205,86,0.2)</text> 
-                                                            }
-                                                            else if (item.IdClasificacion == 2)
-                                                            {
-                                                                <text>hsla(120, 100%, 25%, 0.5)</text>
-                                                            }
-                                                            else if (item.IdClasificacion == 3)
-                                                            {
-                                                                <text>hsla(0, 100%, 50%, 0.5)</text>                                                            }
-                                                            else
-                                                            {
-                                                                <text>white</text>
-                                                            };" data-id="@item.Id">
-                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                                        <td class="text-center">@item.Elaboro</td>
-                                                        <td class="text-center estadocolumna">@item.Estatus</td>
-                                                        <td class="text-center">@item.FechaPublicacion</td>
-                                                        <td class="text-center"><a onclick="Aceptar(@item.Id);"><i class="fa fa-check-square-o f-20" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;<a onclick="Negar(@item.Id);"><i class="fa fa-times-circle-o f-20" aria-hidden="true"></i></a></td>
-                                                    </tr>
+                                                    <text>rgba(255,205,86,0.2)</text>
                                                 }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                                else if (item.IdClasificacion == 2)
+                                                {
+                                                    <text>hsla(120, 100%, 25%, 0.5)</text>
+                                                }
+                                                else if (item.IdClasificacion == 3)
+                                                {
+                                                    <text>hsla(0, 100%, 50%, 0.5)</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>white</text>
+                                                };" data-id="@item.Id">
+                                                <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                <td class="text-center">@item.Elaboro</td>
+                                                <td class="text-center estadocolumna">@item.Estatus</td>
+                                                <td class="text-center">@item.FechaPublicacion</td>
+                                                <td class="text-center">
+                                                    <a onclick="Aceptar(@item.Id);" style="cursor:pointer;"><i class="fa fa-check-square-o f-20" aria-hidden="true"></i></a>&nbsp;&nbsp;&nbsp;
+                                                    <a onclick="Negar(@item.Id);" style="cursor:pointer;"><i class="fa fa-times-circle-o f-20" aria-hidden="true"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" id="BtncloseCompartir" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -460,71 +733,46 @@
     </div>
 </div>
 
-
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 
-
 <script>
-
     $(document).ready(function () {
         var counter = parseInt($('#counter').text());
-
         if (counter > 0) {
             $('#gif-icon').addClass('block');
         } else {
             $('#gif-icon').removeClass('block');
         }
-
-
-
     });
 
-        var data = [{
-      data: [@ViewBag.Visto ,@ViewBag.NVisto],
-
-            backgroundColor: [
-                "rgba(75,192,192,0.2)",
-                "rgba(255,205,86,0.2)"
-
-            ],
-            borderColor: [
-                "rgba(75,192,192,1)",
-                "rgba(255,205,86,1)"
-            ]
-        }];
-        var options = {
-      tooltips: {
-        enabled: true
-      },
-      plugins: {
-        datalabels: {
-          formatter: (value, ctx) => {
-
-            let sum = ctx.dataset._meta[0].total;
-            let percentage = (value * 100 / sum).toFixed(0) + "%";
-            return percentage;
-
-
-          },
-              color: '#000000',
+    // Gráfica tipo Doughnut
+    var ctx = document.getElementById("pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Vistos', 'Pendientes'],
+            datasets: [{
+                data: [@ViewBag.Visto, @ViewBag.NVisto],
+                backgroundColor: ['#10b981', '#f59e0b'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
         }
-      }
-        };
-        var ctx = document.getElementById("pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
-        type: 'pie',
-      data: {
-      labels: ['Vistos', 'Pendientes'],
-        datasets: data
-      },
-      options: options
-});
+    });
 </script>
 
 <script>
     $(document).ready(function () {
         $('#TDocVigente').DataTable({
-
             pageLength: 5,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
             language: {
@@ -541,15 +789,14 @@
         });
 
         $('#TDocPVencer').DataTable({
-
             pageLength: 5,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
             }
         });
-        $('#TDocSolicitud').DataTable({
 
+        $('#TDocSolicitud').DataTable({
             pageLength: 5,
             lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
             language: {
@@ -561,10 +808,11 @@
     $('#IdMenuDashboard').addClass("active");
 
     function VDocVigente() {
-        $("#DocVigente").css("display", "block");
+        $("#DocVigente").toggleClass("show");
     }
+
     function VDocVencido() {
-        $("#DocVencido").css("display", "block");
+        $("#DocVencido").toggleClass("show");
     }
 
     function ModalSolicitud() {
@@ -597,19 +845,15 @@
 
                     var fila = document.querySelector("tr[data-id='" + Id + "']");
                     fila.style.backgroundColor = "hsla(120, 100%, 25%, 0.5)";
-
-                    // Cambiar el texto de la columna Estado
                     var columnaEstado = fila.querySelector(".text-center.estadocolumna");
                     columnaEstado.innerText = "Aprobada";
-
                 } else {
                     alert('Intente más tarde');
                 }
             }
         });
-
-
     }
+
     function Negar(Id) {
         var obj = {};
         obj['Id'] = Id;
@@ -628,7 +872,7 @@
                 if (resultado.Id == 1) {
                     swal({
                         title: "Permiso Denegado",
-                        text: "El usuario no tendra acceso a la descarga",
+                        text: "El usuario no tendrá acceso a la descarga",
                         icon: "success",
                         button: "Aceptar",
                         target: document.getElementById('ModalCompartido')
@@ -636,12 +880,10 @@
 
                     var fila = document.querySelector("tr[data-id='" + Id + "']");
                     fila.style.backgroundColor = "hsla(0, 100%, 50%, 0.5)";
-
-                    // Cambiar el texto de la columna Estado
                     var columnaEstado = fila.querySelector(".text-center.estadocolumna");
                     columnaEstado.innerText = "Negada";
                 } else {
-                    alert('Intente mas tarde')
+                    alert('Intente mas tarde');
                 }
             }
         });

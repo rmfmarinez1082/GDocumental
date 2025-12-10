@@ -15,33 +15,35 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
     }
 
-        .vakata-context a {
-            padding: 8px 12px;
-            color: #333; /* Color de texto oscuro */
-            transition: background-color 0.3s ease;
-            display: block;
+    .vakata-context a {
+        padding: 8px 12px;
+        color: #333; /* Color de texto oscuro */
+        transition: background-color 0.3s ease;
+        display: block;
+    }
+
+        .vakata-context a:hover {
+            background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
         }
 
-            .vakata-context a:hover {
-                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
-            }
+    /* Estilo específico para los íconos en el menú contextual */
+    .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+        margin-right: 8px;
+    }
 
-        /* Estilo específico para los íconos en el menú contextual */
-        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
-            margin-right: 8px;
-        }
-
-        /* Estilo específico para la línea divisoria entre elementos del menú */
-        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
-            height: 1px;
-            background-color: #ccc;
-            margin: 6px 0;
-        }
+    /* Estilo específico para la línea divisoria entre elementos del menú */
+    .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+        height: 1px;
+        background-color: #ccc;
+        margin: 6px 0;
+    }
 
     .fa-folder:before {
         color: #f3bb22;
         font-size: 16px;
     }
+
+
 </style>
 
 <div class="@*pcoded-content*@">
@@ -1266,52 +1268,3 @@ else
     });
 </script>
 
-
-
-@*<div class="row">
-        <div class="col-xl-12 col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Documentos en el sistema:  </h5>
-                    <span>Detalle de documentos en el sistema y usuarios responsables</span>
-                </div>
-
-                <div class="card-block">
-
-                    <div class="table-responsive">
-                        <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
-                            <thead style="background-color: #0d6efd">
-                                <tr>
-
-                                    <th style="color:white">Nombre</th>
-                                    <th class="text-center" style="color:white">Usuario</th>
-                                    <th class="text-center" style="color:white">Clasificacion</th>
-                                    <th class="text-center" style="color:white">Detalle</th>
-
-                                    <th style="display:none;" class="text-center" style="color:white">PalabrasClave</th>
-
-
-
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider">
-                                @foreach (var item in ViewBag.AdminDoc)
-                                {
-
-                                    <tr>
-                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
-                                        <td class="text-center"><a>@item.NombreUsuario</a></td>
-                                        <td class="text-center"><a>@item.Clasificacion</a></td>
-                                        <td class="text-center"><a onclick="VerDetalle(@item.Id);"><i class="fa fa-info-circle f-20"></i></a></td>
-
-                                        <td style="display:none;" class="text-center"><a>@item.PalabrasClave</a></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>*@
