@@ -139,7 +139,8 @@ namespace ProyectoBase.Controllers
 
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
-            Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos)
+            Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos, Application.ListarCompartir AlistarCompartir, Models.ListarCompartir _listarCompartir,
+            Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
         {
             Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -183,6 +184,16 @@ namespace ProyectoBase.Controllers
                     string Carpetas = ListadoPerfil();
                     ViewBag.carpetas = Carpetas;
                 }
+
+
+
+                _list_Doc.IdSesion = Usuario.Id;
+                List<Models.List_Doc> dtList_Doc = Alist_Doc.SP_ListarDocumentos(_list_Doc);
+                ViewBag.Mydoc = dtList_Doc;
+
+                _listarCompartir.IdUsuario = Usuario.Id;
+                List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
+                ViewBag.DocShared = Lcompartir;
 
                 return View();
             }

@@ -6956,7 +6956,7 @@ table tbody .border-bottom-info td {
   right: unset; }
 .pcoded[theme-layout="vertical"][vertical-nav-type="expanded"] .pcoded-header .pcoded-left-header,
 .pcoded[theme-layout="vertical"][vertical-nav-type="expanded"] .pcoded-navbar {
-  width: 235px; }
+  width: 235px !important; }
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="push"] .pcoded-header .pcoded-right-header {
   margin-left: 235px; }
 .pcoded[theme-layout="vertical"][vertical-placement="left"][vertical-nav-type="expanded"][vertical-effect="push"] .pcoded-header.iscollapsed .pcoded-right-header {

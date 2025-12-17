@@ -27,12 +27,18 @@ namespace ProyectoBase.Data
             b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
             b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
             b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
-            
-            b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
-            b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
-            b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
-            b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
-            b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+
+            //b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
+            //b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
+            //b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
+            //b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+            b.AddParameter("@IdTipoArchivo", 1, SqlDbType.Int);
+            b.AddParameter("@IdMedioAlmacenamiento", 1, SqlDbType.Int);
+            b.AddParameter("@checkboxBD", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCorreo", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCustodia", 0, SqlDbType.Int);
+
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
             b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
@@ -72,12 +78,18 @@ namespace ProyectoBase.Data
             b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
             b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
             b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
-            
-            b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
-            b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
-            b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
-            b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
-            b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+
+            //b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
+            //b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
+            //b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
+            //b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+            b.AddParameter("@IdTipoArchivo", 1, SqlDbType.Int);
+            b.AddParameter("@IdMedioAlmacenamiento", 1, SqlDbType.Int);
+            b.AddParameter("@checkboxBD", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCorreo", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCustodia", 0, SqlDbType.Int);
+
 
 
             b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
@@ -96,6 +108,92 @@ namespace ProyectoBase.Data
             {
                 resultado.Id = Convert.ToInt32(reader["Id"].ToString());
                
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento DocumentoImagenAgregar(Models.NuevoDocumento nuevoDocumento)
+        {
+            b.ExecuteCommandSP("DocumentoImagenAgregar");
+            b.AddParameter("@Nombre", nuevoDocumento.Nombre, SqlDbType.NVarChar);
+            b.AddParameter("@Version", nuevoDocumento.Version, SqlDbType.NVarChar);
+            b.AddParameter("@IdTipoDocumento", nuevoDocumento.IdTipoDocumento, SqlDbType.Int);
+            b.AddParameter("@PalabraClave", nuevoDocumento.PalabraClave, SqlDbType.NVarChar);
+            b.AddParameter("@Descripcion", nuevoDocumento.Descripcion, SqlDbType.NVarChar);
+
+            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.Date);
+            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.Date);
+            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
+            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
+            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
+
+            //b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
+            //b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
+            //b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
+            //b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
+            b.AddParameter("@IdTipoArchivo", 1, SqlDbType.Int);
+            b.AddParameter("@IdMedioAlmacenamiento", 1, SqlDbType.Int);
+            b.AddParameter("@checkboxBD", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCorreo", 0, SqlDbType.Int);
+            b.AddParameter("@checkboxCustodia", 0, SqlDbType.Int);
+
+
+
+            b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
+            b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
+            b.AddParameter("@IdUsuario", nuevoDocumento.IdUsuario, SqlDbType.Int);
+
+
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
+
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+        public Models.Documento SP_DocumentoActualizar(Models.Documento Adoc)
+        {
+            b.ExecuteCommandSP("SP_DocumentoActualizar");
+            b.AddParameter("@id", Adoc.Id, SqlDbType.Int);
+            b.AddParameter("@Nombre", Adoc.Nombre, SqlDbType.NVarChar);
+            b.AddParameter("@FechaRevision", Adoc.FechaRevision, SqlDbType.Date);
+            b.AddParameter("@FechaEntradaVigor", Adoc.FechaEntradaVigor, SqlDbType.Date);
+            b.AddParameter("@FechaPublicacion", Adoc.FechaPublicacion, SqlDbType.Date);
+            b.AddParameter("@FechaVencimiento", Adoc.FechaVencimiento, SqlDbType.Date);
+            b.AddParameter("@FechaProximaRevision", Adoc.FechaProximaRevision, SqlDbType.Date);
+            b.AddParameter("@Descripcion", Adoc.Descripcion, SqlDbType.NVarChar);
+            b.AddParameter("@Version", Adoc.Version, SqlDbType.NVarChar);
+            b.AddParameter("@PalabraClave", Adoc.PalabraClave, SqlDbType.NVarChar);
+
+            b.AddParameter("@IdTipoDocumento", Adoc.IdTipoDocumento, SqlDbType.Int);
+            //b.AddParameter("@IdTipoArchivo", Adoc.IdTipoArchivo, SqlDbType.Int);
+            //b.AddParameter("@IdMedioAlmacenamiento", Adoc.IdMedioAlmacenamiento, SqlDbType.Int);
+            b.AddParameter("@IdClasificacion", Adoc.IdClasificacion, SqlDbType.Int);
+
+
+            b.AddParameter("@IdTipoArchivo", 1, SqlDbType.Int);
+            b.AddParameter("@IdMedioAlmacenamiento", 1, SqlDbType.Int);
+            //b.AddParameter("@checkboxBD", 0, SqlDbType.Int);
+            //b.AddParameter("@checkboxCorreo", 0, SqlDbType.Int);
+            //b.AddParameter("@checkboxCustodia", 0, SqlDbType.Int);
+
+
+
+            Models.Documento resultado = new Models.Documento();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
             }
             reader = null;
             b.ConnectionCloseToTransaction();
@@ -234,36 +332,6 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
-        public Models.Documento SP_DocumentoActualizar(Models.Documento Adoc)
-        {
-            b.ExecuteCommandSP("SP_DocumentoActualizar");
-            b.AddParameter("@id", Adoc.Id, SqlDbType.Int);
-            b.AddParameter("@Nombre", Adoc.Nombre, SqlDbType.NVarChar);
-            b.AddParameter("@FechaRevision", Adoc.FechaRevision, SqlDbType.Date);
-            b.AddParameter("@FechaEntradaVigor", Adoc.FechaEntradaVigor, SqlDbType.Date);
-            b.AddParameter("@FechaPublicacion", Adoc.FechaPublicacion, SqlDbType.Date);
-            b.AddParameter("@FechaVencimiento", Adoc.FechaVencimiento, SqlDbType.Date);
-            b.AddParameter("@FechaProximaRevision", Adoc.FechaProximaRevision, SqlDbType.Date);
-            b.AddParameter("@Descripcion", Adoc.Descripcion, SqlDbType.NVarChar);
-            b.AddParameter("@Version", Adoc.Version, SqlDbType.NVarChar);
-            b.AddParameter("@PalabraClave", Adoc.PalabraClave, SqlDbType.NVarChar);
-
-            b.AddParameter("@IdTipoDocumento", Adoc.IdTipoDocumento, SqlDbType.Int);
-            b.AddParameter("@IdTipoArchivo", Adoc.IdTipoArchivo, SqlDbType.Int);
-            b.AddParameter("@IdMedioAlmacenamiento", Adoc.IdMedioAlmacenamiento, SqlDbType.Int);
-            b.AddParameter("@IdClasificacion", Adoc.IdClasificacion, SqlDbType.Int);
-            
-            Models.Documento resultado = new Models.Documento();
-            var reader = b.ExecuteReader();
-            while (reader.Read())
-            {
-                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
-            }
-            reader = null;
-            b.ConnectionCloseToTransaction();
-            return resultado;
-        }
-        
         public Models.Documento Documento_custodiaA(Models.NuevoDocumento nuevoDocumento)
         {
             b.ExecuteCommandSP("SP_Documento_custodiaA");
@@ -701,51 +769,6 @@ namespace ProyectoBase.Data
             b.ConnectionCloseToTransaction();
             return resultado;
         }
-
-
-
-
-        public Models.Documento DocumentoImagenAgregar(Models.NuevoDocumento nuevoDocumento)
-        {
-            b.ExecuteCommandSP("DocumentoImagenAgregar");
-            b.AddParameter("@Nombre", nuevoDocumento.Nombre, SqlDbType.NVarChar);
-            b.AddParameter("@Version", nuevoDocumento.Version, SqlDbType.NVarChar);
-            b.AddParameter("@IdTipoDocumento", nuevoDocumento.IdTipoDocumento, SqlDbType.Int);
-            b.AddParameter("@PalabraClave", nuevoDocumento.PalabraClave, SqlDbType.NVarChar);
-            b.AddParameter("@Descripcion", nuevoDocumento.Descripcion, SqlDbType.NVarChar);
-
-            b.AddParameter("@FechaRevision", nuevoDocumento.FechaRevision, SqlDbType.Date);
-            b.AddParameter("@Fechadeentradaenvigor", nuevoDocumento.Fechadeentradaenvigor, SqlDbType.Date);
-            b.AddParameter("@FechaPublicacion", nuevoDocumento.FechaPublicacion, SqlDbType.Date);
-            b.AddParameter("@FechaVencimiento", nuevoDocumento.FechaVencimiento, SqlDbType.Date);
-            b.AddParameter("@FechaProximaRevision", nuevoDocumento.FechaProximaRevision, SqlDbType.Date);
-
-            b.AddParameter("@IdTipoArchivo", nuevoDocumento.IdTipoArchivo, SqlDbType.Int);
-            b.AddParameter("@IdMedioAlmacenamiento", nuevoDocumento.IdMedioAlmacenamiento, SqlDbType.Int);
-            b.AddParameter("@checkboxBD", nuevoDocumento.checkboxBD, SqlDbType.Int);
-            b.AddParameter("@checkboxCorreo", nuevoDocumento.checkboxCorreo, SqlDbType.Int);
-            b.AddParameter("@checkboxCustodia", nuevoDocumento.checkboxCustodia, SqlDbType.Int);
-
-
-            b.AddParameter("@IdClasificacion", nuevoDocumento.IdClasificacion, SqlDbType.Int);
-            b.AddParameter("@Idtemporal", nuevoDocumento.Idtemporal, SqlDbType.VarChar);
-            b.AddParameter("@IdUsuario", nuevoDocumento.IdUsuario, SqlDbType.Int);
-
-
-
-
-            Models.Documento resultado = new Models.Documento();
-            var reader = b.ExecuteReader();
-            while (reader.Read())
-            {
-                resultado.Id = Convert.ToInt32(reader["Id"].ToString());
-
-            }
-            reader = null;
-            b.ConnectionCloseToTransaction();
-            return resultado;
-        }
-
 
         public Models.Documento INSERTARImagenDocumento(Models.Img img)
         {
