@@ -140,7 +140,8 @@ namespace ProyectoBase.Controllers
         // GET: Administracion
         public ActionResult Index(Application.Menu menu, Models.Notification _notification, Application.Notification Anotification, Application.Cat_ClasificacionArchivo cat_ClasificacionArchivo,
             Application.List_Doc listadoAdmin, Application.Sistema ApSistema, Application.PermisosRolElementos APPpermisosRolElementos, Application.ListarCompartir AlistarCompartir, Models.ListarCompartir _listarCompartir,
-            Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc)
+            Models.List_Doc _list_Doc, Application.List_Doc Alist_Doc, Application.Cat_Entidades entidades, Application.EmpresasListado empresasListado,
+            Application.ProvedorListado provedoresListado)
         {
             Models.Cat_ClasificacionArchivo Rorden = cat_ClasificacionArchivo.SP_RESSET();
             Models.Sistema sistema = ApSistema.DataSystem();
@@ -194,6 +195,17 @@ namespace ProyectoBase.Controllers
                 _listarCompartir.IdUsuario = Usuario.Id;
                 List<Models.ListarCompartir> Lcompartir = AlistarCompartir.SP_ListarCompartir(_listarCompartir);
                 ViewBag.DocShared = Lcompartir;
+
+
+                ///info extra e mudan funciones 
+                List<Models.Cat_Entidades> dtEntidades = entidades.SP_lisCat_Entidades();
+                ViewBag.dtEntidad = dtEntidades;
+
+                List<Models.ProvedorListado> dtprovedorListados = provedoresListado.SP_ProvedoresListado();
+                ViewBag.dtprovedorListados = dtprovedorListados;
+
+                List<Models.EmpresasListado> dtEmpresasListado = empresasListado.SP_EmpresasListado();
+                ViewBag.dtEmpresasListado = dtEmpresasListado;
 
                 return View();
             }
