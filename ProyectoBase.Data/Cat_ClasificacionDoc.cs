@@ -30,6 +30,24 @@ namespace ProyectoBase.Data
             return resultado;
         }
 
-        
+        public Models.Cat_ClasificacionDoc SP_ConteoClasificacion()
+        {
+            b.ExecuteCommandSP("SP_ConteoClasificacion");
+
+            Models.Cat_ClasificacionDoc resultado = new Models.Cat_ClasificacionDoc();
+            var reader = b.ExecuteReader();
+            while (reader.Read())
+            {
+                resultado.Publica = reader["Publica"].ToString();
+                resultado.Interno = reader["Interno"].ToString();
+                resultado.Restringida = reader["Restringida"].ToString();
+                resultado.Confidencial = reader["Confidencial"].ToString();
+            }
+            reader = null;
+            b.ConnectionCloseToTransaction();
+            return resultado;
+        }
+
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -49,6 +49,7 @@
     <Compile Include="Cat_ClasificacionDoc.cs" />
     <Compile Include="Cat_ListadoDepartamentos.cs" />
     <Compile Include="Cat_listadoGeneral.cs" />
+    <Compile Include="Cat_Roles.cs" />
     <Compile Include="Cat_RutaAlmacenamiento.cs" />
     <Compile Include="Cat_TipoArchivo.cs" />
     <Compile Include="Cat_Tipo_Documento.cs" />
@@ -71,10 +72,13 @@
     <Compile Include="LisUser.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Notification.cs" />
+    <Compile Include="PermisosRolElementos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvedorListado.cs" />
+    <Compile Include="Sistema.cs" />
     <Compile Include="UrlCifrardo.cs" />
     <Compile Include="Usuarios.cs" />
+    <Compile Include="Grupo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

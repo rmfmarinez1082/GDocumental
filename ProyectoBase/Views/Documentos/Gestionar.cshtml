@@ -1,0 +1,284 @@
+﻿
+@{
+    ViewBag.Title = "Vista";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-search" aria-hidden="true"></i>  Vista Previa</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Vista Previa</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Información del Documento: </h5>
+                                    <span>Observa un resumen general del documento</span>
+                                </div>
+
+                                <div class="card-block">
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Documento compartido con:  </h5>
+                                    <span>El documento actualmente se ha compartido con los siguientes usuarios</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="Detalle" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre</th>
+                                                    <th class="text-center" style="color:white">Fecha Compartido</th>
+                                                    <th class="text-center" style="color:white">Estado</th>
+                                                    <th class="text-center" style="color:white">Dejar de Compartir</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.DetailsDoc)
+                                                {
+
+                                                    <tr>
+                                                        <td><i class="fa fa-user"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                        <td class="text-center"><a>@item.FechaEntradaVigor</a></td>
+                                                        @if (@item.Estatus == "1")
+                                                        {
+                                                            <td class="text-center"><span class="label label-success">Visto</span></td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center"><span class="label label-danger">No visto</span></td>
+                                                        }
+                                                        @{ProyectoBase.Models.Notification permiso = new ProyectoBase.Models.Notification();
+                                                            permiso.IdUsuario = ViewBag.UsuarioId;
+                                                            permiso.IdDocumento = item.IdClasificacionArchivo;
+                                                            var Resultado = ProyectoBase.Models.Test.ValidacionPermiso(permiso);
+                                                        }
+
+                                                        @if (Resultado.Id == 2)
+                                                        {
+                                                        <td class="text-center"><a><i></i></a>Documento en edición</td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            if (Resultado.Id == 1)
+
+                                                            {
+                                                            <td class="text-center"><a onclick="NCompartir(@item.Id);"><i class="fa fa-times-circle-o f-20"></i></a></td>
+                                                            }
+                                                            else
+                                                            {
+                                                            <td class="text-center"><a><i></i></a>Documento en edición</td>
+                                                            }
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Historial de versiones</h5>
+                                    <span>Consulta las versiones antigüas del documento</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="Detalle2" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre Editor</th>
+                                                    <th class="text-center" style="color:white">Versión</th>
+                                                    <th class="text-center" style="color:white">Fecha</th>
+                                                    <th class="text-center" style="color:white">Descargar</th>
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.Historial)
+                                                {
+
+                                                    <tr>
+                                                        <td><i class="fa fa-user"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                        <td class="text-center"><a>@item.Version</a></td>
+                                                        <td class="text-center"><a>@item.Registro</a></td>
+                                                        <td class="text-center"><a href="/Documentos/descargar?doc=@item.NmArchivo&nom=@item.NmOriginal"><i class="fa fa-download f-20"></i></a></td>
+
+
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+
+
+<script type="text/javascript">
+
+    $('#Detalle').DataTable({
+        pageLength: 10,
+        lengthMenu: [[10, 20, -1], [10, 20, 'Todas']],
+        "language": {
+            "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+        },
+    });
+    $('#Detalle2').DataTable({
+
+        pageLength: 10,
+        lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+        }
+    });
+    function NCompartir(id) {
+
+        swal({
+            title: "Dejar de Compartir",
+            text: "¿Dejar de compartir este Documento?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        NoCompartir(id);
+                        break;
+                }
+            });
+    }
+
+    function NoCompartir(id) {
+
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "NCompartir": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Ncompartir", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Dejar de Compartir",
+                        text: "Se dejo de compartir el documento",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+                location.reload();
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#visaulizarDocumento').addClass("active");
+
+</script>
+

@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "VisualizarDocumentoSAdmin";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Documentos en el sistema</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Documentos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Documentos  </h5>
+
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <span>Observalos documentos cargados en el sistema</span>
+                                        </div>
+
+                                        @*<div class="col-5 d-flex d-flex justify-content-center">
+                                                <a><i class="fa fa-flag f-20" style="color: #2ECC71"></i>&nbsp;&nbsp;Vigente</a>
+                                                &nbsp;&nbsp;
+                                                <a><i class="fa fa-flag f-20" style="color: #F1C40F"></i>&nbsp;&nbsp;Por terminar</a>
+                                                &nbsp;&nbsp;
+                                                <a><i class="fa fa-flag f-20" style="color: #E74C3C"></i>&nbsp;&nbsp;Vencido</a>
+                                            </div>*@
+                                    </div>
+
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="table-responsive">
+                                        <table id="TableDocsAdmin" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                            <thead style="background-color: #0d6efd">
+                                                <tr>
+
+                                                    <th style="color:white">Nombre</th>
+                                                    @*<th style="color:white">Usuario</th>*@
+                                                    <th class="text-center" style="color:white">Ruta</th>
+                                                    <th class="text-center" style="color:white">Compartido</th>
+
+                                                    @*<th class="text-center" style="color:white">Detalle</th>
+                                                        <th class="text-center" style="color:white">Editar</th>
+                                                        <th style="display:none;" class="text-center">palabras clable</th>
+                                                        <th class="text-center" style="color:white">Almacen físico</th>
+                                                        <th class="text-center" style="color:white">Prestamo</th>
+                                                        <th class="text-center" style="color:white">Eliminar</th>*@
+
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                @foreach (var item in ViewBag.Docs)
+                                                {
+                                                    <tr>
+                                                        <td><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<a>@item.Nombre</a></td>
+                                                        @*<td><i class="fa fa-user-circle-o"></i>&nbsp;&nbsp;<a>@item.NombreUsuario</a></td>*@
+
+                                                        @{
+                                                            ProyectoBase.Models.Notification NRuta = new ProyectoBase.Models.Notification();
+                                                            NRuta.IdDocumento = item.Id;
+                                                            var NombreR = ProyectoBase.Models.Test.sp_NombreRutaDoc(NRuta);
+
+                                                            ProyectoBase.Models.Documento IdDoc = new ProyectoBase.Models.Documento();
+                                                            IdDoc.Id = item.Id;
+                                                            var Estatus = ProyectoBase.Models.Test.SP_ASKCOmpartido(IdDoc);
+
+                                                        }
+                                                        <td onclick="window.location.href = '/Administracion/Index?Doc=' + encodeURIComponent('@item.Nombre')"><i class="fa fa-folder-open" style="color: #ecc849 "></i>&nbsp;&nbsp;<a> @NombreR.Nombre</a></td>
+                                                        @if (Estatus.Id > 0)
+                                                        {
+                                                            <td><span onclick="MoreInfo(@item.Id)" class="label label-success">@Estatus.Id</span><a> veces</a></td>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><span class="label label-info">@Estatus.Id</span><a> veces</a></td>
+
+                                                        }
+
+                                                    </tr>
+
+                                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal CompartirStatus-->
+<div class="modal fade " id="ModalCompartido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"  id="CompartirTitulo"></h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Observa los usuarios con los cuales esta compartido el documento</p>
+
+                <div class="col-md-12 col-lg-12">
+
+                    <div class="row">
+
+                        <div class="table-responsive">
+                            <table id="TableDocsCompartido" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                <thead style="background-color: #0d6efd">
+                                    <tr>
+                                        <th style="color:white">Nombre</th>
+                                        <th  class="text-center"  style="color:white">Fecha</th>
+                                        <th class="text-center" style="color:white">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider" id="Contenido">
+                                                          
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="BtncloseCompartir" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#TableDocsAdmin').DataTable({
+
+            pageLength: 10,
+            lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+            }
+        });
+
+
+
+    });
+
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#DocsAdmin').addClass("active");
+
+    function MoreInfo(Id) {
+        $('#ModalCompartido').modal('show');
+
+        var obj = {};
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "list_Doc": obj
+        };
+
+
+        $.ajax({
+            url: "@Url.Action("DoCompartido", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function (resultado) {
+                $('#CompartirTitulo').text('Documento: ' + resultado[0].Nombre);
+
+                tabla(resultado);
+            },
+            error: function (resultado) {
+                alert("Error funcion listar compartir por ID ");
+            }
+        });
+
+        function tabla(datos) {
+            var table = $('#TableDocsCompartido').DataTable();
+            table.destroy();
+            //console.log(datos);
+            Contenido.innerHTML = "";
+
+
+            for (let valor of datos) {
+
+                Contenido.innerHTML += `
+
+                     <tr>
+                        <th>${valor.NombreUsuario}</th>
+                        <th>${valor.FechaEntradaVigor}</th>
+
+                        <th>${valor.Estatus > 0  ?  "Visto" : "No visto"}</th>      
+                    </tr>
+                `
+            }
+
+            $('#TableDocsCompartido').DataTable({
+
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                }
+            });
+
+
+        }
+    }
+</script>>

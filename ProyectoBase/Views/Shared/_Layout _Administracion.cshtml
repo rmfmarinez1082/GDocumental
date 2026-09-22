@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 
 <head>
-    <title>Gobierno Corporativo Documental</title>
+    <title>@ViewBag.Sistema.NombreEmpresa</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
@@ -10,12 +10,13 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Meta -->
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="Mega Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
     <meta name="keywords" content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
     <meta name="author" content="codedthemes" />
+
     <!-- Favicon icon -->
     <link rel="icon" href="~/Images/icons/ico.ico" type="image/x-icon">
     <!-- Google font-->
@@ -35,8 +36,19 @@
     <link rel="stylesheet" type="text/css" href="~/assets/css/jquery.mCustomScrollbar.css">
     <script src="~/Vendor/chart.js/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link href="~/assets/dist/themes/default/style.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+    <!-- DATATABLE -->
+    @*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">*@
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+
+    <style>
+        strong {
+            font-weight: 700;
+        }
+    </style>
 </head>
 
 <body>
@@ -115,7 +127,7 @@
                             </div>
                         </div>
                         <a href="/Administracion/PrincipalA">
-                            <h5>Asae Consultores</h5>
+                            <h6>@ViewBag.Sistema.NombreSistema</h6>
                             @*<img class="img-fluid" src="~/Images/icons/asaelogo.png" alt="Theme-Logo" />*@
                         </a>
                         <a class="mobile-options waves-effect waves-light">
@@ -147,41 +159,123 @@
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <i class="ti-bell"></i>
-                                    <span class="badge bg-c-red"></span>
                                 </a>
+                                @if (@ViewBag.CountNoti.Id == 0)
+                                {
+                                    <span class="badge bg-c-green">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-info">Nada por aquí</label>
+                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                <img src="~/Images/Headers/Email_1.gif" style="height:90px; width:auto; margin-left:30%" />
+                                            </div>
 
-                                @*Area Notificaciones*@
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Notificaciones</h6>
-                                        <label class="label label-danger">Nuevas</label>
-                                    </li>
-
-                                    @*Listado Notificacion*@
-                                    @foreach (var item in ViewBag.lisnotifi)
-                                    {
-                                        <li class="waves-effect waves-light">
-                                            <a onclick="doc(@item.IdDocumento);">
-                                                <div class="media">
-                                                    @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
-                                                    <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
-                                                    <div class="media-body">
-                                                        <h5 class="notification-user">Nuevo documento compartido</h5>
-                                                        <p class="notification-msg">@item.Documento</p>
-                                                        <span class="notification-time"></span>
-                                                    </div>
-                                                </div>
-                                            </a>
                                         </li>
-                                    }
 
-                                </ul>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-c-red">
+                                        @ViewBag.CountNoti.Id
+                                    </span>@*COLOR NOTIFICADOR*@
+
+                                    @*Area Notificaciones*@
+                                    <ul class="show-notification">
+                                        <li>
+                                            <h6>Notificaciones</h6>
+                                            <label class="label label-danger">Nuevas</label>
+                                        </li>
+
+                                        @*Listado Notificacion*@
+                                        @foreach (var item in ViewBag.lisnotifi)
+                                        {
+                                            if (@item.Tnoti == 1)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="doc(@item.IdDocumento);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-envelope fa-x" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Nuevo documento compartido</h5>
+                                                                <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a compartido el documento:<strong> @item.Documento.</strong></p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (@item.Tnoti == 2)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="NvistaP(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-share-alt" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Documento Prestado</h5>
+                                                                <p class="notification-msg">El usuario <strong>@item.NombreEmisor,</strong> te a dado custodia del documento: <strong> @item.Documento.</strong></p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+
+                                            }
+                                            else if (@item.Tnoti == 3)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="Nvista(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Plazo caducado</h5>
+                                                                <p class="notification-msg">
+                                                                    A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que te asigno el usuario <strong>@item.NombreEmisor.</strong>
+                                                                    Has la devolución del documento lo más pronto posible.
+                                                                </p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else if (@item.Tnoti == 4)
+                                            {
+                                                <li class="waves-effect waves-light">
+                                                    <a onclick="Nvista(@item.Id);">
+                                                        <div class="media">
+                                                            @*<img class="d-flex align-self-center img-radius" src="~/assets/images/avatar-2.jpg" alt="Generic placeholder image">*@
+                                                            <i class="fa fa-times-circle" aria-hidden="true" style="margin-right:10px"></i>
+                                                            <div class="media-body">
+                                                                <h5 class="notification-user">Plazo caducado</h5>
+                                                                <p class="notification-msg">
+                                                                    A caducado el plazo de prestamo del documento: <strong> @item.Documento</strong> que asignaste al usuario <strong>@item.NombreEmisor.</strong>
+                                                                    solicita la devolución del documento lo más pronto posible.
+                                                                </p>
+                                                                <span class="notification-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        }
+
+                                    </ul>
+                                }
+
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="../Images/Headers/user4.png" class="img-radius" alt="User-Profile-Image">
+                                    <img src="@ViewBag.Foto" class="img-radius" alt="User-Profile-Image">
                                     <span> @ViewBag.Nombre</span>
-                                  
+
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
@@ -189,6 +283,7 @@
                                         <a href="#" onclick="CerrarSesion();">
                                             <i class="ti-layout-sidebar-left"></i> Cerrar Sesión
                                         </a>
+
                                     </li>
                                 </ul>
                             </li>
@@ -204,7 +299,7 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="../Images/Headers/user4.png" alt="User-Profile-Image">
+                                    <img class="img-80 img-radius" src="@ViewBag.Foto" alt="User-Profile-Image">
                                     <div class="user-details">
                                         <span id="more-details"> @ViewBag.Nombre<i class="fa fa-caret-down"></i></span>
                                         <span>@ViewBag.Rol</span>
@@ -219,58 +314,61 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="p-15 p-b-0">
-                                <form class="form-material">
-                                    <div class="form-group form-primary">
-                                        <input type="text" name="footer-email" class="form-control" required="">
-                                        <span class="form-bar"></span>
-                                        <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
 
-                            <ul class="pcoded-item pcoded-left-item">
-                                <li id="IdMenuDashboard">
-                                    <a href="/Administracion/PrincipalA" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
+                           
+                                <div class="p-15 p-b-0">
+                                    <form class="form-material" action="/Documentos/VisualizarDocumento">
+                                        <div class="form-group form-primary">
+                                            <input type="text" name="search" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar Documentos</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">MENÚ</div>
+                                <ul class="pcoded-item pcoded-left-item">
 
-                                <li class="pcoded-hasmenu" id="menuDocumentos">
-                                    <a href="javascript:void(0)" class="waves-effect waves-dark">
-                                        <span class="pcoded-micon"><i class="fa fa-file-text"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Documentos</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                    <ul class="pcoded-submenu">
-                                        <li class=" " id="agregardoc">
-                                            <a href="/Documentos/NuevoDocumento" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar Documentos</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
 
-                                        <li class=" " id="visaulizarDocumento">
-                                            <a href="/Documentos/VisualizarDocumento" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Mis Documentos</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                        <li class=" " id="DocumentoCompartido">
-                                            <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
-                                                <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos</span>
-                                                <span class="pcoded-mcaret"></span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3) {
+                                    <li id="IdMenuDashboard">
+                                        <a href="/Administracion/PrincipalA" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+
+                                    <li class="pcoded-hasmenu" id="menuDocumentos">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="fa fa-file-text"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.basic-components.main">Documentos</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                        <ul class="pcoded-submenu">
+                                            <li class=" " id="agregardoc">
+                                                <a href="/Documentos/NuevoDocumento" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Agregar Documentos</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
+                                            <li class=" " id="visaulizarDocumento">
+                                                <a href="/Documentos/VisualizarDocumento" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Mis Documentos</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+                                            <li class=" " id="DocumentoCompartido">
+                                                <a href="/Documentos/DocCompartidos" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos Compartidos/Prestamos</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
 
                                     <li class="pcoded-hasmenu" id="IdAdministrador">
                                         <a href="#" class="waves-effect waves-dark">
@@ -280,6 +378,13 @@
                                         </a>
 
                                         <ul class="pcoded-submenu">
+                                            <li class=" " id="DocsAdmin">
+                                                <a href="/Administracion/VisualizarDocumentoSAdmin" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Documentos</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
                                             <li class=" " id="estadisticas">
                                                 <a href="/Administracion/Estadisticas" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -287,26 +392,68 @@
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
+
+                                            <li class=" " id="Directorio">
+                                                <a href="/Administracion/Index" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Directorio digital</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
+                                            <li class=" " id="DFDC">
+                                                <a href="/Documentos/DirectorioFDC" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Directorio físico de documentos en Custodia</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
                                             <li class=" " id="registrar">
                                                 <a href="/Administracion/Registrar" class="waves-effect waves-dark">
                                                     <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Registrar Usuarios</span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Administrar Usuarios</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
+                                            <li class=" " id="Grupos">
+                                                <a href="/Administracion/AdminGrupos" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Grupos</span>
+                                                    <span class="pcoded-mcaret"></span>
+                                                </a>
+                                            </li>
+
+                                            <li class=" " id="Permisos">
+                                                <a href="/Administracion/AdminCarpetas" class="waves-effect waves-dark">
+                                                    <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                                                    <span class="pcoded-mtext" data-i18n="nav.basic-components.alert">Permisos Carpetas</span>
                                                     <span class="pcoded-mcaret"></span>
                                                 </a>
                                             </li>
                                         </ul>
 
                                     </li>
-                                 }
+                                    
+                                    <li id="IdMenuCuenta">
+                                        <a href="/Administracion/Micuenta" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="fa fa-user-circle" aria-hidden="true"></i><b>D</b></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Mi cuenta</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onclick="VerAyuda();">
+                                            <span class="pcoded-micon"><i class="fa fa-question-circle-o f-20" aria-hidden="true"></i></span>
+                                            <span class="pcoded-mtext" data-i18n="nav.dash.main">Ayuda</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    </li>
 
-                                <li class="">
-                                    <a onclick="VerAyuda();">
-                                        <span class="pcoded-micon"><i class="fa fa-question-circle-o f-20" aria-hidden="true"></i></span>
-                                        <span class="pcoded-mtext" data-i18n="nav.dash.main">Ayuda</span>
-                                        <span class="pcoded-mcaret"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                                </ul>
+
+                            
 
                         </div>
                     </nav>
@@ -336,13 +483,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" style="height:420px;">
+                <div class="modal-body">
 
                     <div class="col-md-12">
 
                         <div class="row">
 
-                            <div class="col-md-12" style="height:420px;">
+                            <div class="col-md-12" style="height: 65vh;">
 
                                 <!--pantalla de visualización-->
                                 <div style="width: 100%; height: 100%">
@@ -365,24 +512,54 @@
 
 
     <!-- Warning Section Ends -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <!-- Required Jquery -->
-    <script type="text/javascript" src="~/assets/js/jquery/jquery.min.js"></script>
+    <script src="~/Vendor/bootstrap-notify/notify.min.js"></script>
+
+
     <script type="text/javascript" src="~/assets/js/jquery-ui/jquery-ui.min.js "></script>
     <script type="text/javascript" src="~/assets/js/popper.js/popper.min.js"></script>
     <script type="text/javascript" src="~/assets/js/bootstrap/js/bootstrap.min.js "></script>
     <script type="text/javascript" src="~/assets/pages/widget/excanvas.js "></script>
+
     <!-- waves js -->
     <script src="~/assets/pages/waves/js/waves.min.js"></script>
     <!-- jquery slimscroll js -->
     <script type="text/javascript" src="~/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+    <script type="text/javascript" src="~/assets/js/script.js"></script>
+
     <!-- modernizr js -->
     <script type="text/javascript" src="~/assets/js/SmoothScroll.js"></script>
     <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
     <script src="~/assets/js/pcoded.min.js"></script>
     <script src="~/assets/js/vertical-layout.min.js "></script>
     <script src="~/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <!--===============================================================================================-->
+    <script src="~/assets/dist/jstree.min.js"></script>
     <script src="~/vendor/sweetalert/sweetalert.min.js"></script>
+
+    <!--=DATATABLE==============================================================================================-->
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>*@
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+    <script>
+            $(document).ready(function () {
+            // Obtener la lista de elementos del ViewBag
+                var elementosOcultos = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
+
+                // Recorrer la lista y aplicar el ocultamiento
+                elementosOcultos.forEach(function (elemento) {
+                    var elementId = elemento.IdElemento;
+                    var isVisible = elemento.Activo === 0;
+
+                    if (!isVisible) {
+                        $('#' + elementId).hide();
+                    }
+                });
+
+            });
+    </script>
+
 
     <script>
         $(document).ready(function () {
@@ -398,7 +575,7 @@
             });
         });
 
-          function CerrarSesion() {
+        function CerrarSesion() {
             swal({
               title: "Confirmación de cierre de sesión",
               text: "Deseas cerrar tu sesión!",
@@ -427,7 +604,7 @@
                             if (response.IdRol != 0) {
                                 swal({
                                     title: "Sesión terminada !",
-                                    text: response.Nombre + " " + response.Apellidos + " regresa pronto !",
+                                    text: response.Nombre + " " + response.Apellidos + " regresa pronto!",
                                     icon: "success",
                                     button: "Aceptar",
                                 })
@@ -445,32 +622,79 @@
         function VerAyuda() {
 
             $('#ModalAyuda').modal('show');
-/*            SeleccionarPorId(id);*/
+        }
+
+        function doc(Id) {
+        var obj = {};
+
+        obj['UrlVaible'] = Id;
+
+        var jsonObject = {
+            "URL": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("URL_Cifrar", "URLS")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + result.Url;
+
+            },
+            error: function () {
+                alert("intentalo mas tarde");
+            }
+        });
 
         }
 
-        function doc(documento) {
-            window.location.href = '@Url.Action("Vista", "Administracion")?Id=' + documento;
+        function Nvista(documento) {
+        var obj = {};
+        obj['Id'] = documento;
+
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamo", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location.href = "@Url.Action("VisualizarDocumento", "Documentos")";
+                }
+            });
+
         }
 
+        function NvistaP(documento) {
+        var obj = {};
+        obj['Id'] = documento;
 
+            var jsonObject = {
+                "Dnotificacion": obj
+            };
 
-        /* bloqueo de pantalla*/
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("desactivarNotiPrestamos", "Administracion")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                window.location.href = "@Url.Action("DocCompartidos", "Documentos")";                }
+            });
 
-        //const app = document.getElementById('app');
-
-        //window.onload = function () {
-        //    document.addEventListener("contextmenu", function (e) {
-        //        e.preventDefault();
-        //    }, false);
-        //}
+        }
     </script>
-    <!-- Custom js -->
-    <script type="text/javascript" src="~/assets/js/script.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
-
-
-
+     
 
 </body>
 

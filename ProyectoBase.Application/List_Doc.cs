@@ -13,6 +13,10 @@ namespace ProyectoBase.Application
         {
             return _list_Doc.SP_ListarDocumentos(list_Doc);
         }
+        public List<Models.List_Doc> SP_ListarDocumentosCustodia(Models.List_Doc list_Doc)
+        {
+            return _list_Doc.SP_ListarDocumentosCustodia(list_Doc);
+        }
 
         public List<Models.List_Doc> SP_SeleccionarPorId(Models.List_Doc list_DocID)
         {
@@ -22,6 +26,21 @@ namespace ProyectoBase.Application
         public List<Models.List_Doc> SP_RegistroDelete()
         {
             return _list_Doc.SP_RegistroDelete();
+        }
+
+        public List<Models.List_Doc> DetalleDocCompartido(Models.List_Doc listarDoc)
+        {
+            return _list_Doc.DetalleDocCompartido(listarDoc);
+        }
+
+        public List<Models.List_Doc> SP_ListarDocAdmin()
+        {
+            return _list_Doc.SP_ListarDocAdmin();
+        } 
+        
+        public List<Models.List_Doc> DetalleDocCompartidoAdmin(Models.List_Doc list_Doc)
+        {
+            return _list_Doc.DetalleDocCompartidoAdmin(list_Doc);
         }
     }
 }

@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "Vista";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"><i class="fa fa-search" aria-hidden="true"></i>  Vista Previa</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Vista Previa</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+
+            <div class="page-wrapper">
+                <div class="page-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Información del Documento: </h5>
+                                    <span>Observa un resumen general del documento</span>
+                                </div>
+
+                                <div class="card-block">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>DESCRIPCIÓN</h4>
+                                            <div class="resumen">
+
+                                                <p><strong>Nombre (titulo)</strong> <br /> <span>@ViewBag.InfoDoc.Nombre</span></p>
+                                                <p><strong>Versión</strong> <br /> <span>@ViewBag.InfoDoc.Version</span></p>
+                                                <p><strong>Tipo Documento</strong> <br /> <span>@ViewBag.InfoDoc.TipoDoc</span></p>
+                                                <p><strong>Palabra Clave</strong> <br /> <span>@ViewBag.InfoDoc.PalabraClave</span></p>
+                                                <p><strong>Descripción</strong> <br /> <span>@ViewBag.InfoDoc.Descripcion</span></p>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <h4>CONTROL</h4>
+
+                                            <div class="resumen">
+                                                <p id="FRevision"><strong>Fecha Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaRevision</span></p>
+                                                <p id="FProximaRevision"><strong>Fecha Proxima Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaProximaRevision</span></p>
+
+                                                <p id="FEntradaVigor"><strong>Fecha de entrada en vigor</strong> <br /> <span>@ViewBag.InfoDoc.FechaEntradaVigor</span></p>
+                                                <p id="FPublicacion"><strong>Fecha Publicacion</strong> <br /> <span>@ViewBag.InfoDoc.FechaPublicacion</span></p>
+                                                <p id="FVencimiento"><strong>Fecha Vencimiento</strong> <br /> <span>@ViewBag.InfoDoc.FechaVencimiento</span></p>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <h4>DISTRIBUCIÓN </h4>
+                                            <div class="resumen">
+                                                <p><strong>Tipo Archivo</strong> <br /> <span>@ViewBag.InfoDoc.Extension</span></p>
+                                                <p><strong>Medio de Almacenamiento</strong> <br /> <span>@ViewBag.InfoDoc.MedioAlmacenamiento</span></p>
+
+
+
+                                            </div>
+
+                                            <h4>CLASIFICACIÓN </h4>
+                                            <p><strong>Clasificación</strong> <br /> <span>@ViewBag.InfoDoc.ClasificacionDoc</span></p>
+
+                                            <h4>RUTA</h4>
+                                            <p><span>@ViewBag.Ruta</span></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-xl-12 col-md-12">
+                        <div class="card table-card">
+                            <div class="card-header">
+                                <h5>@ViewBag.InfoDoc.Nombre</h5>
+                                <div class="card-header-right">
+                                    <ul class="list-unstyled card-option">
+                                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                        <li><i class="fa fa-window-maximize full-card"></i></li>
+                                        <li><i class="fa fa-minus minimize-card"></i></li>
+                                        <li><i class="fa fa-refresh reload-card"></i></li>
+                                        <li><i class="fa fa-trash close-card"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+
+                                    <div class="col-md-12 text-left">
+                                        <div style="width: 100%; height: 100vh">
+                                            <!--documento aquí-->
+                                            <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        let Id = @ViewBag.InfoDoc.IdTipoDocumento;
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = { "documento": obj };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("FechaInterfaz", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data[0].FRevision == 1) {
+                    $("#FRevision").css("display", "block");
+                } else {
+                    $("#FRevision").css("display", "none");
+                }
+                if (data[0].FEntradaVigor == 1) {
+                    $("#FEntradaVigor").css("display", "block");
+                } else {
+                    $("#FEntradaVigor").css("display", "none");
+                }
+                if (data[0].FPublicacion == 1) {
+                    $("#FPublicacion").css("display", "block");
+                } else {
+                    $("#FPublicacion").css("display", "none");
+                }
+                if (data[0].FProximaRevision == 1) {
+                    $("#FProximaRevision").css("display", "block");
+                } else {
+                    $("#FProximaRevision").css("display", "none");
+                }
+                if (data[0].FVencimiento == 1) {
+                    $("#FVencimiento").css("display", "block");
+                } else {
+                    $("#FVencimiento").css("display", "none");
+                }
+            }
+        });
+        
+    });
+
+    $('#Detalle').DataTable({
+        pageLength: 10,
+        lengthMenu: [[10, 20, -1], [10, 20, 'Todas']],
+        "language": {
+            "url": '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+        },
+    });
+
+    function NCompartir(id) {
+
+        swal({
+            title: "Dejar de Compartir",
+            text: "¿Dejar de compartir este Documento?",
+            icon: "error",
+            buttons: {
+                Si: {
+                    text: "Sí",
+                    value: "si"
+
+                },
+                cancel: "Cancelar"
+            },
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+
+                switch (willDelete) {
+
+                    case "si":
+                        NoCompartir(id);
+                        break;
+                }
+            });
+    }
+
+    function NoCompartir(id) {
+
+        var obj = {};
+        obj['Id'] = id;
+
+        var jsonObject = {
+            "NCompartir": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("Ncompartir", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+
+                    swal({
+                        title: "Dejar de Compartir",
+                        text: "Se dejo de compartir el documento",
+                        icon: "success",
+                        button: "Aceptar",
+                    })
+                location.reload();
+            },
+            error: function (resultado) {
+
+                alert("Error funcion ");
+            }
+        });
+    }
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#visaulizarDocumento').addClass("active");
+
+</script>
+

@@ -1,0 +1,460 @@
+﻿
+@{
+    ViewBag.Title = "DirectorioFDC";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}  
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+<style>
+    /* Personalizar el estilo del menú contextual */
+    .vakata-context,
+    .vakata-context ul {
+        background-color: #fff; /* Fondo blanco */
+        border: 1px solid #ccc; /* Borde gris */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    }
+
+        .vakata-context a {
+            padding: 8px 12px;
+            color: #333; /* Color de texto oscuro */
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+            .vakata-context a:hover {
+                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+            }
+
+        /* Estilo específico para los íconos en el menú contextual */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+            margin-right: 8px;
+        }
+
+        /* Estilo específico para la línea divisoria entre elementos del menú */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 6px 0;
+        }
+
+    .fa-folder:before {
+        color: #f3bb22;
+        font-size: 16px;
+    }
+</style> 
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"> DIRECTORIO FÍSICO DE DOCUMENTOS EN CUSTODIA</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Inicio</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-6 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>DIRECTORIO FISICO</h5>
+                            <p>Crea o elimina carpetas para resguardar tu documento</p>
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div class="row justify-content-around">
+
+                                <div class="col-7 p-15 p-b-0">
+                                    <form class="form-material">
+                                        <div class="form-group form-primary">
+                                            <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
+                                            <span class="form-bar"></span>
+                                            <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-auto">
+                                    <button style="margin-top: 22px;" class="btn btn-sm waves-effect waves-light btn-info" onclick="Root()" id="btguardar"> <i class="fa fa-plus-square-o"></i>Crear carpeta Principal</button>
+                                </div>
+
+                            </div>
+                 
+                            <br /><br />
+                            <div id="jstree">
+                                @Html.Raw(ViewBag.carpetas);
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5 id="Titulo"></h5>
+                        </div>
+
+                        <div style="width: 100%; height: 71vh">
+
+                            <iframe id="iframepdf" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery/jquery.min.js"></script>
+
+
+<script>
+    $('#IdAdministrador').addClass("active pcoded-trigger");
+    $('#DFDC').addClass("active");
+
+    $(function () {
+
+            $('#jstree').jstree({
+
+                'core': {
+                    'themes': {
+                        'name': 'proton',
+                        'responsive': true
+                    },
+                    'check_callback': true
+                },
+
+                'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'crrm', 'search'],
+
+                 "contextmenu": {
+                    items: {
+                        "ccp": false,
+                        "create": {
+                            "label": "Crear carpeta",
+                            "action":
+                                function node_create() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    if (!sel.length) {
+                                        alert("Seleccione primero un nodo");
+                                        return;
+                                    }
+                                    sel = sel[0];
+                                    sel = ref.create_node(sel);
+
+                                    var nuevo = $("#jstree").jstree(true).get_node(sel);
+
+                                    var obj = {
+                                        "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
+                                    };
+
+                                    var jsonObject = {
+                                        "nuevasubClas": obj
+                                    };
+
+
+                                     $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("AgregarSubCarpeta", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+                                            $("#BtnSubclas").trigger("click");
+
+                                            if (data.Id == 1) {
+
+
+                                                if (sel) {
+                                                    ref.edit(sel);
+                                                }
+                                            }
+                                            else {
+
+                                             ref.delete_node(sel);
+                                            }
+
+                                        }
+
+                                     });
+
+
+                                }
+                        },
+                        "renombrar": {
+                            "label": "Renombrar Carpeta",
+                            "action": function node_rename() {
+
+                                var ref = $("#jstree").jstree(true);
+                                var sel = ref.get_selected();
+                                if (!sel.length) {
+                                    alert("Seleccione primero un nodo");
+                                    return;
+                                }
+                                sel = sel[0];
+                                ref.edit(sel);
+                            }
+                        },
+                        "eliminar": {
+                            "label": "Eliminar Carpeta",
+                            "action": function node_delete() {
+                                var ref = $("#jstree").jstree(true);
+                                var sel = ref.get_selected();
+
+                                var obj = { "Idtemporal": sel[0] };
+                                var jsonObject = {
+                                    "carpeta": obj
+                                };
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "@Url.Action("EliminarCarpetaC", "Documentos")",
+                                    async: false,
+                                    data: JSON.stringify(jsonObject),
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    success: function (data) {
+
+
+                                        if (data.Id == 1) {
+                                            sel = sel[0];
+
+                                            ref.delete_node(sel);
+                                            $.notify("Carpeta eliminada!", "success");
+                                        }
+                                        else {
+                                            swal({
+                                                title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                text: '',
+                                                icon: "warning",
+                                                button: "Aceptar",
+                                            });
+                                        }
+
+                                    }
+
+                                });
+
+
+
+                            }
+                         }
+                    }
+                 },
+
+            });
+            var to = false;
+            $('#plugins4_q').keyup(function () {
+                if (to) { clearTimeout(to); }
+                to = setTimeout(function () {
+                    var v = $('#plugins4_q').val();
+                    $('#jstree').jstree(true).search(v);
+                }, 250);
+            });
+
+        $('#jstree').on('rename_node.jstree', function (e, data) {
+
+            const node = data.node;
+            const newName = data.text.toUpperCase();
+            node.text = newName;
+
+                var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                var jsonObject = {
+                    "carpeta": obj
+                };
+
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("RenombrarCarpeta", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#BtnSubclas").trigger("click");
+
+                        if (data.Id == 1) {
+
+                            $.notify("Cambios Realizados.", "success");
+                        }
+                        else {
+
+                            $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                            ref.edit(sel);
+                        }
+
+                    }
+
+                });
+        });
+
+        $('#jstree').bind('move_node.jstree', function (e, data) {
+
+
+                if (data.node.parent == '#') {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre":  '0' };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+                else {
+                    var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                    var jsonObject = {
+                        "NdN": obj
+                    };
+                }
+
+            if (data.node.icon == "fa fa-file-text") {
+
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("MoverRutasDocumentoCustodia", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#BtnSubclas").trigger("click");
+
+                        if (data.Id == 1) {
+
+                            $.notify("Documento Reubicado.", "success");
+                        }
+                        else {
+
+                            $.notify("No es posible mover a esta ruta.", "error");
+                        }
+
+                    }
+
+                });
+            } else {
+                 $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("MoverRutasCustodia", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        $("#BtnSubclas").trigger("click");
+
+                        if (data.Id == 1) {
+
+                            $.notify("Carpeta Reubicada.", "success");
+                        }
+                        else {
+
+                            $.notify("No es posible mover a esta ruta.", "error");
+                        }
+
+                    }
+
+                });
+
+            }
+
+
+            });
+    });
+
+     function SeleccionarPorId(documento) {
+        var obj = {};
+        obj['Id'] = documento;
+
+        var jsonObject = {
+            "list_Doc": obj
+        };
+
+        $.ajax({
+            url: "@Url.Action("SeleccionarPorId", "Documentos")",
+            data: JSON.stringify(jsonObject),
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+
+            success: function (resultado) {
+//                $('#IdRegistro').val(resultado[0].Id);
+                  $('#Titulo').text('Documento: ' + resultado[0].Nombre);
+                  $('#iframepdf').attr('src', '/DocumentosTemporales/' + resultado[0].NmArchivo + '#toolbar=0');
+//                $('#eDescripcion').text(resultado[0].Descripcion);
+
+            },
+            error: function (resultado) {
+                alert("Error de ejecucion ");
+            }
+        });
+    }
+
+    function Root() {
+        $("#jstree").jstree("create_node", null, null, "last", function (node) {
+
+            var obj = {
+                "Nombre": node.text, "Idtemporal": node.id
+            };
+
+            var jsonObject = {
+                "nuevaClas": obj
+            };
+            $.ajax({
+            type: "POST",
+            url: "@Url.Action("RegistrarCarpeta", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.Id == 1) {
+
+
+                }
+                else {
+
+                    $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                }
+
+            }
+            });
+
+            this.edit(node);
+
+        });
+    }
+
+
+</script>
+

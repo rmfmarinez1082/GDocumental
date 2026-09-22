@@ -1,0 +1,284 @@
+﻿
+@{
+    ViewBag.Title = "EditarCustodia";
+    Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
+}
+
+
+<div class="@*pcoded-content*@">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10"> DIRECTORIO FISICO</h5>
+                        <p class="m-b-0"> </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#!">Inicio</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-body">
+    <div class="page-wrapper">
+        <!-- Page-body start -->
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xl-6 col-md-12" id="Directorio">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>DIRECTORIO FISICO</h5>
+                            <p>Selecciona la carpeta en la cual esta resguardado el documento seleccionado</p>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div id="jstree">
+                                @Html.Raw(ViewBag.carpetas);
+
+                            </div>
+                            <hr />
+                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                <button class="btn waves-effect waves-light btn-success" onclick="guardar()" id="btguardar"> <i class="fa fa-check"></i>Guardar</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>HISTORIAL  </h5>
+                            <span>Observa el estado actual del documento</span>
+                        </div>
+
+                        <div class="card-block">
+
+                            <div class="table-responsive">
+                                <table id="Custodia" class="table  table-hover " style="width: 100%; cursor: pointer">
+                                    <thead style="background-color: #0d6efd">
+                                        <tr>
+
+                                            @*<th style="color:white">Nombre</th>*@
+                                            <th class="text-center" style="color:white">Vigencia</th>
+                                            <th class="text-center" style="color:white">Fecha de prestamo</th>
+                                            <th class="text-center" style="color:white">Límite de prestamo</th>
+                                            <th class="text-center" style="color:white">Custodia</th>
+                                            <th class="text-center" style="color:white">Entrega</th>
+                                            @*<th style="display:none;" class="text-center">Buscar</th>*@
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        @foreach (var item in ViewBag.CustodiaD)
+                                        {
+
+                                            <tr>
+                                                @*<td><a>@item.Nombre</a></td>*@
+                                                @if (@item.Id >= 16)
+                                                {
+                                                    <td class="text-center"><span class="label label-success">vigente</span></td>
+
+                                                }
+                                                else if (@item.Id <= 15 && @item.Id >= 1)
+                                                {
+                                                    <td class="text-center"><span class="label label-warning" style="color: black !important;">Por vencer</span></td>
+                                                }
+                                                else if (@item.Id <= 0)
+                                                {
+                                                    <td class="text-center"><span class="label label-danger" >Vencido</span></td>
+                                                }
+
+
+
+
+                                                <td class="text-center"><a>@item.FechaPublicacion</a></td>
+                                                <td class="text-center"><a>@item.FechaVencimiento</a></td>
+                                                <td class="text-center"><a>@item.NmOriginal</a></td>
+                                                @if (@item.Entrega == 1)
+                                                {
+                                                    <td class="text-center"><span class="label label-inverse-danger">No entregado</span></td>
+
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center"><span class="label label-inverse-success">Entregado</span></td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-xl-6 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>@ViewBag.nombredoc</h5>
+                            <div class="card-header-right">
+                                <ul class="list-unstyled card-option">
+                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                                    <li><i class="fa fa-minus minimize-card"></i></li>
+                                    <li><i class="fa fa-refresh reload-card"></i></li>
+                                    <li><i class="fa fa-trash close-card"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+
+                                <div class="col-md-12 text-left">
+                                    <div style="width: 100%; height: 100vh">
+                                        <!--documento aquí-->
+                                        <iframe id="iframepdf" src="@Url.Action("Index","PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#Custodia').DataTable({
+
+                pageLength: 5,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todas']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.12.1/i18n/es-MX.json'
+                }
+            });
+        });
+
+
+        $(function () {
+            $('#jstree').jstree();
+            $('#jstree').on("changed.jstree", function (e, data) {
+            });
+
+            $('button').on('click', function () {
+                $('#jstree').jstree(true).select_node('child_node_1');
+                $('#jstree').jstree('select_node', 'child_node_1');
+                $.jstree.reference('#jstree').select_node('child_node_1');
+            });
+        });
+
+
+        function guardar() {
+            if (Validaclasificacion()) {
+                $("#btguardar").prop('disabled', true);
+
+                var obj = {};
+
+                var node = $('#jstree').jstree().get_selected("id");
+                obj['Idtemporal'] = node[0].id;
+                obj['Id'] = @ViewBag.IdDoc;
+
+                var jsonObject = {
+                    "NuevoDocumento": obj
+                };
+
+                //console.log(obj);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ActualizarDirectorio", "Documentos")",
+                    async: false,
+                    data: JSON.stringify(jsonObject),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        switch (data.Id) {
+                            case -1:
+
+                                swal({
+                                    title: "Error no se guardaron los cambios.",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+
+
+                                break;
+                            case 0:
+                                swal({
+                                    title: "Algo ocurrió!",
+                                    text: '',
+                                    icon: "warning",
+                                    button: "Aceptar",
+                                });
+                                break;
+
+                            default:
+                            // code block
+                        }
+                        if (data.Id > 0) {
+                            swal({
+                                title: "Ubucación actualizada!",
+                                text: " ",
+                                icon: "success",
+                                button: "Aceptar",
+                            }).then((value) => {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+
+                $("#btguardar").prop('disabled', false);
+            } else { }
+        }
+
+        $('#menuDocumentos').addClass("active pcoded-trigger");
+        $('#visaulizarDocumento').addClass("active");
+
+        function Validaclasificacion() {
+            var result = false;
+
+            var node = $('#jstree').jstree().get_selected("id");
+
+            if (node == "") {
+                swal({
+                    title: "Selecciona la carpeta donde guardaras tu documento.",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
+            }
+
+            if (!node == "") {
+                $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
+
+                result = true;
+            }
+
+
+            return result;
+        }
+    </script>

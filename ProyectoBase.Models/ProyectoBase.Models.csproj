@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,35 +43,47 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
+    <Compile Include="a_attr.cs" />
     <Compile Include="Cat_Almacenamiento_Documento.cs" />
     <Compile Include="Cat_ClasificacionArchivo.cs" />
     <Compile Include="Cat_ClasificacionDoc.cs" />
     <Compile Include="Cat_ListadoDepartamentos.cs" />
     <Compile Include="Cat_listadoGeneral.cs" />
+    <Compile Include="Cat_Roles.cs" />
     <Compile Include="Cat_RutaAlmacenamiento.cs" />
     <Compile Include="Cat_TipoArchivo.cs" />
     <Compile Include="Cat_Tipo_Documento.cs" />
     <Compile Include="CCompartir.cs" />
     <Compile Include="ConteoDocCompartidos.cs" />
     <Compile Include="Control_Archivos.cs" />
+    <Compile Include="data.cs" />
     <Compile Include="Documento.cs" />
     <Compile Include="Documento_Versiones.cs" />
     <Compile Include="Cat_Entidades.cs" />
     <Compile Include="EmpresasListado.cs" />
+    <Compile Include="jstree.cs" />
     <Compile Include="listadoVigencia.cs" />
     <Compile Include="ListarDocumento.cs" />
     <Compile Include="List_Doc.cs" />
     <Compile Include="LisUser.cs" />
+    <Compile Include="li_attr.cs" />
     <Compile Include="Mensaje.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NuevoDocumento.cs" />
     <Compile Include="NuevoRegistro.cs" />
+    <Compile Include="PermisosRolElementos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClasificacionDoc.cs" />
     <Compile Include="ListarCompartir.cs" />
     <Compile Include="ProvedorListado.cs" />
+    <Compile Include="Sistema.cs" />
+    <Compile Include="state.cs" />
     <Compile Include="Status.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="Treeview.cs" />
+    <Compile Include="URL.cs" />
     <Compile Include="Usuarios.cs" />
+    <Compile Include="Grupo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

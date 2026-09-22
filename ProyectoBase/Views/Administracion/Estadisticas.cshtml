@@ -33,11 +33,107 @@
     <div class="page-wrapper">
         <!-- Page-body start -->
         <div class="page-body">
+            <div class="row">
+                @*INDICADORES*@
+                <div class="col-xl-6 col-md-6">
+                    <a href="#">
+                        <div class="card" onclick="VDocVencido();" style="cursor:pointer">
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h4 class="text-c-red">
+                                            @foreach (var item1 in ViewBag.Conteouser)
+                                        {
+                                            @item1.Nombre
+                                        }
+                                          
+                                        </h4>
+                                        <h6 class="text-muted m-b-0">Usuarios Registrados</h6>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <i class="fa fa-hand-o-down f-28"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-c-green">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <p class="text-white m-b-0"></p>
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <i class="fa fa-line-chart text-white f-16"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-6 col-md-6">
+                    <a href="#">
+                        <div class="card" onclick="VDocVencido();" style="cursor:pointer">
+                            <div class="card-block">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h4 class="text-c-red">
+                                            @foreach (var item1 in ViewBag.ConteouserA)
+                                        {
+                                            @item1.Nombre
+                                        }
+                                          
+                                        </h4>
+                                        <h6 class="text-muted m-b-0">Usuarios Registrados Activos</h6>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <i class="fa fa-hand-o-up f-28"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-c-blue">
+                                <div class="row align-items-center">
+                                    <div class="col-9">
+                                        <p class="text-white m-b-0"></p>
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <i class="fa fa-line-chart text-white f-16"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
+            <div class="row">
+                <!-- GRAFICOS -->
+                <div class="col-xl-7 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Documentos activos en el sistema por clasificación</h5>
+                        </div>
+                        <div class="p-15">
+                            <canvas id="grafica"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-5 col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <h5>Estadistica General de documentos compartidos</h5>
+                        </div>
+                        <div class="p-15">
+
+                            <canvas id="pie-chart"  height="218"></canvas>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <!-- Registro eliminacion -->
-                <div class="col-xl-7 col-md-12">
+                <div class="col-xl-12 col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
                             <h5>Registro de documentos eliminados</h5>
@@ -71,47 +167,11 @@
                     </div>
                 </div>
 
-                <!-- GRAFICO -->
-                <div class="col-xl-5 col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Estadistica General de documentos compartidos</h4>
-                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
-                                </div>
 
-                                <canvas id="pie-chart" width="400" height="200"></canvas>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-xl-7 col-md-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div class="row">
-                                <div class="col">
-                                    <h4>Documentos en el sistema</h4>
-                                    @*<p class="text-muted">Verifica el estado de tus documentos que has compartido.</p>*@
-                                </div>
-
-                                <canvas id="grafica"></canvas>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
-        <!-- Page-body end -->
     </div>
+    <!-- Page-body end -->
 </div>
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
@@ -135,75 +195,80 @@
 </script>
 
 <script>
-      var data = [{
-      data: [@ViewBag.Visto ,@ViewBag.NVisto],
+    var data = [{
+       data: [@ViewBag.Visto ,@ViewBag.NVisto],
 
-      backgroundColor: [
+        backgroundColor: [
         "rgba(230,181,102,0.2)",
         "rgba(229,112,126,0.2)"
 
-      ],
-          borderColor: [
-              'rgba(230,181,102,1)',
-              'rgba(229,112,126,1)',
-          ]
+        ],
+        borderColor: [
+            'rgba(230,181,102,1)',
+            'rgba(229,112,126,1)',
+        ]
     }];
-        var options = {
-      tooltips: {
-        enabled: true
-      },
-      plugins: {
-        datalabels: {
-          formatter: (value, ctx) => {
 
-            let sum = ctx.dataset._meta[0].total;
-            let percentage = (value * 100 / sum).toFixed(0) + "%";
-            return percentage;
+    var options = {
+    tooltips: {
+    enabled: true
+    },
+    plugins: {
+    datalabels: {
+        formatter: (value, ctx) => {
+
+        let sum = ctx.dataset._meta[0].total;
+        let percentage = (value * 100 / sum).toFixed(0) + "%";
+        return percentage;
 
 
-          },
-          color: '#fff',
-        }
-      }
-        };
-        var ctx = document.getElementById("pie-chart").getContext('2d');
-        var myChart = new Chart(ctx, {
+        },
+            color: '#000000',
+    }
+    }
+    };
+    var ctx = document.getElementById("pie-chart").getContext('2d');
+    var myChart = new Chart(ctx, {
+
         type: 'pie',
-      data: {
-      labels: ['Vistos', 'Pendientes'],
+        data: {
+        labels: ['Vistos', 'Pendientes'],
         datasets: data
-      },
-      options: options
-});
+        },
+        options: options
+    });
 </script>
 
 
 <script>
     // Obtener una referencia al elemento canvas del DOM
     const $grafica = document.querySelector("#grafica");
-    // Las etiquetas son las que van en el eje X. 
-    const etiquetas = ["Enero", "Febrero", "Marzo", "Abril"]
+    // Las etiquetas son las que van en el eje X.
+    const etiquetas = ["Publico", "Interno", "Restringido", "Confidencial"]
     // Podemos tener varios conjuntos de datos. Comencemos con uno
-    const datosVentas2020 = {
-        label: "Ventas por mes",
-        data: [5000, 1500, 8000, 5102], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
-        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Color de fondo
-        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde
-        borderWidth: 1,// Ancho del borde
+    const datos = {
+        data: [@ViewBag.Conteoclas.Publica,@ViewBag.Conteoclas.Interno,@ViewBag.Conteoclas.Restringida,@ViewBag.Conteoclas.Confidencial], // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(29, 248, 17, 0.2)', 'rgba(230,181,102,0.2)', 'rgba(229,112,126,0.2)'],// Color de fondo
+        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(29, 248, 17, 1)','rgba(230,181,102,1)', 'rgba(229,112,126,1)'], // Color del borde
+        borderWidth: 1.5,// Ancho del borde
     };
     new Chart($grafica, {
         type: 'bar',// Tipo de gráfica
         data: {
             labels: etiquetas,
             datasets: [
-                datosVentas2020,
+                datos,
                 // Aquí más datos...
             ]
         },
         options: {
+            legend: { display: false },
+
             scales: {
+
                 yAxes: [{
                     ticks: {
+                        stepSize:1,
                         beginAtZero: true
                     }
                 }],

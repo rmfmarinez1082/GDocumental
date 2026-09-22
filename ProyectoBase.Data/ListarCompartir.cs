@@ -22,10 +22,18 @@ namespace ProyectoBase.Data
                 Models.ListarCompartir item = new Models.ListarCompartir()
                 {
                     Id = Convert.ToInt32(reader["Id"].ToString()),
+                    prestamo = Convert.ToInt32(reader["Prestamo"].ToString()),
+                    Compartido = Convert.ToInt32(reader["Compartido"].ToString()),
                     FechaEntradaVigor = reader["FechaEntradaVigor"].ToString(),
                     FechaVencimiento = reader["FechaVencimiento"].ToString(),
                     Nombre = reader["Nombre"].ToString(),
-                    NombreWord = reader["NmArchivoword"].ToString()
+                    NombreWord = reader["NmArchivoword"].ToString(),
+                    IdTipoDocumento = Convert.ToInt32(reader["IdTipoDocumento"].ToString()),
+                    PalabrasClave = reader["PalabrasClave"].ToString(),
+                    Editable = Convert.ToInt32(reader["Editable"].ToString()),
+                    NmOriginal = reader["NmArchivo"].ToString(),
+                    Propietario = reader["Propietario"].ToString(),
+                    Version = reader["Version"].ToString()
                 };
                 resultado.Add(item);
             }

@@ -18,7 +18,7 @@
                 <div class="col-md-4">
                     <ul class="breadcrumb-title">
                         <li class="breadcrumb-item">
-                            <a href="/Administracion/PrincipalU"> <i class="fa fa-home"></i> </a>
+                            <a href="/Administracion/PrincipalA"> <i class="fa fa-home"></i> </a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="#!">Vista Previa</a>
@@ -46,29 +46,50 @@
 
                                 <div class="card-block">
                                     <div class="row">
+                                        <div class="col-md-4">
+                                            <h4>DESCRIPCIÓN</h4>
+                                            <div class="resumen">
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Nombre: </label>
-                                                <input type="text" class="form-control form-control" value="@ViewBag.nombredoc" disabled>
+                                                <p><strong>Nombre (titulo)</strong> <br /> <span>@ViewBag.InfoDoc.Nombre</span></p>
+                                                <p><strong>Versión</strong> <br /> <span>@ViewBag.InfoDoc.Version</span></p>
+                                                <p><strong>Tipo Documento</strong> <br /> <span>@ViewBag.InfoDoc.TipoDoc</span></p>
+                                                <p><strong>Palabra Clave</strong> <br /> <span>@ViewBag.InfoDoc.PalabraClave</span></p>
+                                                <p><strong>Descripción</strong> <br /> <span>@ViewBag.InfoDoc.Descripcion</span></p>
+
+
                                             </div>
                                         </div>
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Descripcion: </label>
-                                                <textarea class="form-control" aria-label="With textarea" disabled>@ViewBag.Descripcion</textarea>
+                                        <div class="col-md-4">
+                                            <h4>CONTROL</h4>
+                                            <div class="resumen">
+                                                <p id="FRevision"><strong>Fecha Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaRevision</span></p>
+                                                <p id="FProximaRevision"><strong>Fecha Proxima Revisión</strong> <br /> <span>@ViewBag.InfoDoc.FechaProximaRevision</span></p>
+
+                                                <p id="FEntradaVigor"><strong>Fecha de entrada en vigor</strong> <br /> <span>@ViewBag.InfoDoc.FechaEntradaVigor</span></p>
+                                                <p id="FPublicacion"><strong>Fecha Publicacion</strong> <br /> <span>@ViewBag.InfoDoc.FechaPublicacion</span></p>
+                                                <p id="FVencimiento"><strong>Fecha Vencimiento</strong> <br /> <span>@ViewBag.InfoDoc.FechaVencimiento</span></p>
+
                                             </div>
+
                                         </div>
 
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="largeInput">* Versión: </label>
-                                                <input type="text" class="form-control form-control" value="@ViewBag.version" disabled>
+                                        <div class="col-md-4">
+                                            <h4>DISTRIBUCIÓN </h4>
+                                            <div class="resumen">
+                                                <p><strong>Tipo Archivo</strong> <br /> <span>@ViewBag.InfoDoc.Extension</span></p>
+                                                <p><strong>Medio de Almacenamiento</strong> <br /> <span>@ViewBag.InfoDoc.MedioAlmacenamiento</span></p>
+
+
+
                                             </div>
+
+                                            <h4>CLASIFICACIÓN </h4>
+                                            <p><strong>Clasificación</strong> <br /> <span>@ViewBag.InfoDoc.ClasificacionDoc</span></p>
+
+                                            <h4>RUTA</h4>
+                                            <p><span>@ViewBag.Ruta</span></p>
                                         </div>
-
-
                                     </div>
                                 </div>
 
@@ -96,9 +117,9 @@
                                     <div class="row">
 
                                         <div class="col-md-12 text-left">
-                                            <div style="width: 100%; height: 900px">
+                                            <div style="width: 100%; height: 100vh">
                                                 <!--documento aquí-->
-                                                <iframe id="iframepdf" src="/DocumentosTemporales/@ViewBag.codigo#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%" style="pointer-events: none " scrolling="yes"></iframe>
+                                                <iframe id="iframepdf" src="@Url.Action("Index", "PDF")?Id=@Request["Id"].ToString()#toolbar=0" title="webviewer" frameborder="0" width="100%" height="100%"></iframe>
                                             </div>
                                         </div>
 
@@ -125,6 +146,54 @@
 
 <script src="~/assets/js/jquery/jquery.min.js"></script>
 <script type="text/javascript">
+        $(document).ready(function () {
+
+            let Id = @ViewBag.InfoDoc.IdTipoDocumento;
+
+            var obj = {};
+            obj['Id'] = Id;
+            var jsonObject = { "documento": obj };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("FechaInterfaz", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data[0].FRevision == 1) {
+                        $("#FRevision").css("display", "block");
+                    } else {
+                        $("#FRevision").css("display", "none");
+                    }
+                    if (data[0].FEntradaVigor == 1) {
+                        $("#FEntradaVigor").css("display", "block");
+                    } else {
+                        $("#FEntradaVigor").css("display", "none");
+                    }
+                    if (data[0].FPublicacion == 1) {
+                        $("#FPublicacion").css("display", "block");
+                    } else {
+                        $("#FPublicacion").css("display", "none");
+                    }
+                    if (data[0].FProximaRevision == 1) {
+                        $("#FProximaRevision").css("display", "block");
+                    } else {
+                        $("#FProximaRevision").css("display", "none");
+                    }
+                    if (data[0].FVencimiento == 1) {
+                        $("#FVencimiento").css("display", "block");
+                    } else {
+                        $("#FVencimiento").css("display", "none");
+                    }
+                }
+            });
+
+        });
+
+
+
     $('#menuDocumentos').addClass("active pcoded-trigger");
     $('#DocumentoCompartido').addClass("active");
 </script>

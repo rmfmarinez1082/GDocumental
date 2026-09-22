@@ -2,8 +2,47 @@
 @{
     ViewBag.Title = "Nuevo Documento";
     Layout = "~/Views/Shared/_Layout _Administracion.cshtml";
-}
+} 
 
+<link rel="stylesheet" href="~/assets/dist/themes/proton/style.css" />
+
+<style>
+    /* Personalizar el estilo del menú contextual */
+    .vakata-context,
+    .vakata-context ul {
+        background-color: #fff; /* Fondo blanco */
+        border: 1px solid #ccc; /* Borde gris */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    }
+
+        .vakata-context a {
+            padding: 8px 12px;
+            color: #333; /* Color de texto oscuro */
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+            .vakata-context a:hover {
+                background-color: #f0f0f0; /* Cambio de color al pasar el ratón */
+            }
+
+        /* Estilo específico para los íconos en el menú contextual */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-icon {
+            margin-right: 8px;
+        }
+
+        /* Estilo específico para la línea divisoria entre elementos del menú */
+        .vakata-context .vakata-contextmenu-item .vakata-contextmenu-divider {
+            height: 1px;
+            background-color: #ccc;
+            margin: 6px 0;
+        }
+
+    .fa-folder:before {
+        color: #f3bb22;
+        font-size: 16px;
+    }
+</style>
 <style>
 
 
@@ -63,12 +102,12 @@
         color: #555 !important;
     }
 
-    @@media (min-width: 768px) {
+    /* @@media (min-width: 768px) {
         .modal-dialog {
             width: 600px;
             margin: 150px auto;
         }
-    }
+    }*/
 
     .close:not(:disabled):not(.disabled) {
         cursor: pointer;
@@ -379,23 +418,22 @@
         border-radius: 2px;
     }
 
-        select.form-control:not([size]):not([multiple]) {
-            height: 36px;
-        }
-
-    /*.table td, .table th {
-        padding: -1.75rem 0.75rem;
-    }*/
+    select.form-control:not([size]):not([multiple]) {
+        height: 36px;
+    }
 
     .table td, .table th {
         padding: 0.25rem 0.75rem;
     }
+    .alert-warning {
+        background-color: #78beff54;
+        border-color: #00aeff;
+        color: #ffe100;
+        font-weight: bold;
+        font-size: 13px;
+        color: black;
+    }
 </style>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="~/assets/icon/icofont/css/icofont.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
-
 
 <div class="@*pcoded-content*@">
     <!-- Page-header start -->
@@ -473,7 +511,35 @@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Descripción </h3>
-                                                            @*<p>Clasificación de la información, como encontraran el artículo. Completa los campos marcados * </p>*@
+                                                            <div id="DatosRequeridos" class="alert alert-warning" role="alert" style="display:none">
+                                                                <p>
+                                                                    El tipo de documento seleccionado requiere los siguientes datos:
+                                                                </p>
+
+                                                                <div class="row">
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-files-o" aria-hidden="true"></i> Archivos</p>
+                                                                            <a id="mensaje"><strong>* Archivo editable</strong></a>
+                                                                            <a ><strong>* Archivo PDF</strong></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-2"></div>
+                                                                    <div class="col-5">
+                                                                        <div>
+                                                                            <p><i class="fa fa-calendar" aria-hidden="true"></i> Fechas</p>
+                                                                            <a id="FechaRevisionCC"><strong>* Revisión</strong></a>
+                                                                            <a id="FechaPublicacionCC"><strong>* Publicacion</strong></a>
+                                                                            <a id="FechadeentradaenvigorCC"><strong>* Entrada en vigor</strong></a>
+                                                                            <a id="FechaProximaRevisionCC"><strong>* Proxima Revisión</strong></a>
+                                                                            <a id="FechaVencimientoCC"><strong>* Vencimiento</strong></a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>                                                             
+                                                            </div>
+
+                                                                
                                                         </div>
                                                     </div>
                                                     <br />
@@ -483,7 +549,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Nombre (titulo) </label>
-                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento" onchange="ValidaInput('NombreArticulo')" onpaste="return false">
+                                                                <input type="text" name="message" onkeyup="countChars(this)" ; class="form-control form-control input-number" id="NombreDocumento">
                                                                 <p id="charNum"></p>
                                                             </div>
                                                         </div>
@@ -491,14 +557,14 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Versión </label>
-                                                                <input type="number" class="form-control form-control input-number" id="Version" onchange="ValidaInput('SKU')" onpaste="return false">
+                                                                <input type="number" min="1" class="form-control form-control input-number" id="Version">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Documento </label>
-                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaSelect('TipoDocumento')">
+                                                                <select class="form-control" id="TipoDocumento" onchange="ValidaTDoc(this.value),Fechas(this.value)">
                                                                     <option value="0">Seleccionar</option>
                                                                     @foreach (var item1 in ViewBag.dtTipoDocumentos)
                                                                     {
@@ -513,7 +579,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Palabra Clave </label>
-                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave" onchange="ValidaInput('NombreArticulo')" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="PalabraClave">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-8 col-lg-8">
@@ -541,38 +607,38 @@
                                                     </div>
                                                     <br />
                                                     <div class="row">
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Revisión </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaRevision" onchange="ValidaInput('Largo')" onkeypress="return soloNum(event)" oonpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FPublicacion">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Publicacion </label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaPublicacion" onchange="ValidaInput('Altura')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaPublicacion" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FEntradaVigor">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha de entrada en vigor </label>
-                                                                <input type="date" class="form-control form-control input-number" id="Fechadeentradaenvigor" onchange="ValidaInput('Ancho')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="Fechadeentradaenvigor" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                         <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FProximaRevision">
                                                             <div class="form-group">
                                                                 <label for="largeInput">*Fecha de Proxima revisión</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaProximaRevision" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaProximaRevision" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-4 col-lg-4">
+                                                        <div class="col-md-4 col-lg-4" id="FVencimiento">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Fecha Vencimiento</label>
-                                                                <input type="date" class="form-control form-control input-number" id="FechaVencimiento" onchange="ValidaInput('Peso')" onkeypress="return soloNum(event)" onpaste="return false">
+                                                                <input type="text" class="form-control form-control input-number" id="FechaVencimiento" onkeypress="return soloNum(event)">
                                                             </div>
                                                         </div>
 
@@ -582,8 +648,9 @@
 
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
+                                                            @*validatodasfechas(), se quito la validacion de las fechas*@
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
-                                                            <button class="btn waves-effect waves-light btn-primary col-md-2" onclick="validatodasfechas(),Control()">  Siguiente   <i class="fa fa-chevron-right"></i></button>
+                                                            <button class="btn waves-effect waves-light btn-primary col-md-2" onclick="Control()">  Siguiente   <i class="fa fa-chevron-right"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -601,7 +668,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Tipo Archivo </label>
-                                                                <select class="form-control" id="Select_TipoArchivo" onchange="ValidaSelect('Select_Moneda')">
+                                                                <select class="form-control" id="Select_TipoArchivo">
                                                                     <option value="0">Seleccionar </option>
                                                                     @foreach (var item1 in ViewBag.dtTipoArchivo)
                                                                     {
@@ -613,7 +680,7 @@
                                                         <div class="col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 <label for="largeInput">* Medio de Almacenamiento </label>
-                                                                <select class="form-control" id="Select_MedioAlmacenamiento" onchange="ValidaSelect('Select_Moneda')">
+                                                                <select class="form-control" id="Select_MedioAlmacenamiento">
                                                                     <option value="0">Seleccionar </option>
                                                                     @foreach (var item1 in ViewBag.dtAlmacenamiento)
                                                                     {
@@ -644,6 +711,16 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="form-material col-md-2 col-lg-2" style="display:none">
+                                                            <br />
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+                                                                    <input name="checkboxCustodia" class="form-check-input" id="checkboxCustodia" type="checkbox" value="">
+                                                                    <span class="form-check-sign" title="Si el documento esta en tu custodia palomea esta opción">Custodia del documento</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
 
                                                     </div>
 
@@ -658,141 +735,101 @@
 
                                                 <div id="menu4" class="tab-pane fade">
                                                     <br />
+                                                    @*TITULO PRINCIPAL*@
                                                     <div class="row">
                                                         <div class="col-md-12 text-center">
                                                             <h3>Clasificación y Carga de Archivo</h3>
+                                                            <p>Selecciona la carpeta en la cual guardaras tu documento. Completa los campos marcados * </p>
                                                         </div>
                                                     </div>
-                                                    <br />
+                                                    <div class="row justify-content-start">
 
+                                                        <div class="col-4 p-15 p-b-0">
+                                                            <form class="form-material">
+                                                                <div class="form-group form-primary">
+                                                                    <input id="plugins4_q" type="text" name="footer-email" class="form-control" required="">
+                                                                    <span class="form-bar"></span>
+                                                                    <label class="float-label"><i class="fa fa-search m-r-10"></i>Buscar</label>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                    @*ELEMENTOS PRINCIPALES*@
                                                     <div class="row">
 
-                                                        @*Clasificacion carpetas*@
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput"> Clasificación Archivo</label>
-
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="AClas" onclick="Crearclas();"  style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Clasificación"><i class="fa fa-plus"></i></button>
-                                                                    </div>
-                                                                    <select class="form-control" id="ClasificacionArchivo" onchange="ConsultaSubClasificacion(this.value),Selecionar()">
-                                                                        <option value="0">Seleccionar </option>
-                                                                        @foreach (var item1 in ViewBag.dtClasificacionArchivo)
-                                                                        {
-                                                                            <option value="@item1.Id">@item1.Nombre</option>
-                                                                        }
-                                                                    </select>
+                                                        <div class="col-md-4" style="overflow:auto;">
+                                                            <div class="card-body">
+                                                                <div id="jstree">
+                                                                    @Html.Raw(ViewBag.carpetas);
                                                                 </div>
-                                                                @*<br />
-                                                                <button id="AClas" class="btn-dark" onclick="Crearclas();">Agregar Clasificación </button>*@
+
+
                                                             </div>
                                                         </div>
 
-                                                        @*SubClasificacion carpetas*@
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">SubClasificación Archivo</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="ASclas" onclick="CrearSubclas();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar Sub Clasificación"><i class="fa fa-plus"></i></button>
+                                                        <div class="container col-md-4">
+                                                            <br />
+                                                            <div class="m-0 vh-100 row justify-content-center align-items-center">
+                                                                <div class="col-md-6" id="Rpdf">
+                                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
+                                                                        <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                            <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br />
+                                                                                <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
-                                                                    <select class="form-control" id="SubClasificacionArchivo" onchange="Consulta3er(this.value),ValidaSelect('SubClasificacionArchivo'),Selecionar3er()">
-                                                                        <option value="0">Seleccionar </option>
+                                                                </div>
 
-                                                                    </select>
-                                                                    @*<br />
-                                                                    <button id="ASclas" class="btn-dark" onclick="CrearSubclas();">Agregar Sub Clasificación</button>
-                                                                    <br /> <br />*@
-                                                                    @*<button id="NNivel" class="btn-dark" onclick="Nuevo();">Agregar nuevo nivel</button>*@
+                                                                @*APARIENCIA DE SUBIDA DOCUMENTO Editable*@
+                                                                <div class="col-md-6">
+                                                                    <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX" style="float:left">
+                                                                        <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
+                                                                            <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04">
+                                                                                <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Editable
+                                                                                <div class="row">
+                                                                                    <i style="font-size:38px;" class="fa fa-file-word-o"></i>
+                                                                                    <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>
+                                                                                    <i style="font-size: 38px; color:darkorange" class="fa fa-file-powerpoint-o"></i>
+                                                                                </div>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        @*3erNivel*@
-                                                        <div id="Modulo3er" class="col-md-4 col-lg-4" @*style="display:none"*@>
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* 3er Nivel</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <button class="btn btn-default waves-effect" type="button" id="A3er" onclick="Crear3er();" style="padding: 8px 19px;" data-toggle="tooltip" data-placement="top" title="Agregar 3er Nivel"><i class="fa fa-plus"></i></button>
+                                                            @*SELECT*@
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-12">
+                                                                    <div class="form-group">
+                                                                        <label for="largeInput">* Clasificación </label>
+                                                                        <select class="form-control" id="Clasificacion">
+                                                                            <option value="0">Seleccionar </option>
+                                                                            @foreach (var item1 in ViewBag.dtClasificacion)
+                                                                            {
+                                                                                <option value="@item1.Id">@item1.Nombre</option>
+                                                                            }
+                                                                        </select>
                                                                     </div>
-                                                                    <select class="form-control" id="Select3" onchange="">
-                                                                        <option value="0">Seleccionar </option>
-
-                                                                    </select>
-                                                                    @*<br />
-                                                                    <button id="A3er" class="btn-dark" onclick="Crear3er();">Agregar 3er Nivel</button>*@
-                                                                    @*<button id="3ercancel" class="btn-danger" onclick="Cancel3er();">Cancelar</button>*@
                                                                 </div>
                                                             </div>
+                                                            @if (((ProyectoBase.Models.Usuarios)System.Web.HttpContext.Current.Session["Sesion"]).IdRol == 3)
+                                                            {
+                                                                <div class="alert alert-info" role="alert">Haz clic derecho en la carpeta que desees editar</div>
+                                                            }
+
                                                         </div>
-                                                        
-                                                        <div class="col-md-4 col-lg-4">
-                                                            <div class="form-group">
-                                                                <label for="largeInput">* Clasificación </label>
-                                                                <select class="form-control" id="Clasificacion">
-                                                                    <option value="0">Seleccionar </option>
-                                                                    @foreach (var item1 in ViewBag.dtClasificacion)
-                                                                    {
-                                                                        <option value="@item1.Id">@item1.Nombre</option>
-                                                                    }
-                                                                </select>
 
-
-                                                            </div>
+                                                        @*IFRAME*@
+                                                        <div class="col-md-4 container text-center">
+                                                            <h5>PREVISUALIZACIÓN</h5>
+                                                            <iframe id="iframepdf" width="90%" height="90%" frameborder="0"></iframe>
                                                         </div>
 
                                                     </div>
+
                                                     <br />
-
-                                                    <div class="row">
-                                                        <div class="col text-center">
-                                                            <h5 style="margin-left:50%">Previsualización</h5>
-                                                        </div>
-                                                    </div>
-                                                    <br /><br />
-                                                          <div class="row">
-
-                                                              @*APARIENCIA DE SUBIDA DOCUMENTO PDF*@
-                                                              <div class="col-md-3">
-                                                                  <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                      <div id="Galeria" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                          <button type="button" onclick="BtnCargarPDF()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo <br /> <i style="font-size:38px; color:#F44336" class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
-                                                                      </div>
-                                                                  </div>
-                                                              </div>
-                                                              @*APARIENCIA DE SUBIDA DOCUMENTO WORD*@
-                                                              <div class="col-md-3">
-                                                                  <div data-repa="step2-images-collapseContainer" class="sc-cLxPOX">
-                                                                      <div id="Word" data-repa="step2-images-filesContainer" class="sc-dTsoBL gJWAcE">
-                                                                          <button type="button" onclick="BtnCargarWord()" class="flex-c-m cl0 size-125 cogVcH bor2 hov-btn3 p-lr-15 trans-04"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp; Subir Archivo Editable 
-                                                                          <div class="row">
-                                                                          <i style="font-size:38px;" class="fa fa-file-word-o"></i>
-                                                                              @*&nbsp;
-                                                                          <i style="font-size:38px; color:limegreen" class="fa fa-file-excel-o"></i>*@
-                                                                          </div>
-                                                                          </button>
-                                                                      </div>
-                                                                  </div>
-                                                              </div>
-
-                                                              @*DESCRIPCIONES*@
-                                                              @*<div class="col-md-3">
-                                                                  <p><strong>Nombre (titulo)</strong> <br /> <span id="SP_Nombre"></span></p>
-                                                                  <p><strong>Descripción</strong></p>
-                                                                  <textarea rows="8" cols="80" class="form-control" disabled="" placeholder="" id="SP_Descripcion2"></textarea>
-                                                              </div>*@
-
-
-
-                                                              @*IFRAME*@
-                                                              <div class="col-md-6">
-                                                                  <iframe id="iframepdf" width="90%" height="100%" frameborder="0"></iframe>
-                                                              </div>
-                                                          </div>
-
-
+                                                    <br />
                                                     @*BARRA DE PROGRESO Y EL input de documento*@
                                                     <div class="row">
                                                         <input id="fileInput2" type="file" multiple style="visibility:hidden">
@@ -802,7 +839,7 @@
                                                             <progress id="fileProgress" style="display: none; width:100%"></progress>
                                                         </div>
                                                     </div>
-
+                                                    @*BOTONES*@
                                                     <div class="row">
                                                         <div class="col-md-12 col-lg-12">
                                                             <button class="btn waves-effect waves-light btn-inverse btn-outline-inverse col-md-2" onclick="Previus()"> <i class="fa fa-chevron-left"></i> Atrás   </button>
@@ -839,11 +876,12 @@
                                                             <h4><strong class="TextoColor">CONTROL </strong></h4>
 
                                                             <div class="resumen">
-                                                                <p><strong>Fecha Revisión</strong> <br /> <span id="SP_FechaRevision"></span></p>
-                                                                <p><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
-                                                                <p><strong>Fecha Publicacion</strong> <br /> <span id="SP_FechaPublicacion"></span></p>
-                                                                <p><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
-                                                                <p><strong>Fecha Proxima Revisión</strong> <br /> <span id="SP_FechaProximaRevision"></span></p>
+                                                                <p id="FechaRevisionC"><strong>Fecha Revisión</strong> <br /> <span id="SP_FechaRevision"></span></p>
+                                                                <p id="FechaPublicacionC"><strong>Fecha Publicacion</strong> <br /> <span id="SP_FechaPublicacion"></span></p>
+                                                                <p id="FechadeentradaenvigorC"><strong>Fecha de entrada en vigor</strong> <br /> <span id="SP_Fechadeentradaenvigor"></span></p>
+                                                                <p id="FechaProximaRevisionC"><strong>Fecha Proxima Revisión</strong> <br /> <span id="SP_FechaProximaRevision"></span></p>
+                                                                <p id="FechaVencimientoC"><strong>Fecha Vencimiento</strong> <br /> <span id="SP_FechaVencimiento"></span></p>
+
 
                                                             </div>
 
@@ -861,9 +899,6 @@
 
                                                             <h4><strong class="TextoColor">CLASIFICACIÓN </strong> </h4>
                                                             <p><strong>Clasificación</strong> <br /> <span id="SP_Select_Clasificacion"></span></p>
-                                                            <p><strong>Clasificación Archivo</strong> <br /> <span id="SP_Select_ClasificacionArchivo"></span></p>
-                                                            <p><strong>SubClasificación Archivo</strong> <br /> <span id="SP_Select_SubClasificacionArchivo"></span></p>
-
                                                         </div>
                                                     </div>
 
@@ -893,484 +928,23 @@
 </div>
 
 
-<!-- MODAL AGREGARCLASIFICACION -->
-<div class="modal fade" id="ModalClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Proporciona los datos necesarios para agregar la clasificación </p>
 
-                <div class="col-md-12 col-lg-12">
-                    <label for="largeInput"> Nombre de la Clasificación </label>
-                    <input id="NombreClas" type="text" class="form-control form-control input-number" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarClas()" id="BtnGuardarCLas">Guardar</button>
-                <button id="BtnClasificacion" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="ModalSUbClasificacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
 
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar Clasificación a: </h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <p>Selecciona la clasificación a la cual quieres agregar una subclasificación </p>
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre de la SubClasificación </label>
-                    <input type="text" id="NombreSubClas" class="form-control form-control input-number" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="GuardarSubclas()">Guardar</button>
-                <button id="BtnSubclas" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="Modal3er" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <h5 class="modal-title" id="staticBackdropLabel">Agregar 3er nivel a:</h5>
-                <input class="fs-5" type="text" placeholder="Selecciona clasificación" id="txtvalue3er" style="border: none; font-size: 20px;" />
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="col-md-12 col-lg-12">
-
-                    <br />
-                    <label for="largeInput"> Nombre del 3er nivel </label>
-                    <input type="text" id="Nombre3er" class="form-control form-control input-number" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="Guardar3er()">Guardar</button>
-                <button id="Btn3er" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="~/assets/js/bootstrap-notify/bootstrap-notify.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    //////////////////////////
-    function Nuevo() {
-        $("#Modulo3er").css("display", "block");
-        $("#NNivel").css("display", "none");
 
+    $(document).ready(function () {
+        $('#Select_MedioAlmacenamiento').change(function () {
+            var selectValue = $(this).val();
+            var checkbox = $('#checkboxCustodia');
 
-        var obj = {};
-        obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
-        var jsonObject = {
-            "Cat_ClasificacionArchivo": obj
-        };
-
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
-            async: false,
-            data: JSON.stringify(jsonObject),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-                $("#Select3").empty();
-
-                var option = $(document.createElement('option'));
-                option.text("Seleccionar");
-                option.val(0);
-
-                $("#Select3").append(option);
-
-
-                $(data).each(function () {
-                    var option = $(document.createElement('option'));
-
-                    option.text(this.Nombre);
-                    option.val(this.Id);
-
-                    $("#Select3").append(option);
-                });
-
+            if (selectValue === "2") {
+                checkbox.prop('checked', true);
+            } else {
+                checkbox.prop('checked', false);
             }
         });
-    }
-    function Cancel3er() {
-        $("#Modulo3er").css("display", "none");
-        $("#NNivel").css("display", "block");
-        $("#Select3").empty();
-
-        var option = $(document.createElement('option'));
-        option.text("Seleccionar");
-        option.val(0);
-
-        $("#Select3").append(option);
-    }
-    //Funcion Crearclasificacion
-    function Crearclas() {
-
-        $('#ModalClasificacion').modal('show');
-    }
-    function GuardarClas() {
-
-        if (validaClasificacionArchivo()) {
-
-          var obj = { "Nombre": $("#NombreClas").val(), "Id": 0 };
-
-            var jsonObject = {
-                "nuevaClas": obj
-            };
-
-            /* console.log(jsonObject);*/
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("RegistrarClas", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-                    $("#BtnClasificacion").trigger("click");
-
-                    swal({
-                        title: "Clasificación Agregada.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-
-                    // llenar select clasificacion -
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("ClasificacionArchivo_Listar", "Documentos")",
-                        async: false,
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            $("#ClasificacionArchivo").empty();
-
-                            var option = $(document.createElement('option'));
-                            option.text("Seleccionar");
-                            option.val(0);
-
-                            $("#ClasificacionArchivo").append(option);
-
-                            $(data).each(function () {
-                                var option = $(document.createElement('option'));
-
-                                option.text(this.Nombre);
-                                option.val(this.Id);
-
-                                $("#ClasificacionArchivo").append(option);
-                            });
-
-                        }
-                    });
-
-
-                }
-            });
-        } else {
-
-        }
-    }
-    function validaClasificacionArchivo() {
-        var result = false;
-
-        $('#NombreClas').css("border", "1px solid #ff0049");
-
-
-        if ($('#NombreClas').val().length > 0) {
-            $('#NombreClas').css("border", "1px solid #cccccc");
-        }
-
-        if ($('#NombreClas').val().length > 0) {
-           result = true;
-        }
-
-        return result;
-    }
-
-    function CrearSubclas() {
-        if (validaseleccionclas()) {
-            $('#ModalSUbClasificacion').modal('show');
-        } else {
-            swal({
-                title: "Selecciona antes una clasificación .",
-                text: '',
-                icon: "warning",
-                button: "Aceptar",
-            });
-
-        }
-    }
-    function GuardarSubclas() {
-        if (validaSubClasificacionArchivo()) {
-
-            var obj = {};
-            obj['Id'] = $("#ClasificacionArchivo option:selected").val();
-            obj['Nombre'] = $("#NombreSubClas").val();
-
-            var jsonObject = {
-                "nuevasubClas": obj
-            };
-
-            console.log(jsonObject);
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("RegistrarSubClas", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-                    $("#BtnSubclas").trigger("click");
-
-                    swal({
-                        title: "Sub Clasificación Agregada.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-
-                    // llenar select Subclasificacion -
-
-                    var obj = {};
-                    obj['Id'] = $("#ClasificacionArchivo option:selected").val();
-                    var jsonObject = {
-                        "Cat_ClasificacionArchivo": obj
-                    };
-
-                    console.log(jsonObject);
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
-                        async: false,
-                        data: JSON.stringify(jsonObject),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            $("#SubClasificacionArchivo").empty();
-
-
-
-                            var option = $(document.createElement('option'));
-                            option.text("Seleccionar");
-                            option.val(0);
-
-                            $("#SubClasificacionArchivo").append(option);
-
-
-                            $(data).each(function () {
-                                var option = $(document.createElement('option'));
-
-                                option.text(this.Nombre);
-                                option.val(this.Id);
-
-                                $("#SubClasificacionArchivo").append(option);
-                            });
-
-                        }
-                    });
-                }
-
-            });
-
-        } else {}
-    }
-    function validaSubClasificacionArchivo() {
-        var result = false;
-
-        $('#NombreSubClas').css("border", "1px solid #ff0049");
-
-
-        if ($('#NombreSubClas').val().length > 0) {
-            $('#NombreSubClas').css("border", "1px solid #cccccc");
-        }
-
-        if ($('#NombreSubClas').val().length > 0) {
-            result = true;
-        }
-
-        return result;
-    }
-
-    function validaseleccionclas() {
-        var result = false;
-
-        $('#ClasificacionArchivo').css("border", "1px solid #ff0049");
-
-        if ($("#ClasificacionArchivo option:selected").val() > 0) {
-            $('#ClasificacionArchivo').css("border", "1px solid #cccccc");
-        }
-        if ($("#ClasificacionArchivo option:selected").val() > 0) {
-            result = true;
-        }
-        return result;
-    }
-
-    function Crear3er() {
-        if (validaseleccionSubclas()) {
-            $('#Modal3er').modal('show');
-        } else {
-            swal({
-                title: "Selecciona antes una Sub Clasificación .",
-                text: '',
-                icon: "warning",
-                button: "Aceptar",
-            });
-
-        }
-    }
-    function validaseleccionSubclas() {
-        var result = false;
-
-        $('#SubClasificacionArchivo').css("border", "1px solid #ff0049");
-
-        if ($("#SubClasificacionArchivo option:selected").val() > 0) {
-            $('#SubClasificacionArchivo').css("border", "1px solid #cccccc");
-        }
-        if ($("#SubClasificacionArchivo option:selected").val() > 0) {
-            result = true;
-        }
-        return result;
-    }
-    function Guardar3er() {
-        if (valida3ermodal()) {
-
-            var obj = {};
-            obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
-            obj['Nombre'] = $("#Nombre3er").val();
-
-            var jsonObject = {
-                "nuevasubClas": obj
-            };
-
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("RegistrarSubClas", "Documentos")",
-                async: false,
-                data: JSON.stringify(jsonObject),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-
-                    $("#Btn3er").trigger("click");
-
-                    swal({
-                        title: "3er nivel Agregado.",
-                        text: '',
-                        icon: "success",
-                        button: "Aceptar",
-                    });
-
-                    // llenar select Subclasificacion -
-
-                    var obj = {};
-                    obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
-                    var jsonObject = {
-                        "Cat_ClasificacionArchivo": obj
-                    };
-
-                    console.log(jsonObject);
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
-                        async: false,
-                        data: JSON.stringify(jsonObject),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            $("#Select3").empty();
-
-
-
-                            var option = $(document.createElement('option'));
-                            option.text("Seleccionar");
-                            option.val(0);
-
-                            $("#Select3").append(option);
-
-
-                            $(data).each(function () {
-                                var option = $(document.createElement('option'));
-
-                                option.text(this.Nombre);
-                                option.val(this.Id);
-
-                                $("#Select3").append(option);
-                            });
-
-                        }
-                    });
-                }
-
-            });
-
-        } else {}
-    }
-    function valida3ermodal() {
-        var result = false;
-
-        $('#Nombre3er').css("border", "1px solid #ff0049");
-
-
-        if ($('#Nombre3er').val().length > 0) {
-            $('#Nombre3er').css("border", "1px solid #cccccc");
-        }
-
-        if ($('#Nombre3er').val().length > 0) {
-            result = true;
-        }
-
-        return result;
-    }
-
-    function Selecionar() {
-        var d = document.getElementById("ClasificacionArchivo");
-        var display = d.options[d.selectedIndex].text;
-        document.getElementById("txtvalue").value = display;
-
-    }
-
-    function Selecionar3er() {
-        var d = document.getElementById("SubClasificacionArchivo");
-        var display = d.options[d.selectedIndex].text;
-        document.getElementById("txtvalue3er").value = display;
-
-    }
-
-
-    //Funcion para publicar el archivo
+    });
     function Publicar() {
 
                 if (ValidaDescripcion()) {
@@ -1380,99 +954,215 @@
                         if (ValidaDistribucion()) {
 
                             if (Validaclasificacion()) {
+
                                 if (ValidaDocumento()) {
+                                    if (RequiereEditable()) {
+                                        //EJECUCION DOCUMENTO CON EDITABLE
+                                        if (ValidaDocumentoWord()) {
+                                            $("#BtnPublicar").prop('disabled', true);
 
-                                    $("#BtnPublicar").prop('disabled', true);
-
-                                    /*alert("Se desabilita el boton")*/
-                                    var obj = {};
-                                    obj['Nombre'] = $("#NombreDocumento").val();
-                                    obj['Version'] = $("#Version").val();
-                                    obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
-                                    obj['PalabraClave'] = $("#PalabraClave").val();
-                                    obj['Descripcion'] = $("#Descripcion").val();
-
-                                    obj['FechaRevision'] = $("#FechaRevision").val();
-                                    obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
-                                    obj['FechaPublicacion'] = $("#FechaPublicacion").val();
-                                    obj['FechaVencimiento'] = $("#FechaVencimiento").val();
-                                    obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
-
-                                    obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
-                                    obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
-
-                                    if ($('#checkboxBD').prop('checked')) {
-                                        obj['checkboxBD'] = 1;
-                                    } else {
-                                        obj['checkboxBD'] = 0;
-                                    }
-
-                                    if ($('#checkboxCorreo').prop('checked')) {
-                                        obj['checkboxCorreo'] = 1;
-                                    } else {
-                                        obj['checkboxCorreo'] = 0;
-                                    }
-
-                                    obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
-                                    obj['IdClasificacionArchivo'] = $("#ClasificacionArchivo option:selected").val();
-                                    obj['IdSubClasificacionArchivo'] = $("#SubClasificacionArchivo option:selected").val();
-                                    obj['IdNombre3'] = $("#Select3 option:selected").val();
+                                            var obj = {};
+                                            obj['Nombre'] = $("#NombreDocumento").val();
+                                            obj['Version'] = $("#Version").val();
+                                            obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                            obj['PalabraClave'] = $("#PalabraClave").val();
+                                            obj['Descripcion'] = $("#Descripcion").val();
 
 
-                                    var jsonObject = {
-                                        "NuevoDocumento": obj
-                                    };
 
+                                            obj['FechaRevision'] = $("#FechaRevision").val();
+                                            obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                            obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                            obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                            obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
 
-                                    /*console.log(jsonObject);*/
+                                            obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                            obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
 
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "@Url.Action("Documentos_Registrar", "Documentos")",
-                                        async: false,
-                                        data: JSON.stringify(jsonObject),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-                                            switch (data.Id) {
-                                                case -1:
-
-                                                    swal({
-                                                        title: "El Documento que intentas agregar ya se encuentra registrado .",
-                                                        text: '',
-                                                        icon: "warning",
-                                                        button: "Aceptar",
-                                                    });
-
-
-                                                    break;
-                                                case 0:
-                                                    swal({
-                                                        title: "Algo ocurrió documento no registrado !",
-                                                        text: '',
-                                                        icon: "warning",
-                                                        button: "Aceptar",
-                                                    });
-                                                    break;
-
-                                                default:
-                                                // code block
+                                            if ($('#checkboxBD').prop('checked')) {
+                                                obj['checkboxBD'] = 1;
+                                            } else {
+                                                obj['checkboxBD'] = 0;
                                             }
-                                            if (data.Id > 0) {
+
+                                            if ($('#checkboxCorreo').prop('checked')) {
+                                                obj['checkboxCorreo'] = 1;
+                                            } else {
+                                                obj['checkboxCorreo'] = 0;
+                                            }
+
+                                            if ($('#checkboxCustodia').prop('checked')) {
+                                                obj['checkboxCustodia'] = 1;
+                                            } else {
+                                                obj['checkboxCustodia'] = 0;
+                                            }
+
+
+                                            var node = $('#jstree').jstree().get_selected("id");
+                                            obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                            obj['Idtemporal'] = node[0].id;
+
+                                            var jsonObject = {
+                                                "NuevoDocumento": obj
+                                            };
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                                async: false,
+                                                data: JSON.stringify(jsonObject),
+                                                contentType: "application/json; charset=utf-8",
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    switch (data.Id) {
+                                                        case -1:
+
+                                                            swal({
+                                                                title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+
+
+                                                            break;
+                                                        case 0:
+                                                            swal({
+                                                                title: "Algo ocurrió documento no registrado !",
+                                                                text: '',
+                                                                icon: "warning",
+                                                                button: "Aceptar",
+                                                            });
+                                                            break;
+
+                                                        default:
+                                                        // code block
+                                                    }
+                                                    if (data.Id > 0) {
+                                                        swal({
+                                                            title: "Documento registrado. !",
+                                                            text: " ",
+                                                            icon: "success",
+                                                            button: "Aceptar",
+                                                        }).then((value) => {
+                                                            location.reload();
+                                                        });
+                                                    }
+                                                }
+                                            });
+
+                                            $("#BtnPublicar").prop('disabled', false);
+
+                                        }
+
+                                        else {
                                                 swal({
-                                                    title: "Documento registrado. !",
-                                                    text: " ",
-                                                    icon: "success",
-                                                    button: "Aceptar",
-                                                }).then((value) => {
-                                                    location.reload();
+                                                    title: "Documento faltante",
+                                                    text: 'El tipo de documento que has seleccionado requiere de un documento editable',
+                                                    icon: "warning",
+                                                    button: "Aceptar"
                                                 });
-                                            }
-                                        },
-                                        error: errores
-                                    });
 
-                                    $("#BtnPublicar").prop('disabled', false);
+                                                $("#myBtn").trigger("click");
+                                                $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+                                                $('[href="#menu4"]').addClass('btn-info').removeClass('btn-default');
+                                                $('[href="#menu4"]').tab('show');
+                                        }
+                                        //EJECUCION PROCEDIMIENTO SIN EDITABLE
+                                    } else {
+                                        $("#BtnPublicar").prop('disabled', true);
+
+                                        var obj = {};
+                                        obj['Nombre'] = $("#NombreDocumento").val();
+                                        obj['Version'] = $("#Version").val();
+                                        obj['IdTipoDocumento'] = $("#TipoDocumento option:selected").val();
+                                        obj['PalabraClave'] = $("#PalabraClave").val();
+                                        obj['Descripcion'] = $("#Descripcion").val();
+
+
+
+                                        obj['FechaRevision'] = $("#FechaRevision").val();
+                                        obj['Fechadeentradaenvigor'] = $("#Fechadeentradaenvigor").val();
+                                        obj['FechaPublicacion'] = $("#FechaPublicacion").val();
+                                        obj['FechaVencimiento'] = $("#FechaVencimiento").val();
+                                        obj['FechaProximaRevision'] = $("#FechaProximaRevision").val();
+
+                                        obj['IdTipoArchivo'] = $("#Select_TipoArchivo option:selected").val();
+                                        obj['IdMedioAlmacenamiento'] = $("#Select_MedioAlmacenamiento option:selected").val();
+
+                                        if ($('#checkboxBD').prop('checked')) {
+                                            obj['checkboxBD'] = 1;
+                                        } else {
+                                            obj['checkboxBD'] = 0;
+                                        }
+
+                                        if ($('#checkboxCorreo').prop('checked')) {
+                                            obj['checkboxCorreo'] = 1;
+                                        } else {
+                                            obj['checkboxCorreo'] = 0;
+                                        }
+                                        if ($('#checkboxCustodia').prop('checked')) {
+                                            obj['checkboxCustodia'] = 1;
+                                        } else {
+                                            obj['checkboxCustodia'] = 0;
+                                        }
+
+                                        var node = $('#jstree').jstree().get_selected("id");
+                                        obj['IdClasificacion'] = $("#Clasificacion option:selected").val();
+                                        obj['Idtemporal'] = node[0].id;
+
+
+
+                                        var jsonObject = {
+                                            "NuevoDocumento": obj
+                                        };
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("Documentos_Registrar", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+                                                switch (data.Id) {
+                                                    case -1:
+
+                                                        swal({
+                                                            title: "El Documento que intentas agregar ya se encuentra registrado .",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+
+
+                                                        break;
+                                                    case 0:
+                                                        swal({
+                                                            title: "Algo ocurrió documento no registrado !",
+                                                            text: '',
+                                                            icon: "warning",
+                                                            button: "Aceptar",
+                                                        });
+                                                        break;
+
+                                                    default:
+                                                    // code block
+                                                }
+                                                if (data.Id > 0) {
+                                                    swal({
+                                                        title: "Documento registrado. !",
+                                                        text: " ",
+                                                        icon: "success",
+                                                        button: "Aceptar",
+                                                    }).then((value) => {
+                                                        location.reload();
+                                                    });
+                                                }
+                                            }
+
+                                        });
+
+                                        $("#BtnPublicar").prop('disabled', false);
+                                    }
 
                                 } else {
                                     swal({
@@ -1545,6 +1235,318 @@
                 }
     };
 
+    $('#agregardoc').addClass("active");
+    $('#menuDocumentos').addClass("active pcoded-trigger");
+    $('#IdMenuProductos').addClass("active pcoded-trigger");
+    $('#IdSubMenuNuevo').addClass("active");
+
+    //////////////////////////
+    function Nuevo() {
+        $("#Modulo3er").css("display", "block");
+        $("#NNivel").css("display", "none");
+
+
+        var obj = {};
+        obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
+        var jsonObject = {
+            "Cat_ClasificacionArchivo": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+               /* console.log(data);*/
+                $("#Select3").empty();
+
+                var option = $(document.createElement('option'));
+                option.text("Seleccionar");
+                option.val(0);
+
+                $("#Select3").append(option);
+
+
+                $(data).each(function () {
+                    var option = $(document.createElement('option'));
+
+                    option.text(this.Nombre);
+                    option.val(this.Id);
+
+                    $("#Select3").append(option);
+                });
+
+            }
+        });
+    }
+    function Cancel3er() {
+        $("#Modulo3er").css("display", "none");
+        $("#NNivel").css("display", "block");
+        $("#Select3").empty();
+
+        var option = $(document.createElement('option'));
+        option.text("Seleccionar");
+        option.val(0);
+
+        $("#Select3").append(option);
+    }
+    //Funcion Crearclasificacion
+    function MostrarInfo() {
+
+        $('#ModalClasificacion').modal('show');
+    }
+    function GuardarClas(data) {
+       /* console.log(data);*/
+        var obj = { "Nombre": data.node.text, "Id": 0 };
+
+        var jsonObject = {
+            "nuevaClas": obj
+        };
+                    $.ajax({
+                type: "POST",
+                url: "@Url.Action("RegistrarClas", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#BtnClasificacion").trigger("click");
+                    if (data.Id == 1) {
+                        swal({
+                            title: "Clasificacion Agregada. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+
+                        swal({
+                            title: "Esta clasificación ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
+                }
+            });
+
+    }
+    function validaClasificacionArchivo() {
+
+        var result = false;
+
+        $('#NombreClas').css("border", "1px solid #ff0049");
+
+
+        if ($('#NombreClas').val().length > 0) {
+            $('#NombreClas').css("border", "1px solid #cccccc");
+        }
+
+        if ($('#NombreClas').val().length > 0) {
+           result = true;
+        }
+
+        return result;
+    }
+
+    function CrearSubclas() {
+        if (validaseleccionclas()) {
+            $('#ModalSUbClasificacion').modal('show');
+        } else {
+            swal({
+                title: "Selecciona antes una clasificación .",
+                text: '',
+                icon: "warning",
+                button: "Aceptar",
+            });
+
+        }
+    }
+
+    function validaSubClasificacionArchivo() {
+        var result = false;
+
+        $('#NombreSubClas').css("border", "1px solid #ff0049");
+
+
+        if ($('#NombreSubClas').val().length > 0) {
+            $('#NombreSubClas').css("border", "1px solid #cccccc");
+        }
+
+        if ($('#NombreSubClas').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+
+    function validaseleccionclas() {
+        var result = false;
+
+        $('#ClasificacionArchivo').css("border", "1px solid #ff0049");
+
+        if ($("#ClasificacionArchivo option:selected").val() > 0) {
+            $('#ClasificacionArchivo').css("border", "1px solid #cccccc");
+        }
+        if ($("#ClasificacionArchivo option:selected").val() > 0) {
+            result = true;
+        }
+        return result;
+    }
+
+    function Crear3er() {
+        if (validaseleccionSubclas()) {
+            $('#Modal3er').modal('show');
+        } else {
+            swal({
+                title: "Selecciona antes una Sub Clasificación .",
+                text: '',
+                icon: "warning",
+                button: "Aceptar",
+            });
+
+        }
+    }
+    function validaseleccionSubclas() {
+        var result = false;
+
+        $('#SubClasificacionArchivo').css("border", "1px solid #ff0049");
+
+        if ($("#SubClasificacionArchivo option:selected").val() > 0) {
+            $('#SubClasificacionArchivo').css("border", "1px solid #cccccc");
+        }
+        if ($("#SubClasificacionArchivo option:selected").val() > 0) {
+            result = true;
+        }
+        return result;
+    }
+    function Guardar3er() {
+        if (valida3ermodal()) {
+
+            var obj = {};
+            obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
+            obj['Nombre'] = $("#Nombre3er").val();
+
+            var jsonObject = {
+                "nuevasubClas": obj
+            };
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                async: false,
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $("#Btn3er").trigger("click");
+
+                    if (data.Id == 1) {
+                        swal({
+                            title: "3er nivel Agregado. !",
+                            text: " ",
+                            icon: "success",
+                            button: "Aceptar",
+                        });
+
+                    }
+                    else {
+                        swal({
+                            title: "Este nivel ya existe.",
+                            text: '',
+                            icon: "warning",
+                            button: "Aceptar",
+                        });
+                    }
+
+                    // llenar select Subclasificacion -
+
+                    var obj = {};
+                    obj['Id'] = $("#SubClasificacionArchivo option:selected").val();
+                    var jsonObject = {
+                        "Cat_ClasificacionArchivo": obj
+                    };
+
+                    console.log(jsonObject);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("SubClasificacionArchivo_Listar", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            /*console.log(data);*/
+                            $("#Select3").empty();
+
+
+
+                            var option = $(document.createElement('option'));
+                            option.text("Seleccionar");
+                            option.val(0);
+
+                            $("#Select3").append(option);
+
+
+                            $(data).each(function () {
+                                var option = $(document.createElement('option'));
+
+                                option.text(this.Nombre);
+                                option.val(this.Id);
+
+                                $("#Select3").append(option);
+                            });
+
+                        }
+                    });
+                }
+
+            });
+
+        } else {}
+    }
+    function valida3ermodal() {
+        var result = false;
+
+        $('#Nombre3er').css("border", "1px solid #ff0049");
+
+
+        if ($('#Nombre3er').val().length > 0) {
+            $('#Nombre3er').css("border", "1px solid #cccccc");
+        }
+
+        if ($('#Nombre3er').val().length > 0) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    function Selecionar() {
+        var d = document.getElementById("ClasificacionArchivo");
+        var display = d.options[d.selectedIndex].text;
+        document.getElementById("txtvalue").value = display;
+
+    }
+
+    function Selecionar3er() {
+        var d = document.getElementById("SubClasificacionArchivo");
+        var display = d.options[d.selectedIndex].text;
+        document.getElementById("txtvalue3er").value = display;
+
+    }
+
 
     //Funcion para cargar documento
     function BtnCargarPDF() {
@@ -1575,7 +1577,7 @@
             for (i = 0; i < fileInput.files.length; i++) {
                 var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
 
-                if (filesize < 10) {
+                if (filesize < 60) {
                     CargaTam = true;
                 } else {
                     CargaTam = false;
@@ -1630,7 +1632,7 @@
                 } else {
                     swal({
                         title: "Intentas cargar una archivo muy pesada: " + Tam + " MG",
-                        text: "Límite permitido 10 MG",
+                        text: "Límite permitido 60 MB",
                         icon: "warning",
                         button: "Aceptar",
                     });
@@ -1638,7 +1640,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de imágenes permitidos: .pdf ",
+                    text: "Formato de archivos permitidos: .pdf ",
                     icon: "warning",
                     button: "Aceptar",
                 });
@@ -1674,17 +1676,7 @@
                 //PintaGaleria(Contenido);
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+                alert("error")
             }
         });
     }
@@ -1702,10 +1694,9 @@
                 var ext = fileInput.files[i].name.split('.').pop();
                 Extencion = fileInput.files[i].name.split('.').pop();
 
-                // Convertimos en minúscula porque la extensión del archivo puede estar en mayúscula
                 ext = ext.toLowerCase();
 
-                if (ext == 'docx' || ext == 'pptx' || ext == 'xlsx') {
+                if (ext == 'docx' || ext == 'pptx' || ext == 'xlsx' || ext == 'dwg') {
 
                     Carga = true;
                 } else {
@@ -1718,7 +1709,9 @@
             for (i = 0; i < fileInput.files.length; i++) {
                 var filesize = ((fileInput.files[i].size / 1024) / 1024).toFixed(4);
 
-                if (filesize < 10) {
+                alert(filesize);
+
+                if (filesize < 61) {
                     CargaTam = true;
                 } else {
                     CargaTam = false;
@@ -1773,7 +1766,7 @@
                 } else {
                     swal({
                         title: "Intentas cargar un archivo muy pesado: " + Tam + " MG",
-                        text: "Límite permitido 10 MG",
+                        text: "Límite permitido 60 MB",
                         icon: "warning",
                         button: "Aceptar",
                     });
@@ -1781,7 +1774,7 @@
             } else {
                 swal({
                     title: "Intentas cargar un formato no permitido: " + Formato,
-                    text: "Formato de imágenes permitidos: .docx, .pptx, .xlsx ",
+                    text: "Formato de documentos permitidos: .docx, .pptx, .xlsx, .dwg ",
                     icon: "warning",
                     button: "Aceptar",
                 });
@@ -1820,24 +1813,110 @@
                 })
 	        },
             error: function (Contenido) {
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
+
+                $.notify("Completa el formulario.", "error");
             }
         });
     }
+    function ValidaDocumentoWord() {
+        var result = false;
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("ConsultaDocumentosSesionWord", "Documentos")",
+            async: false,
+            data: "",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (respuesta) {
+                if (respuesta.length > 0) {
+                    result = true;
+                }
+            },
+            error: function () {
+                Error();
+            }
+        });
+
+        return result;
+    }
+    function RequiereEditable() {
+        var result = false;
+
+        var obj = {};
+
+        obj['Id'] = $("#TipoDocumento option:selected").val();
+
+        var jsonObject = {
+            "TDoc": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequiereEditable", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id === 1) {
+                    result = true;
+                } else {
+                    return result;
+                }
+
+            }
+
+        });
+
+        return result;
+    }
+
+
+    function ValidaTDoc(Id) {
+        
+        $("#DatosRequeridos").css("display", "block");
+        var obj = {};
+
+        obj['Id'] = Id;
+
+        var jsonObject = {
+            "TDoc": obj
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("RequiereEditable", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.Id === 1) {
+                    $("#Word").css("display", "block");
+                    $("#Rpdf").addClass("col-md-6");
+                    $("#Rpdf").removeClass("col-md-12");
+
+                    //Mostrar mensaje
+                    $("#mensaje").css("display", "block");
+
+                } else {
+                    $("#Word").css("display", "none");
+                    $("#Rpdf").addClass("col-md-12");
+
+                    $("#mensaje").css("display", "none");
+                }
+
+            }
+
+        });
+    }
+
+
     //Funcion para trazar frame pdf
     function PintaNuevoArchivo(Contenido)
     {
-        var mail = "https://" + Contenido[0].DocumentoURL;
+        var mail = "https://" + Contenido[0].DocumentoURL + "#toolbar=0";
 
         $('#iframepdf').attr('src', mail);
 
@@ -1851,51 +1930,19 @@
             Next();
         } else {
 
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function Control() {
         if (ValidaControl()) {
             Next();
-        } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
-        }
+        } else { }
     }
     function Distribucion() {
         if (ValidaDistribucion()) {
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
     function clasificacion() {
@@ -1903,17 +1950,7 @@
 
             Next();
         } else {
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
+            $.notify("Completa el formulario.", "error");
         }
     }
 
@@ -1963,66 +2000,17 @@
 
             return result;
     }
-    function ValidaControl() {
-            var result = false;
 
-            if ($('#checkboxCaracteristasEnvio').prop('checked')) {
-                result = true;
-            } else {
-                $('#FechaRevision').css("border", "1px solid #ff0049");
-                $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
-                $('#FechaPublicacion').css("border", "1px solid #ff0049");
-                $('#FechaVencimiento').css("border", "1px solid #ff0049");
-                $('#FechaProximaRevision').css("border", "1px solid #ff0049");
-
-                if ($('#FechaRevision').val().length > 0) {
-                    $('#FechaRevision').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#Fechadeentradaenvigor').val().length > 0) {
-                    $('#Fechadeentradaenvigor').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#FechaPublicacion').val().length > 0) {
-                    $('#FechaPublicacion').css("border", "1px solid #cccccc");
-                }
-
-                if ($('#FechaVencimiento').val().length > 0) {
-                    $('#FechaVencimiento').css("border", "1px solid #cccccc");
-                }
-                if ($('#FechaProximaRevision').val().length > 0) {
-                    $('#FechaProximaRevision').css("border", "1px solid #cccccc");
-                }
-
-
-
-                if ($('#FechaRevision').val().length > 0) {
-                    if ($('#Fechadeentradaenvigor').val().length > 0) {
-                        if ($('#FechaPublicacion').val().length > 0) {
-                            if ($('#FechaVencimiento').val().length > 0) {
-                                if ($('#FechaProximaRevision').val().length > 0) {
-
-                                    result = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
     function ValidaDistribucion() {
             var result = false;
 
             $('#Select_TipoArchivo').css("border", "1px solid #ff0049");
             $('#Select_MedioAlmacenamiento').css("border", "1px solid #ff0049");
 
-
-
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 $('#Select_TipoArchivo').css("border", "1px solid #cccccc");
             }
+
 
             if ($("#Select_MedioAlmacenamiento option:selected").val() > 0) {
                 $('#Select_MedioAlmacenamiento').css("border", "1px solid #cccccc");
@@ -2032,7 +2020,6 @@
 
             if ($("#Select_TipoArchivo option:selected").val() > 0) {
                 if ($("#Select_MedioAlmacenamiento option:selected").val()  > 0) {
-
                         result = true;
                 }
             }
@@ -2042,26 +2029,29 @@
     function Validaclasificacion() {
             var result = false;
 
+            var node = $('#jstree').jstree().get_selected("id");
             $('#Clasificacion').css("border", "1px solid #ff0049");
-            $('#ClasificacionArchivo').css("border", "1px solid #ff0049");
-            //$('#SubClasificacionArchivo').css("border", "1px solid #ff0049");
-
 
             if ($("#Clasificacion option:selected").val() > 0) {
                 $('#Clasificacion').css("border", "1px solid #cccccc");
             }
-            if ($("#ClasificacionArchivo option:selected").val() > 0) {
-                $('#ClasificacionArchivo').css("border", "1px solid #cccccc");
+            if (node == "") {
+                swal({
+                    title: "Selecciona la carpeta donde guardaras tu documento.",
+                    text: '',
+                    icon: "warning",
+                    button: "Aceptar",
+                });
             }
-            //if ($("#SubClasificacionArchivo option:selected").val() > 0) {
-            //    $('#SubClasificacionArchivo').css("border", "1px solid #cccccc");
-            //}
 
 
             if ($("#Clasificacion option:selected").val() > 0) {
-                    if ($("#ClasificacionArchivo option:selected").val() > 0) {
-                            result = true;
-                    }
+                if (!node == "") {
+                    $.notify("El documento se guardara en la carpeta: " + node[0].text, "info");
+
+                    result = true;
+                }
+
             }
 
 
@@ -2090,301 +2080,6 @@
         return result;
     }
 
-    /*SCRIPS Validación*/
-
-    function validarFechaRevision() {
-
-        var result = false;
-
-        if ($('#FechaRevision').val() <= $('#FechaPublicacion').val()) {
-
-            if ($('#FechaRevision').val() < $('#Fechadeentradaenvigor').val()) {
-
-                if ($('#FechaRevision').val() < $('#FechaVencimiento').val()) {
-
-                    var result = true;
-
-                } else {
-
-                    swal({
-                        title: "La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-
-
-
-                }
-            } else {
-
-                swal({
-                    title: "La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-
-            }
-        } else {
-
-            swal({
-                title: "La FechaRevisión debe ser menor a la Fecha de Publicación.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
-
-
-        }
-
-        return result;
-    }
-    function validarFechaPublicacion() {
-
-        var result = false;
-
-        if ($('#FechaPublicacion').val() >= $('#FechaRevision').val()) {
-
-            if ($('#FechaPublicacion').val() < $('#Fechadeentradaenvigor').val()) {
-
-                if ($('#FechaPublicacion').val() < $('#FechaVencimiento').val()) {
-
-                    var result = true;
-                } else {
-
-                    swal({
-                        title: "La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-                }
-            } else {
-
-                swal({
-                    title: "La Fecha Publicacion debe ser menor a la Fecha de entrada en vigor.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-            }
-        } else {
-
-            swal({
-                title: "La Fecha Publicación debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
-        }
-
-        return result;
-    }
-    function validarFechadeentradaenvigor() {
-
-        var result = false;
-
-        if ($('#Fechadeentradaenvigor').val() > $('#FechaRevision').val()) {
-
-            if ($('#Fechadeentradaenvigor').val() > $('#FechaPublicacion').val()) {
-
-                if ($('#Fechadeentradaenvigor').val() < $('#FechaVencimiento').val()) {
-
-                    var result = true;
-                } else {
-
-                    swal({
-                        title: "La Fecha de entrada envigor debe ser menor a la FechaVencimiento.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-                }
-            } else {
-
-                swal({
-                    title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-            }
-        } else {
-
-            swal({
-                title: "La Fecha de entrada envigor debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
-        }
-
-        return result;
-    }
-    function validarFechaVencimiento() {
-
-        var result = false;
-
-        if ($('#FechaVencimiento').val() > $('#FechaRevision').val()) {
-
-            if ($('#FechaVencimiento').val() > $('#FechaPublicacion').val()) {
-
-                if ($('#FechaVencimiento').val() > $('#Fechadeentradaenvigor').val()) {
-
-                    var result = true;
-                } else {
-
-                    swal({
-                        title: "La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.",
-                        text: '',
-                        icon: "error",
-                        button: "Aceptar",
-                    });
-                }
-            } else {
-
-                swal({
-                    title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-            }
-        } else {
-
-            swal({
-                title: "La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
-        }
-
-        return result;
-    }
-    function validarFechaProximaRevision() {
-
-        var result = false;
-
-        if ($('#FechaProximaRevision').val() < $('#FechaVencimiento').val()) {
-
-            if ($('#FechaProximaRevision').val() > $('#FechaPublicacion').val()) {
-
-                var result = true;
-
-            } else {
-
-                swal({
-                    title: "La Fecha de Proxima Revision debe ser mayor a la Fecha de Publicación",
-                    text: '',
-                    icon: "error",
-                    button: "Aceptar",
-                });
-            }
-        } else {
-
-            swal({
-                title: "La Fecha de Proxima Revision debe ser menor a la Fecha de Vencimiento.",
-                text: '',
-                icon: "error",
-                button: "Aceptar",
-            });
-        }
-
-        return result;
-    }
-
-    function validatodasfechas() {
-
-        if (validarFechaRevision()) {
-
-            if (validarFechaPublicacion()) {
-
-                if (validarFechadeentradaenvigor()) {
-
-                    if (validarFechaVencimiento()) {
-
-                        if (validarFechaProximaRevision()) {
-                            Next();
-
-
-                        } else {
-                            $.notify({
-                                icon: 'fa fa-paw',
-                                message: "Completa el formulario.",
-                            }, {
-                                type: 'warning',
-                                allow_dismiss: false,
-                                animate: {
-                                    enter: 'animated rollIn',
-                                    exit: 'animated rollOut'
-                                }
-                            });
-                        }
-
-
-
-                    } else {
-
-                        $.notify({
-                            icon: 'fa fa-paw',
-                            message: "Completa el formulario.",
-                        }, {
-                            type: 'warning',
-                            allow_dismiss: false,
-                            animate: {
-                                enter: 'animated rollIn',
-                                exit: 'animated rollOut'
-                            }
-                        });
-                    }
-
-                } else {
-
-                    $.notify({
-                        icon: 'fa fa-paw',
-                        message: "Completa el formulario.",
-                    }, {
-                        type: 'warning',
-                        allow_dismiss: false,
-                        animate: {
-                            enter: 'animated rollIn',
-                            exit: 'animated rollOut'
-                        }
-                    });
-                }
-
-            } else {
-
-                $.notify({
-                    icon: 'fa fa-paw',
-                    message: "Completa el formulario.",
-                }, {
-                    type: 'warning',
-                    allow_dismiss: false,
-                    animate: {
-                        enter: 'animated rollIn',
-                        exit: 'animated rollOut'
-                    }
-                });
-            }
-
-        } else {
-
-            $.notify({
-                icon: 'fa fa-paw',
-                message: "Completa el formulario.",
-            }, {
-                type: 'warning',
-                allow_dismiss: false,
-                animate: {
-                    enter: 'animated rollIn',
-                    exit: 'animated rollOut'
-                }
-            });
-        }
-    }
 
     /*Consultar subclasificacion select*/
     function ConsultaSubClasificacion(Id) {
@@ -2597,7 +2292,7 @@
 
     /*CARGAR RESUMEN*/
     function CargaResumen(){
-        var Galeria = 0;
+        @*var Galeria = 0;
         $.ajax({
             type: "POST",
              url: "@Url.Action("ConsultaImagenes", "Articulos")",
@@ -2611,7 +2306,7 @@
             error: function () {
                 Error();
             }
-        });
+        });*@
 
         //$('#SP_CategoriaArticulo').text($("#Select_Categoria option:selected").html());
         //$('#SP_SubcategoriaArticulo').text($("#Select_SubCategoria option:selected").html());
@@ -2624,7 +2319,8 @@
         $('#SP_Descripcion').text($("#Descripcion").val());
         $('#SP_Descripcion2').text($("#Descripcion").val());
 
-        /* $('#SP_Galeria').text(Galeria);*/
+
+
         $('#SP_FechaRevision').text($("#FechaRevision").val());
         $('#SP_Fechadeentradaenvigor').text($("#Fechadeentradaenvigor").val());
         $('#SP_FechaPublicacion').text($("#FechaPublicacion").val());
@@ -2635,16 +2331,11 @@
         $('#SP_Select_MedioAlmacenamiento').text($("#Select_MedioAlmacenamiento option:selected").html());
 
         $('#SP_Select_Clasificacion').text($("#Clasificacion option:selected").html());
-        $('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
-        $('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
 
-        //if ($('#checkboxPromocion').prop('checked')) {
-        //    $('#SP_PromocionArticulo').text(" $" +$("#NewPrecioPromocion").val());
-        //}
-        //else {
-        //    $('#SP_PromocionArticulo').text("Sin promoción");
-        //}
 
+        //$('#SP_Select_ClasificacionArchivo').text($("#ClasificacionArchivo option:selected").html());
+        //$('#SP_Select_SubClasificacionArchivo').text($("#SubClasificacionArchivo option:selected").html());
+        //$('#SP_Select_Seccion').text($("#Select3 option:selected").html());
 
     }
 
@@ -2670,55 +2361,708 @@
     }
 
 
-    //////////////////////////
-
-
-    function ValidaInput(name) {
-        if ($('#' + name).val().length > 0) {
-            $('#' + name).css("border", "1px solid rgb(222 222 222)");
-        } else {
-            $('#' + name).css("border", "1px solid #ff0049");
-        }
-    }
-
-    function ValidaSelect(name) {
-        if ($('#' + name + ' option:selected').val() > 0) {
-            $('#' + name).css("border", "1px solid rgb(222 222 222)");
-        } else {
-            $('#' + name).css("border", "1px solid #ff0049");
-        }
-    }
-
     $(document).ready(function () {
         $('.btn-circle').on('click', function () {
             $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
             $(this).addClass('btn-info').removeClass('btn-default').blur();
         });
 
+
         $('[href="#menu1"]').tab('show');
 
-    });
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '< Ant',
+            nextText: 'Sig >',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: '',
+            showAnim: 'slide'
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+        $(function () {
+            $("#fecha").datepicker();
+        });
 
-    function errores() {
-        $.notify({
-            message: "Inténtelo mas tarde."
-        }, {
-            type: 'danger',
-            allow_dismiss: false,
-            animate: {
-                enter: 'animated rollIn',
-                exit: 'animated rollOut'
+        $("#FechaVencimiento").datepicker();
+        $("#FechaProximaRevision").datepicker();
+        $("#Fechadeentradaenvigor").datepicker();
+        $("#FechaPublicacion").datepicker();
+        $("#FechaRevision").datepicker();
+
+
+    });
+    const Nombre = document.getElementById('NombreDocumento');
+    Nombre.addEventListener('keyup', function () {
+        const text = Nombre.value;
+        const uppercaseText = text.toUpperCase();
+        Nombre.value = uppercaseText;
+    });
+    const PalabraClave = document.getElementById('PalabraClave');
+    PalabraClave.addEventListener('keyup', function () {
+        const text = PalabraClave.value;
+        const uppercaseText = text.toUpperCase();
+        PalabraClave.value = uppercaseText;
+    });
+    const Descripciones = document.getElementById('Descripcion');
+    Descripciones.addEventListener('keyup', function () {
+        const text = Descripciones.value;
+        const uppercaseText = text.toUpperCase();
+        Descripciones.value = uppercaseText;
+    });
+</script>
+
+<!--ARBOL-->
+<script>
+    $(document).ready(function () {
+        var treeList = @Html.Raw(Json.Encode(ViewBag.ElementoOculto));
+
+        var treeAdminExists = treeList.some(function(item) {
+            return item.IdElemento === "TreeAdmin";
+        });
+
+        if (treeAdminExists) {
+            $(function () {
+
+                $('#jstree').jstree({
+
+                    'core': { 
+                        'themes': {
+                            'name': 'proton',
+                            'responsive': true
+                        },
+                        'check_callback': true
+                    },
+
+                    'plugins': ['contextmenu', 'dnd', 'state', 'wholerow', 'search'],
+
+                    "contextmenu": {
+                        items: {
+                            "ccp": false,
+                            "create": {
+                                "label": "Crear carpeta",
+                                "action":
+                                    function node_create() {
+                                        var ref = $("#jstree").jstree(true);
+                                        var sel = ref.get_selected();
+
+                                        if (!sel.length) {
+                                            alert("Seleccione primero un nodo");
+                                            return;
+                                        }
+                                        sel = sel[0];
+                                        sel = ref.create_node(sel);
+
+                                        var nuevo = $("#jstree").jstree(true).get_node(sel);
+
+                                        var obj = {
+                                            "Nombre": nuevo.text, "IdPadre": nuevo.parent, "Idtemporal": nuevo.id
+                                        };
+
+                                        var jsonObject = {
+                                            "nuevasubClas": obj
+                                        };
+
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarSubClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                $("#BtnSubclas").trigger("click");
+
+                                                if (data.Id == 1) {
+
+
+                                                    if (sel) {
+                                                        ref.edit(sel);
+                                                    }
+                                                }
+                                                else {
+
+                                                    ref.delete_node(sel);
+                                                }
+
+                                            }
+
+                                        });
+
+
+                                    }
+                            },
+                            "renombrar": {
+                                "label": "Renombrar Carpeta",
+                                "action": function node_rename() {
+
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+                                    if (!sel.length) {
+                                        alert("Seleccione primero un nodo");
+                                        return;
+                                    }
+                                    sel = sel[0];
+                                    ref.edit(sel);
+                                }
+                            },
+                            "eliminar": {
+                                "label": "Eliminar Carpeta",
+                                "action": function node_delete() {
+                                    var ref = $("#jstree").jstree(true);
+                                    var sel = ref.get_selected();
+
+                                    var obj = { "Idtemporal": sel[0] };
+                                    var jsonObject = {
+                                        "carpeta": obj
+                                    };
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "@Url.Action("EliminarCarpeta", "Documentos")",
+                                        async: false,
+                                        data: JSON.stringify(jsonObject),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+
+
+                                            if (data.Id == 1) {
+                                                sel = sel[0];
+
+                                                ref.delete_node(sel);
+                                                $.notify("Carpeta eliminada!", "success");
+                                            }
+                                            else {
+                                                swal({
+                                                    title: "Esta carpeta no se puede eliminar ya que existe información que depende de esta.",
+                                                    text: '',
+                                                    icon: "warning",
+                                                    button: "Aceptar",
+                                                });
+                                            }
+
+                                        }
+
+                                    });
+
+
+
+                                }
+                            },
+                            "carpetaRoot": {
+                                "label": "Crear carpeta principal",
+                                "action": function () {
+                                    $("#jstree").jstree("create_node", null, null, "last", function (node) {
+
+                                        var obj = {
+                                            "Nombre": node.text, "Idtemporal": node.id
+                                        };
+
+                                        var jsonObject = {
+                                            "nuevaClas": obj
+                                        };
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("RegistrarClas", "Documentos")",
+                                            async: false,
+                                            data: JSON.stringify(jsonObject),
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+
+                                                if (data.Id == 1) {
+
+
+                                                }
+                                                else {
+
+                                                    $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                                                }
+
+                                            }
+                                        });
+
+                                        this.edit(node);
+
+                                    });
+                                }
+                            }
+                        }
+                    },
+
+                });
+                var to = false;
+                $('#plugins4_q').keyup(function () {
+                    if (to) { clearTimeout(to); }
+                    to = setTimeout(function () {
+                        var v = $('#plugins4_q').val();
+                        $('#jstree').jstree(true).search(v);
+                    }, 250);
+                });
+
+                $('#jstree').on('rename_node.jstree', function (e, data) {
+
+                    const node = data.node;
+                    const newName = data.text.toUpperCase();
+                    node.text = newName;
+
+                    var obj = { "Nombre": data.node.text, "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                    var jsonObject = {
+                        "carpeta": obj
+                    };
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Renombrar", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Cambios Realizados.", "success");
+                            }
+                            else {
+
+                                $.notify("El nombre de esta carpeta ya esta en uso renombrela.", "error");
+                                ref.edit(sel);
+                            }
+
+                        }
+
+                    });
+                });
+
+                $('#jstree').bind('move_node.jstree', function (e, data) {
+
+
+                    if (data.node.parent == '#') {
+                        var obj = { "Idtemporal": data.node.id, "IdPadre": '0' };
+                        var jsonObject = {
+                            "NdN": obj
+                        };
+                    }
+                    else {
+                        var obj = { "Idtemporal": data.node.id, "IdPadre": data.node.parent };
+                        var jsonObject = {
+                            "NdN": obj
+                        };
+                    }
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("MoverRutasDocumentos", "Documentos")",
+                        async: false,
+                        data: JSON.stringify(jsonObject),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+
+                            $("#BtnSubclas").trigger("click");
+
+                            if (data.Id == 1) {
+
+                                $.notify("Carpeta Reubicada.", "success");
+                            }
+                            else {
+
+                                $.notify("No es posible mover a esta ruta.", "error");
+                            }
+
+                        }
+
+                    });
+                });
+            });
+        }
+        else {
+            $(function () {
+
+                $('#jstree').jstree({
+
+                    'core': { 
+                        'themes': {
+                            'name': 'proton',
+                            'responsive': true
+                        },
+                        'check_callback': true
+                    },
+
+                    'plugins': ['state', 'wholerow', 'search'],
+
+                });
+                var to = false;
+                $('#plugins4_q').keyup(function () {
+                    if (to) { clearTimeout(to); }
+                    to = setTimeout(function () {
+                        var v = $('#plugins4_q').val();
+                        $('#jstree').jstree(true).search(v);
+                    }, 250);
+                });
+
+            });
+        }
+            
+        
+    });
+</script>
+
+
+
+<script>
+//INICIO Consultar fechas requeribles
+    function Fechas(Id) {
+
+        $("#FechaRevision").val("");
+        $("#Fechadeentradaenvigor").val("");
+        $("#FechaPublicacion").val("");
+        $("#FechaProximaRevision").val("");
+        $("#FechaVencimiento").val("");
+
+        var obj = {};
+        obj['Id'] = Id;
+        var jsonObject = { "documento": obj };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("FechaInterfaz", "Documentos")",
+            async: false,
+            data: JSON.stringify(jsonObject),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data[0].FRevision == 1) {
+                    $("#FechaRevisionC").css("display", "block");
+                    $("#FRevision").css("display", "block");
+                    $("#FechaRevisionCC").css("display", "block");
+                } else {
+                    $("#FechaRevisionC").css("display", "none");
+                    $("#FRevision").css("display", "none");
+                    $("#FechaRevisionCC").css("display", "none");
+                }
+                if (data[0].FEntradaVigor == 1) {
+                    $("#FechadeentradaenvigorC").css("display", "block");
+                    $("#FEntradaVigor").css("display", "block");
+                    $("#FechadeentradaenvigorCC").css("display", "block");
+                } else {
+                    $("#FechadeentradaenvigorC").css("display", "none");
+                    $("#FEntradaVigor").css("display", "none");
+                    $("#FechadeentradaenvigorCC").css("display", "none");
+                }
+                if (data[0].FPublicacion == 1) {
+                    $("#FechaPublicacionC").css("display", "block");
+                    $("#FPublicacion").css("display", "block");
+                    $("#FechaPublicacionCC").css("display", "block");
+                } else {
+                    $("#FechaPublicacionC").css("display", "none");
+                    $("#FPublicacion").css("display", "none");
+                    $("#FechaPublicacionCC").css("display", "none");
+                }
+                if (data[0].FProximaRevision == 1) {
+                    $("#FechaProximaRevisionC").css("display", "block");
+                    $("#FProximaRevision").css("display", "block");
+                    $("#FechaProximaRevisionCC").css("display", "block");
+                } else {
+                    $("#FechaProximaRevisionC").css("display", "none");
+                    $("#FProximaRevision").css("display", "none");
+                    $("#FechaProximaRevisionCC").css("display", "none");
+                }
+                if (data[0].FVencimiento == 1) {
+                    $("#FechaVencimientoC").css("display", "block");
+                    $("#FVencimiento").css("display", "block");
+                    $("#FechaVencimientoCC").css("display", "block");
+
+                } else {
+                    $("#FechaVencimientoC").css("display", "none");
+                    $("#FVencimiento").css("display", "none");
+                    $("#FechaVencimientoCC").css("display", "none");
+                }
             }
         });
     }
+//FIN Consultar fechas requeribles
+
+// INICIO VALIDAR FECHAS REQUERIDAS
+function ValidaControl() {
+    var result = true;
+
+    var obj = {};
+    obj['Id'] = $("#TipoDocumento option:selected").val();
+    var jsonObject = { "documento": obj };
+
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("FechaInterfaz", "Documentos")",
+        async: false,
+        data: JSON.stringify(jsonObject),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            // Reset the border color for all fields
+            $('#FechaRevision, #Fechadeentradaenvigor, #FechaPublicacion, #FechaVencimiento, #FechaProximaRevision')
+                .css("border", "1px solid #cccccc");
+
+            if (data[0].FRevision === 1 && $('#FechaRevision').val().length === 0) {
+                $('#FechaRevision').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FEntradaVigor === 1 && $('#Fechadeentradaenvigor').val().length === 0) {
+                $('#Fechadeentradaenvigor').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FPublicacion === 1 && $('#FechaPublicacion').val().length === 0) {
+                $('#FechaPublicacion').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FProximaRevision === 1 && $('#FechaProximaRevision').val().length === 0) {
+                $('#FechaProximaRevision').css("border", "1px solid #ff0049");
+                result = false;
+            }
+            if (data[0].FVencimiento === 1 && $('#FechaVencimiento').val().length === 0) {
+                $('#FechaVencimiento').css("border", "1px solid #ff0049");
+                result = false;
+            }
+        }
+    });
+
+    return result;
+}
+// FIN VALIDAR FECHAS REQUERIDAS
+
+
+
+//INICIO VALIDAR FECHAS
+function validatodasfechas() {
+
+        if (validarFechaRevision()) {
+
+            if (validarFechaPublicacion()) {
+
+                if (validarFechadeentradaenvigor()) {
+
+                    if (validarFechaVencimiento()) {
+
+                        if (validarFechaProximaRevision()) {
+                            Next();
+
+
+                        } else {
+                            $.notify("Completa el formulario.", "error");
+                        }
+
+
+
+                    } else {
+
+                        $.notify("Completa el formulario.", "error");
+                    }
+
+                } else {
+
+                    $.notify("Completa el formulario.", "error");
+                }
+
+            } else {
+
+                $.notify("Completa el formulario.", "error");
+            }
+
+        } else {
+
+            $.notify("Completa el formulario.", "error");
+        }
+    }
+
+function validarFechaRevision() {
+    var result = false;
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaRevision <= fechaPublicacion) {
+        if (fechaRevision < fechaEntradaEnVigor) {
+            if (fechaRevision < fechaVencimiento) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Revisión debe ser menor a la Fecha de entrada en vigor.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Revisión debe ser menor a la Fecha de Publicación.", "warn");
+    }
+
+    console.log(fechaRevision);
+    console.log(fechaPublicacion);
+    console.log(fechaEntradaEnVigor);
+    console.log(fechaVencimiento);
+
+    return result;
+}
+function validarFechaPublicacion() {
+    var result = false;
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaPublicacion.getTime() >= fechaRevision.getTime()) {
+        if (fechaPublicacion.getTime() < fechaEntradaEnVigor.getTime()) {
+            if (fechaPublicacion.getTime() < fechaVencimiento.getTime()) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Publicación debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Publicación debe ser menor a la Fecha de entrada en vigor.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Publicación debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechadeentradaenvigor() {
+    var result = false;
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    if (fechaEntradaEnVigor > fechaRevision) {
+        if (fechaEntradaEnVigor > fechaPublicacion) {
+            if (fechaEntradaEnVigor < fechaVencimiento) {
+                result = true;
+            } else {
+                $.notify("La Fecha de entrada en vigor debe ser menor a la Fecha de Vencimiento.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de entrada en vigor debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechaVencimiento() {
+    var result = false;
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    var fechaRevisionInput = $('#FechaRevision').val();
+    var fechaRevisionParts = fechaRevisionInput.split('/');
+    var fechaRevision = new Date(fechaRevisionParts[2], fechaRevisionParts[1] - 1, fechaRevisionParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    var fechaEntradaEnVigorInput = $('#Fechadeentradaenvigor').val();
+    var fechaEntradaEnVigorParts = fechaEntradaEnVigorInput.split('/');
+    var fechaEntradaEnVigor = new Date(fechaEntradaEnVigorParts[2], fechaEntradaEnVigorParts[1] - 1, fechaEntradaEnVigorParts[0]);
+
+    if (fechaVencimiento > fechaRevision) {
+        if (fechaVencimiento > fechaPublicacion) {
+            if (fechaVencimiento > fechaEntradaEnVigor) {
+                result = true;
+            } else {
+                $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de entrada en vigor.", "warn");
+            }
+        } else {
+            $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Vencimiento debe ser mayor a la Fecha de Revisión.", "warn");
+    }
+
+    return result;
+}
+function validarFechaProximaRevision() {
+    var result = false;
+
+    var fechaProximaRevisionInput = $('#FechaProximaRevision').val();
+    var fechaProximaRevisionParts = fechaProximaRevisionInput.split('/');
+    var fechaProximaRevision = new Date(fechaProximaRevisionParts[2], fechaProximaRevisionParts[1] - 1, fechaProximaRevisionParts[0]);
+
+    var fechaVencimientoInput = $('#FechaVencimiento').val();
+    var fechaVencimientoParts = fechaVencimientoInput.split('/');
+    var fechaVencimiento = new Date(fechaVencimientoParts[2], fechaVencimientoParts[1] - 1, fechaVencimientoParts[0]);
+
+    var fechaPublicacionInput = $('#FechaPublicacion').val();
+    var fechaPublicacionParts = fechaPublicacionInput.split('/');
+    var fechaPublicacion = new Date(fechaPublicacionParts[2], fechaPublicacionParts[1] - 1, fechaPublicacionParts[0]);
+
+    if (fechaProximaRevision < fechaVencimiento) {
+        if (fechaProximaRevision > fechaPublicacion) {
+            result = true;
+        } else {
+            $.notify("La Fecha de Proxima Revisión debe ser mayor a la Fecha de Publicación.", "warn");
+        }
+    } else {
+        $.notify("La Fecha de Proxima Revisión debe ser menor a la Fecha de Vencimiento.", "warn");
+    }
+
+    return result;
+}
+//FIN VALIDAR FECHAS
 
 </script>
-
-<script>
-    $('#agregardoc').addClass("active");
-    $('#menuDocumentos').addClass("active pcoded-trigger");
-    $('#IdMenuProductos').addClass("active pcoded-trigger");
-    $('#IdSubMenuNuevo').addClass("active");
-
-</script>
-
